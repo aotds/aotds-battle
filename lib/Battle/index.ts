@@ -1,28 +1,19 @@
 import * as Redux from "redux";
 import _ from 'lodash';
-import Reducer from './Reducer';
-
-let battle_reducer = () => {};
+import battle_reducer from './Reducer';
 
 interface BattleOptions {
     state?: any;
 }
 
-class AotdsType {
+interface AotdsType {
     readonly type : string;
 
-    constructor() {
-        this.type = Object.getPrototypeOf(this).constructor.name.toUpperCase();
-    }
+    payload?: any;
 }
 
-class InitGame extends AotdsType {
-
-    constructor(options) { 
-        super(); 
-        Object.keys(options).forEach( k => this[k] = options[k] )
-    }
-
+interface InitGame extends AotdsType {
+    type: 'INIT_GAME';
 }
 
 
@@ -37,9 +28,9 @@ class Battle {
         );
     }
 
-    init_game = options => this.store.dispatch( 
-        new InitGame( options )        
-    );
+    init_game = payload => this.store.dispatch( 
+        { type: 'INIT_GAME', payload }            
+    ) 
 
     get state () { return this.store.getState() }
 
