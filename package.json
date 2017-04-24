@@ -8,5 +8,13 @@
   },
   "keywords": [],
   "author": "Yanick Champoux <yanick@babyl.ca> (http://techblog.babyl.ca)",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "bunyan": "^1.8.10",
+    "redux": "^3.6.0",
+    "tap": "^10.3.2",
+    "tracer": "^0.8.7",
+    "typescript": "^2.2.2",
+    "winston": "^2.3.1"
+  }
 }
