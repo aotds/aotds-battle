@@ -13,7 +13,7 @@ import logger from '../lib/Logger';
 
 tap.test( 'create battle', tap => {
 
-    let battle = new Battle();
+    const battle = new Battle();
 
     battle.init_game( {
         name: 'gemini',
@@ -23,7 +23,17 @@ tap.test( 'create battle', tap => {
         ],
     });
 
-    (<Logger>logger).debug( JSON.stringify( battle.state ) );
+    let state = battle.state;
+
+    tap.same( state.game, { name: 'gemini' }, 'game' );
+    tap.same( state.objects, [ 
+        { name: 'Enkidu' }, 
+        { name: 'Siduri' } 
+    ], 'objects' );
 
     tap.end();
 })
+
+import Schema from '../lib/Battle/Schema';
+
+console.log( JSON.stringify( Schema ) )

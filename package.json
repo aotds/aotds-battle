@@ -10,8 +10,11 @@
   "author": "Yanick Champoux <yanick@babyl.ca> (http://techblog.babyl.ca)",
   "license": "ISC",
   "dependencies": {
+    "actioner": "^0.2.0",
     "bunyan": "^1.8.10",
+    "json-schema-shorthand": "^0.2.0",
     "redux": "^3.6.0",
+    "redux-actions": "^2.0.2",
     "tap": "^10.3.2",
     "tracer": "^0.8.7",
     "typescript": "^2.2.2",
