@@ -9,6 +9,7 @@
     },
     "files": [
         "t/battle.ts",
-        "t/test.ts"
+        "t/test.ts",
+        "t/move.ts"
     ]
 }

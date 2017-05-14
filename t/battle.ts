@@ -1,7 +1,7 @@
 import tap = require('tap');
 import _ from 'lodash';
 
-import Battle from '../lib/Battle';
+import Battle from '../lib/battle';
 
 interface Logger {
     level?: string;
@@ -34,6 +34,6 @@ tap.test( 'create battle', tap => {
     tap.end();
 })
 
-import Schema from '../lib/Battle/Schema';
+import Schema from '../lib/battle/Schema';
 
 console.log( JSON.stringify( Schema ) )
