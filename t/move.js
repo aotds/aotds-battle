@@ -1,11 +1,10 @@
-import * as tap from 'tap';
+import tap from 'tap';
 import _ from 'lodash';
 
-import { gen_ship_movement, Navigation } from '../lib/battle/movement';
+import { gen_ship_movement } from '../lib/battle/movement';
 
 import add_tap_helpers from './lib/tap_helpers';
 
-console.log(tap);
 add_tap_helpers( tap );
 
 tap.test( 'simple movements', tap => {
@@ -20,7 +19,7 @@ tap.test( 'simple movements', tap => {
         11: [ -5, -8.66 ]
     };
 
-    let ship :Navigation = { coords: [0,0], velocity: 10, heading: 0 };
+    let ship = { coords: [0,0], velocity: 10, heading: 0 };
 
     for ( let a in angle ) {
         let movement = gen_ship_movement( { ...ship, heading: +a } );
@@ -31,7 +30,7 @@ tap.test( 'simple movements', tap => {
 });
 
 tap.test( 'change of speed', { autoend: true }, tap => {
-    let ship :Navigation = { 
+    let ship = { 
         coords: [0,0], 
         heading: 0,
         velocity: 10,

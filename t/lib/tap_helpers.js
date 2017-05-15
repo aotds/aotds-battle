@@ -1,7 +1,6 @@
 import * as _ from 'lodash'; 
 
 export default function(tap) {
-    console.log(tap);
     tap.Test.prototype.addAssert('has_coords', 2, function ( observed, expected, message, extra) {
 
         if ( ! message ) message = 'has_coords';
