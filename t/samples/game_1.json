@@ -1,0 +1,47 @@
+{
+   "objects" : [
+      {
+          "heading": 0,
+         "coords" : [
+            0,
+            0
+         ],
+         "firecons" : [
+            {
+               "id" : 0
+            }
+         ],
+         "id" : "enkidu",
+         "name" : "Enkidu",
+         "engine_rating": 5,
+         "weapons" : [
+{
+   "arcs" : [
+      "F"
+   ],
+   "class" : 1,
+   "id" : 0,
+   "type" : "beam", "firecon": 0
+}
+         ]
+      },
+      {
+         "coords" : [ 0, 10 ],
+         "firecons" : [
+            {
+               "id" : 0
+            }
+         ],
+         "id" : "siduri",
+         "name" : "Siduri",
+         "hull": 12,
+         "max_hull": 12,
+          "heading": 0,
+         "weapons" : [
+            {
+               "id" : 0
+            }
+         ]
+      }
+   ]
+}

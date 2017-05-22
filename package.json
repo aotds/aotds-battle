@@ -12,6 +12,7 @@
   "dependencies": {
     "actioner": "^0.2.0",
     "ajv": "^5.0.1",
+    "ajv-promise": "^0.2.1",
     "babel-cli": "^6.24.1",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
@@ -22,6 +23,7 @@
     "json-schema-shorthand": "^0.2.0",
     "redux": "^3.6.0",
     "redux-actions": "^2.0.2",
+    "redux-saga": "^0.15.3",
     "stacktrace-js": "^2.0.0",
     "tap": "^10.3.2",
     "tracer": "^0.8.7",
