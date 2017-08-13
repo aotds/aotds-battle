@@ -1,29 +1,58 @@
+// @flow
+
 import tap from 'tap';
 import _ from 'lodash';
 
-import { gen_ship_movement } from '../lib/battle/movement';
+import { gen_ship_movement, round_coords, move_thrust,
+    move_rotate
+} from '../lib/battle/movement';
 
 import add_tap_helpers from './lib/tap_helpers';
 
 add_tap_helpers( tap );
 
+tap.test( 'move_thrust', { autoend: true }, tap => {
+    let ship = { coords: [ 0, 0 ], heading: 1, trajectory: [], velocity: 0 };
+
+    _.each({
+        '0': [0,0],
+        '1': [0.5,0.866],
+        '10': [10*0.5,10*0.866],
+    }, ( result, thrust ) => tap.has_coords( move_thrust( ship, parseInt(thrust) ), result, thrust ) )
+});
+
+tap.test( 'move_rotate', { autoend: true }, tap => {
+    let ship = { coords: [ 0, 0 ], heading: 0, trajectory: [], velocity: 0 };
+
+    [
+        [ 0, 0 ],
+        [ 1, 1 ],
+        [ -1, 11 ],
+        [ 12, 0 ]
+    ].forEach( test => {
+        let [ turn, heading ] = test;
+        tap.is( move_rotate( ship, turn ).heading, heading, turn )
+    });
+});
+
+
 tap.test( 'simple movements', tap => {
 
     let angle = {
-        0:  [0, -10 ],
-        1:  [5, -8.66],
-        2:  [ 8.66, -5 ],
+        0:  [0, 10 ],
+        1:  [5, 8.66],
+        2:  [ 8.66, 5 ],
         3:  [10, 0 ],
-        6:  [0, 10 ],
+        6:  [0, -10 ],
         9:  [-10, 0],
-        11: [ -5, -8.66 ]
+        11: [ -5, 8.66 ]
     };
 
     let ship = { coords: [0,0], velocity: 10, heading: 0 };
 
     for ( let a in angle ) {
         ship.heading = +a;
-        let movement = ship::gen_ship_movement();
+        let movement = gen_ship_movement(ship);
         tap.match_move( movement, { ...ship, coords: angle[a], heading: +a } );
     }
 
@@ -38,45 +67,45 @@ tap.test( 'change of speed', { autoend: true }, tap => {
         engine_rating: 6 
     };
 
-    tap.match_move( ship::gen_ship_movement({ thrust: 6 }), 
-        { velocity: 16, coords: [0,-16] }, "accelerate" );
+    tap.match_move( gen_ship_movement( ship, { thrust: 6 }), 
+         { velocity: 16, coords: [0,16] }, "accelerate" );
 
-    tap.match_move( ship::gen_ship_movement( 
-        { thrust: 7 }),
-        { velocity: 16, coords: [0,-16] }, 
-        "accelerate within engine capacity" 
-    ); 
+     tap.match_move( gen_ship_movement( ship,
+         { thrust: 7 }),
+         { velocity: 16, coords: [0,16] }, 
+         "accelerate within engine capacity" 
+     ); 
 
-    tap.match_move( ship::gen_ship_movement( 
-         { thrust: -6 }),
-        { velocity: 4, coords: [0,-4] }, "decelerate" ); 
+    tap.match_move( gen_ship_movement( ship,
+          { thrust: -6 }),
+         { velocity: 4, coords: [0,4] }, "decelerate" ); 
 
-    tap.match_move( ({ ...ship, velocity: 2 })::gen_ship_movement( 
-            { thrust: -6 }),
-        { velocity: 0, coords: [0,0] }, "decelerate to min zero" ); 
+     tap.match_move( gen_ship_movement( { ...ship, velocity: 2 },
+             { thrust: -6 }),
+         { velocity: 0, coords: [0,0] }, "decelerate to min zero" ); 
 
 });
 
 tap.test( 'turning', tap => {
     let ship = { coords: [0,0], velocity: 5, heading: 0, engine_rating: 6 };
 
-    tap.match_move( ship::gen_ship_movement( { turn: 3 } ), {
-            coords: [ 4, -1.7 ],
+    tap.match_move( gen_ship_movement( ship, { turn: 3 } ), {
+            coords: [ 4, 1.73 ],
             velocity: 5,
             heading: 3
         },
         "turn of 3",
     );
 
-     tap.match_move( ship::gen_ship_movement( { turn: -3 } ), {
-             coords: [ -4, -1.7 ],
+     tap.match_move( gen_ship_movement(ship, { turn: -3 } ), {
+             coords: [ -4, 1.7 ],
             velocity: 5,
             heading: 9
         },
         "turn of -3",
     );
 
-    tap.match_move( ship::gen_ship_movement( { turn: -9 } ), {
+    tap.match_move( gen_ship_movement(ship, { turn: -9 } ), {
             heading: 9
         },
         "can't turn more than limit",
@@ -88,23 +117,29 @@ tap.test( 'turning', tap => {
 tap.test( 'banking', {autoend: true}, tap => {
     let ship = {coords: [0,0], velocity: 5, heading: 0, engine_rating:  6 };
 
-    tap.match_move( ship::gen_ship_movement({ bank: 3 } ), {
-        coords: [ 3,-5],
+    tap.match_move( gen_ship_movement(ship,{ bank: 3 } ), {
+        coords: [ 3,5],
         heading: 0,
         velocity: 5
     }, "bank of 3" );
 
-    tap.match_move( ship::gen_ship_movement({ bank: -3 } ), {
-        coords: [ -3,-5],
+    tap.match_move( gen_ship_movement(ship,{ bank: -3 } ), {
+        coords: [ -3,5],
         heading: 0,
         velocity: 5
     }, "bank of -3" );
 
-    tap.match_move( ship::gen_ship_movement({ bank: -9 } ), {
-        coords: [ -3,-5],
+    tap.match_move( gen_ship_movement(ship,{ bank: -9 } ), {
+        coords: [ -3,5],
         heading: 0,
         velocity: 5
     }, "can't bank more than limit" );
+
+    tap.match_move( gen_ship_movement({...ship, heading: 3 },{ bank: -3 } ), {
+        coords: [ 5,3],
+        heading: 3,
+        velocity: 5
+    }, "banking at 3" );
 
 
 });
@@ -114,11 +149,11 @@ tap.test( 'complex manoeuvers', { autoend: true }, tap => {
     let ship = { 
         coords: [0,0], velocity: 5, heading: 0, engine_rating:  6 };
 
-    tap.match_move( ship::gen_ship_movement(
+    tap.match_move( gen_ship_movement(ship,
         { bank: -1, thrust: -1, turn: 2 } ), {
         velocity: 4,
         heading: 2,
-        coords: [ 1.73,-2.73]
+        coords: [ 1.73,2.73]
     }, "complex manoeuver" );
 
 });
