@@ -5,12 +5,14 @@ export default function(tap) {
 
         if ( ! message ) message = 'has_coords';
 
-        if (_.sum( _.zip( observed.coords, expected.coords ).map( x => Math.pow( x[0] - x[1], 2 ) ) ) < 0.01 ) {
+        if( !Array.isArray( expected ) ) expected = expected.coords;
+        if( !Array.isArray( observed ) ) observed = observed.coords;
+
+        if (_.sum( _.zip( observed, expected ).map( x => Math.pow( x[0] - x[1], 2 ) ) ) < 0.01 ) {
             return this.pass( message );
         }
-        else {
-            return this.same( observed, expected, message );
-        }
+
+        return this.same( observed, expected, message );
     })
 
     tap.Test.prototype.addAssert('match_move', 2, function ( observed, expected, message, extra) {
