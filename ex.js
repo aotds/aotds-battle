@@ -26,7 +26,11 @@ const foo = (function *(x) {
 
 let x =  baz('banana');
 
-console.log( x.next() );
-console.log( x.next() );
-console.log( x.next() );
-console.log( x.next() );
+for ( let y of x ) {
+    console.log(y);
+}
+
+// console.log( x.next() );
+// console.log( x.next() );
+// console.log( x.next() );
+// console.log( x.next() );
