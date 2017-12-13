@@ -1,31 +1,17 @@
-// @flow
 import _ from 'lodash'; 
-
 import u from 'updeep';
+
 const upush =  new_item => array => [ ...array, new_item ];
 
-import type { MovementDirectives } from './Actions';
+export const plot_movement = function( orders = {} ) {
 
-type Movement = ShipMovement & {
-    trajectory: Array<any>,
-};
+    let ship = this;
 
-type ShipMovement = {
-    heading: number,
-    velocity: number,
-    coords: [ number, number ]
-};
-
-type Ship = ShipMovement & {
-    engine_rating?: number,
-};
-
-export const gen_object_movement = function( ship: Ship, orders : MovementDirectives = {} ) {
     let { thrust, turn, bank } = orders;
 
     let engine_rating = ship.engine_rating || 0;
 
-    let movement : Movement = {
+    let movement = {
         trajectory: [ [ 'POSITION', ship.coords ] ],
         velocity: ship.velocity || 0,
         coords: ship.coords || [0,0],
@@ -77,7 +63,7 @@ export const gen_object_movement = function( ship: Ship, orders : MovementDirect
 }
 
 export 
-function move_thrust( movement: Movement, thrust: number ) :Movement {
+function move_thrust( movement, thrust ) {
     let angle = ( movement.heading ) * Math.PI / 6;
     let delta = [ Math.sin(angle), Math.cos(angle) ].map( (x) => thrust * x )
 
@@ -88,7 +74,7 @@ function move_thrust( movement: Movement, thrust: number ) :Movement {
 };
 
 export
-function move_bank( movement: Movement, velocity: number ) {
+function move_bank( movement, velocity ) {
     let angle = ( movement.heading +3  ) * Math.PI / 6;
     let delta = [ Math.sin(angle), Math.cos(angle) ].map( (x) => velocity * x )
 
@@ -100,7 +86,7 @@ function move_bank( movement: Movement, velocity: number ) {
 
 
 export
-function move_rotate( movement : Movement, angle: number =0) :Movement {
+function move_rotate( movement , angle =0)  {
     return u({ 
         trajectory: u.withDefault( [], upush(['ROTATE', angle]) ),
         heading: heading => {
@@ -111,7 +97,7 @@ function move_rotate( movement : Movement, angle: number =0) :Movement {
     })( movement );
 }
 
-function two_steps(n : number ): Array<number> {
+function two_steps(n  ) {
     let splitted = [ _.floor(n/2), _.ceil(n/2) ];
     return n < 0 ? splitted.reverse() : splitted;
 }
