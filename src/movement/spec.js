@@ -1,15 +1,13 @@
-// @flow
-
 import tap from 'tap';
 import _ from 'lodash';
 
-import { gen_ship_movement, round_coords, move_thrust,
-    move_rotate
-} from '../lib/battle/movement';
-
-import add_tap_helpers from './lib/tap_helpers';
-
+import add_tap_helpers from '../tap_helpers';
 add_tap_helpers( tap );
+
+import { plot_movement, round_coords, move_thrust,
+    move_rotate
+} from './index';
+
 
 tap.test( 'move_thrust', { autoend: true }, tap => {
     let ship = { coords: [ 0, 0 ], heading: 1, trajectory: [], velocity: 0 };
@@ -52,7 +50,7 @@ tap.test( 'simple movements', tap => {
 
     for ( let a in angle ) {
         ship.heading = +a;
-        let movement = gen_ship_movement(ship);
+        let movement = ship::plot_movement();
         tap.match_move( movement, { ...ship, coords: angle[a], heading: +a } );
     }
 
@@ -67,21 +65,18 @@ tap.test( 'change of speed', { autoend: true }, tap => {
         engine_rating: 6 
     };
 
-    tap.match_move( gen_ship_movement( ship, { thrust: 6 }), 
+    tap.match_move( ship::plot_movement({ thrust: 6 }), 
          { velocity: 16, coords: [0,16] }, "accelerate" );
 
-     tap.match_move( gen_ship_movement( ship,
-         { thrust: 7 }),
+     tap.match_move( ship::plot_movement({ thrust: 7 }),
          { velocity: 16, coords: [0,16] }, 
          "accelerate within engine capacity" 
      ); 
 
-    tap.match_move( gen_ship_movement( ship,
-          { thrust: -6 }),
+    tap.match_move( ship::plot_movement({ thrust: -6 }),
          { velocity: 4, coords: [0,4] }, "decelerate" ); 
 
-     tap.match_move( gen_ship_movement( { ...ship, velocity: 2 },
-             { thrust: -6 }),
+     tap.match_move( ({ ...ship, velocity: 2 })::plot_movement( { thrust: -6 }),
          { velocity: 0, coords: [0,0] }, "decelerate to min zero" ); 
 
 });
@@ -89,7 +84,7 @@ tap.test( 'change of speed', { autoend: true }, tap => {
 tap.test( 'turning', tap => {
     let ship = { coords: [0,0], velocity: 5, heading: 0, engine_rating: 6 };
 
-    tap.match_move( gen_ship_movement( ship, { turn: 3 } ), {
+    tap.match_move( ship::plot_movement( { turn: 3 } ), {
             coords: [ 4, 1.73 ],
             velocity: 5,
             heading: 3
@@ -97,7 +92,7 @@ tap.test( 'turning', tap => {
         "turn of 3",
     );
 
-     tap.match_move( gen_ship_movement(ship, { turn: -3 } ), {
+     tap.match_move( ship::plot_movement( { turn: -3 } ), {
              coords: [ -4, 1.7 ],
             velocity: 5,
             heading: 9
@@ -105,7 +100,7 @@ tap.test( 'turning', tap => {
         "turn of -3",
     );
 
-    tap.match_move( gen_ship_movement(ship, { turn: -9 } ), {
+    tap.match_move( ship::plot_movement({ turn: -9 } ), {
             heading: 9
         },
         "can't turn more than limit",
@@ -117,25 +112,25 @@ tap.test( 'turning', tap => {
 tap.test( 'banking', {autoend: true}, tap => {
     let ship = {coords: [0,0], velocity: 5, heading: 0, engine_rating:  6 };
 
-    tap.match_move( gen_ship_movement(ship,{ bank: 3 } ), {
+    tap.match_move( ship::plot_movement({ bank: 3 } ), {
         coords: [ 3,5],
         heading: 0,
         velocity: 5
     }, "bank of 3" );
 
-    tap.match_move( gen_ship_movement(ship,{ bank: -3 } ), {
+    tap.match_move( ship::plot_movement({ bank: -3 } ), {
         coords: [ -3,5],
         heading: 0,
         velocity: 5
     }, "bank of -3" );
 
-    tap.match_move( gen_ship_movement(ship,{ bank: -9 } ), {
+    tap.match_move( ship::plot_movement({ bank: -9 } ), {
         coords: [ -3,5],
         heading: 0,
         velocity: 5
     }, "can't bank more than limit" );
 
-    tap.match_move( gen_ship_movement({...ship, heading: 3 },{ bank: -3 } ), {
+    tap.match_move( ({...ship, heading: 3 })::plot_movement({ bank: -3 } ), {
         coords: [ 5,3],
         heading: 3,
         velocity: 5
@@ -149,7 +144,7 @@ tap.test( 'complex manoeuvers', { autoend: true }, tap => {
     let ship = { 
         coords: [0,0], velocity: 5, heading: 0, engine_rating:  6 };
 
-    tap.match_move( gen_ship_movement(ship,
+    tap.match_move( ship::plot_movement(
         { bank: -1, thrust: -1, turn: 2 } ), {
         velocity: 4,
         heading: 2,
