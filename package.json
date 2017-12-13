@@ -27,6 +27,7 @@
     "flow-copy-source": "^1.2.1",
     "json-schema-shorthand": "^0.2.0",
     "pino": "^4.5.3",
+    "pino-debug": "^1.0.5",
     "redux": "^3.6.0",
     "redux-actions": "^2.0.2",
     "redux-saga": "^0.15.3",
