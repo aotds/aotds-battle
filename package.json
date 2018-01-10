@@ -14,7 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "actioner": "^0.2.0",
-    "ajv": "^5.0.1",
+    "ajv": "^5.5.1",
     "ajv-promise": "^0.2.1",
     "babel-cli": "^6.24.1",
     "babel-plugin-transform-class-properties": "^6.24.1",

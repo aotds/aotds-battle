@@ -4,7 +4,6 @@ import _ from 'lodash';
 
 export default  function ValidateSchema(options) {
 
-    let validator = new Ajv({ '$data': true, useDefaults: true });
 
     let shall_validate = function(schema) {
         let data = this;

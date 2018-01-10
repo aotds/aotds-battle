@@ -3,6 +3,19 @@ import u from 'updeep';
 
 const upush =  new_item => array => [ ...array, new_item ];
 
+// let ObjectNavigation = {
+//     engine_rating: 'integer',
+//     velocity: 'number',
+//     coords: Array[2]number
+//     heading: number,
+// }
+
+// let ShipMovementOrder = {
+//     thrust: 'integer',
+//     turn: 'integer',
+//     bank: 'integer',
+// }
+
 export const plot_movement = function( orders = {} ) {
 
     let ship = this;
