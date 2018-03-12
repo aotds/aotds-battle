@@ -1,5 +1,5 @@
-import tap from 'tap';
 import _ from 'lodash';
+import u from 'updeep';
 const debug = require('debug')('aotds:battle:test');
 
 import Battle from './index';
@@ -10,8 +10,7 @@ import Actions from './actions';
 import { object_by_id } from './sagas/selectors';
 import { select } from 'redux-saga/effects';
 
-tap.test( 'move objects', async tap => {
-
+test( 'move objects', async () => {
     await expectSaga(objects_movement_phase)
         .withState({
             objects: [ { id: 'enkidu' }, { id: 'siduri' } ],
@@ -20,13 +19,12 @@ tap.test( 'move objects', async tap => {
         .put( Actions.move_object( 'siduri' ) )
         .silentRun();
 
-    tap.end();
 })
 
 
-tap.test( 'move object without orders', async tap => {
+test( 'move object without orders', async () => {
 
-    await expectSaga(saga)
+    let {effects : { put } } = await expectSaga(saga)
         .provide([ [select(object_by_id,'enkidu'),
             { 
                 id: 'enkidu',
@@ -38,12 +36,33 @@ tap.test( 'move object without orders', async tap => {
             }
         ]])
         .take( Actions.MOVE_OBJECT )
-        .put( Actions.move_object_store( 'enkidu', {
-            heading: 1, coords: [4,6], velocity: 5
-        }))
         .dispatch( Actions.move_object('enkidu') )
         .silentRun();
 
-    tap.end();
+    let move = put[0].PUT.action;
+
+    const round = x => _.round(x,1)
+    const roundup_navigation = u({
+        coords: u.map( round ),
+        trajectory: u.map( u({
+            coords: u.map(round),
+            delta:  u.map(round),
+        }) )
+    });
+
+    move = u({ navigation: roundup_navigation })(move);
+
+    expect(move).toMatchObject({
+        object_id: 'enkidu',
+        navigation: {
+            heading: 1,
+            velocity: 5,
+            coords: [ 3.5, 6.3 ],
+            trajectory: [
+                { type: 'POSITION', coords: [1,2] },
+                { type: 'MOVE', delta: [2.5,4.3] },
+            ],
+        }
+    });
 })
 
