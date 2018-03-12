@@ -1,10 +1,10 @@
 import fs from 'fs';
 import schema from '../src/schema';
 
-for ( let file of [ 'ship' ] ) {
-    schema.loadSchema('~' + file).then( schema => 
-        fs.writeFile('doc/'+file+'.json', JSON.stringify(schema), err => {
+for ( let file of [ '../src/schemas/ship' ] ) {
+    let name = file.replace( '../src/schemas/', 'schemas/'  );
+
+    fs.writeFile(name+'.json', JSON.stringify(require(file).default, null, 2), err => {
             if (err) throw err;
-        })
-    ).catch( e => console.log("ohmy",e) );
+    })
 }

@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { App } from 'doca-bootstrap-theme';
+import Introduction from './introduction';
 import config from '../../config';
 
 // this dynamically imports css, less and sass from the "THEME/styles"
@@ -17,6 +18,7 @@ try {
 const mapStateToProps = state => ({
   schemas: state.schemas,
   config,
+  introduction: Introduction,
 });
 
 const Main = connect(

@@ -1,0 +1,7 @@
+{
+    "$id": "thingy",
+    "type": "number",
+    "example": 3,
+    "title": "it's a thing",
+    "description": "potatos"
+}

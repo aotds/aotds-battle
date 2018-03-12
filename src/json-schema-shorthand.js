@@ -79,7 +79,12 @@ function sh_json_schema(obj) {
     }
 
     if( obj.hasOwnProperty('items') ) {
-        obj.items = obj.items.map( sh_json_schema );
+        if( Array.isArray( obj.items ) ) {
+            obj.items = obj.items.map( sh_json_schema );
+        }
+        else {
+            obj.items = sh_json_schema( obj.items );
+        }
     }
 
 

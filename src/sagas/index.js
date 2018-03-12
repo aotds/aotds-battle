@@ -2,9 +2,9 @@ import _ from 'lodash';
 
 import { takeEvery, select, put } from 'redux-saga/effects';
 
-const debug = require('debug')('sagas');
+const debug = require('debug')('aotds:sagas');
 
-import Action from '../actions';
+import Actions from '../actions';
 
 import { plot_movement } from '../movement';
 
@@ -22,15 +22,25 @@ import { plot_movement } from '../movement';
 //     }})
 // }
 
+import { object_by_id } from './selectors';
+
 export
 function *object_movement_phase({ object_id }) {
-    let object = yield select( state => _.find( state.objects, { id: object_id } ) );
+    let object = yield select( object_by_id, object_id );
 
-    let movement = object::plot_movement( _.get( object, 'orders.navigation', {} ) );
+    let mov = plot_movement( object, _.get( object, 'orders.navigation', {} ) );
+    debug(mov);
 
-    yield put(
-        Action.move_object( object_id, movement )
-    )
+    for ( let action of mov ) {
+        debug(action);
+        yield put(action);
+    }
+
+    // let movement = object::plot_movement( _.get( object, 'orders.navigation', {} ) );
+
+    // yield put(
+    //     actions.move_object( object_id, movement )
+    // )
 }
 
 export
@@ -38,13 +48,24 @@ function *turn_movement_phase() {
     let objects = yield select( state => state.objects );
 
     for ( let object of objects ) {
-        yield put( Action.object_movement_phase(
+        yield put( actions.object_movement_phase(
             object.id, _.get( object, 'orders.navigation', null ) 
         ) )
     }
 }
 
+export
+function* objects_movement_phase() {
+    let objects = yield select( state => _.get( state, 'objects', [] ) );
+
+    for( let obj of objects ) {
+        yield put(Actions.move_object( obj.id ));
+    }
+}
+
 export default function *battleSagas () {
-    yield takeEvery( Action.TURN_MOVEMENT_PHASE,   turn_movement_phase );
-    yield takeEvery( Action.OBJECT_MOVEMENT_PHASE, object_movement_phase );
+    // yield takeEvery( actions.TURN_MOVEMENT_PHASE,   turn_movement_phase );
+    // yield takeEvery( actions.OBJECT_MOVEMENT_PHASE, object_movement_phase );
+    yield takeEvery( Actions.MOVE_OBJECTS, objects_movement_phase );
+    yield takeEvery( Actions.MOVE_OBJECT, object_movement_phase );
 }

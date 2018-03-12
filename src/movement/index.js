@@ -1,7 +1,11 @@
 import _ from 'lodash'; 
 import u from 'updeep';
 
+const debug = require('debug')('aotds:movement');
+
 const upush =  new_item => array => [ ...array, new_item ];
+
+import Actions from '../actions';
 
 // let ObjectNavigation = {
 //     engine_rating: 'integer',
@@ -16,13 +20,23 @@ const upush =  new_item => array => [ ...array, new_item ];
 //     bank: 'integer',
 // }
 
-export const plot_movement = function( orders = {} ) {
+export function *plot_movement( ship, orders = {} ) {
+    let navigation = ship.navigation;
+    debug(ship);
 
-    let ship = this;
+    navigation = u({ trajectory: [
+        { type: 'POSITION', coords: navigation.coords }
+    ] })(navigation);
+
+    navigation = move_thrust( navigation, navigation.velocity );
+
+    yield Actions.move_object_store( ship.id, navigation );
+
+    return;
 
     let { thrust, turn, bank } = orders;
 
-    let engine_rating = ship.engine_rating || 0;
+    let engine_rating = _.get( ship, 'drive_rating', 0 );
 
     let movement = {
         trajectory: [ [ 'POSITION', ship.coords ] ],
@@ -75,15 +89,14 @@ export const plot_movement = function( orders = {} ) {
     return movement;
 }
 
-export 
-function move_thrust( movement, thrust ) {
-    let angle = ( movement.heading ) * Math.PI / 6;
-    let delta = [ Math.sin(angle), Math.cos(angle) ].map( (x) => thrust * x )
+function move_thrust( navigation, thrust ) {
+    let angle = ( navigation.heading ) * Math.PI / 6;
+    let delta = [ Math.sin(angle), Math.cos(angle) ].map( x => thrust * x )
 
     return u({
-        trajectory: u.withDefault( [], upush([ 'MOVE', delta ]) ),
-        coords:     _.zip( movement.coords, delta ).map( _.sum )
-    })(movement);
+        trajectory: upush({ type: 'MOVE', delta }),
+        coords:     _.zip( navigation.coords, delta ).map( _.sum )
+    })(navigation);
 };
 
 export

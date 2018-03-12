@@ -1,19 +1,17 @@
 const Ajv = require('ajv');
-const debug = require('debug')('schema');
-import jssh from '../json-schema-shorthand';
+const debug = require('debug')('aotds:battle:schemas');
+import jssh from 'json-schema-shorthand';
 import StackTrace from 'stacktrace-js';
 
 class SchemaValidationError extends Error {
     constructor(options) {
         super("validation failed");
-        this.type = options.type;
         this.validation_value = options.validation_value;
         this.validation_errors = options.validation_errors;
     }
 }
 
-class Schema {
-
+export default class Schemas {
     constructor(options={}) {
         this.validator = new Ajv({ 
             '$data':     true,
@@ -28,6 +26,13 @@ class Schema {
 
         this.fatal = options.fatal;
         this.schema_url = options.schema_url;
+
+        this.validator.compile( 
+            require( './schemas/ship' ).default
+        );
+        this.validator.compile( 
+            require( './schemas/game_turn' ).default
+        );
     }
 
     async loadSchema(schema) {
@@ -37,7 +42,7 @@ class Schema {
         return raw;
     }
 
-    async validate(which,schema,value,stack) {
+    async validate(schema,value,stack) {
         try {
             let validate = await this.validator.compileAsync(schema);
 
@@ -47,10 +52,9 @@ class Schema {
             if(stack) {
                 stack = await stack;
             }
-            stack.shift();
+            //stack.shift();
 
             let error = {
-                type: which,
                 validation_errors: validate.errors,
                 validation_value: value,
             };
@@ -62,9 +66,8 @@ class Schema {
                 }, 0)
             }
 
-            debug( "%s schema error: %O\nvalue:%O\ntrace: %O",
-                which,
-                validate.errors, value, stack.map( s => s.toString() ) );
+            debug( "schema errors: %O\ndocument: %O",
+                validate.errors, value );
         }
         catch(e) {
             throw e;
@@ -103,7 +106,3 @@ class Schema {
 
 }
 
-let schema = new Schema({ fatal: true,
-    schema_url: "http://aotds/battle" });
-
-export default schema;

@@ -27,17 +27,17 @@ const heading_coords = { heading, coords };
 
 let course = definitions::add('course',
     array( object(heading_coords), {
-    description: "projected movement for new turn",
+    description: "projected movement for new turn (for the ui)",
 }));
 
 const maneuver_range = definitions::add( 'maneuver_range', 
-    "range of values for the maneuver",
+    "range of values for the maneuver (for the ui)",
     array('number'),
     { nbrItems: 2 }
 );
 
 const maneuver = definitions::add( 'maneuver', 
-    "range of maneuvers the ship can do for its next move",
+    "range of maneuvers the ship can do for its next move (for the ui)",
     object({
         thrust: maneuver_range,
         bank:   maneuver_range,
@@ -45,11 +45,17 @@ const maneuver = definitions::add( 'maneuver',
     })
 );
 
+const trajectory = definitions::add( 'trajectory',
+    "course of the previous turn",
+    array()
+);
+
 const navigation = object({
     ...heading_coords,
     velocity,
-    course,
-    maneuver,
+    trajectory,
+    // course,
+    // maneuver,
 });
 
 const orders = definitions::add( 'orders', object({
@@ -65,12 +71,12 @@ const drive_rating = definitions::add('drive_rating', number() );
 
 const name = definitions::add( 'name', 
     "name of the ship",
-    string()
+    'string',
 );
 
 export default object(
     { 
-        id: string(),
+        id: 'string',
         name,
         navigation, 
         orders, 

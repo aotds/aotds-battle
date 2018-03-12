@@ -1,60 +1,52 @@
-// @flow
-
 import { createStore, applyMiddleware } from "redux";
 import createSagaMiddleware from 'redux-saga';
 
 import _ from 'lodash';
 
-import logger from '../Logger';
-import reducer from './Reducer';
+import reducer from './reducer';
+import sagas from './sagas';
 
-import type { BattleState, BattleAction } from './Types';
+import Schemas from './schemas';
 
-import actions from './Actions';
-import sagas from './Sagas';
+import actions from './actions';
 
-type InitOptions = {
-    name: string
-};
+const debug = require('debug')('aotds:battle');
 
-const MW_logger = store => next => action => {
-    logger.trace({ action }, 'action entering middleware');
-    next(action);
-};
+let schemas = new Schemas();
 
+export default class Battle {
 
-export default
-class Battle {
-    store : any;
-
-    constructor ( options : {} = {} ) {
+    constructor( state = {} ) {
         const MW_saga = createSagaMiddleware();
 
         this.store = createStore( 
             reducer,
-            options.state || {},
-            applyMiddleware( MW_logger, MW_saga )
+            state,
+            applyMiddleware( MW_saga )
         );
+
+        this.store.subscribe( () => {
+            schemas.validate(
+                { '$ref': 'http://aotds.babyl.ca/battle/game_turn'},
+                this.state
+            )
+        });
+
         MW_saga.run( sagas );
     }
 
-    // init_game = payload => this.store.dispatch(
-    //     Action.init_game(payload)
-    // ) 
+    get state() { return this.store.getState() }
 
-    get state () :BattleState { return this.store.getState() }
-
-    dispatch( action : BattleAction ) :any {
+    dispatch( action ) {
         return this.store.dispatch(action);
     }
 
-    dispatch_action( type: string, payload: any ) {
-        return this.dispatch({ type, payload });
+    init_game( message ) {
+        return this.store.dispatch(actions.init_game(message));
     }
 
-    // init a game
-    init( init_options : InitOptions ) {
-        this.dispatch( actions.init_game(init_options) );
+    set_orders( ship, orders ) {
+        return this.store.dispatch(actions.set_orders(ship,orders));
     }
 
 };

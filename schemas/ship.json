@@ -1,0 +1,128 @@
+{
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "name": {
+      "$ref": "#/definitions/name"
+    },
+    "navigation": {
+      "type": "object",
+      "properties": {
+        "heading": {
+          "$ref": "#/definitions/heading"
+        },
+        "coords": {
+          "$ref": "#/definitions/coords"
+        },
+        "velocity": {
+          "$ref": "#/definitions/velocity"
+        },
+        "course": {
+          "$ref": "#/definitions/course"
+        },
+        "maneuver": {
+          "$ref": "#/definitions/maneuver"
+        }
+      }
+    },
+    "orders": {
+      "$ref": "#/definitions/orders"
+    },
+    "drive_rating": {
+      "$ref": "#/definitions/drive_rating"
+    }
+  },
+  "$id": "http://aotds.babyl.ca/battle/ship",
+  "definitions": {
+    "coords": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 2,
+      "minItems": 2
+    },
+    "velocity": {
+      "type": "number",
+      "description": "speed of the object",
+      "minimum": 0
+    },
+    "heading": {
+      "type": "number",
+      "description": "facing angle of the object",
+      "minimum": 0,
+      "maximum": 12
+    },
+    "course": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "heading": {
+            "$ref": "#/definitions/heading"
+          },
+          "coords": {
+            "$ref": "#/definitions/coords"
+          }
+        }
+      },
+      "description": "projected movement for new turn"
+    },
+    "maneuver_range": {
+      "description": "range of values for the maneuver",
+      "type": "array",
+      "items": {
+        "type": "number"
+      },
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "maneuver": {
+      "description": "range of maneuvers the ship can do for its next move",
+      "type": "object",
+      "properties": {
+        "thrust": {
+          "$ref": "#/definitions/maneuver_range"
+        },
+        "bank": {
+          "$ref": "#/definitions/maneuver_range"
+        },
+        "turn": {
+          "$ref": "#/definitions/maneuver_range"
+        }
+      }
+    },
+    "orders": {
+      "type": "object",
+      "properties": {
+        "done": {
+          "type": "boolean"
+        },
+        "navigation": {
+          "type": "object",
+          "properties": {
+            "thrust": {
+              "type": "number"
+            },
+            "turn": {
+              "type": "number"
+            },
+            "bank": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "description": "orders for the next turn"
+    },
+    "drive_rating": {
+      "type": "number"
+    },
+    "name": {
+      "description": "string"
+    }
+  },
+  "title": "Ship"
+}
