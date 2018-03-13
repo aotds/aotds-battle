@@ -7,6 +7,9 @@ import { plot_movement, round_coords, move_thrust,
     move_rotate
 } from './index';
 
+import {toBeDeepCloseTo, toMatchCloseTo } from 'jest-matcher-deep-close-to';
+expect.extend({toBeDeepCloseTo, toMatchCloseTo });
+
 const round = x => _.round(x,1)
 const roundup_nav= u({ 
     coords: u.map( round ),
@@ -23,8 +26,9 @@ test( 'move_thrust', () => {
     [ [ 0, [0,0] ], [ 1, [0.5,0.9] ], [ 10, [5,8.7] ] ].forEach(
         ([ thrust, result ]) => {
             expect( 
-                roundup_nav( move_thrust( ship, thrust ) )
-            ).toHaveProperty( 'coords', result )
+                move_thrust( ship, thrust ).coords
+            //).toHaveProperty( 'coords', result )
+            ).toBeDeepCloseTo( result, 1 )
         });
 });
 
@@ -59,106 +63,104 @@ test( 'simple movements', () => {
     for ( let a in angle ) {
         ship.navigation.heading = +a;
         let [ movement ] = Array.from(plot_movement(ship));
-        debug(movement);
-        expect( roundup_nav( movement.navigation ) ).toMatchObject({
+        expect( movement.navigation ).toMatchCloseTo({
             coords: angle[a],
             heading: +a,
-        });
+        },1);
     }
 });
 
-// tap.test( 'change of speed', { autoend: true }, tap => {
-//     let ship = { 
-//         coords: [0,0], 
-//         heading: 0,
-//         velocity: 10,
-//         engine_rating: 6 
-//     };
+const move_ok = ( ship, orders, expected ) => () => {
+    let [ { navigation } ] = Array.from(plot_movement(ship, orders));
+    expect( navigation ).toMatchCloseTo( expected, 1 );
+};
 
-//     tap.match_move( ship::plot_movement({ thrust: 6 }), 
-//          { velocity: 16, coords: [0,16] }, "accelerate" );
+describe( 'change of speed', () => {
+    let ship = { 
+        navigation: { 
+            coords: [0,0], 
+            heading: 0,
+            velocity: 10,
+        },
+        drive_rating: 6 
+    };
 
-//      tap.match_move( ship::plot_movement({ thrust: 7 }),
-//          { velocity: 16, coords: [0,16] }, 
-//          "accelerate within engine capacity" 
-//      ); 
+    test( 'accelerate within engine capacity', move_ok(
+        ship, { thrust: 6 },
+        { velocity: 16, coords: [ 0,16 ] }
+    ));
 
-//     tap.match_move( ship::plot_movement({ thrust: -6 }),
-//          { velocity: 4, coords: [0,4] }, "decelerate" ); 
+    test( 'accelerate more than engine capacity', move_ok(
+        ship, { thrust: 16 },
+        { velocity: 16, coords: [ 0,16 ] }
+    ));
 
-//      tap.match_move( ({ ...ship, velocity: 2 })::plot_movement( { thrust: -6 }),
-//          { velocity: 0, coords: [0,0] }, "decelerate to min zero" ); 
+    test( 'decelerate', move_ok(
+        ship, { thrust: -6 },
+        { velocity: 4, coords: [ 0,4 ] }
+    ));
 
-// });
+    test( 'decelerate to min of zero', move_ok(
+        u({ navigation: { velocity: 2 } })(ship), { thrust: -6 },
+        { velocity: 0, coords: [ 0,0 ] }
+    ));
+});
 
-// tap.test( 'turning', tap => {
-//     let ship = { coords: [0,0], velocity: 5, heading: 0, engine_rating: 6 };
+describe( 'turning', () => {
+    let ship = { 
+        navigation: { coords: [0,0], velocity: 5, heading: 0 },
+        drive_rating: 6 
+    };
 
-//     tap.match_move( ship::plot_movement( { turn: 3 } ), {
-//             coords: [ 4, 1.73 ],
-//             velocity: 5,
-//             heading: 3
-//         },
-//         "turn of 3",
-//     );
+    test( 'turn of 3', move_ok( ship, { turn: 3 }, {
+        coords: [ 4, 1.73 ],
+        velocity: 5,
+        heading: 3
+    }));
 
-//      tap.match_move( ship::plot_movement( { turn: -3 } ), {
-//              coords: [ -4, 1.7 ],
-//             velocity: 5,
-//             heading: 9
-//         },
-//         "turn of -3",
-//     );
+    test( "turn of -3", move_ok( ship, { turn: -3 }, {
+             coords: [ -4, 1.7 ],
+            velocity: 5,
+            heading: 9
+        }));
 
-//     tap.match_move( ship::plot_movement({ turn: -9 } ), {
-//             heading: 9
-//         },
-//         "can't turn more than limit",
-//     );
+    test( "can't turn more than limit", move_ok( ship, { turn: -9 }, {
+            heading: 9
+        }));
 
-//     tap.end();
-// });
+});
 
-// tap.test( 'banking', {autoend: true}, tap => {
-//     let ship = {coords: [0,0], velocity: 5, heading: 0, engine_rating:  6 };
+describe( 'banking', () => {
+    let ship = { navigation: {
+        coords: [0,0], velocity: 5, heading: 0 
+    }, drive_rating:  6 };
 
-//     tap.match_move( ship::plot_movement({ bank: 3 } ), {
-//         coords: [ 3,5],
-//         heading: 0,
-//         velocity: 5
-//     }, "bank of 3" );
+    let tests = [
+        [ 'bank while heading at 3', 
+            u({ navigation: { heading: 3 }})(ship), { bank: -3 }, { coords: [5,3], heading: 3, velocity: 5 } ],
+        [ 'bank of 3', ship, { bank: 3 }, { coords: [3,5], heading: 0, velocity: 5 } ],
+        [ 'bank of -3', ship, { bank: -3 }, { coords: [-3,5], heading: 0, velocity: 5 } ],
+        [ "can't bank more than the limit",
+            ship, { bank: -9 }, { coords: [-3,5], heading: 0, velocity: 5 } ],
+    ];
 
-//     tap.match_move( ship::plot_movement({ bank: -3 } ), {
-//         coords: [ -3,5],
-//         heading: 0,
-//         velocity: 5
-//     }, "bank of -3" );
+    tests.forEach( ([ desc, ship, orders, expected ]) => 
+        test( desc, move_ok( ship, orders, expected ) )
+    );
 
-//     tap.match_move( ship::plot_movement({ bank: -9 } ), {
-//         coords: [ -3,5],
-//         heading: 0,
-//         velocity: 5
-//     }, "can't bank more than limit" );
+});
 
-//     tap.match_move( ({...ship, heading: 3 })::plot_movement({ bank: -3 } ), {
-//         coords: [ 5,3],
-//         heading: 3,
-//         velocity: 5
-//     }, "banking at 3" );
+test( 'complex manoeuvers', () => {
 
+    let ship = { 
+        navigation: { coords: [0,0], velocity: 5, heading: 0 }, engine_rating:  6 
+    };
 
-// });
+    move_ok( ship, 
+        { bank: -1, thrust: -1, turn: 2 }, {
+        velocity: 4,
+        heading: 2,
+        coords: [ 1.73,2.73]
+    });
 
-// tap.test( 'complex manoeuvers', { autoend: true }, tap => {
-
-//     let ship = { 
-//         coords: [0,0], velocity: 5, heading: 0, engine_rating:  6 };
-
-//     tap.match_move( ship::plot_movement(
-//         { bank: -1, thrust: -1, turn: 2 } ), {
-//         velocity: 4,
-//         heading: 2,
-//         coords: [ 1.73,2.73]
-//     }, "complex manoeuver" );
-
-// });
+});
