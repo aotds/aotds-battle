@@ -89,6 +89,7 @@ export function *plot_movement( ship, orders = {} ) {
     return movement;
 }
 
+export
 function move_thrust( navigation, thrust ) {
     let angle = ( navigation.heading ) * Math.PI / 6;
     let delta = [ Math.sin(angle), Math.cos(angle) ].map( x => thrust * x )
