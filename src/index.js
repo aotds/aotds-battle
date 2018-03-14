@@ -49,6 +49,10 @@ export default class Battle {
         return this.store.dispatch(actions.set_orders(ship,orders));
     }
 
+    play_turn() {
+        return this.store.dispatch(actions.play_turn())
+    }
+
 };
 
 /**

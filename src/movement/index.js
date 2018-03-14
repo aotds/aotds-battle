@@ -22,40 +22,29 @@ import Actions from '../actions';
 
 export function *plot_movement( ship, orders = {} ) {
     let navigation = ship.navigation;
-    debug(ship);
 
     navigation = u({ trajectory: [
         { type: 'POSITION', coords: navigation.coords }
     ] })(navigation);
 
-    navigation = move_thrust( navigation, navigation.velocity );
-
-    yield Actions.move_object_store( ship.id, navigation );
-
-    return;
+//    navigation = move_thrust( navigation, navigation.velocity );
 
     let { thrust, turn, bank } = orders;
 
     let engine_rating = _.get( ship, 'drive_rating', 0 );
 
-    let movement = {
-        trajectory: [ [ 'POSITION', ship.coords ] ],
-        velocity: ship.velocity || 0,
-        coords: ship.coords || [0,0],
-        heading: ship.heading || 0
-    };
-
     let engine_power = engine_rating;
+    debug("here");
 
     let thrust_range = [
-         _.max([ -engine_power, -movement.velocity]), engine_power 
+         _.max([ -engine_power, -navigation.velocity]), engine_power 
      ];
 
-    let clamp_thrust = _.partial( _.clamp, _, ...thrust_range );
+    let clamp_thrust = thrust => _.clamp( thrust, ...thrust_range );
 
     if( thrust ) {
         thrust = clamp_thrust(thrust);
-        movement.velocity += thrust;
+        navigation = u({ velocity: v => v + thrust })(navigation);
         engine_power -= thrust;
     }
 
@@ -70,23 +59,28 @@ export function *plot_movement( ship, orders = {} ) {
         bank = _.clamp( bank, -max, max );
         engine_power -= bank;
 
-        movement = move_bank(movement,bank);
+        navigation = move_bank(navigation,bank);
     }
 
 
     if( turn ) {
-        let thrust = two_steps(movement.velocity);
+        let thrust = two_steps(navigation.velocity);
+        debug(thrust)
         let t      = two_steps(turn);
 
         _.zip( t, thrust ).forEach( m => {
-                movement = move_thrust( move_rotate(movement, m[0]), m[1] );
+                navigation = move_thrust( move_rotate(navigation, m[0]), m[1] );
         });
     }
     else {
-        movement = move_thrust( movement, movement.velocity );
+        navigation = move_thrust( navigation, navigation.velocity );
     }
 
-    return movement;
+    navigation = u({ trajectory: upush({ 
+        type: 'POSITION', coords: navigation.coords 
+    })})(navigation);
+
+    yield Actions.move_object_store( ship.id, navigation );
 }
 
 export
@@ -94,9 +88,11 @@ function move_thrust( navigation, thrust ) {
     let angle = ( navigation.heading ) * Math.PI / 6;
     let delta = [ Math.sin(angle), Math.cos(angle) ].map( x => thrust * x )
 
+    let coords = _.zip( navigation.coords, delta ).map( _.sum ); 
+
     return u({
-        trajectory: upush({ type: 'MOVE', delta }),
-        coords:     _.zip( navigation.coords, delta ).map( _.sum )
+        trajectory: upush({ type: 'MOVE', delta, coords }),
+        coords
     })(navigation);
 };
 
@@ -105,22 +101,30 @@ function move_bank( movement, velocity ) {
     let angle = ( movement.heading +3  ) * Math.PI / 6;
     let delta = [ Math.sin(angle), Math.cos(angle) ].map( (x) => velocity * x )
 
+    let coords = _.zip( movement.coords, delta ).map( _.sum ); 
+
     return u({
-        trajectory: u.withDefault( [], upush([ 'MOVE', delta ]) ),
-        coords: _.zip( movement.coords, delta ).map( _.sum ),
+        trajectory: u.withDefault( [], upush({ type: 'BANK', delta, coords }) ),
+        coords 
     })(movement);
 }
 
+function canonicalHeading(heading) {
+    while( heading < 0 ) {
+        heading += 12;
+    }
+    return heading % 12;
+}
 
 export
-function move_rotate( movement , angle =0)  {
+function move_rotate( movement , angle )  {
+    let heading = canonicalHeading( movement.heading + angle );
+
     return u({ 
-        trajectory: u.withDefault( [], upush(['ROTATE', angle]) ),
-        heading: heading => {
-            heading +=  angle >= 0 ? angle : (12 + (angle%12));
-            heading %= 12;
-            return heading;
-        }
+        trajectory: u.withDefault( [], upush({ 
+            type: 'ROTATE', delta: angle, heading
+        }) ),
+        heading
     })( movement );
 }
 

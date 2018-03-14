@@ -17,6 +17,7 @@
     "ajv-promise": "^0.2.1",
     "bunyan": "^1.8.10",
     "flow-copy-source": "^1.2.1",
+    "jest-matcher-deep-close-to": "^1.2.1",
     "json-schema-shorthand": "file:../json-schema-shorthand",
     "pino": "^4.5.3",
     "pino-debug": "^1.0.5",
@@ -42,14 +43,17 @@
     "babel-preset-stage-1": "^6.24.1",
     "babel-tap": "^5.0.0",
     "jest": "^22.4.2",
+    "jest-html-reporter": "^2.0.0",
     "redux-saga-test-plan": "^3.5.1"
   },
-    "ava": {
-                "babel": {
-                                "testOptions": {
-				"presets": ["env"],
-                                                    "babelrc": false
-                                                                }
-                                                                        }
-                                                                            }
+  "ava": {
+    "babel": {
+      "testOptions": {
+        "presets": [
+          "env"
+        ],
+        "babelrc": false
+      }
+    }
+  }
 }

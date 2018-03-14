@@ -45,6 +45,16 @@ const maneuver = definitions::add( 'maneuver',
     })
 );
 
+
+  // [ { type: 'POSITION', coords: [ 0, 0 ] },
+  //   { type: 'BANK',
+  //     delta: [ -1, -6.123233995736766e-17 ],
+  //     coords: [ -1, -6.123233995736766e-17 ] },
+  //   { type: 'ROTATE', delta: 1, heading: 1 },
+  //   { type: 'MOVE',
+  //     delta: [ 0.9999999999999999, 1.7320508075688774 ],
+  //     coords: [ -1.1102230246251565e-16, 1.7320508075688774 ] },
+
 const trajectory = definitions::add( 'trajectory',
     "course of the previous turn",
     array()

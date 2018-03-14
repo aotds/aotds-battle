@@ -7,5 +7,12 @@ const unwanted_actions = [
 export default function log_reducer(state=[],action) {
     if ( unwanted_actions.some( a => action.type == a ) ) return state;
 
-    return state.concat( action );
+    switch( action.type ) {
+        case(actions.PLAY_TURN):
+            return [action];
+
+        default:
+            return state.concat( action );
+    }
+
 }

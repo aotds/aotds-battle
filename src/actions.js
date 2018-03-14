@@ -32,8 +32,9 @@ actioner.$add( 'move_object', object_id => ({ object_id }), object({
 }));
 actioner.$add( 'move_object_store', (object_id,navigation) => ({ object_id, navigation }), object({
     object_id: 'string!',
-    navigation: object({
-    }),
+    navigation: { '$ref': 'http://aotds.babyl.ca/battle/action' },
 }));
+
+actioner.$add( 'play_turn' );
 
 export default actioner;

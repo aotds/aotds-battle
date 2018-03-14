@@ -1,6 +1,8 @@
 import actions from '../actions';
 import u from 'updeep';
 
+import object_reducer from './object';
+
 let debug = require('debug')('aotds:test');
 
 export default function objects(state=[],action) {
@@ -14,7 +16,10 @@ export default function objects(state=[],action) {
                     u.is( 'id', action.object_id ), 
                     { orders: { done: true, ...action.orders } }
                 )
-            )
+            );
+
+        case actions.MOVE_OBJECT_STORE:
+            return state.map( obj => object_reducer( obj, action ) );
         
 
         default: return state;

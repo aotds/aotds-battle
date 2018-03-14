@@ -72,6 +72,7 @@ test( 'simple movements', () => {
 
 const move_ok = ( ship, orders, expected ) => () => {
     let [ { navigation } ] = Array.from(plot_movement(ship, orders));
+    debug("!!%O", expected);
     expect( navigation ).toMatchCloseTo( expected, 1 );
 };
 
@@ -153,14 +154,33 @@ describe( 'banking', () => {
 test( 'complex manoeuvers', () => {
 
     let ship = { 
-        navigation: { coords: [0,0], velocity: 5, heading: 0 }, engine_rating:  6 
+        navigation: { coords: [0,0], velocity: 5, heading: 0 }, drive_rating:  6 
     };
+
+    let [ { navigation } ] = Array.from( plot_movement( ship, 
+        { bank: -1, thrust: -1, turn: 2 }
+    ) );
+
+    debug.inspectOpts.depth = 10;
+    debug( "%O", navigation);
+
+    expect(navigation.trajectory).toBeDeepCloseTo(
+        [
+            { type: "POSITION", coords: [0,0] },
+            { type: "BANK", coords: [-1,0], delta: [ -1, 0] },
+            { type: "ROTATE", delta: 1, heading: 1 },
+            { type: "MOVE", coords: [0,1.7], delta: [ 1, 1.7] },
+            { type: "ROTATE", delta: 1, heading: 2 },
+            { type: "MOVE", coords: [1.7,2.7], delta: [ 1.7, 1] },
+            { type: "POSITION", coords: [1.7,2.7] },
+        ], 1
+    );
 
     move_ok( ship, 
         { bank: -1, thrust: -1, turn: 2 }, {
         velocity: 4,
         heading: 2,
         coords: [ 1.73,2.73]
-    });
+    })();
 
 });
