@@ -48,6 +48,11 @@ test( 'shall we play a game?', () => {
         navigation: enkidu_orders,
     } );
 
+    battle.play_turn();
+    
+    // not yet...
+    expect(battle.state.game.turn).toBe(0);
+
     battle.set_orders( 'siduri', {
         navigation: { thrust: 1 },
     } );
@@ -62,23 +67,44 @@ test( 'shall we play a game?', () => {
 
     battle.play_turn();
 
-    // expect to have PLAY_TURN, MOVE_OBJECTS, MOVE_OBJECT, 
-    // MOVE_OBJECT_STORE, and then to have the 
-    // objects moved to their new places, 
-    // with their orders cleared out
-
     expect(battle.state.log.map( l => l.type ))
         .not.toContain('INIT_GAME');
 
     expect(battle.state.game).toMatchObject({ turn: 1 });
 
-    debug.inspectOpts.depth = 99;
-    debug(battle.state.log);
-
     // let's check the log
     expect( battle.state.log.map( l => l.type ) ).toEqual([
-        'PLAY_TURN', 'MOVE_OBJECTS'
+        'PLAY_TURN', 'MOVE_OBJECTS',
+        'MOVE_OBJECT', 'MOVE_OBJECT_STORE',
+        'MOVE_OBJECT', 'MOVE_OBJECT_STORE',
+        'MOVE_OBJECTS_DONE',
+        'CLEAR_ORDERS',
     ]);
+
+    // orders cleared out
+    battle.state.objects.forEach( obj => 
+        expect(obj).not.toHaveProperty('orders', expect.anything() )
+    );
+
+    const expect_close = val =>   val.map( v => x => expect(x).toBeCloseTo(v) );
+
+    // ships have moved
+    expect( _.find( battle.state.objects, { id: 'enkidu' } ).navigation )
+        .toMatchCloseTo({
+            heading: 1,
+            velocity: 1,
+            coords: [ 1.5, 0.9  ],
+        },1);
+
+    expect( _.find( battle.state.objects, { id: 'siduri' } ).navigation )
+        .toMatchCloseTo({
+            heading: 6,
+            velocity: 1,
+            coords: [ 10, 9  ],
+        },1);
+
+    debug.inspectOpts.depth = 99;
+    debug(battle.state.objects);
 
 
 })

@@ -20,6 +20,9 @@ export default function objects(state=[],action) {
 
         case actions.MOVE_OBJECT_STORE:
             return state.map( obj => object_reducer( obj, action ) );
+
+        case actions.CLEAR_ORDERS:
+            return state.map( obj => object_reducer( obj, action ) );
         
 
         default: return state;

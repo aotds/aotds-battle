@@ -27,6 +27,7 @@ actioner.$add( 'set_orders',
 );
 
 actioner.$add( 'move_objects' );
+actioner.$add( 'move_objects_done' );
 actioner.$add( 'move_object', object_id => ({ object_id }), object({
     object_id: 'string!'
 }));
@@ -35,6 +36,8 @@ actioner.$add( 'move_object_store', (object_id,navigation) => ({ object_id, navi
     navigation: { '$ref': 'http://aotds.babyl.ca/battle/action' },
 }));
 
-actioner.$add( 'play_turn' );
+actioner.$add( 'play_turn', function(force=false) { return { force }} );
+actioner.$add( 'start_turn' );
+actioner.$add( 'clear_orders' );
 
 export default actioner;
