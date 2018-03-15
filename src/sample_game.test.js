@@ -77,7 +77,6 @@ test( 'shall we play a game?', () => {
         'PLAY_TURN', 'MOVE_OBJECTS',
         'MOVE_OBJECT', 'MOVE_OBJECT_STORE',
         'MOVE_OBJECT', 'MOVE_OBJECT_STORE',
-        'MOVE_OBJECTS_DONE',
         'CLEAR_ORDERS',
     ]);
 

@@ -7,6 +7,12 @@ const schema = object(
         game: object({
             name: 'string!',
             turn: 'integer!',
+            players: array(
+                object({
+                    id: 'string!',
+                    status: 'string', // active, inactive
+                }),
+            ),
         }),
         objects: array(
             { '$ref': 'http://aotds.babyl.ca/battle/ship' }

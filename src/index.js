@@ -4,7 +4,7 @@ import createSagaMiddleware from 'redux-saga';
 import _ from 'lodash';
 
 import reducer from './reducer';
-import sagas from './sagas';
+import middlewares from './middlewares';
 
 import Schemas from './schemas';
 
@@ -17,12 +17,11 @@ let schemas = new Schemas();
 export default class Battle {
 
     constructor( state = {} ) {
-        const MW_saga = createSagaMiddleware();
 
         this.store = createStore( 
             reducer,
             state,
-            applyMiddleware( MW_saga )
+            applyMiddleware( ...middlewares )
         );
 
         this.store.subscribe( () => {
@@ -32,7 +31,6 @@ export default class Battle {
             )
         });
 
-        MW_saga.run( sagas );
     }
 
     get state() { return this.store.getState() }

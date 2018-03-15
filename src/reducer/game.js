@@ -14,7 +14,7 @@ export default function game(state=original_state,action) {
         case actions.INIT_GAME:
             return u( _.pick(action.game, ['name']) )(state);
 
-        case actions.START_TURN:
+        case actions.PLAY_TURN:
             return u( { turn: t => t+1 })(state);
 
         default: return state;

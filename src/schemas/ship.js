@@ -91,6 +91,7 @@ export default object(
         navigation, 
         orders, 
         drive_rating,
+        player_id: 'string',
     },
     {
         '$id': 'http://aotds.babyl.ca/battle/ship',
