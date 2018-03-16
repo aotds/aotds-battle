@@ -20,7 +20,7 @@ import Actions from '../actions';
 //     bank: 'integer',
 // }
 
-export function *plot_movement( ship, orders = {} ) {
+export function plot_movement( ship, orders = {} ) {
     let navigation = ship.navigation;
 
     navigation = u({ trajectory: [
@@ -34,7 +34,6 @@ export function *plot_movement( ship, orders = {} ) {
     let engine_rating = _.get( ship, 'drive_rating', 0 );
 
     let engine_power = engine_rating;
-    debug("here");
 
     let thrust_range = [
          _.max([ -engine_power, -navigation.velocity]), engine_power 
@@ -80,7 +79,7 @@ export function *plot_movement( ship, orders = {} ) {
         type: 'POSITION', coords: navigation.coords 
     })})(navigation);
 
-    yield Actions.move_object_store( ship.id, navigation );
+    return { navigation };
 }
 
 export

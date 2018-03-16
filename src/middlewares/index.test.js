@@ -17,8 +17,10 @@ test( 'move objects', () => {
 
     store.dispatch( Actions.move_objects() );
 
-    expect( store.getActions() ).toEqual( 
-        [ 'enkidu', 'siduri' ].map( Actions.move_object ) );
+    expect( store.getActions() ).toMatchObject( 
+        [ Actions.move_objects() ].concat( 
+        [ 'enkidu', 'siduri' ].map( Actions.move_object ) ) )
+
 
 })
 

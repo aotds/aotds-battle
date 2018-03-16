@@ -12,7 +12,8 @@ test( 'shall we play a game?', () => {
 
     battle.init_game( {
         game: {
-            name: 'gemini',
+            name: 'gemini', 
+            players: [ { id: "yanick" }, { id: "yenzie" } ],
         },
         objects: [
             { name: 'Enkidu', id: 'enkidu',
@@ -22,6 +23,7 @@ test( 'shall we play a game?', () => {
                     heading: 0,
                     velocity: 0,
                 },
+                player_id: "yanick",
             },
             { name: 'Siduri', id: 'siduri',
                 drive_rating: 6,
@@ -30,6 +32,7 @@ test( 'shall we play a game?', () => {
                     heading: 6,
                     velocity: 0,
                 },
+                player_id: "yenzie",
             },
         ],
     });
@@ -75,8 +78,8 @@ test( 'shall we play a game?', () => {
     // let's check the log
     expect( battle.state.log.map( l => l.type ) ).toEqual([
         'PLAY_TURN', 'MOVE_OBJECTS',
-        'MOVE_OBJECT', 'MOVE_OBJECT_STORE',
-        'MOVE_OBJECT', 'MOVE_OBJECT_STORE',
+        'MOVE_OBJECT',
+        'MOVE_OBJECT',
         'CLEAR_ORDERS',
     ]);
 

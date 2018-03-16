@@ -12,7 +12,7 @@ export default function game(state=original_state,action) {
 
     switch( action.type ) {
         case actions.INIT_GAME:
-            return u( _.pick(action.game, ['name']) )(state);
+            return u( _.pick(action.game, ['name', 'players']) )(state);
 
         case actions.PLAY_TURN:
             return u( { turn: t => t+1 })(state);

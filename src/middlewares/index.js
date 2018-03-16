@@ -1,11 +1,12 @@
 import _ from 'lodash';
+import u from 'updeep';
 
 let middlewares = []
 export default middlewares;
 
 import Actions from '../actions';
 
-import { get_object_by_id, players_not_done } from './selectors';
+import { get_object_by_id, players_not_done, active_players } from './selectors';
 
 function mw_for( target, inner ) {
     return store => next => action => {
@@ -27,16 +28,13 @@ export
 const object_movement_phase = mw_for( Actions.MOVE_OBJECT, 
     ({getState, dispatch}) => next => action => {
 
-        next(action);
-
         let object = get_object_by_id( getState(), action.object_id );
 
-        let mov = plot_movement( object, _.get( object, 'orders.navigation', {} ) );
-
-        for ( let action of mov ) {
-            debug(action);
-            dispatch(action);
-        }
+        next(
+            u(
+                plot_movement( object, _.get( object, 'orders.navigation' ) )
+            )(action)
+        )
 });
 
 // players
@@ -51,9 +49,11 @@ export
 const play_turn = mw_for( Actions.PLAY_TURN, 
     ({getState, dispatch}) => next => action => {
 
-    if ( !action.force 
-            && players_not_done(getState().length == 0 )
-            && active_players(getState()).length > 1 ) {
+    debug(players_not_done(getState()))
+
+    if ( !action.force && (
+            players_not_done(getState()).length > 0 
+            || active_players(getState()).length <= 1 ) ) {
         return;
     }
 

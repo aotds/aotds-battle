@@ -5,7 +5,7 @@ let debug = require('debug')('aotds:battle:reducer:object');
 
 export default function object(state={}, action ) {
     switch( action.type ) {
-        case actions.MOVE_OBJECT_STORE: 
+        case actions.MOVE_OBJECT: 
             let { object_id, navigation } = action;
             return u.if( u.is( 'id', object_id ), { navigation } )(state);
 

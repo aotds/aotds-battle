@@ -1,10 +1,9 @@
-import tap from 'tap';
 import _ from 'lodash';
 const debug = require('debug')('aotds:battle:test');
 
 import Battle from './index';
 
-tap.test( 'set orders for enkidu', tap => {
+test( 'set orders for enkidu', () => {
 
     const battle = new Battle();
 
@@ -27,18 +26,15 @@ tap.test( 'set orders for enkidu', tap => {
 
     let state = battle.state;
 
-    debug( "%O", state);
-
-    tap.match( _.find( state.objects, { id: 'enkidu' } ), { 
-        orders: {
-            done: true,
-            navigation: {
-                thrust: 3,
-                turn:  -1,
-            },
-        }
-    }, 'enkidu' );
-
-    tap.end();
+    expect( _.find( state.objects, { id: 'enkidu' } ) )
+        .toMatchObject({ 
+            orders: {
+                done: true,
+                navigation: {
+                    thrust: 3,
+                    turn:  -1,
+                },
+            }
+    });
 })
 
