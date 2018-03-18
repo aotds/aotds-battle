@@ -9,7 +9,7 @@ import logger from '../Logger';
 let attacker = {
     "id" : "enkidu",
     "name" : "Enkidu",
-         "engine_rating": 5,
+    "drive_rating": 5,
     "heading": 0,
     "coords" : [ 0, 0 ],
     "firecons" : [ { "id" : 0, target_id: 'siduri' } ],

@@ -1,5 +1,5 @@
 import actions from '../actions';
-import _ from 'lodash';
+import fp from 'lodash/fp';
 import u from 'updeep';
 
 const debug = require('debug')('aotds:reducer:game');
@@ -8,16 +8,21 @@ const original_state = {
     turn: 0,
 };
 
-export default function game(state=original_state,action) {
+let red  = {};
 
-    switch( action.type ) {
-        case actions.INIT_GAME:
-            return u( _.pick(action.game, ['name', 'players']) )(state);
+// action => state => new_state
 
-        case actions.PLAY_TURN:
-            return u( { turn: t => t+1 })(state);
+red[actions.INIT_GAME] = ({game}) =>
+    u( fp.pick(['name', 'players'])(game) );
 
-        default: return state;
+red[actions.PLAY_TURN] = () => u( { turn: t => t+1 });
+
+function create_reducer( redupieces, initial_state = {} ) {
+    return function( state = initial_state, action ) {
+        let red = redupieces[action.type];
+        return red ? red(action)(state) : state;
     }
-
 }
+
+export default create_reducer( red, original_state );
+

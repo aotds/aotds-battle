@@ -84,6 +84,21 @@ const name = definitions::add( 'name',
     'string',
 );
 
+const firecon = definitions::add('firecon', object({
+    target_id: 'string',
+});
+
+const weapon = definitions::add('weapon', object({
+    type: 'string',
+    level: 'integer',
+});
+
+const weaponry  = definitions::add('weaponry', object({
+    nbr_firecons: 'integer',
+    firecons: array(firecon),
+    weapons: array(weapon),
+}))
+
 export default object(
     { 
         id: 'string',
@@ -91,6 +106,7 @@ export default object(
         navigation, 
         orders, 
         drive_rating,
+        weaponry,
         player_id: 'string',
     },
     {
