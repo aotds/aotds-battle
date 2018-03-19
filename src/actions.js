@@ -21,6 +21,14 @@ actioner.$add( 'set_orders',
                     turn:   integer(),
                     bank:   integer(),
                 }),
+                weaponry: object({
+                    firecons: array(object({
+                        firecon_id: 'integer',
+                        clear: 'boolean',
+                        weapons: array( 'integer' ),
+                        target_id: 'string'
+                    })),
+                }),
             }),
         }, { required: [ 'object_id' ] }
     )
@@ -39,5 +47,6 @@ actioner.$add( 'move_object_store', (object_id,navigation) => ({ object_id, navi
 actioner.$add( 'play_turn', function(force=false) { return { force }} );
 actioner.$add( 'start_turn' );
 actioner.$add( 'clear_orders' );
+
 
 export default actioner;

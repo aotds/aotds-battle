@@ -85,13 +85,16 @@ const name = definitions::add( 'name',
 );
 
 const firecon = definitions::add('firecon', object({
+    id:        'integer',
     target_id: 'string',
-});
+    weapons:   array( 'integer' ),
+}));
 
 const weapon = definitions::add('weapon', object({
+    id: 'integer',
     type: 'string',
     level: 'integer',
-});
+}));
 
 const weaponry  = definitions::add('weaponry', object({
     nbr_firecons: 'integer',

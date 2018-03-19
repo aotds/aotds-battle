@@ -44,6 +44,7 @@
     "babel-tap": "^5.0.0",
     "jest": "^22.4.2",
     "jest-html-reporter": "^2.0.0",
+    "redux-mock-store": "^1.5.1",
     "redux-saga-test-plan": "^3.5.1"
   },
   "ava": {
