@@ -1,3 +1,5 @@
+import u from 'updeep';
+
 import Actioner from 'actioner';
 import { object, array, string, integer } from 'json-schema-shorthand';
 
@@ -21,14 +23,12 @@ actioner.$add( 'set_orders',
                     turn:   integer(),
                     bank:   integer(),
                 }),
-                weaponry: object({
-                    firecons: array(object({
-                        firecon_id: 'integer',
-                        clear: 'boolean',
-                        weapons: array( 'integer' ),
-                        target_id: 'string'
-                    })),
-                }),
+                firecons: array(object({
+                    firecon_id: 'integer',
+                    clear: 'boolean',
+                    weapons: array( 'integer' ),
+                    target_id: 'string'
+                })),
             }),
         }, { required: [ 'object_id' ] }
     )
@@ -47,6 +47,26 @@ actioner.$add( 'move_object_store', (object_id,navigation) => ({ object_id, navi
 actioner.$add( 'play_turn', function(force=false) { return { force }} );
 actioner.$add( 'start_turn' );
 actioner.$add( 'clear_orders' );
+
+actioner.$add( 'execute_firecon_orders' );
+actioner.$add( 'execute_ship_firecon_orders',
+    ( object_id, firecon_id, orders ) => {
+        return {
+            object_id,
+            firecon_id,
+            ...orders,
+        };
+    },
+);
+
+actioner.$add( 'fire_weapons' );
+actioner.$add( 'fire_weapon', ( object_id, target_id, weapon_id ) => ({
+    object_id, target_id, weapon_id
+}),{
+    object_id: 'string!',
+    target_id: 'string!',
+    weapon_id: 'integer!',
+});
 
 
 export default actioner;

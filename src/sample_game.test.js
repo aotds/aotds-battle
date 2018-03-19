@@ -23,6 +23,12 @@ test( 'shall we play a game?', () => {
                     heading: 0,
                     velocity: 0,
                 },
+                weaponry: {
+                    firecons: [
+                        { id: 1 },
+                    ],
+                    weapons: [ { id: 1 }, { id: 2 }, { id: 3 } ],
+                },
                 player_id: "yanick",
             },
             { name: 'Siduri', id: 'siduri',
@@ -80,6 +86,8 @@ test( 'shall we play a game?', () => {
         'PLAY_TURN', 'MOVE_OBJECTS',
         'MOVE_OBJECT',
         'MOVE_OBJECT',
+        'EXECUTE_FIRECON_ORDERS',
+        'FIRE_WEAPONS',
         'CLEAR_ORDERS',
     ]);
 
@@ -105,9 +113,22 @@ test( 'shall we play a game?', () => {
             coords: [ 10, 9  ],
         },1);
 
-    debug.inspectOpts.depth = 99;
-    debug(battle.state.objects);
+    // turn 2 -- aiming guns at siduri
 
+    battle.set_orders( 'enkidu', {
+        firecons: [ { firecon_id: 1, target_id: 'siduri', weapons: [  1,2,3 ] } ], 
+    });
+
+    battle.play_turn(true);
+
+    expect( _.find( battle.state.objects, { id: 'enkidu' } ).weaponry.firecons )
+        .toEqual([
+            { id: 1, weapons: [1,2,3], target_id: 'siduri' }
+        ]);
+
+
+    debug.inspectOpts.depth = 99;
+    debug(battle.state.log);
 
 })
 

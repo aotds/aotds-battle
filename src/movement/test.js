@@ -62,7 +62,7 @@ test( 'simple movements', () => {
 
     for ( let a in angle ) {
         ship.navigation.heading = +a;
-        let [ movement ] = Array.from(plot_movement(ship));
+        let movement = plot_movement(ship);
         expect( movement.navigation ).toMatchCloseTo({
             coords: angle[a],
             heading: +a,
@@ -71,8 +71,7 @@ test( 'simple movements', () => {
 });
 
 const move_ok = ( ship, orders, expected ) => () => {
-    let [ { navigation } ] = Array.from(plot_movement(ship, orders));
-    debug("!!%O", expected);
+    let { navigation } = plot_movement(ship, orders);
     expect( navigation ).toMatchCloseTo( expected, 1 );
 };
 
@@ -157,12 +156,9 @@ test( 'complex manoeuvers', () => {
         navigation: { coords: [0,0], velocity: 5, heading: 0 }, drive_rating:  6 
     };
 
-    let [ { navigation } ] = Array.from( plot_movement( ship, 
+    let { navigation } = plot_movement( ship, 
         { bank: -1, thrust: -1, turn: 2 }
-    ) );
-
-    debug.inspectOpts.depth = 10;
-    debug( "%O", navigation);
+    );
 
     expect(navigation.trajectory).toBeDeepCloseTo(
         [

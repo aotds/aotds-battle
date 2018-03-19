@@ -75,6 +75,11 @@ const orders = definitions::add( 'orders', object({
         turn:   number(),
         bank:   number(),
     }),
+    firecons: array(object({
+        firecon_id: 'integer',
+        target_id:  'string',
+        weapons:    array('integer'),
+    })),
 }), "orders for the next turn");
 
 const drive_rating = definitions::add('drive_rating', number() );
