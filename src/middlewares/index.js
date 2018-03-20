@@ -121,6 +121,21 @@ const fire_weapon = mw_for( Actions.FIRE_WEAPON,
 
         next(action);
 
+        if( action.damage_dice ) {
+            dispatch( Actions.inflict_damage( 
+                target_id, { dice: action.damage_dice } 
+            ));
+        }
+
+        if( action.penetrating_damage_dice ) {
+            dispatch( Actions.inflict_damage( 
+                target_id, {
+                    dice: action.penetrating_damage_dice,
+                    penetrating: true 
+                } 
+            ));
+        }
+
     }
 );
 
