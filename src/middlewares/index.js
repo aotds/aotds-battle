@@ -6,17 +6,7 @@ import Actions from '../actions';
 
 import { get_object_by_id, players_not_done, active_players } from './selectors';
 
-function mw_for( target, inner ) {
-    return store => next => action => {
-        let func = next;
-
-        if( action.type === target ) {
-            func = inner(store)(next);
-        }
-
-        return func(action);
-    };
-}
+import { mw_for } from './utils';
 
 import { plot_movement } from '../movement';
 import * as weapons from '../weapons';
@@ -149,5 +139,3 @@ const middlewares = [
     fire_weapon,
 ];
 export default middlewares;
-
-middlewares.push();

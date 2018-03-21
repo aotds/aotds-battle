@@ -47,5 +47,7 @@ test( 'basic', () => {
         ],
     });
 
+    debug(battle.state.log);
+
 
 });
