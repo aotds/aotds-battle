@@ -1,6 +1,8 @@
 import fp from 'lodash/fp';
 import u from 'updeep';
 
+const debug = require('debug')('aotds:mw');
+
 import * as weapons from '../weapons';
 
 import { mw_for } from './utils';
@@ -39,21 +41,6 @@ const fire_weapon = mw_for( Actions.FIRE_WEAPON,
 
         next(action);
 
-        if( action.damage_dice ) {
-            dispatch( Actions.inflict_damage( 
-                target_id, { dice: action.damage_dice } 
-            ));
-        }
-
-        if( action.penetrating_damage_dice ) {
-            dispatch( Actions.inflict_damage( 
-                target_id, {
-                    dice: action.penetrating_damage_dice,
-                    penetrating: true 
-                } 
-            ));
-        }
-
     }
 );
 
@@ -76,9 +63,63 @@ const execute_firecon_orders = mw_for( Actions.EXECUTE_FIRECON_ORDERS,
     }
 );
 
+// must be after 'fire_weapon' to intercept the 
+// damage done
+
+// check if damage_dice and/or penetrating_damage_dice 
+// if there is any, send the DAMAGE
+const weapon_damages = mw_for( Actions.FIRE_WEAPON,
+    ({ getState, dispatch }) => next => action => {
+        next(action);
+
+        let object = get_object_by_id(getState(), action.object_id );
+        let weapon = fp.find({ id: action.weapon_id })( fp.getOr([])('weaponry.weapons')(object) );
+
+        let damage_dispatch = ([ dice, penetrating ]) => 
+            dispatch( Actions.damage( action.target_id, weapon.type, dice, penetrating ) );
+
+        [ [ 'damage_dice', false ], [ 'penetrating_damage_dice', true ] ]
+            .map( u({ 0: x => action[x] }) )
+            .filter( x => x[0] )
+            .forEach( damage_dispatch );
+    }
+);
+
+const ship_max_shield = fp.pipe(
+    fp.getOr([])('structure.shields'),
+    fp.map( 'level' ),
+    fp.max
+);
+
+export
+const calculate_damage = mw_for( Actions.DAMAGE,
+    ({ getState, dispatch }) => next => action => {
+        let ship = get_object_by_id(getState(), action.object_id );
+
+        let damage_table = { 4: 1, 5: 1, 6: 2 };
+
+        if( !action.penetrating ) {
+            let shield = ship_max_shield(ship);
+
+            damage_table = fp.pipe(
+                u.if(shield,{ 4: 0 }),
+                u.if(shield==2,{ 6: 1 }),
+            )(damage_table);
+        }
+
+        action = u({
+            damage: fp.sumBy( v => damage_table[v] || 0)(action.dice) 
+        })(action);
+
+        next(action);
+    }
+);
+
 let middlewares = [
     fire_weapons,
     fire_weapon,
     execute_firecon_orders,
+    weapon_damages,
+    calculate_damage,
 ];
 export default middlewares;

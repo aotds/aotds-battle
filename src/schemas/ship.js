@@ -105,7 +105,13 @@ const weaponry  = definitions::add('weaponry', object({
     nbr_firecons: 'integer',
     firecons: array(firecon),
     weapons: array(weapon),
-}))
+}));
+
+const structure = definitions::add('structure', object({
+    hull: object({ current: 'integer', max: 'integer', }),
+    armor: object({ current: 'integer', max: 'integer', }),
+    shields: array({ id: 'integer', level: 'integer' }),
+}));
 
 export default object(
     { 
@@ -115,6 +121,7 @@ export default object(
         orders, 
         drive_rating,
         weaponry,
+        structure,
         player_id: 'string',
     },
     {

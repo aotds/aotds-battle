@@ -4,6 +4,8 @@ import u from 'updeep';
 
 const debug = require('debug')('aotds:reducer:game');
 
+import { actions_reducer } from './utils';
+
 let redact  = {};
 
 redact.INIT_GAME = ({game}) =>
@@ -11,16 +13,9 @@ redact.INIT_GAME = ({game}) =>
 
 redact.PLAY_TURN = () => u( { turn: t => t+1 });
 
-function redactor( redactions, initial_state = {} ) {
-    return function( state = initial_state, action ) {
-        let red = redactions[action.type];
-        return red ? red(action)(state) : state;
-    }
-}
-
 const original_state = {
     turn: 0,
 };
 
-export default redactor( redact, original_state );
+export default actions_reducer( redact, original_state );
 

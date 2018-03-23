@@ -40,7 +40,6 @@ export function fire_weapon( attacker, target, weapon ) {
     let result = { weapon };
 
     result = u(relative_coords(attacker, target))(result);
-    debug(result);
 
     let in_range = fp.pipe([
         fp.getOr([],'arcs'),
@@ -58,14 +57,11 @@ export function fire_weapon( attacker, target, weapon ) {
         return u({ out_of_range: true })(result);
     }
 
-    let dice = roll_dice(nbr_dice);
-    result = u({ 
-        damage_dice: dice,
-        penetrating_damage_dice: roll_dice( 
-            dice.filter( d => d === 6 ).length,
-            {  reroll: [ 6 ] }
-        ),
-    })(result);
+    let damage_dice = roll_dice(nbr_dice);
+    debug(">>>",damage_dice);
+    let penetrating_damage_dice = roll_dice( damage_dice.filter( x => x == 6 ).length, { reroll: [ 6] } );
+
+    result = u(fp.pickBy( v => v.length )({ damage_dice, penetrating_damage_dice }))(result);
 
     return result;
 

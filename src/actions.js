@@ -68,5 +68,9 @@ actioner.$add( 'fire_weapon', ( object_id, target_id, weapon_id ) => ({
     weapon_id: 'integer!',
 });
 
+actioner.$add( 'damage', ( object_id, weapon_type, dice, penetrating=false ) => 
+    u.if( penetrating, { penetrating: true })({ object_id, weapon_type, dice })
+);
+
 
 export default actioner;

@@ -21,6 +21,7 @@ export default function objects(state=[],action) {
         case actions.MOVE_OBJECT:
         case actions.CLEAR_ORDERS:
         case actions.EXECUTE_SHIP_FIRECON_ORDERS:
+        case actions.DAMAGE:
             return state.map( obj => object_reducer( obj, action ) );
 
         

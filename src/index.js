@@ -24,12 +24,12 @@ export default class Battle {
             applyMiddleware( ...middlewares )
         );
 
-        this.store.subscribe( () => {
-            schemas.validate(
-                { '$ref': 'http://aotds.babyl.ca/battle/game_turn'},
-                this.state
-            )
-        });
+        // this.store.subscribe( () => {
+        //     schemas.validate(
+        //         { '$ref': 'http://aotds.babyl.ca/battle/game_turn'},
+        //         this.state
+        //     )
+        // });
 
     }
 

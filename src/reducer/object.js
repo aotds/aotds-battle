@@ -4,6 +4,8 @@ import fp from 'lodash/fp';
 
 let debug = require('debug')('aotds:battle:reducer:object');
 
+import structure from './objects/object/structure';
+
 function firecon_reducer(state = {}, action ) {
     switch( action.type ) {
         case actions.EXECUTE_SHIP_FIRECON_ORDERS:
@@ -22,6 +24,11 @@ function firecon_reducer(state = {}, action ) {
 
 export default function object(state={}, action ) {
     switch( action.type ) {
+        case actions.DAMAGE:
+            return u.if(
+                u.is( 'id', action.object_id ),
+                { structure: s => structure(s,action) })(state);
+
         case actions.MOVE_OBJECT: 
             let { object_id, navigation } = action;
             return u.if( u.is( 'id', object_id ), { navigation } )(state);

@@ -4,9 +4,62 @@ expect.extend({toBeDeepCloseTo, toMatchCloseTo });
 import _ from 'lodash';
 const debug = require('debug')('aotds:battle:test');
 
+import { cheatmode, rig_dice } from './dice';
+
+import * as structure_reducer from './reducer/objects/object/structure';
+
 import Battle from './index';
 
+import { get_object_by_id } from './middlewares/selectors';
+
+import { writeFile } from 'fs';
+
+function turn3(battle) {
+    // turn 3, we stop and fire like mad
+
+    rig_dice([4,1]);
+
+    [ 'enkidu', 'siduri' ].forEach( ship =>
+        battle.set_orders( ship, { navigation: { thrust: -1 }, } ) 
+    );
+    battle.play_turn(true);
+
+    [ 'enkidu', 'siduri' ].forEach( ship => expect(
+            get_object_by_id(battle.state,ship).navigation.velocity
+        ).toEqual(0)
+    );
+}
+
+function turn4(battle) {
+
+    rig_dice([6,1,6,2]);
+
+    battle.play_turn(true);
+
+    expect( get_object_by_id(battle.state,'siduri').structure )
+        .toMatchObject({
+            hull:  { current: 3, max: 4 },
+            armor: { current: 1, max: 4 },
+        });
+}
+
+function turn5(battle) {
+
+    rig_dice([5,3]);
+
+    battle.play_turn(true);
+
+    expect( get_object_by_id(battle.state,'siduri').structure )
+        .toMatchObject({
+            hull:  { current: 3, max: 4 },
+            armor: { current: 0, max: 4 },
+        });
+}
+
+
 test( 'shall we play a game?', () => {
+
+    cheatmode();
 
     const battle = new Battle();
 
@@ -27,7 +80,15 @@ test( 'shall we play a game?', () => {
                     firecons: [
                         { id: 1 },
                     ],
-                    weapons: [ { id: 1 }, { id: 2 }, { id: 3 } ],
+                    weapons: [ { id: 1, 
+                        type: "beam", class: 1,
+                        arcs: [ 'F' ] },
+                        { id: 2, arcs: [ 'FS' ],
+                        type: "beam", class: 1,
+                        }, 
+                        { id: 3, arcs: [ 'FP' ],
+                        type: "beam", class: 1,
+                        } ],
                 },
                 player_id: "yanick",
             },
@@ -39,6 +100,11 @@ test( 'shall we play a game?', () => {
                     velocity: 0,
                 },
                 player_id: "yenzie",
+                structure: structure_reducer.inflate_state({
+                    hull: 4,
+                    shields: [ 1, 2 ],
+                    armor: 4,
+                }),
             },
         ],
     });
@@ -119,6 +185,7 @@ test( 'shall we play a game?', () => {
         firecons: [ { firecon_id: 1, target_id: 'siduri', weapons: [  1,2,3 ] } ], 
     });
 
+    rig_dice([ 6, 5, 3 ]);
     battle.play_turn(true);
 
     expect( _.find( battle.state.objects, { id: 'enkidu' } ).weaponry.firecons )
@@ -126,9 +193,22 @@ test( 'shall we play a game?', () => {
             { id: 1, weapons: [1,2,3], target_id: 'siduri' }
         ]);
 
+    expect( _.find( battle.state.objects, { id: 'siduri' } ).structure )
+        .toMatchObject({
+            hull: { current: 3, max: 4 },
+            armor: { current: 3, max: 4 },
+        });
+
+    turn3(battle);
+    turn4(battle);
+    turn5(battle);
+
 
     debug.inspectOpts.depth = 99;
     debug(battle.state.log);
+
+    writeFile('./state.json',JSON.stringify(battle.state,null,2) );
+
 
 })
 

@@ -1,10 +1,17 @@
 import fp from 'lodash/fp';
 
-const roll_die = () => rigged_dice.length > 0 
+let roll_die = () => rigged_dice.length > 0 
                         ? rigged_dice.shift() 
                         : fp.random(1,6);
 
 export let rigged_dice = [];
+
+export function cheatmode() {
+    roll_die = () => { 
+        if ( rigged_dice.length ) return rigged_dice.shift();
+        throw new Error("not enough dice");
+    };
+}
 
 /** 
  * Rig the next calls to roll_dice()
