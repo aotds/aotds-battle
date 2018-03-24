@@ -63,10 +63,10 @@ const execute_firecon_orders = mw_for( Actions.EXECUTE_FIRECON_ORDERS,
     }
 );
 
-// must be after 'fire_weapon' to intercept the 
+// must be after 'fire_weapon' to intercept the
 // damage done
 
-// check if damage_dice and/or penetrating_damage_dice 
+// check if damage_dice and/or penetrating_damage_dice
 // if there is any, send the DAMAGE
 const weapon_damages = mw_for( Actions.FIRE_WEAPON,
     ({ getState, dispatch }) => next => action => {
@@ -75,7 +75,7 @@ const weapon_damages = mw_for( Actions.FIRE_WEAPON,
         let object = get_object_by_id(getState(), action.object_id );
         let weapon = fp.find({ id: action.weapon_id })( fp.getOr([])('weaponry.weapons')(object) );
 
-        let damage_dispatch = ([ dice, penetrating ]) => 
+        let damage_dispatch = ([ dice, penetrating ]) =>
             dispatch( Actions.damage( action.target_id, weapon.type, dice, penetrating ) );
 
         [ [ 'damage_dice', false ], [ 'penetrating_damage_dice', true ] ]
@@ -108,7 +108,7 @@ const calculate_damage = mw_for( Actions.DAMAGE,
         }
 
         action = u({
-            damage: fp.sumBy( v => damage_table[v] || 0)(action.dice) 
+            damage: fp.sumBy( v => damage_table[v] || 0)(action.dice)
         })(action);
 
         next(action);

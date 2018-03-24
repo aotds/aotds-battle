@@ -44,7 +44,10 @@ export function fire_weapon( attacker, target, weapon ) {
     let in_range = fp.pipe([
         fp.getOr([],'arcs'),
         fp.map( arc => arc_range[arc] ),
-        fp.some( range => fp.inRange(...range)(result.bearing) )
+        fp.flatten,
+        x => { debug(x); return x},
+        fp.some( range => { debug(range, " ", result.bearing); 
+            return fp.inRange(...range)(result.bearing) } )
     ])(weapon);
 
     if(!in_range) {

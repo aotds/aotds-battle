@@ -14,54 +14,10 @@ import { get_object_by_id } from './middlewares/selectors';
 
 import { writeFile } from 'fs';
 
-function turn3(battle) {
-    // turn 3, we stop and fire like mad
+let turns = [];
 
-    rig_dice([4,1]);
-
-    [ 'enkidu', 'siduri' ].forEach( ship =>
-        battle.set_orders( ship, { navigation: { thrust: -1 }, } ) 
-    );
-    battle.play_turn(true);
-
-    [ 'enkidu', 'siduri' ].forEach( ship => expect(
-            get_object_by_id(battle.state,ship).navigation.velocity
-        ).toEqual(0)
-    );
-}
-
-function turn4(battle) {
-
-    rig_dice([6,1,6,2]);
-
-    battle.play_turn(true);
-
-    expect( get_object_by_id(battle.state,'siduri').structure )
-        .toMatchObject({
-            hull:  { current: 3, max: 4 },
-            armor: { current: 1, max: 4 },
-        });
-}
-
-function turn5(battle) {
-
-    rig_dice([5,3]);
-
-    battle.play_turn(true);
-
-    expect( get_object_by_id(battle.state,'siduri').structure )
-        .toMatchObject({
-            hull:  { current: 3, max: 4 },
-            armor: { current: 0, max: 4 },
-        });
-}
-
-
-test( 'shall we play a game?', () => {
-
-    cheatmode();
-
-    const battle = new Battle();
+turns.push(
+    (battle) => {
 
     battle.init_game( {
         game: {
@@ -81,7 +37,7 @@ test( 'shall we play a game?', () => {
                         { id: 1 },
                     ],
                     weapons: [ { id: 1, 
-                        type: "beam", class: 1,
+                        type: "beam", class: 2,
                         arcs: [ 'F' ] },
                         { id: 2, arcs: [ 'FS' ],
                         type: "beam", class: 1,
@@ -179,8 +135,14 @@ test( 'shall we play a game?', () => {
             coords: [ 10, 9  ],
         },1);
 
-    // turn 2 -- aiming guns at siduri
+        return battle;
 
+    }
+);
+
+turns.push(turn2);
+
+function turn2(battle) {
     battle.set_orders( 'enkidu', {
         firecons: [ { firecon_id: 1, target_id: 'siduri', weapons: [  1,2,3 ] } ], 
     });
@@ -199,9 +161,109 @@ test( 'shall we play a game?', () => {
             armor: { current: 3, max: 4 },
         });
 
-    turn3(battle);
-    turn4(battle);
-    turn5(battle);
+    return battle;
+};
+
+
+function turn3(battle) {
+    // turn 3, we stop and fire like mad
+
+    rig_dice([4,1]);
+
+    [ 'enkidu', 'siduri' ].forEach( ship =>
+        battle.set_orders( ship, { navigation: { thrust: -1 }, } ) 
+    );
+    battle.play_turn(true);
+
+    [ 'enkidu', 'siduri' ].forEach( ship => expect(
+            get_object_by_id(battle.state,ship).navigation.velocity
+        ).toEqual(0)
+    );
+
+    return battle;
+}
+
+function turn4(battle) {
+
+    rig_dice([6,1,6,2]);
+
+    battle.play_turn(true);
+
+
+    expect( get_object_by_id(battle.state,'siduri').structure )
+        .toMatchObject({
+            hull:  { current: 1, max: 4 },
+            armor: { current: 2, max: 4 },
+        });
+
+    return battle;
+}
+
+function turn5(battle) {
+
+    rig_dice([5,3]);
+
+    battle.play_turn(true);
+
+    expect( get_object_by_id(battle.state,'siduri').structure )
+        .toMatchObject({
+            hull:  { current: 1, max: 4 },
+            armor: { current: 1, max: 4 },
+        });
+
+    return battle;
+}
+
+function turn6(battle) {
+
+    rig_dice([4,6,2]);
+
+    battle.play_turn(true);
+
+    debug( battle.state.log );
+    expect( get_object_by_id(battle.state,'siduri').structure )
+        .toMatchObject({
+            hull:  { current: 1, max: 4 },
+            armor: { current: 0, max: 4 },
+        });
+
+    return battle;
+}
+
+function turn7(battle) {
+
+    rig_dice([5,2]);
+
+    battle.play_turn(true);
+
+    debug( battle.state.log );
+    expect( get_object_by_id(battle.state,'siduri').structure )
+        .toMatchObject({
+            hull:  { current: 0, max: 4 },
+            armor: { current: 0, max: 4 },
+            status: "destroyed",
+        });
+
+    return battle;
+}
+
+
+describe( 'shall we play a game?', () => {
+
+    cheatmode();
+
+    turns.push( turn3, turn4, turn5, turn6, turn7 );
+
+    turns.reduce( (previous_turn,turn) => new Promise((resolve) => {
+        test( 'turn ' + turn.name, async () => {
+            let battle = await previous_turn;
+            if(!battle) { battle = new Battle }
+            resolve(turn(battle));
+        });
+    }), Promise.resolve(null) );
+
+
+    return;
 
 
     debug.inspectOpts.depth = 99;
