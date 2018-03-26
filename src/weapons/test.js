@@ -1,7 +1,25 @@
-import { fire_weapon } from './index';
+import { fire_weapon, relative_coords } from './index';
 import { rig_dice } from '../dice';
+import u from 'updeep';
+import fp from 'lodash/fp';
 
 const debug = require('debug')('aotds:weapons');
+
+describe( 'relative_coords', () => {
+    let attacker = { navigation: { coords: [0,0], heading: 1 }, };
+    let target   = { navigation: { coords: [ 0, 10 ], heading: 5 } };
+
+    [
+        { coords: [ 0, 10 ],  e: { angle: 0, bearing: -1, target_angle: 6, target_bearing: 1 } },
+        { coords: [ 0, -10 ], e: { angle: 6, bearing: 5, target_angle: 0, target_bearing: -5  } },
+        { coords: [ 10, 0 ],  e: { angle: 3, bearing: 2, target_angle: -3, target_bearing: 4  } },
+    ]
+        .forEach( ({ coords, e }) => {
+            test( JSON.stringify(coords), () => {
+            expect( relative_coords(attacker, u.updateIn('navigation.coords', coords )(target) ) ).toMatchObject(e);
+            })
+    });
+});
 
 test( 'basic',  () => {
 
@@ -50,3 +68,31 @@ test( 'beam-2',  () => {
     });
 
 });
+
+
+describe.only( 'target bearing',  () => {
+
+    let attacker = { navigation: { coords: [0,0], heading: 0 }, };
+    let target   = { navigation: { coords: [ 0, 10 ], heading: 0 } };
+    let weapon   = { type: 'beam', class: 2, arcs: [ 'F' ] };
+
+
+    fp.times(Number)(12).forEach( heading => test( `heading ${heading}`, () => {
+        rig_dice( fp.times( fp.constant(1) )(6) );
+
+        let result = fire_weapon( 
+            attacker, 
+            u.updateIn( 'navigation.heading', heading )(target),
+            weapon 
+        );
+
+        let type = ( [0,1,11].some( x => heading === x ) ) ? 'penetrating_damage_dice' : 'damage_dice';
+
+        expect(result).toMatchObject({
+            [type]: [1,1],
+        });
+    }));
+
+});
+
+

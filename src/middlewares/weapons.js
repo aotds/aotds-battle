@@ -37,9 +37,8 @@ const fire_weapon = mw_for( Actions.FIRE_WEAPON,
 
         if(object && target && weapon) {
             action = u( weapons.fire_weapon( object, target, weapon ) )(action);
+            next(action);
         }
-
-        next(action);
 
     }
 );

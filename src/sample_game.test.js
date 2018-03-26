@@ -60,6 +60,7 @@ turns.push(
                     hull: 4,
                     shields: [ 1, 2 ],
                     armor: 4,
+                    status: 'nominal',
                 }),
             },
         ],
@@ -220,11 +221,11 @@ function turn6(battle) {
 
     battle.play_turn(true);
 
-    debug( battle.state.log );
     expect( get_object_by_id(battle.state,'siduri').structure )
         .toMatchObject({
             hull:  { current: 1, max: 4 },
             armor: { current: 0, max: 4 },
+            status: "nominal"
         });
 
     return battle;
@@ -236,7 +237,6 @@ function turn7(battle) {
 
     battle.play_turn(true);
 
-    debug( battle.state.log );
     expect( get_object_by_id(battle.state,'siduri').structure )
         .toMatchObject({
             hull:  { current: 0, max: 4 },
@@ -247,12 +247,27 @@ function turn7(battle) {
     return battle;
 }
 
+function turn8(battle) {
+
+    battle.play_turn(true);
+
+    expect( get_object_by_id(battle.state,'siduri') ).toBeUndefined();
+    expect( get_object_by_id(battle.state,'enkidu') ).toBeDefined();
+
+    expect( battle.state.log.map( l => l.type ) ).not.toContain( 'FIRE_WEAPON' );
+
+    debug.inspectOpts.depth = 99;
+    debug(battle.state);
+
+    return battle;
+}
+
 
 describe( 'shall we play a game?', () => {
 
     cheatmode();
 
-    turns.push( turn3, turn4, turn5, turn6, turn7 );
+    turns.push( turn3, turn4, turn5, turn6, turn7, turn8 );
 
     turns.reduce( (previous_turn,turn) => new Promise((resolve) => {
         test( 'turn ' + turn.name, async () => {
@@ -267,7 +282,7 @@ describe( 'shall we play a game?', () => {
 
 
     debug.inspectOpts.depth = 99;
-    debug(battle.state.log);
+//    debug(battle.state.log);
 
     writeFile('./state.json',JSON.stringify(battle.state,null,2) );
 

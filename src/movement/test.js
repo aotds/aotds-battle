@@ -168,7 +168,6 @@ test( 'complex manoeuvers', () => {
             { type: "MOVE", coords: [0,1.7], delta: [ 1, 1.7] },
             { type: "ROTATE", delta: 1, heading: 2 },
             { type: "MOVE", coords: [1.7,2.7], delta: [ 1.7, 1] },
-            { type: "POSITION", coords: [1.7,2.7] },
         ], 1
     );
 

@@ -25,10 +25,10 @@ export default class Battle {
         );
 
         // this.store.subscribe( () => {
-        //     schemas.validate(
-        //         { '$ref': 'http://aotds.babyl.ca/battle/game_turn'},
-        //         this.state
-        //     )
+        //      schemas.validate(
+        //          { '$ref': 'http://aotds.babyl.ca/battle/game_turn'},
+        //          this.state
+        //      )
         // });
 
     }

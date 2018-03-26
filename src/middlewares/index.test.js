@@ -63,7 +63,6 @@ test( 'move object without orders', () => {
             trajectory: [
                 { type: 'POSITION', coords: [1,2] },
                 { type: 'MOVE', delta: [2.5,4.3] },
-                { type: 'POSITION', coords: [3.5,6.3] },
             ],
         }
     });

@@ -1,9 +1,19 @@
 import fp from 'lodash/fp';
 import u from 'updeep';
 
-import { roll_dice } from '../dice';
+import { roll_dice, cheatmode } from '../dice';
 
 const debug = require('debug')('aotds:test');
+
+cheatmode();
+
+const rad2angle = rad => rad * 6 / Math.PI;
+
+const canonize_angle = angle => {
+    while( angle > 6 ) { angle -= 12; }
+    while( angle <= -6 ) { angle += 12; }
+    return angle;
+};
 
 
 export
@@ -15,42 +25,50 @@ function relative_coords(ship, target ) {
         fp.map( x => x[1]-x[0] )
     ])([ship,target]);
 
-    result.angle = Math.atan2(relative[0], relative[1])
-        * 6 / Math.PI;
+    result.angle = rad2angle( Math.atan2(relative[0], relative[1]) );
 
     result.bearing = result.angle - ship.navigation.heading;
 
-    result.distance = Math.sqrt(
-        fp.sum( relative.map(function (x) { return Math.pow(x, 2); }) )
-    );
+    result.target_angle = 6 + result.angle;
+
+    result.target_bearing = result.target_angle - target.navigation.heading;
+
+    result = u({ 
+        angle:          canonize_angle,
+        bearing:        canonize_angle,
+        target_bearing: canonize_angle,
+        target_angle:   canonize_angle,
+        distance:       Math.sqrt(
+            fp.sum( relative.map(function (x) { return Math.pow(x, 2); }) )
+        )
+    })(result);
 
     return result;
 }
 
 const arc_range = {
-    F:  [[ 11, 12 ],[ 0, 1 ]],
+    F:  [[ -1, 1 ]],
     FS: [[ 1, 3 ]],
     AS: [[ 3, 5 ]],
-    A:  [[ 5, 7 ]],
-    AP: [[ 7, 9 ]],
-    FP: [[ 9, 11 ]],
+    A:  [[ 5, 6], [-6,-5]],
+    AP: [[ -5, -3 ]],
+    FP: [[ -3, -1 ]],
 };
+
+const in_range = (min,max) => value => {
+    return ( value >= min ) && (value <= max );
+}
+
+function inArc( angle, arcs = Object.keys(arc_range) ){
+    return arcs.find( a => arc_range[a].some( r => in_range(...r)(angle) ) )
+}
 
 export function fire_weapon( attacker, target, weapon ) {
     let result = { weapon };
 
     result = u(relative_coords(attacker, target))(result);
 
-    let in_range = fp.pipe([
-        fp.getOr([],'arcs'),
-        fp.map( arc => arc_range[arc] ),
-        fp.flatten,
-        x => { debug(x); return x},
-        fp.some( range => { debug(range, " ", result.bearing); 
-            return fp.inRange(...range)(result.bearing) } )
-    ])(weapon);
-
-    if(!in_range) {
+    if(!inArc(result.bearing, fp.getOr([],'arcs')(weapon) )) {
         return u({ no_firing_arc: true })(result);
     }
 
@@ -60,9 +78,16 @@ export function fire_weapon( attacker, target, weapon ) {
         return u({ out_of_range: true })(result);
     }
 
-    let damage_dice = roll_dice(nbr_dice);
-    debug(">>>",damage_dice);
-    let penetrating_damage_dice = roll_dice( damage_dice.filter( x => x == 6 ).length, { reroll: [ 6] } );
+    let damage_dice = [];
+    let penetrating_damage_dice = [];
+
+    damage_dice = roll_dice(nbr_dice);
+    penetrating_damage_dice = roll_dice( damage_dice.filter( x => x == 6 ).length, { reroll: [ 6] } );
+
+    if( inArc( result.target_bearing, [ 'A' ] ) ) {
+        penetrating_damage_dice.unshift( ...damage_dice );
+        damage_dice = [];
+    }
 
     result = u(fp.pickBy( v => v.length )({ damage_dice, penetrating_damage_dice }))(result);
 

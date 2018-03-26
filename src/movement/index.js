@@ -64,7 +64,6 @@ export function plot_movement( ship, orders = {} ) {
 
     if( turn ) {
         let thrust = two_steps(navigation.velocity);
-        debug(thrust)
         let t      = two_steps(turn);
 
         _.zip( t, thrust ).forEach( m => {
@@ -75,9 +74,9 @@ export function plot_movement( ship, orders = {} ) {
         navigation = move_thrust( navigation, navigation.velocity );
     }
 
-    navigation = u({ trajectory: upush({ 
-        type: 'POSITION', coords: navigation.coords 
-    })})(navigation);
+    // navigation = u({ trajectory: upush({ 
+    //     type: 'POSITION', coords: navigation.coords 
+    // })})(navigation);
 
     return { navigation };
 }
@@ -89,7 +88,7 @@ function move_thrust( navigation, thrust ) {
 
     let coords = _.zip( navigation.coords, delta ).map( _.sum ); 
 
-    return u({
+    return u.if(thrust, {
         trajectory: upush({ type: 'MOVE', delta, coords }),
         coords
     })(navigation);
