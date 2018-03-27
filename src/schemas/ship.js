@@ -85,7 +85,7 @@ const orders = definitions::add( 'orders', object({
 const drive = definitions::add('drive', object({
     rating: 'integer',
     current: 'integer',
-    active: 'boolean',
+    thrust_used: 'integer',
     damage_level: {
         type: 'integer',
         enum: [ 0, 1, 2 ],

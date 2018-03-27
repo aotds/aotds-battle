@@ -72,6 +72,10 @@ export function fire_weapon( attacker, target, weapon ) {
         return u({ no_firing_arc: true })(result);
     }
 
+    if( inArc(result.bearing,['A']) && fp.get('drive.thrust_used')(attacker) ) {
+        return u({ drive_interference: true })(result);
+    }
+
     var nbr_dice = weapon.class - Math.trunc( result.distance / 12);
 
     if (nbr_dice <= 0) {

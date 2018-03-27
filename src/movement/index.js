@@ -75,6 +75,8 @@ export function plot_movement( ship, orders = {} ) {
         navigation = move_thrust( navigation, navigation.velocity );
     }
 
+    navigation = u({ thrust_used: engine_rating - engine_power })(navigation);
+
     // navigation = u({ trajectory: upush({ 
     //     type: 'POSITION', coords: navigation.coords 
     // })})(navigation);

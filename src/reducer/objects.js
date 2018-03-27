@@ -3,7 +3,7 @@ import u from 'updeep';
 
 import { actions_reducer } from './utils';
 
-import object_reducer from './object';
+import object_reducer from './objects/object';
 
 let debug = require('debug')('aotds:test');
 

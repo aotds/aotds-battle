@@ -1,7 +1,9 @@
 import { fire_weapon, relative_coords } from './index';
-import { rig_dice } from '../dice';
+import { rig_dice, cheatmode } from '../dice';
 import u from 'updeep';
 import fp from 'lodash/fp';
+
+cheatmode();
 
 const debug = require('debug')('aotds:weapons');
 
@@ -70,7 +72,7 @@ test( 'beam-2',  () => {
 });
 
 
-describe.only( 'target bearing',  () => {
+describe( 'target bearing',  () => {
 
     let attacker = { navigation: { coords: [0,0], heading: 0 }, };
     let target   = { navigation: { coords: [ 0, 10 ], heading: 0 } };
@@ -92,6 +94,34 @@ describe.only( 'target bearing',  () => {
             [type]: [1,1],
         });
     }));
+
+});
+
+describe( "aft", () => {
+
+    rig_dice([1,1]);
+
+    let attacker = { navigation: { coords: [0,0], heading: 6 }, 
+        drive: { },
+    };
+    let target   = { navigation: { coords: [ 0, 10 ], heading: 6 } };
+    let weapon   = { type: 'beam', class: 2, arcs: [ 'A' ] };
+
+    test( 'no thrust used? fire away', () => {
+
+        let result = fire_weapon(attacker,target,weapon);
+
+        expect(result).toMatchObject({ damage_dice: [1,1] });
+    });
+
+    test( 'thrust used? no fire', () => {
+
+        let result = fire_weapon(u.updateIn('drive.thrust_used',2
+        )(attacker),target,weapon);
+
+        expect(result).toHaveProperty('drive_interference',true);
+        expect(result).not.toHaveProperty('damage_dice');
+    });
 
 });
 
