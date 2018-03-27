@@ -1,4 +1,5 @@
 import _ from 'lodash'; 
+import fp from 'lodash/fp'; 
 import u from 'updeep';
 
 const debug = require('debug')('aotds:movement');
@@ -31,7 +32,7 @@ export function plot_movement( ship, orders = {} ) {
 
     let { thrust, turn, bank } = orders;
 
-    let engine_rating = _.get( ship, 'drive_rating', 0 );
+    let engine_rating = fp.getOr(0)('drive.current')(ship);
 
     let engine_power = engine_rating;
 

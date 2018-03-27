@@ -82,7 +82,7 @@ describe( 'change of speed', () => {
             heading: 0,
             velocity: 10,
         },
-        drive_rating: 6 
+        drive: { current: 6 },
     };
 
     test( 'accelerate within engine capacity', move_ok(
@@ -109,7 +109,7 @@ describe( 'change of speed', () => {
 describe( 'turning', () => {
     let ship = { 
         navigation: { coords: [0,0], velocity: 5, heading: 0 },
-        drive_rating: 6 
+        drive: { current: 6 },
     };
 
     test( 'turn of 3', move_ok( ship, { turn: 3 }, {
@@ -133,7 +133,7 @@ describe( 'turning', () => {
 describe( 'banking', () => {
     let ship = { navigation: {
         coords: [0,0], velocity: 5, heading: 0 
-    }, drive_rating:  6 };
+    }, drive: { current: 6 } };
 
     let tests = [
         [ 'bank while heading at 3', 
@@ -153,7 +153,7 @@ describe( 'banking', () => {
 test( 'complex manoeuvers', () => {
 
     let ship = { 
-        navigation: { coords: [0,0], velocity: 5, heading: 0 }, drive_rating:  6 
+        navigation: { coords: [0,0], velocity: 5, heading: 0 }, drive: { current:  6  }
     };
 
     let { navigation } = plot_movement( ship, 

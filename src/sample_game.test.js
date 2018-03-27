@@ -26,7 +26,7 @@ turns.push(
         },
         objects: [
             { name: 'Enkidu', id: 'enkidu',
-                drive_rating: 6,
+                drive: { current: 6 },
                 navigation: {
                     coords: [ 0,0 ],
                     heading: 0,
@@ -49,7 +49,7 @@ turns.push(
                 player_id: "yanick",
             },
             { name: 'Siduri', id: 'siduri',
-                drive_rating: 6,
+                drive: { current: 6 },
                 navigation: {
                     coords: [ 10,10 ],
                     heading: 6,

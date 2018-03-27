@@ -82,7 +82,15 @@ const orders = definitions::add( 'orders', object({
     })),
 }), "orders for the next turn");
 
-const drive_rating = definitions::add('drive_rating', number() );
+const drive = definitions::add('drive', object({
+    rating: 'integer',
+    current: 'integer',
+    active: 'boolean',
+    damage_level: {
+        type: 'integer',
+        enum: [ 0, 1, 2 ],
+    },
+}));
 
 const name = definitions::add( 'name', 
     "name of the ship",
@@ -123,7 +131,7 @@ export default object(
         name,
         navigation, 
         orders, 
-        drive_rating,
+        drive,
         weaponry,
         structure,
         player_id: 'string',
