@@ -1,0 +1,19 @@
+
+
+
+## House Rules
+
+Unless specified otherwise I'm following the rules of TODO LINK TO X DIMENSIONAL
+
+* In AotDS, all orders are given before the turn is played.
+
+* All damage done to the aft section is penetrating by default.
+
+
+
+TODO
+
+* Inflate ships (and have a ADD_SHIP action)
+
+* internal damages
+    * repair crew
