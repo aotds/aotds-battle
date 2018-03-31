@@ -1,8 +1,11 @@
+import fp from 'lodash/fp';
+
 import {toBeDeepCloseTo, toMatchCloseTo } from 'jest-matcher-deep-close-to';
 expect.extend({toBeDeepCloseTo, toMatchCloseTo });
 
 import _ from 'lodash';
 const debug = require('debug')('aotds:battle:test');
+debug.inspectOpts.depth = 99;
 
 import { cheatmode, rig_dice } from './dice';
 
@@ -14,10 +17,9 @@ import { get_object_by_id } from './middlewares/selectors';
 
 import { writeFile } from 'fs';
 
-let turns = [];
+let turns = [ () => Promise.resolve( new Battle() ) ];
 
-turns.push(
-    (battle) => {
+turns[1] = (battle) => {
 
     battle.init_game( {
         game: {
@@ -46,10 +48,16 @@ turns.push(
                         type: "beam", class: 1,
                         } ],
                 },
+                structure: structure_reducer.inflate_state({
+                    hull: 4,
+                    shields: [ 1, 2 ],
+                    armor: 4,
+                    status: 'nominal',
+                }),
                 player_id: "yanick",
             },
             { name: 'Siduri', id: 'siduri',
-                drive: { current: 6 },
+                drive: { rating: 6, current: 6 },
                 navigation: {
                     coords: [ 10,10 ],
                     heading: 6,
@@ -137,18 +145,14 @@ turns.push(
         },1);
 
         return battle;
+};
 
-    }
-);
-
-turns.push(turn2);
-
-function turn2(battle) {
+turns[2] = function turn2(battle) {
     battle.set_orders( 'enkidu', {
         firecons: [ { firecon_id: 1, target_id: 'siduri', weapons: [  1,2,3 ] } ], 
     });
 
-    rig_dice([ 6, 5, 3 ]);
+    rig_dice([ 6, 5, 90, 3 ]);
     battle.play_turn(true);
 
     expect( _.find( battle.state.objects, { id: 'enkidu' } ).weaponry.firecons )
@@ -156,17 +160,30 @@ function turn2(battle) {
             { id: 1, weapons: [1,2,3], target_id: 'siduri' }
         ]);
 
-    expect( _.find( battle.state.objects, { id: 'siduri' } ).structure )
+    expect( _.find( battle.state.objects, { id: 'siduri' } ))
         .toMatchObject({
-            hull: { current: 3, max: 4 },
-            armor: { current: 3, max: 4 },
+            structure: {
+                hull: { current: 3, max: 4 },
+                armor: { current: 3, max: 4 },
+            },
+            drive: {
+                current: 3,
+                damage_level: 1,
+                rating: 6,
+            },
+        });
+
+    // only siduri gets damage
+    expect( _.find( battle.state.objects, { id: 'enkidu' } ).structure )
+        .toMatchObject({
+            hull: { current: 4},
+            armor: { current: 4},
         });
 
     return battle;
 };
 
-
-function turn3(battle) {
+turns[3] = function turn3(battle) {
     // turn 3, we stop and fire like mad
 
     rig_dice([4,1]);
@@ -181,15 +198,22 @@ function turn3(battle) {
         ).toEqual(0)
     );
 
+    expect( get_object_by_id(battle.state,'siduri').drive )
+        .toMatchObject({
+            damage_level: 1,
+            current: 3,
+            thrust_used: 1,
+        });
+
     return battle;
-}
+};
 
-function turn4(battle) {
+turns[4] = function turn4(battle) {
 
-    rig_dice([6,1,6,2]);
+    // oh my, internal damages on the drive!
+    rig_dice([6,1,6,2,5]);
 
     battle.play_turn(true);
-
 
     expect( get_object_by_id(battle.state,'siduri').structure )
         .toMatchObject({
@@ -197,10 +221,16 @@ function turn4(battle) {
             armor: { current: 2, max: 4 },
         });
 
-    return battle;
-}
+    expect( get_object_by_id(battle.state,'siduri').drive )
+        .toMatchObject({
+            damage_level: 2,
+            current: 0,
+        });
 
-function turn5(battle) {
+    return battle;
+};
+
+turns[5] = function turn5(battle) {
 
     rig_dice([5,3]);
 
@@ -213,9 +243,9 @@ function turn5(battle) {
         });
 
     return battle;
-}
+};
 
-function turn6(battle) {
+turns[6] = function turn6(battle) {
 
     rig_dice([4,6,2]);
 
@@ -231,7 +261,7 @@ function turn6(battle) {
     return battle;
 }
 
-function turn7(battle) {
+turns[7] = function turn7(battle) {
 
     rig_dice([5,2]);
 
@@ -244,48 +274,68 @@ function turn7(battle) {
             status: "destroyed",
         });
 
-    return battle;
-}
-
-function turn8(battle) {
-
-    battle.play_turn(true);
-
-    expect( get_object_by_id(battle.state,'siduri') ).toBeUndefined();
-    expect( get_object_by_id(battle.state,'enkidu') ).toBeDefined();
-
-    expect( battle.state.log.map( l => l.type ) ).not.toContain( 'FIRE_WEAPON' );
-
-    debug.inspectOpts.depth = 99;
     debug(battle.state);
 
     return battle;
 }
 
+turns[8] = function turn8(battle) {
 
-describe( 'shall we play a game?', () => {
+    battle.play_turn(true);
 
-    cheatmode();
+    // siduri is gone
+    expect( get_object_by_id(battle.state,'siduri') ).toBeUndefined();
+    expect( get_object_by_id(battle.state,'enkidu') ).toBeDefined();
 
-    turns.push( turn3, turn4, turn5, turn6, turn7, turn8 );
+    expect( battle.state.log.map( l => l.type ) ).not.toContain( 'FIRE_WEAPON' );
 
-    turns.reduce( (previous_turn,turn) => new Promise((resolve) => {
-        test( 'turn ' + turn.name, async () => {
-            let battle = await previous_turn;
-            if(!battle) { battle = new Battle }
-            resolve(turn(battle));
-        });
-    }), Promise.resolve(null) );
+    return battle;
+}
 
+let  previous = Promise.resolve();
+turns = turns.map( t => {
+    let p = previous.then(t);
+    previous = p;
+    return () => p;
+});
 
-    return;
-
-
-    debug.inspectOpts.depth = 99;
-//    debug(battle.state.log);
-
-    writeFile('./state.json',JSON.stringify(battle.state,null,2) );
+turns.forEach( (t,i) => {
+//    let f = i === 4 ? test.only : test;
+    test( `turn ${i}`, t );
+});
 
 
-})
+
+// describe( 'shall we play a game?', () => {
+
+//     cheatmode();
+
+//     turns.push( turn3, turn4, turn5, turn6, turn7, turn8 );
+
+//     jest.setTimeout(1000);
+
+//     turns.reduce( (previous_turn,turn) => {
+//         return new Promise( (resolve,reject) => {
+//             test( 'turn ' + turn.name, async () => {
+//                 try {
+//                     resolve( turn(await previous_turn) )
+//                 }
+//                 catch(e) { 
+//                     expect(e).toBe(null);
+//                     reject(e);
+//                 }
+//             });
+//         } );
+//     }, Promise.resolve( new Battle() ) );
+
+//     return;
+
+
+//     debug.inspectOpts.depth = 99;
+// //    debug(battle.state.log);
+
+//     writeFile('./state.json',JSON.stringify(battle.state,null,2) );
+
+
+// })
 

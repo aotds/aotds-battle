@@ -3,6 +3,7 @@ import fp from 'lodash/fp';
 import u from 'updeep';
 
 import Actions from '../actions';
+import weapon_middlewares from './weapons';
 
 import { get_object_by_id, players_not_done, active_players } from './selectors';
 
@@ -60,7 +61,6 @@ const objects_movement_phase = mw_for( Actions.MOVE_OBJECTS,
 });
 
 
-import weapon_middlewares from './weapons';
 
 let middlewares = [
     objects_movement_phase, 

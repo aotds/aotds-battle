@@ -1,16 +1,22 @@
 import fp from 'lodash/fp';
 
-let roll_die = () => rigged_dice.length > 0 
-                        ? rigged_dice.shift() 
-                        : fp.random(1,6);
-
 export let rigged_dice = [];
 
-export function cheatmode() {
-    roll_die = () => { 
-        if ( rigged_dice.length ) return rigged_dice.shift();
+let cheatmode_enabled = false;
+
+export
+function roll_die (nbr_faces=6) {
+    if ( cheatmode_enabled && ! rigged_dice.length ) {
         throw new Error("not enough dice");
-    };
+    }
+
+    return rigged_dice.length > 0 
+        ? rigged_dice.shift() 
+        : fp.random(1,nbr_faces);
+}
+
+export function cheatmode(enabled=true) {
+    cheatmode_enabled = enabled;
 }
 
 /** 
@@ -32,8 +38,9 @@ export function roll_dice( nbr_dice, options ) {
     if ( nbr_dice == 0 ) return [];
 
     let reroll_on = fp.pathOr( [] )('reroll' )(options);
+    let nbr_faces = fp.getOr(6)('nbr_faces')(options);
 
-    let roll = fp.times(roll_die)(nbr_dice);
+    let roll = fp.times(() => roll_die(nbr_faces))(nbr_dice);
 
     return roll.concat( 
         roll_dice(

@@ -1,5 +1,6 @@
 import actions from '../actions';
 import u from 'updeep';
+import fp from 'lodash/fp';
 
 import { actions_reducer } from './utils';
 
@@ -17,8 +18,20 @@ const assertAction = {
 
 let redaction = new Proxy({}, assertAction );
 
+const default_selector = action => fp.matchesProperty('id', action.object_id);
+const only_target_object = ( selector = default_selector ) => action => {
+    return u.map( 
+        u.if( selector(action),
+           obj => object_reducer( obj, action )
+        )
+    );
+};
+
 redaction.PLAY_TURN = action => 
     u.reject( u.is( 'structure.status', 'destroyed' ) );
+
+redaction.INTERNAL_DAMAGE = only_target_object();
+redaction.DAMAGE = only_target_object();
 
 redaction['*']  = action => state => {
     switch( action.type ) {
@@ -36,7 +49,6 @@ redaction['*']  = action => state => {
         case actions.MOVE_OBJECT:
         case actions.CLEAR_ORDERS:
         case actions.EXECUTE_SHIP_FIRECON_ORDERS:
-        case actions.DAMAGE:
             return state.map( obj => object_reducer( obj, action ) );
 
 

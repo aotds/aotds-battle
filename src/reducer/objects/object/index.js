@@ -4,7 +4,10 @@ import fp from 'lodash/fp';
 import actions from '../../../actions';
 import structure from './structure';
 
-import { actions_reducer } from '../../utils';
+import { actions_reducer, combine_reducers, pipe_reducers, init_reducer } from '../../utils';
+
+
+import drive from './drive';
 
 let debug = require('debug')('aotds:battle:reducer:object');
 
@@ -29,10 +32,6 @@ let reaction = {};
 
 reaction.PLAY_TURN = () => u({ drive: u.omit('thrust_used') });
 
-reaction.DAMAGE = action =>
-    u.if( u.is( 'id', action.object_id ),
-    { structure: s => structure(s,action) });
-
 reaction.CLEAR_ORDERS = () => u.omit('orders');
 
 reaction.MOVE_OBJECT = ({ object_id, navigation }) => {
@@ -51,5 +50,11 @@ reaction.EXECUTE_SHIP_FIRECON_ORDERS = action => state => {
     })(state);
 };
 
-export default actions_reducer(reaction, {} );
 
+let subreducers = combine_reducers({ structure });
+
+export default pipe_reducers([
+    init_reducer({}),
+    combine_reducers({ structure, drive }),
+    actions_reducer(reaction),
+]);

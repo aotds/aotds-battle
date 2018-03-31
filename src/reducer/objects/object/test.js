@@ -22,3 +22,30 @@ test( 'thrust_used', () => {
     expect(state.drive).not.toHaveProperty('thrust_used');
 
 });
+
+test( 'internal damage', () => {
+    let ship = {
+        drive: { rating: 9, },
+        weaponry: { 
+            firecons: [ { id: 1 } ],
+            weapons:  [ { id: 1 } ],
+        },
+    };
+
+    ship = reducer(ship, Actions.internal_damage(
+        'enkidu', { type: 'drive' }
+    ));
+
+    expect(ship).toMatchObject({
+        drive: { damage_level: 1, current: 4 },
+    });
+
+    ship = reducer(ship, Actions.internal_damage(
+        'enkidu', { type: 'drive' }
+    ));
+
+    expect(ship).toMatchObject({
+        drive: { damage_level: 2, current: 0 },
+    });
+
+});

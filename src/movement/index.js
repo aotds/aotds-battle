@@ -45,19 +45,19 @@ export function plot_movement( ship, orders = {} ) {
     if( thrust ) {
         thrust = clamp_thrust(thrust);
         navigation = u({ velocity: v => v + thrust })(navigation);
-        engine_power -= thrust;
+        engine_power -= Math.abs(thrust);
     }
 
     if ( turn ) {
         let max = _.min([ _.floor(engine_rating/2), engine_power ]);
         turn = _.clamp( turn, -max, max );
-        engine_power -= turn;
+        engine_power -= Math.abs(turn);
     }
 
     if( bank ) {
         let max = _.min([ _.floor(engine_rating/2), engine_power ]);
         bank = _.clamp( bank, -max, max );
-        engine_power -= bank;
+        engine_power -= Math.abs(bank);
 
         navigation = move_bank(navigation,bank);
     }

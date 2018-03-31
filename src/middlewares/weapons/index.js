@@ -3,11 +3,13 @@ import u from 'updeep';
 
 const debug = require('debug')('aotds:mw');
 
-import * as weapons from '../weapons';
+import * as weapons from '../../weapons';
 
-import { mw_for } from './utils';
-import Actions from '../actions';
-import { get_object_by_id, players_not_done, active_players } from './selectors';
+import { mw_for } from '../utils';
+import Actions from '../../actions';
+import { get_object_by_id, players_not_done, active_players } from '../selectors';
+
+import { roll_die, roll_dice } from '../../dice';
 
 const fire_weapons = mw_for( Actions.FIRE_WEAPONS,
     ({ getState, dispatch }) => next => action => {
@@ -114,11 +116,109 @@ const calculate_damage = mw_for( Actions.DAMAGE,
     }
 );
 
+function internal_damage_drive(ship,percent) {
+    if( !ship.drive ) return;
+
+    let damage = fp.getOr(0)('drive.damage_level')(ship);
+
+    debug(damage);
+    if( damage >= 2 ) return;
+
+    let roll = roll_die(100);
+    debug(roll);
+    
+    if( roll > percent ) return;
+
+    return {
+        type: 'drive',
+        dice: { rolled: roll, target: percent },
+    };
+}
+
+function internal_damage_firecons(ship,percent) {
+    let firecons = fp.reject('damaged')( fp.getOr([])('weaponry.firecons')(ship) ).map(
+        fp.pick('id')
+    )
+        .map( f => ({ ...f, dice: { target: percent, rolled: roll_die(100)}, type: 'firecon' }) )
+        .filter( f => f.dice.rolled <= percent )
+    ;
+
+    return firecons;
+}
+
+function internal_damage_weapons(ship,percent) {
+    let weapons = fp.reject('damaged')( fp.getOr([])('weaponry.weapons')(ship) ).map(
+        fp.pick('id')
+    )
+        .map( f => ({ ...f, dice: { target: percent, rolled: roll_die(100)}, type: 'weapon' }) )
+        .filter( f => f.dice.rolled <= percent )
+    ;
+
+    return weapons;
+}
+
+function internal_damage_shields(ship,percent) {
+    let weapons = fp.reject('damaged')( fp.getOr([])('structure.shields')(ship) ).map(
+        fp.pick('id')
+    )
+        .map( f => ({ ...f, dice: { target: percent, rolled: roll_die(100)}, type: 'shield' }) )
+        .filter( f => f.dice.rolled <= percent )
+    ;
+
+    return weapons;
+}
+
+export
+const internal_damage = mw_for( Actions.DAMAGE,
+    ({ getState, dispatch }) => next => action => {
+        let ship = () => get_object_by_id(getState(), action.object_id );
+
+        let before = fp.get('structure.hull')(ship());
+        next(action);
+        
+        ship = ship();
+        let after = fp.get('structure.hull')(ship);
+
+        // no damage? nothing to do
+        if( before === after ) return;
+
+        let { current: previous_hull } = before;
+        let { current, max } = after;
+
+        let damage = previous_hull - current;
+
+        let probability = parseInt(100 * damage / max);
+
+        debug(probability);
+
+        let damaged = [
+            internal_damage_drive,
+            internal_damage_firecons,
+            internal_damage_weapons,
+            internal_damage_shields,
+        ].map( f => f(ship,probability) )
+        .filter( x => x )
+        .reduce( (accum,b) => accum.concat(b), [] )
+        .map( d => Actions.internal_damage( ship.id, fp.omit('dice')(d), d.dice ) );
+
+        debug(damaged);
+
+        damaged.forEach( dispatch );
+
+        return damaged;
+
+        // TODO: repair crews
+
+        // TODO: core systems
+    }
+);
+
 let middlewares = [
     fire_weapons,
     fire_weapon,
     execute_firecon_orders,
     weapon_damages,
     calculate_damage,
+    internal_damage,
 ];
 export default middlewares;

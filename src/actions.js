@@ -72,5 +72,9 @@ actioner.$add( 'damage', ( object_id, weapon_type, dice, penetrating=false ) =>
     u.if( penetrating, { penetrating: true })({ object_id, weapon_type, dice })
 );
 
+actioner.$add( 'internal_damage', ( object_id, system, dice ) => ({
+    object_id, system, dice
+}));
+
 
 export default actioner;
