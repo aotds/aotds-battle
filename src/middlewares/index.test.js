@@ -12,7 +12,7 @@ import { get_object_by_id } from './selectors';
 
 test( 'move objects', () => {
     let store = mockStore({
-        objects: [ { id: 'enkidu' }, { id: 'siduri' } ],
+        objects: [ { id: 'enkidu', navigation: {} }, { id: 'siduri', navigation: {} } ],
     });
 
     store.dispatch( Actions.move_objects() );

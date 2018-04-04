@@ -7,6 +7,11 @@ const schema = object(
         game: object({
             name: 'string!',
             turn: 'integer!',
+            turn_times: object({
+                max:      'string',
+                started:  'string',
+                deadline: 'string',
+            }),
             players: array(
                 object({
                     id: 'string!',

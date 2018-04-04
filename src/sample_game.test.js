@@ -152,7 +152,7 @@ turns[2] = function turn2(battle) {
         firecons: [ { firecon_id: 1, target_id: 'siduri', weapons: [  1,2,3 ] } ], 
     });
 
-    rig_dice([ 6, 5, 90, 3 ]);
+    rig_dice([ 6, 5, 3, 3, 90, 90]);
     battle.play_turn(true);
 
     expect( _.find( battle.state.objects, { id: 'enkidu' } ).weaponry.firecons )
@@ -211,7 +211,7 @@ turns[3] = function turn3(battle) {
 turns[4] = function turn4(battle) {
 
     // oh my, internal damages on the drive!
-    rig_dice([6,1,6,2,5]);
+    rig_dice([6,1,6,1,5,90,90]);
 
     battle.play_turn(true);
 
@@ -263,7 +263,7 @@ turns[6] = function turn6(battle) {
 
 turns[7] = function turn7(battle) {
 
-    rig_dice([5,2]);
+    rig_dice([5,2,90,90,90]);
 
     battle.play_turn(true);
 
@@ -300,7 +300,7 @@ turns = turns.map( t => {
 });
 
 turns.forEach( (t,i) => {
-//    let f = i === 4 ? test.only : test;
+    let f = i === 2 ? test.only : test;
     test( `turn ${i}`, t );
 });
 

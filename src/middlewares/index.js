@@ -34,6 +34,11 @@ const object_movement_phase = mw_for( Actions.MOVE_OBJECT,
 //make sure there are at least 2 active players 
 //if 
 
+export const add_timestamp = () => next => action => {
+    action = u({ timestamp: (new Date).toISOString() })(action);
+    next(action);
+};
+
 export
 const play_turn = mw_for( Actions.PLAY_TURN, 
     ({getState, dispatch}) => next => action => {
@@ -44,7 +49,7 @@ const play_turn = mw_for( Actions.PLAY_TURN,
         return;
     }
 
-    next(action)
+    next(action);
     dispatch(Actions.move_objects());
     dispatch(Actions.execute_firecon_orders());
     dispatch(Actions.fire_weapons());
@@ -55,7 +60,9 @@ export
 const objects_movement_phase = mw_for( Actions.MOVE_OBJECTS, 
     ({ getState, dispatch }) => next => action => {
         next(action);
-        _.get( getState(), 'objects', [] ).map( o => o.id ).forEach( id => 
+        _.get( getState(), 'objects', [] )
+            .filter( o => o.navigation )
+            .map( o => o.id ).forEach( id => 
             dispatch( Actions.move_object(id) )
         );
 });

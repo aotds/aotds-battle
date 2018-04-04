@@ -7,30 +7,20 @@ import { plot_movement, round_coords, move_thrust,
     move_rotate
 } from './index';
 
-import {toBeDeepCloseTo, toMatchCloseTo } from 'jest-matcher-deep-close-to';
-expect.extend({toBeDeepCloseTo, toMatchCloseTo });
+import { toBeDeepCloseTo, toMatchCloseTo } from 'jest-matcher-deep-close-to';
+expect.extend({ toMatchCloseTo, toBeDeepCloseTo });
 
-const round = x => _.round(x,1)
-const roundup_nav= u({ 
-    coords: u.map( round ),
-    trajectory: u.map( u({
-        coords: u.map(round),
-        delta:  u.map(round),
-    }) )
-});
+ test( 'move_thrust', () => {
+     let ship = { coords: [ 0, 0 ], heading: 1, trajectory: [], velocity: 0 };
 
-
-test( 'move_thrust', () => {
-    let ship = { coords: [ 0, 0 ], heading: 1, trajectory: [], velocity: 0 };
-
-    [ [ 0, [0,0] ], [ 1, [0.5,0.9] ], [ 10, [5,8.7] ] ].forEach(
-        ([ thrust, result ]) => {
+     [ [ 0, [0,0] ], [ 1, [0.5,0.9] ], [ 10, [5,8.7] ] ].forEach(
+         ([ thrust, result ]) => {
             expect( 
                 move_thrust( ship, thrust ).coords
             //).toHaveProperty( 'coords', result )
             ).toBeDeepCloseTo( result, 1 )
         });
-});
+ });
 
 test( 'move_rotate', () => {
     let ship = { coords: [ 0, 0 ], heading: 0, trajectory: [], velocity: 0 };
