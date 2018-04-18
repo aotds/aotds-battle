@@ -4,9 +4,11 @@ import fp from 'lodash/fp';
 
 import { actions_reducer } from './utils';
 
-import object_reducer from './objects/object';
+import object_reducer, { inflate as inflate_object } from './objects/object';
 
 let debug = require('debug')('aotds:test');
+
+export const inflate = u.map( inflate_object );
 
 const assertAction = {
     set( object, prop, value ) {

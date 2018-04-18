@@ -1,6 +1,7 @@
 import { createStore, applyMiddleware } from "redux";
 
 import _ from 'lodash';
+import fp from 'lodash/fp';
 
 import reducer from './reducer';
 import middlewares from './middlewares';
@@ -33,6 +34,9 @@ export default class Battle {
     }
 
     get state() { return this.store.getState() }
+
+    get name() { return fp.get('game.name')(this.state) }
+    get turn() { return fp.get('game.name')(this.state) }
 
     dispatch( action ) {
         return this.store.dispatch(action);

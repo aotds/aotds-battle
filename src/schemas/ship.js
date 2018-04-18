@@ -36,7 +36,7 @@ const maneuver_range = definitions::add( 'maneuver_range',
     { nbrItems: 2 }
 );
 
-const maneuver = definitions::add( 'maneuver', 
+const maneuvers = definitions::add( 'maneuvers', 
     "range of maneuvers the ship can do for its next move (for the ui)",
     object({
         thrust: maneuver_range,
@@ -64,8 +64,8 @@ const navigation = object({
     ...heading_coords,
     velocity,
     trajectory,
-    // course,
-    // maneuver,
+    course: navigation,
+    maneuvers,
 });
 
 const orders = definitions::add( 'orders', object({

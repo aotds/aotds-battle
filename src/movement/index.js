@@ -31,6 +31,9 @@ export function plot_movement( ship, orders = {} ) {
 //    navigation = move_thrust( navigation, navigation.velocity );
 
     let { thrust, turn, bank } = orders;
+    if(!thrust) thrust = 0;
+    if(!turn) turn = 0;
+    if(!bank) bank = 0;
 
     let engine_rating = fp.getOr(0)('drive.current')(ship);
 
@@ -75,13 +78,28 @@ export function plot_movement( ship, orders = {} ) {
         navigation = move_thrust( navigation, navigation.velocity );
     }
 
-    navigation = u({ thrust_used: engine_rating - engine_power })(navigation);
-
     // navigation = u({ trajectory: upush({ 
     //     type: 'POSITION', coords: navigation.coords 
     // })})(navigation);
 
-    return { navigation };
+    const sym_range = x => [-x,x];
+    const side_maneuver = current => sym_range( fp.min([ Math.abs(current) + engine_power, _.floor(engine_rating/2) ]));
+
+    let max_thrust = Math.abs(thrust) + engine_power;
+
+    let maneuvers = {
+        thrust: [ fp.max([ -max_thrust, -ship.navigation.velocity ]), max_thrust ],
+        bank: side_maneuver(bank),
+        turn: side_maneuver(turn),
+    };
+
+    navigation = u({ 
+        thrust_used: engine_rating - engine_power,
+        maneuvers,
+    })(navigation);
+
+
+    return navigation;
 }
 
 export

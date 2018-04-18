@@ -48,7 +48,7 @@ turns[1] = (battle) => {
                         type: "beam", class: 1,
                         } ],
                 },
-                structure: structure_reducer.inflate_state({
+                structure: structure_reducer.inflate({
                     hull: 4,
                     shields: [ 1, 2 ],
                     armor: 4,
@@ -64,7 +64,7 @@ turns[1] = (battle) => {
                     velocity: 0,
                 },
                 player_id: "yenzie",
-                structure: structure_reducer.inflate_state({
+                structure: structure_reducer.inflate({
                     hull: 4,
                     shields: [ 1, 2 ],
                     armor: 4,

@@ -20,9 +20,9 @@ const object_movement_phase = mw_for( Actions.MOVE_OBJECT,
         let object = get_object_by_id( getState(), action.object_id );
 
         next(
-            u(
-                plot_movement( object, _.get( object, 'orders.navigation' ) )
-            )(action)
+            u({
+                navigation: plot_movement( object, _.get( object, 'orders.navigation' ) )
+            })(action)
         )
 });
 
@@ -70,6 +70,7 @@ const objects_movement_phase = mw_for( Actions.MOVE_OBJECTS,
 
 
 let middlewares = [
+    add_timestamp,
     objects_movement_phase, 
     object_movement_phase, 
     play_turn,

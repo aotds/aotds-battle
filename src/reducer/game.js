@@ -10,16 +10,16 @@ import { actions_reducer } from './utils';
 let redact  = {};
 
 redact.INIT_GAME = ({game}) =>
-    u( fp.pick(['name', 'players'])(game) );
+    u( fp.pick(['name', 'players', 'turn_times'])(game) );
 
 redact.PLAY_TURN = ({timestamp}) => state =>  u({ turn_times: 
-    u.if( fp.has( 'max' ), t => {
+    u.ifElse( fp.has( 'max' ), t => {
         let started = Date.parse(t.started);
         debug(started);
         let max = new Duration(t.max);
         let later = new Date(started + max);
         return { ...t, deadline: later.toISOString() };
-    })})( u( { 
+    }, u.omit(['deadline']))})( u( { 
     turn: t => t+1,
     turn_times: { 
         started: timestamp,

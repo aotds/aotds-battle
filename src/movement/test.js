@@ -53,7 +53,7 @@ test( 'simple movements', () => {
     for ( let a in angle ) {
         ship.navigation.heading = +a;
         let movement = plot_movement(ship);
-        expect( movement.navigation ).toMatchCloseTo({
+        expect( movement).toMatchCloseTo({
             coords: angle[a],
             heading: +a,
         },1);
@@ -61,7 +61,7 @@ test( 'simple movements', () => {
 });
 
 const move_ok = ( ship, orders, expected ) => () => {
-    let { navigation } = plot_movement(ship, orders);
+    let navigation = plot_movement(ship, orders);
     expect( navigation ).toMatchCloseTo( expected, 1 );
 };
 
@@ -146,7 +146,7 @@ test( 'complex manoeuvers', () => {
         navigation: { coords: [0,0], velocity: 5, heading: 0 }, drive: { current:  6  }
     };
 
-    let { navigation } = plot_movement( ship, 
+    let navigation = plot_movement( ship, 
         { bank: -1, thrust: -1, turn: 2 }
     );
 
@@ -167,5 +167,30 @@ test( 'complex manoeuvers', () => {
         heading: 2,
         coords: [ 1.73,2.73]
     })();
+
+});
+
+test( 'maneuvers', () => {
+
+    let ship = { 
+        navigation: { coords: [0,0], velocity: 2, heading: 0 },
+        drive: { current: 6 },
+    };
+
+    let course = plot_movement( ship, { bank: -1, thrust: -1, turn: 2 } ); 
+
+    expect(course.maneuvers).toMatchObject({
+        thrust: [ -2,3 ],
+        bank: [ -3,3 ],
+        turn: [ -3,3 ],
+    });
+
+    course = plot_movement( ship, { bank: 0, thrust: -1} ); 
+
+    expect(course.maneuvers).toMatchObject({
+        thrust: [ -2,6 ],
+        bank: [ -3,3 ],
+        turn: [ -3,3 ],
+    });
 
 });

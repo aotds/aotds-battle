@@ -6,7 +6,7 @@ import Actions from '../../../../actions';
 
 const debug = require('debug')('aotds:reducer:struct');
 
-export function inflate_state(state) {
+export function inflate(state) {
     let inflate_hull = x => typeof x === 'number' ? { current: x, max: x } : x;
 
     let i = 1;

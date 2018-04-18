@@ -2,15 +2,30 @@ import u from 'updeep';
 import fp from 'lodash/fp';
 
 import actions from '../../../actions';
-import structure from './structure';
+import structure, { inflate as inflate_structure } from './structure';
 
 import { actions_reducer, combine_reducers, pipe_reducers, init_reducer } from '../../utils';
-
 
 import drive from './drive';
 
 let debug = require('debug')('aotds:battle:reducer:object');
 
+const inflate_firecons = u.if( fp.isNumber,     
+    fp.pipe( fp.times( i => i+1 ), fp.map( id => ({id}) ) )
+);
+
+const inflate_drive = u.if( fp.isNumber,     
+    max => ({ max, current: max })    
+);
+
+
+export const inflate = u({ 
+    drive: inflate_drive,
+    structure: inflate_structure,
+    weaponry: {
+        firecons: inflate_firecons,
+    },
+});
 
 function firecon_reducer(state = {}, action ) {
     switch( action.type ) {
