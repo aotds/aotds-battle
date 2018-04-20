@@ -57,5 +57,13 @@ test( 'set orders for enkidu', () => {
     });
 
     expect(ship_orders.done).toEqual(expect.anything());
+
+    // setting it a second time shouldn't work
+    battle.set_orders( 'enkidu', {
+        navigation: { thrust: 0, turn:  1, }
+    });
+
+    ship_orders = get_object_by_id(battle.state, 'enkidu').orders;
+    expect( ship_orders ).toMatchObject({ navigation: { thrust: 3, turn: -1 } });
 })
 
