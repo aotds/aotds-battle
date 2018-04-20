@@ -13,7 +13,7 @@ export function players_not_done( state ) {
     let players = _.get( state, 'game.players', [] );
 
     const with_player = fp.filter('player_id' );
-    const not_ready   = fp.reject( [ 'orders.done', true ] );
+    const not_ready   = fp.reject( 'orders.done' );
 
     let obj_not_ready = not_ready( with_player( state.objects ) );
 

@@ -1,4 +1,10 @@
-import { pipe_reducers, combine_reducers, init_reducer } from './utils';
+import { 
+    pipe_reducers, combine_reducers, init_reducer,
+    mapping_reducer , actions_reducer
+} from './utils';
+
+import _ from 'lodash';
+import u from 'updeep';
 
 test( 'combine_reducers', () => {
     let r1 = (state,action) => ({ a: action.payload });
@@ -20,4 +26,52 @@ test( 'order of pipe_reducers', () => {
     let bigr = pipe_reducers([ init_reducer(1), r1, r2 ]);
     
     expect( bigr(undefined,7) ).toEqual(21);
+});
+
+test( 'map_reducer', () => {
+    let item_reducer = (state, action ) => u({ sum: s => s +1 })(state);
+
+    let state = [ { id: 0, sum: 0 },{ id: 1, sum: 0 },{ id: 2, sum: 0 } ];
+
+    let mapped = mapping_reducer(item_reducer);
+    let match_id = mapped( ({id}) => _.matches({id}) );
+
+    let main_reducer = actions_reducer({
+        DO_IT: mapped( a => _.matches({ id: a.id }) ),
+        DO_IT_TOO: match_id,
+        DO_IT_ALL: mapped(true),
+    });
+
+    state = main_reducer(state,{ type: 'DO_IT', id: 4 });
+
+    expect(state).toEqual(expect.arrayContaining([
+        { id: 0, sum: 0 },{ id: 1, sum: 0 },{ id: 2, sum: 0 } 
+    ]));
+
+    state = main_reducer(state,{ type: 'DO_IT', id: 1 });
+
+    expect(state).toEqual(expect.arrayContaining([
+        { id: 0, sum: 0 },{ id: 1, sum: 1 },{ id: 2, sum: 0 } 
+    ]));
+
+    state = main_reducer(state,{ type: 'DO_IT', id: 0 });
+
+    expect(state).toEqual(expect.arrayContaining([
+        { id: 0, sum: 1 },{ id: 1, sum: 1 },{ id: 2, sum: 0 } 
+    ]));
+
+    state = main_reducer(state,{ type: 'DO_IT_TOO', id: 2 });
+
+    expect(state).toEqual(expect.arrayContaining([
+        { id: 2, sum: 1 } 
+    ]));
+
+    state = main_reducer(state,{ type: 'DO_IT_ALL' });
+
+    expect(state).toEqual(expect.arrayContaining([
+        { id: 0, sum: 2 },{ id: 1, sum: 2 },{ id: 2, sum: 2 } 
+    ]));
+
+
+
 });

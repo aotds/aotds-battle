@@ -4,7 +4,9 @@ import fp from 'lodash/fp';
 import actions from '../../../actions';
 import structure, { inflate as inflate_structure } from './structure';
 
-import { actions_reducer, combine_reducers, pipe_reducers, init_reducer } from '../../utils';
+import { 
+    mapping_reducer,
+    actions_reducer, combine_reducers, pipe_reducers, init_reducer } from '../../utils';
 
 import drive from './drive';
 
@@ -64,6 +66,13 @@ reaction.EXECUTE_SHIP_FIRECON_ORDERS = action => state => {
         weaponry: { firecons: u.map( reduce_firecon ) }
     })(state);
 };
+
+reaction.SET_ORDERS = action => u({ 
+    orders: u.constant({
+        done: action.timestamp || true,
+        ...action.orders
+    })
+});
 
 
 let subreducers = combine_reducers({ structure });

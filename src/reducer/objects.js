@@ -1,8 +1,9 @@
 import actions from '../actions';
 import u from 'updeep';
 import fp from 'lodash/fp';
+import _ from 'lodash';
 
-import { actions_reducer } from './utils';
+import { mapping_reducer, actions_reducer } from './utils';
 
 import object_reducer, { inflate as inflate_object } from './objects/object';
 
@@ -35,18 +36,14 @@ redaction.PLAY_TURN = action =>
 redaction.INTERNAL_DAMAGE = only_target_object();
 redaction.DAMAGE = only_target_object();
 
+redaction.INIT_GAME = ({objects}) => () => objects;
+
+const bogey_reducer = mapping_reducer( object_reducer ); 
+
+redaction.SET_ORDERS = bogey_reducer( ({object_id: id}) => _.matches({ id }) );
+
 redaction['*']  = action => state => {
     switch( action.type ) {
-        case actions.INIT_GAME: 
-            return action.objects;
-
-        case actions.SET_ORDERS: 
-            return state.map(
-                u.if(
-                    u.is( 'id', action.object_id ), 
-                    { orders: { done: true, ...action.orders } }
-                )
-            );
 
         case actions.MOVE_OBJECT:
         case actions.CLEAR_ORDERS:

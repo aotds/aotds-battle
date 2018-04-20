@@ -43,7 +43,6 @@ test( 'set orders for enkidu', () => {
 
     expect( ship_orders )
         .toMatchObject({ 
-            done: true,
             navigation: {
                 thrust: 3,
                 turn:  -1,
@@ -56,5 +55,7 @@ test( 'set orders for enkidu', () => {
                 }],
             },
     });
+
+    expect(ship_orders.done).toEqual(expect.anything());
 })
 

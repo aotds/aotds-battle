@@ -40,3 +40,9 @@ function pipe_reducers( reducers ) {
 export const init_reducer = (original_state) => 
     ( state ) => fp.isNil(state) ? original_state : state;
 
+// condition signature: action => state => boolean
+// condition can be a boolean too
+export const mapping_reducer = reducer => cond => action => u.map( u.if( 
+    (typeof cond === 'function' ? cond(action) : cond ),  
+    state => reducer(state,action)
+) )
