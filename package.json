@@ -9,21 +9,33 @@
     "build-babel": "babel lib --out-dir dist",
     "build-flow": "flow-copy-source lib dist"
   },
+  "babel": {
+    "presets": [
+      [
+        "env",
+        {
+          "targets": {
+            "node": "current"
+          }
+        }
+      ],
+      "stage-1",
+      "stage-0"
+    ]
+  },
   "keywords": [],
   "author": "Yanick Champoux <yanick@babyl.ca> (http://techblog.babyl.ca)",
   "license": "ISC",
   "dependencies": {
-    "actioner": "^0.2.0",
     "ajv-promise": "^0.2.1",
-    "bunyan": "^1.8.10",
+    "duration-js": "^4.0.0",
     "flow-copy-source": "^1.2.1",
     "jest-matcher-deep-close-to": "^1.2.1",
-    "json-schema-shorthand": "file:../json-schema-shorthand",
+    "json-schema-shorthand": "^0.3.0",
     "pino": "^4.5.3",
     "pino-debug": "^1.0.5",
     "redux": "^3.6.0",
     "redux-actions": "^2.0.2",
-    "redux-saga": "^0.15.3",
     "stacktrace-js": "^2.0.0",
     "tap": "^10.3.2",
     "tracer": "^0.8.7",
@@ -31,7 +43,6 @@
   },
   "devDependencies": {
     "ajv": "^5.5.2",
-    "ava": "^1.0.0-beta.3",
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
@@ -42,19 +53,8 @@
     "babel-preset-stage-0": "^6.24.1",
     "babel-preset-stage-1": "^6.24.1",
     "babel-tap": "^5.0.0",
-    "jest": "^22.4.2",
+    "jest": "^22.4.3",
     "jest-html-reporter": "^2.0.0",
-    "redux-mock-store": "^1.5.1",
-    "redux-saga-test-plan": "^3.5.1"
-  },
-  "ava": {
-    "babel": {
-      "testOptions": {
-        "presets": [
-          "env"
-        ],
-        "babelrc": false
-      }
-    }
+    "redux-mock-store": "^1.5.1"
   }
 }

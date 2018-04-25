@@ -69,8 +69,8 @@ reaction.EXECUTE_SHIP_FIRECON_ORDERS = action => state => {
 
 reaction.SET_ORDERS = action => u.if( s => !fp.has('orders.done')(s), { 
     orders: u.constant({
-        done: action.timestamp || true,
-        ...action.orders
+        done: (action.timestamp || true),
+        ...(action.orders)
     })
 });
 

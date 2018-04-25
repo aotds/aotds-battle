@@ -46,6 +46,7 @@ const play_turn = mw_for( Actions.PLAY_TURN,
     if ( !action.force && (
             players_not_done(getState()).length > 0 
             || active_players(getState()).length <= 1 ) ) {
+        debug( "waiting for ", players_not_done(getState()) );
         return;
     }
 
