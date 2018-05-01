@@ -9,6 +9,8 @@ Unless specified otherwise I'm following the rules of TODO LINK TO X DIMENSIONAL
 
 * All damage done to the aft section is penetrating by default.
 
+* Can't fire aft weapons if drive has been used.
+
 
 
 TODO
