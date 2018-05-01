@@ -45,6 +45,13 @@ function firecon_reducer(state = {}, action ) {
     }
 }
 
+let weapon_reducer = actions_reducer({
+    ASSIGN_WEAPON_TO_FIRECON: action => u.if(
+        u.is( 'id', action.weapon_id ), {
+            firecon_id: action.firecon_id
+        }),
+});
+
 let reaction = {};
 
 reaction.PLAY_TURN = () => u({ drive: u.omit('thrust_used') });
@@ -56,6 +63,11 @@ reaction.MOVE_OBJECT = ({ object_id, navigation }) => {
         navigation: fp.omit( 'thrust_used' )( navigation ),
         drive: { thrust_used: navigation.thrust_used },
     } );
+};
+
+reaction.ASSIGN_WEAPON_TO_FIRECON = action => {
+    return u.if( u.is( 'id', action.bogey_id ), { weaponry: { weapons: 
+        u.map( w => weapon_reducer(w,action) ) } } );
 };
 
 reaction.EXECUTE_SHIP_FIRECON_ORDERS = action => state => {

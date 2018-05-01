@@ -149,7 +149,11 @@ turns[1] = (battle) => {
 
 turns[2] = function turn2(battle) {
     battle.set_orders( 'enkidu', {
-        firecons: [ { firecon_id: 1, target_id: 'siduri', weapons: [  1,2,3 ] } ], 
+        firecons: [ { firecon_id: 1, target_id: 'siduri' } ], 
+        weapons: [ { weapon_id: 1, firecon_id: 1 },
+            { weapon_id: 2, firecon_id: 1 }, 
+            { weapon_id: 3, firecon_id: 1 }, 
+        ],
     });
 
     rig_dice([ 6, 5, 3, 3, 90, 90]);
@@ -157,8 +161,11 @@ turns[2] = function turn2(battle) {
 
     expect( _.find( battle.state.objects, { id: 'enkidu' } ).weaponry.firecons )
         .toEqual([
-            { id: 1, weapons: [1,2,3], target_id: 'siduri' }
+            { id: 1,  target_id: 'siduri' }
         ]);
+
+    expect( _.find( battle.state.objects, { id: 'enkidu' } ).weaponry.weapons[0] )
+        .toMatchObject( { id: 1, firecon_id: 1} );
 
     expect( _.find( battle.state.objects, { id: 'siduri' } ))
         .toMatchObject({

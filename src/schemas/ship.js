@@ -78,7 +78,10 @@ const orders = definitions::add( 'orders', object({
     firecons: array(object({
         firecon_id: 'integer',
         target_id:  'string',
-        weapons:    array('integer'),
+    })),
+    weapons: array(object({
+        weapon_id: 'integer',
+        firecon_id: 'integer',
     })),
 }), "orders for the next turn");
 
@@ -100,13 +103,13 @@ const name = definitions::add( 'name',
 const firecon = definitions::add('firecon', object({
     id:        'integer',
     target_id: 'string',
-    weapons:   array( 'integer' ),
 }));
 
 const weapon = definitions::add('weapon', object({
     id: 'integer',
     type: 'string',
     level: 'integer',
+    firecon_id: 'integer',
 }));
 
 const weaponry  = definitions::add('weaponry', object({

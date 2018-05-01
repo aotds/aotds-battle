@@ -26,7 +26,6 @@ actioner.$add( 'set_orders',
                 firecons: array(object({
                     firecon_id: 'integer',
                     clear: 'boolean',
-                    weapons: array( 'integer' ),
                     target_id: 'string'
                 })),
             }),
@@ -76,5 +75,9 @@ actioner.$add( 'internal_damage', ( object_id, system, dice ) => ({
     object_id, system, dice
 }));
 
+actioner.$add( 'assign_weapons_to_firecons'  );
+actioner.$add( 'assign_weapon_to_firecon', (bogey_id, weapon_id, firecon_id) =>({
+    bogey_id, weapon_id, firecon_id
+}));
 
 export default actioner;

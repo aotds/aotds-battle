@@ -19,8 +19,10 @@ const fire_weapons = mw_for( Actions.FIRE_WEAPONS,
             fp.getOr([])('weaponry.firecons')(obj)
                 .filter( f => f.target_id )
                 .forEach( firecon => {
-                    fp.getOr([])('weapons')(firecon).forEach( w => {
-                        dispatch(Actions.fire_weapon( obj.id, firecon.target_id, w ));
+                    fp.getOr([])('weaponry.weapons')(obj)
+                        .filter( w => w.firecon_id === firecon.id )
+                        .forEach( w => {
+                        dispatch(Actions.fire_weapon( obj.id, firecon.target_id, w.id ));
                     })
                 });
         });
@@ -157,6 +159,20 @@ function internal_damage_weapons(ship,percent) {
     return weapons;
 }
 
+const assign_weapons_to_firecons = mw_for( Actions.ASSIGN_WEAPONS_TO_FIRECONS, 
+    ({getState, dispatch }) => next => action => {
+        fp.getOr([])('objects')(getState()).forEach( bogey => {
+            let orders = fp.getOr([])('orders.weapons')(bogey);
+            orders.forEach( order => {
+                dispatch( Actions.assign_weapon_to_firecon(
+                    bogey.id, order.weapon_id, order.firecon_id
+                )) 
+            })
+        });
+    }
+);
+
+
 function internal_damage_shields(ship,percent) {
     let weapons = fp.reject('damaged')( fp.getOr([])('structure.shields')(ship) ).map(
         fp.pick('id')
@@ -214,6 +230,7 @@ const internal_damage = mw_for( Actions.DAMAGE,
 );
 
 let middlewares = [
+    assign_weapons_to_firecons,
     fire_weapons,
     fire_weapon,
     execute_firecon_orders,
