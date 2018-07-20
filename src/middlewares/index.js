@@ -52,6 +52,7 @@ const play_turn = mw_for( Actions.PLAY_TURN,
 
     next(action);
     dispatch(Actions.move_objects());
+    dispatch(Actions.execute_firecon_orders());
     dispatch(Actions.assign_weapons_to_firecons());
     dispatch(Actions.execute_firecon_orders());
     dispatch(Actions.fire_weapons());

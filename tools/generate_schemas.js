@@ -1,7 +1,7 @@
 import fs from 'fs';
 import schema from '../src/schema';
 
-for ( let file of [ '../src/schemas/ship' ] ) {
+for ( let file of [ '../src/schemas/ship', '../src/schemas/actions' ] ) {
     let name = file.replace( '../src/schemas/', 'schemas/'  );
 
     fs.writeFile(name+'.json', JSON.stringify(require(file).default, null, 2), err => {

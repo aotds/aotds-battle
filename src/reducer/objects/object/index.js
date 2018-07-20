@@ -31,15 +31,11 @@ export const inflate = u({
 
 function firecon_reducer(state = {}, action ) {
     switch( action.type ) {
-        case actions.EXECUTE_SHIP_FIRECON_ORDERS:
-            if( action.firecon_id === state.id ) 
-                return u(fp.pick(['target_id','weapons'])(action))(state);
+        case actions.ASSIGN_TARGET_TO_FIRECON:
+            if( action.firecon_id !== state.id ) return state;
 
-            if( ! action.weapons ) return state;
-            
-            return u({
-                weapons: w => fp.difference(w)(action.weapons)
-            })(state);
+
+            return u(fp.pick(['target_id'])(action))(state);
 
         default: return state;
     }
@@ -70,8 +66,8 @@ reaction.ASSIGN_WEAPON_TO_FIRECON = action => {
         u.map( w => weapon_reducer(w,action) ) } } );
 };
 
-reaction.EXECUTE_SHIP_FIRECON_ORDERS = action => state => {
-    if( action.object_id !== state.id ) return state;
+reaction.ASSIGN_TARGET_TO_FIRECON = action => state => {
+    if( action.bogey_id !== state.id ) return state;
 
     let reduce_firecon = f => firecon_reducer(f, action );
     return  u({

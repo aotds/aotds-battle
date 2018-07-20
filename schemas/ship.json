@@ -19,19 +19,48 @@
         "velocity": {
           "$ref": "#/definitions/velocity"
         },
-        "course": {
-          "$ref": "#/definitions/course"
+        "trajectory": {
+          "$ref": "#/definitions/trajectory"
         },
-        "maneuver": {
-          "$ref": "#/definitions/maneuver"
+        "maneuvers": {
+          "$ref": "#/definitions/maneuvers"
+        }
+      },
+      "course": {
+        "type": "object",
+        "properties": {
+          "heading": {
+            "$ref": "#/definitions/heading"
+          },
+          "coords": {
+            "$ref": "#/definitions/coords"
+          },
+          "velocity": {
+            "$ref": "#/definitions/velocity"
+          },
+          "trajectory": {
+            "$ref": "#/definitions/trajectory"
+          },
+          "maneuvers": {
+            "$ref": "#/definitions/maneuvers"
+          }
         }
       }
     },
     "orders": {
       "$ref": "#/definitions/orders"
     },
-    "drive_rating": {
-      "$ref": "#/definitions/drive_rating"
+    "drive": {
+      "$ref": "#/definitions/drive"
+    },
+    "weaponry": {
+      "$ref": "#/definitions/weaponry"
+    },
+    "structure": {
+      "$ref": "#/definitions/structure"
+    },
+    "player_id": {
+      "type": "string"
     }
   },
   "$id": "http://aotds.babyl.ca/battle/ship",
@@ -68,10 +97,10 @@
           }
         }
       },
-      "description": "projected movement for new turn"
+      "description": "projected movement for new turn (for the ui)"
     },
     "maneuver_range": {
-      "description": "range of values for the maneuver",
+      "description": "range of values for the maneuver (for the ui)",
       "type": "array",
       "items": {
         "type": "number"
@@ -79,8 +108,8 @@
       "minItems": 2,
       "maxItems": 2
     },
-    "maneuver": {
-      "description": "range of maneuvers the ship can do for its next move",
+    "maneuvers": {
+      "description": "range of maneuvers the ship can do for its next move (for the ui)",
       "type": "object",
       "properties": {
         "thrust": {
@@ -93,6 +122,10 @@
           "$ref": "#/definitions/maneuver_range"
         }
       }
+    },
+    "trajectory": {
+      "description": "course of the previous turn",
+      "type": "array"
     },
     "orders": {
       "type": "object",
@@ -113,15 +146,164 @@
               "type": "number"
             }
           }
+        },
+        "firecons": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "firecon_id": {
+                "type": "integer"
+              },
+              "target_id": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "weapons": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "weapon_id": {
+                "type": "integer"
+              },
+              "firecon_id": {
+                "type": "integer"
+              }
+            }
+          }
         }
       },
       "description": "orders for the next turn"
     },
-    "drive_rating": {
-      "type": "number"
+    "drive": {
+      "type": "object",
+      "properties": {
+        "rating": {
+          "type": "integer"
+        },
+        "current": {
+          "type": "integer"
+        },
+        "thrust_used": {
+          "type": "integer"
+        },
+        "damage_level": {
+          "type": "integer",
+          "enum": [
+            0,
+            1,
+            2
+          ]
+        }
+      }
     },
     "name": {
       "description": "string"
+    },
+    "firecon": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "target_id": {
+          "type": "string"
+        }
+      }
+    },
+    "weapon": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "type": {
+          "type": "string"
+        },
+        "level": {
+          "type": "integer"
+        },
+        "firecon_id": {
+          "type": "integer"
+        },
+        "arcs": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "A",
+              "F",
+              "FS",
+              "FP",
+              "AS",
+              "AP"
+            ]
+          }
+        }
+      }
+    },
+    "weaponry": {
+      "type": "object",
+      "properties": {
+        "nbr_firecons": {
+          "type": "integer"
+        },
+        "firecons": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/firecon"
+          }
+        },
+        "weapons": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/weapon"
+          }
+        }
+      }
+    },
+    "structure": {
+      "type": "object",
+      "properties": {
+        "hull": {
+          "type": "object",
+          "properties": {
+            "current": {
+              "type": "integer"
+            },
+            "max": {
+              "type": "integer"
+            }
+          }
+        },
+        "armor": {
+          "type": "object",
+          "properties": {
+            "current": {
+              "type": "integer"
+            },
+            "max": {
+              "type": "integer"
+            }
+          }
+        },
+        "shields": {
+          "type": "array",
+          "items": {
+            "id": "integer",
+            "level": "integer"
+          }
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "nominal",
+            "destroyed"
+          ]
+        }
+      }
     }
   },
   "title": "Ship"

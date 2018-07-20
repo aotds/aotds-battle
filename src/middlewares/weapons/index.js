@@ -1,4 +1,5 @@
 import fp from 'lodash/fp';
+import _ from 'lodash';
 import u from 'updeep';
 
 const debug = require('debug')('aotds:mw');
@@ -52,17 +53,13 @@ const execute_firecon_orders = mw_for( Actions.EXECUTE_FIRECON_ORDERS,
     ({ getState, dispatch }) => next => action => {
         next(action);
 
-        let transform = fp.pipe([
-            fp.getOr( [] )('objects'),
-            fp.map( obj => ({ object_id: obj.id, firecons: fp.get('orders.firecons')(obj) }) ),
-            fp.filter( fp.get('firecons') ),
-            fp.map( ({ object_id, firecons }) => firecons.map( f => ([ object_id, f.firecon_id, fp.omit('firecon_id')(f) ]) ) ),
-            fp.flatten,
-            fp.map( o => dispatch(Actions.execute_ship_firecon_orders(...o) ) )
-        ]);
-
-        let x = transform( getState() );
-
+        _.get( getState(), 'objects', [] ).forEach( bogey => {
+            _.get(bogey,'orders.firecons',[]).forEach( order => {
+                dispatch(Actions.assign_target_to_firecon(
+                    bogey.id, order.firecon_id, order.target_id
+                ));
+            });
+        });
     }
 );
 

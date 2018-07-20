@@ -80,4 +80,8 @@ actioner.$add( 'assign_weapon_to_firecon', (bogey_id, weapon_id, firecon_id) =>(
     bogey_id, weapon_id, firecon_id
 }));
 
+actioner.$add( 'assign_target_to_firecon', (bogey_id, firecon_id, target_id) =>({
+    bogey_id, target_id, firecon_id
+}));
+
 export default actioner;

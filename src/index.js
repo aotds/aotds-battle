@@ -14,6 +14,15 @@ const debug = require('debug')('aotds:battle');
 
 let schemas = new Schemas();
 
+export const arcs = {
+    F:  [[ -1, 1 ]],
+    FS: [[ 1, 3 ]],
+    AS: [[ 3, 5 ]],
+    A:  [[ 5, 6], [-6,-5]],
+    AP: [[ -5, -3 ]],
+    FP: [[ -3, -1 ]],
+};
+
 export default class Battle {
 
     constructor( state = {} ) {
