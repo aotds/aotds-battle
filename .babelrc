@@ -1,4 +1,8 @@
 {
-    "plugins": [  'transform-decorators-legacy' ],
+    "plugins": [ 
+        ["@babel/plugin-proposal-pipeline-operator", { "proposal": "minimal" }],
+        [ "module-resolver", { "alias": { "~": "./src" } } ],
+
+    'transform-decorators-legacy',],
     "presets":[ [ "env", { "targets": { "node": "current" } } ], "stage-1", "stage-0" ]
 }
