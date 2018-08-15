@@ -6,19 +6,6 @@ import Actions from '../../../../actions';
 
 const debug = require('debug')('aotds:reducer:struct');
 
-export function inflate(state) {
-    let inflate_hull = x => typeof x === 'number' ? { current: x, max: x } : x;
-
-    let i = 1;
-    return u({ 
-        hull: inflate_hull, 
-        armor: inflate_hull,
-        shields: u.map(
-            u.if( s => typeof s === 'number', 
-                s => ({ id: i++, level: s }) )
-        ) 
-    })(state);
-}
 
 export
 let redact = {};

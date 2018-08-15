@@ -1,5 +1,20 @@
 import fp from 'lodash/fp';
+import _ from 'lodash';
 import u from 'updeep';
+
+import { types } from '../actions';
+
+const assertAction = {
+    set( object, prop, value ) {
+
+        if( prop !== '*' && ! _.includes(types,prop) )
+            throw new Error( `${prop} is not a known action` );
+
+        return Reflect.set(...arguments);
+    }
+};
+
+export const redactor = () => new Proxy({}, assertAction);
 
 export
 function actions_reducer( redactions, initial_state = {} ) {
@@ -46,3 +61,5 @@ export const mapping_reducer = reducer => cond => action => u.map( u.if(
     (typeof cond === 'function' ? cond(action) : cond ),  
     state => reducer(state,action)
 ) )
+
+

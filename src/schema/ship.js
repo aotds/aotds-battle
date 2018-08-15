@@ -1,4 +1,5 @@
 import shorthand from 'json-schema-shorthand';
+
 import {
     add_definition as add,
     array,
@@ -44,6 +45,7 @@ const maneuver = definitions::add( 'maneuver',
         turn:   maneuver_range,
     })
 );
+
 
 const navigation = object({
     ...heading_coords,

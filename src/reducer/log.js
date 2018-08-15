@@ -1,18 +1,68 @@
-import actions from '../actions';
+import _ from 'lodash';
+import u from 'updeep';
+
+import actions, { INC_ACTION_ID } from '../actions';
 
 const unwanted_actions = [
-    '@@redux/INIT'
+    '@@redux/INIT',
+    INC_ACTION_ID
 ];
 
-export default function log_reducer(state=[],action) {
-    if ( unwanted_actions.some( a => action.type == a ) ) return state;
+const _log_reduce = function( action, parents, state ) {
+    let id = _.head(parents);
+    console.log(state, id);
+    if( !id ) {
+        return [ ...state, action ];
+    };
 
-    switch( action.type ) {
-        case(actions.PLAY_TURN):
-            return [action];
+    return u.map(
+        u.if( u.is( 'meta.id', id ), 
+            u({ 
+                meta: { 
+                    child_actions: 
+                        s => _log_reduce(action,_.tail(parents),s||[])
+                }
+            })
+        )
+    )(state);
 
-        default:
-            return state.concat( action );
+} |> _.curry; 
+
+const add_tree_branch = ( (parent_id,action,root) => {
+const debug = require('debug')('aotds');
+    if( _.get(root, 'meta.id') === parent_id ) {
+        return u.updateIn(
+            'meta.child_actions', s => s ? [...s,action] : [action]
+        )(root);
     }
 
+    let i = root.meta.child_actions.length - 1;
+
+    return u.updateIn(
+        `meta.child_actions.${i}`, add_tree_branch(parent_id,action)
+    )(root);
+
+} ) |> _.curry;
+
+export function tree_log(log) {
+    let tree = [];
+
+    log.forEach( l => {
+        const parent_id = _.get(l,'meta.parent_action_id');
+
+        if( !parent_id  ) {
+            tree = u( t => [...t,l] )(tree);
+        }
+        else {
+            tree = u.updateIn( tree.length-1, add_tree_branch(parent_id,l) )(tree)
+        }
+    })
+
+    return tree;
+}
+
+export default function log_reducer(state=[],action) {
+    if ( _.includes( unwanted_actions, action.type ) ) return state;
+
+    return [ ...state, action ];
 }

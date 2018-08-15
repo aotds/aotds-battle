@@ -66,6 +66,7 @@ let navigation = object({
     trajectory,
     maneuvers,
 });
+
 navigation = { ...navigation, course: navigation };
 
 const orders = definitions::add( 'orders', object({
@@ -111,6 +112,14 @@ const weapon = definitions::add('weapon', object({
     level: 'integer',
     firecon_id: 'integer',
     arcs: array({ enum: [ 'A', 'F', 'FS', 'FP', 'AS', 'AP' ] }),
+}));
+
+definitions::add( 'navigation', 
+    "navigation-related attributes",
+    object({
+    ...heading_coords,
+    velocity,
+    course,
 }));
 
 const weaponry  = definitions::add('weaponry', object({

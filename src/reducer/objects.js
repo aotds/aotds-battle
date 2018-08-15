@@ -3,23 +3,12 @@ import u from 'updeep';
 import fp from 'lodash/fp';
 import _ from 'lodash';
 
-import { mapping_reducer, actions_reducer } from './utils';
+import { mapping_reducer, actions_reducer, redactor } from './utils';
 
 import object_reducer, { inflate as inflate_object } from './objects/object';
 
 let debug = require('debug')('aotds:test');
 
-export const inflate = u.map( inflate_object );
-
-const assertAction = {
-    set( object, prop, value ) {
-        if( prop !== '*' && ! actions[prop] ) throw new Error( `${prop} is not a known action` );
-
-        return Reflect.set(...arguments);
-    }
-};
-
-let redaction = new Proxy({}, assertAction );
 
 const default_selector = action => fp.matchesProperty('id', action.object_id);
 const only_target_object = ( selector = default_selector ) => action => {
@@ -29,6 +18,8 @@ const only_target_object = ( selector = default_selector ) => action => {
         )
     );
 };
+
+let redaction = redactor();
 
 redaction.PLAY_TURN = action => 
     u.reject( u.is( 'structure.status', 'destroyed' ) );

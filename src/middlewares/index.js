@@ -3,28 +3,15 @@ import fp from 'lodash/fp';
 import u from 'updeep';
 
 import Actions from '../actions';
+
 import weapon_middlewares from './weapons';
+import { add_timestamp, add_action_id, add_parent_action } from './meta';
 
 import { get_object_by_id, players_not_done, active_players } from './selectors';
 
 import { mw_for } from './utils';
 
-import { plot_movement } from '../movement';
-
 const debug = require("debug")("aotds:mw");
-
-export
-const object_movement_phase = mw_for( Actions.MOVE_OBJECT, 
-    ({getState, dispatch}) => next => action => {
-
-        let object = get_object_by_id( getState(), action.object_id );
-
-        next(
-            u({
-                navigation: plot_movement( object, _.get( object, 'orders.navigation' ) )
-            })(action)
-        )
-});
 
 // players
 //Check all ships
@@ -33,11 +20,6 @@ const object_movement_phase = mw_for( Actions.MOVE_OBJECT,
 //filter those not associated with active players
 //make sure there are at least 2 active players 
 //if 
-
-export const add_timestamp = () => next => action => {
-    action = u({ timestamp: (new Date).toISOString() })(action);
-    next(action);
-};
 
 export
 const play_turn = mw_for( Actions.PLAY_TURN, 
@@ -59,23 +41,11 @@ const play_turn = mw_for( Actions.PLAY_TURN,
     dispatch(Actions.clear_orders());
 });
 
-export 
-const objects_movement_phase = mw_for( Actions.MOVE_OBJECTS, 
-    ({ getState, dispatch }) => next => action => {
-        next(action);
-        _.get( getState(), 'objects', [] )
-            .filter( o => o.navigation )
-            .map( o => o.id ).forEach( id => 
-            dispatch( Actions.move_object(id) )
-        );
-});
-
-
 
 let middlewares = [
     add_timestamp,
-    objects_movement_phase, 
-    object_movement_phase, 
+    add_action_id,
+    add_parent_action,
     play_turn,
     ...weapon_middlewares,
 ];

@@ -1,108 +1,120 @@
 const Ajv = require('ajv');
-const debug = require('debug')('aotds:battle:schemas');
-import jssh from 'json-schema-shorthand';
-import StackTrace from 'stacktrace-js';
 
-class SchemaValidationError extends Error {
-    constructor(options) {
-        super("validation failed");
-        this.validation_value = options.validation_value;
-        this.validation_errors = options.validation_errors;
-    }
-}
+export const ajv = Ajv({ 
+    '$data':     true,
+    useDefaults: true,
+});
 
-export default class Schemas {
-    constructor(options={}) {
-        this.validator = new Ajv({ 
-            '$data':     true,
-            useDefaults: true,
-            loadSchema:  this.loadSchema
-        });
+export const ship = require('./schemas/ship').default;
 
-        this.skipStack = [ /node\.js/, /node_modules/, /module\.js/ ];
+ajv.addSchema(ship);
 
-        this.stackFilter = entry =>
-            !this.skipStack.find( re => re.test(entry.fileName) );
 
-        this.fatal = options.fatal;
-        this.schema_url = options.schema_url;
+//const Ajv = require('ajv');
+//const debug = require('debug')('aotds:battle:schemas');
+//import jssh from 'json-schema-shorthand';
+//import StackTrace from 'stacktrace-js';
 
-        this.validator.compile( 
-            require( './schemas/ship' ).default
-        );
-        this.validator.compile( 
-            require( './schemas/game_turn' ).default
-        );
-    }
+//class SchemaValidationError extends Error {
+//    constructor(options) {
+//        super("validation failed");
+//        this.validation_value = options.validation_value;
+//        this.validation_errors = options.validation_errors;
+//    }
+//}
 
-    async loadSchema(schema) {
-        schema = schema.replace( /^~/, './' );
-        let raw = { ...( require(schema).default ) };
-        raw['$id'] = this.schema_url + schema.replace( /^\./, '' );
-        return raw;
-    }
+//export default class Schemas {
+//    constructor(options={}) {
+//        this.validator = new Ajv({ 
+//            '$data':     true,
+//            useDefaults: true,
+//            loadSchema:  this.loadSchema
+//        });
 
-    async validate(schema,value,stack) {
-        try {
-            let validate = await this.validator.compileAsync(schema);
+//        this.skipStack = [ /node\.js/, /node_modules/, /module\.js/ ];
 
-            if( validate( value ) ) return;
+//        this.stackFilter = entry =>
+//            !this.skipStack.find( re => re.test(entry.fileName) );
 
-          //  let stack = await StackTrace.get();
-            if(stack) {
-                stack = await stack;
-            }
-            //stack.shift();
+//        this.fatal = options.fatal;
+//        this.schema_url = options.schema_url;
 
-            let error = {
-                validation_errors: validate.errors,
-                validation_value: value,
-            };
-            error = new SchemaValidationError(error);
+//        this.validator.compile( 
+//            require( './schemas/ship' ).default
+//        );
+//        this.validator.compile( 
+//            require( './schemas/game_turn' ).default
+//        );
+//    }
 
-            if( this.fatal ) {
-                setTimeout(() => {
-                    throw error
-                }, 0)
-            }
+//    async loadSchema(schema) {
+//        schema = schema.replace( /^~/, './' );
+//        let raw = { ...( require(schema).default ) };
+//        raw['$id'] = this.schema_url + schema.replace( /^\./, '' );
+//        return raw;
+//    }
 
-            debug( "schema errors: %O\ndocument: %O",
-                validate.errors, value );
-        }
-        catch(e) {
-            throw e;
-        }
-    }
+//    async validate(schema,value,stack) {
+//        try {
+//            let validate = await this.validator.compileAsync(schema);
 
-    jssert_f(input,output,context) {
-        let schema = this;
+//            if( validate( value ) ) return;
 
-        if( input instanceof Array ) {
-            input = { type: 'array', items: input };
-        }
+//          //  let stack = await StackTrace.get();
+//            if(stack) {
+//                stack = await stack;
+//            }
+//            //stack.shift();
 
-        input   = jssh(input);
-        output  = jssh(output);
-        context = jssh(context);
+//            let error = {
+//                validation_errors: validate.errors,
+//                validation_value: value,
+//            };
+//            error = new SchemaValidationError(error);
 
-        return f => function(...args) {
-            if( input !== undefined ) {
-                schema.validate('function arguments',input,args,StackTrace.get({
-                    filter: schema.stackFilter
-                }));
-            }
+//            if( this.fatal ) {
+//                setTimeout(() => {
+//                    throw error
+//                }, 0)
+//            }
 
-            let result = f(...args);
+//            debug( "schema errors: %O\ndocument: %O",
+//                validate.errors, value );
+//        }
+//        catch(e) {
+//            throw e;
+//        }
+//    }
 
-            if( output !== undefined ) {
-                schema.validate('function output',output,result,StackTrace.get({
-                    filter: schema.stackFilter
-                })).catch( e => { console.log(e) } );
-            }
+//    jssert_f(input,output,context) {
+//        let schema = this;
 
-            return result;
-        };
-    }
+//        if( input instanceof Array ) {
+//            input = { type: 'array', items: input };
+//        }
 
-}
+//        input   = jssh(input);
+//        output  = jssh(output);
+//        context = jssh(context);
+
+//        return f => function(...args) {
+//            if( input !== undefined ) {
+//                schema.validate('function arguments',input,args,StackTrace.get({
+//                    filter: schema.stackFilter
+//                }));
+//            }
+
+//            let result = f(...args);
+
+//            if( output !== undefined ) {
+//                schema.validate('function output',output,result,StackTrace.get({
+//                    filter: schema.stackFilter
+//                })).catch( e => { console.log(e) } );
+//            }
+
+//            return result;
+//        };
+//    }
+
+//}
 

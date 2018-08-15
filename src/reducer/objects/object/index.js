@@ -12,22 +12,6 @@ import drive from './drive';
 
 let debug = require('debug')('aotds:battle:reducer:object');
 
-const inflate_firecons = u.if( fp.isNumber,     
-    fp.pipe( fp.times( i => i+1 ), fp.map( id => ({id}) ) )
-);
-
-const inflate_drive = u.if( fp.isNumber,     
-    max => ({ max, current: max })    
-);
-
-
-export const inflate = u({ 
-    drive: inflate_drive,
-    structure: inflate_structure,
-    weaponry: {
-        firecons: inflate_firecons,
-    },
-});
 
 function firecon_reducer(state = {}, action ) {
     switch( action.type ) {

@@ -26,3 +26,13 @@ test( 'times', () => {
     });
 
 });
+
+test( 'next_action_id', () => {
+    let state = reducer(undefined,{});
+
+    expect(state).toHaveProperty('next_action_id',1);
+
+    state = reducer(state,Actions.actions.inc_action_id());
+
+    expect(state).toHaveProperty('next_action_id',2);
+});
