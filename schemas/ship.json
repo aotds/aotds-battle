@@ -244,6 +244,24 @@
         }
       }
     },
+    "navigation": {
+      "description": "navigation-related attributes",
+      "type": "object",
+      "properties": {
+        "heading": {
+          "$ref": "#/definitions/heading"
+        },
+        "coords": {
+          "$ref": "#/definitions/coords"
+        },
+        "velocity": {
+          "$ref": "#/definitions/velocity"
+        },
+        "course": {
+          "$ref": "#/definitions/course"
+        }
+      }
+    },
     "weaponry": {
       "type": "object",
       "properties": {
