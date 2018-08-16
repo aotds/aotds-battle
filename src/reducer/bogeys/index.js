@@ -21,13 +21,12 @@ const only_target_object = ( selector = default_selector ) => action => {
 
 let redaction = redactor();
 
-redaction.PLAY_TURN = action => 
-    u.reject( u.is( 'structure.status', 'destroyed' ) );
+redaction.PLAY_TURN = action => u.omitBy( u.is('structure.destroyed',true) )
 
 redaction.INTERNAL_DAMAGE = only_target_object();
 redaction.DAMAGE = only_target_object();
 
-redaction.INIT_GAME = action => () => _.get(action,'bogeys',{}) |> inflate;
+redaction.INIT_GAME = action => () => (_.get(action,'bogeys',{}) |> inflate);
 
 const specific_bogey = action => u.updateIn( action.bogey_id, b => bogey(b,action) );
 
