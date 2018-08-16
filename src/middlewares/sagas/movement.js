@@ -27,5 +27,5 @@ function* movement_phase(action) {
             ))
         }
 
-    })();
+    });
 }

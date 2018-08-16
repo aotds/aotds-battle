@@ -103,8 +103,21 @@ actioner.add( 'damage', ( object_id, weapon_type, dice, penetrating=false ) =>
     u.if( penetrating, { penetrating: true })({ object_id, weapon_type, dice })
 );
 
-actioner.add( 'internal_damage', ( object_id, system, dice ) => ({
-    object_id, system, dice
+actioner.add( 'internal_damage_check', ( bogey_id, hull ) => ({
+    bogey_id, hull: { ...hull, damage: hull.previous - hull.current }
+}), object( {
+    bogey_id: 'string!',
+    hull: object({
+        max: 'number!',
+        current: 'number!',
+        previous: 'number!',
+        damage: 'number!',
+    })
+}, "check if any internal system was damaged"));
+
+
+actioner.add( 'internal_damage', ( bogey_id, system, dice ) => ({
+    bogey_id, system, dice
 }));
 
 actioner.add( 'assign_weapons_to_firecons'  );
