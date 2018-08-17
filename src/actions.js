@@ -34,6 +34,8 @@ let actioner = new Actioner({
     },
 });
 
+actioner.add( 'new_turn' );
+
 actioner.add('inc_action_id');
 
 actioner.add( 'init_game', object({
@@ -44,10 +46,10 @@ actioner.add( 'init_game', object({
 }));
 
 actioner.add( 'set_orders',
-    (object_id,orders) => ({ object_id, orders }),
+    (bogey_id,orders) => ({ bogey_id, orders }),
     object(
         {
-            object_id: string(),
+            bogey_id: 'string!',
             orders: object({
                 navigation: object({
                     thrust: integer(),
@@ -60,14 +62,14 @@ actioner.add( 'set_orders',
                     target_id: 'string'
                 })),
             }),
-        }, { required: [ 'object_id' ] }
+        }
     )
 );
 
 actioner.add( 'movement_phase' );
 actioner.add( 'move_objects_done' );
-actioner.add( 'bogey_movement', (object_id,navigation) => ({ object_id, navigation }), object({
-    object_id: 'string!',
+actioner.add( 'bogey_movement', (bogey_id,navigation) => ({ bogey_id, navigation }), object({
+    bogey_id: 'string!',
     navigation: { '$ref': 'http://aotds.babyl.ca/battle/ship#/definitions/navigation' },
 }));
 
@@ -77,9 +79,9 @@ actioner.add( 'clear_orders' );
 
 actioner.add( 'execute_firecon_orders' );
 actioner.add( 'execute_ship_firecon_orders',
-    ( object_id, firecon_id, orders ) => {
+    ( bogey_id, firecon_id, orders ) => {
         return {
-            object_id,
+            bogey_id,
             firecon_id,
             ...orders,
         };
@@ -89,18 +91,18 @@ actioner.add( 'execute_ship_firecon_orders',
 actioner.add( 'fire_weapons' );
 
 actioner.add( 'fire_weapon', 
-    ( object_id, target_id, weapon_id ) => ({
-        object_id, target_id, weapon_id
+    ( bogey_id, target_id, weapon_id ) => ({
+        bogey_id, target_id, weapon_id
     }),
     object({
-        object_id: 'string!',
+        bogey_id: 'string!',
         target_id: 'string!',
         weapon_id: 'integer!',
    })
 );
 
-actioner.add( 'damage', ( object_id, weapon_type, dice, penetrating=false ) => 
-    u.if( penetrating, { penetrating: true })({ object_id, weapon_type, dice })
+actioner.add( 'damage', ( bogey_id, weapon_type, dice, penetrating=false ) => 
+    u.if( penetrating, { penetrating: true })({ bogey_id, weapon_type, dice })
 );
 
 actioner.add( 'internal_damage_check', ( bogey_id, hull ) => ({
