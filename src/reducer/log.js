@@ -10,7 +10,7 @@ const unwanted_actions = [
 
 const _log_reduce = function( action, parents, state ) {
     let id = _.head(parents);
-    console.log(state, id);
+
     if( !id ) {
         return [ ...state, action ];
     };
@@ -29,7 +29,7 @@ const _log_reduce = function( action, parents, state ) {
 } |> _.curry; 
 
 const add_tree_branch = ( (parent_id,action,root) => {
-const debug = require('debug')('aotds');
+
     if( _.get(root, 'meta.id') === parent_id ) {
         return u.updateIn(
             'meta.child_actions', s => s ? [...s,action] : [action]
@@ -64,5 +64,9 @@ export function tree_log(log) {
 export default function log_reducer(state=[],action) {
     if ( _.includes( unwanted_actions, action.type ) ) return state;
 
-    return [ ...state, action ];
+    const parent_id = _.get(action,'meta.parent_action_id');
+
+    if( !parent_id  ) return [ ...state, action ];
+
+    return u.updateIn( state.length-1, add_tree_branch(parent_id, action ) )(state)
 }

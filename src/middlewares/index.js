@@ -4,7 +4,6 @@ import u from 'updeep';
 
 import Actions from '../actions';
 
-import weapon_middlewares from './weapons';
 import { add_timestamp, add_action_id, add_parent_action } from './meta';
 
 import { get_object_by_id, players_not_done, active_players } from './selectors';
@@ -12,6 +11,8 @@ import { get_object_by_id, players_not_done, active_players } from './selectors'
 import { mw_for } from './utils';
 
 const debug = require("debug")("aotds:mw");
+
+import validate_schema from './validate_schema';
 
 // players
 //Check all ships
@@ -21,34 +22,22 @@ const debug = require("debug")("aotds:mw");
 //make sure there are at least 2 active players 
 //if 
 
-export
-const play_turn = mw_for( Actions.PLAY_TURN, 
-    ({getState, dispatch}) => next => action => {
+import createSagaMiddleware from 'redux-saga';
+import sagas from './sagas';
 
-    if ( !action.force && (
-            players_not_done(getState()).length > 0 
-            || active_players(getState()).length <= 1 ) ) {
-        debug( "waiting for ", players_not_done(getState()) );
-        return;
-    }
+const thaw = () => next => action => {
+    let clone = _.cloneDeep(action);
+    clone.potato = 1;
+    console.log(clone);
+    next(clone);
+}
 
-    next(action);
-    dispatch(Actions.move_objects());
-    dispatch(Actions.execute_firecon_orders());
-    dispatch(Actions.assign_weapons_to_firecons());
-    dispatch(Actions.execute_firecon_orders());
-    dispatch(Actions.fire_weapons());
-    dispatch(Actions.clear_orders());
-});
+import weapons_mw from './weapons';
 
-
-let middlewares = [
+export default [
     add_timestamp,
     add_action_id,
     add_parent_action,
-    play_turn,
-    ...weapon_middlewares,
+    validate_schema,
+    ...weapons_mw,
 ];
-
-
-export default middlewares;

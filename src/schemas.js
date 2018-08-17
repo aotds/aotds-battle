@@ -6,8 +6,10 @@ export const ajv = Ajv({
 });
 
 export const ship = require('./schemas/ship').default;
+export const game = require('./schemas/game').default;
 
 ajv.addSchema(ship);
+ajv.addSchema(game);
 
 
 //const Ajv = require('ajv');

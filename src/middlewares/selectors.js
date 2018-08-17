@@ -3,27 +3,29 @@ import fp from 'lodash/fp';
 
 const debug = require('debug')('aotds:mw:selector');
 
-export const get_object_by_id = ( store, id ) => _.find( store.objects, { id } );
+export function select( func, ...args ) {
+    return func(...args)
+}
 
-export function active_players(state) {
+export const get_bogey = id => fp.flow([
+    fp.getOr([],'bogeys'),
+    fp.find({ id })
+]);
+
+export function get_active_players(state) {
     return fp.reject( { status: 'inactive' } )( state.game.players );
 };
 
-export function players_not_done( state ) {
-    let players = _.get( state, 'game.players', [] );
+export function get_players_not_done( state ) {
+    let active_players = get_active_players(state);
 
-    const with_player = fp.filter('player_id' );
-    const not_ready   = fp.reject( 'orders.done' );
+    // all bogeys not done 
+    let players_not_done = state 
+        |> fp.get('bogeys')
+        |> fp.reject('orders.done')
+        |> fp.map('player_id')
+        |> fp.uniq;
 
-    let obj_not_ready = not_ready( with_player( state.objects ) );
-
-    let players_not_ready = fp.map('player_id')(obj_not_ready);
-
-    const player_not_ready = fp.filter( p =>_.includes(players_not_ready,p.id));
-
-    return fp.map('id')(
-        player_not_ready( active_players(state) )
-    );
-
+    return active_players |> fp.filter( p => _.includes(active_players,p) );
 }
 

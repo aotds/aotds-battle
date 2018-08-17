@@ -9,24 +9,18 @@ debug.inspectOpts.depth = 99;
 
 import { cheatmode, rig_dice } from './dice';
 
-import * as structure_reducer from './reducer/objects/object/structure';
-
 import Battle from './index';
-
-import { get_object_by_id } from './middlewares/selectors';
-
-import { writeFile } from 'fs';
 
 let turns = [ () => Promise.resolve( new Battle() ) ];
 
 turns[1] = (battle) => {
 
-    battle.init_game( {
+    battle.dispatch_action( 'init_game', {
         game: {
             name: 'gemini', 
             players: [ { id: "yanick" }, { id: "yenzie" } ],
         },
-        objects: [
+        bogeys: [
             { name: 'Enkidu', id: 'enkidu',
                 drive: { current: 6 },
                 navigation: {
@@ -35,25 +29,23 @@ turns[1] = (battle) => {
                     velocity: 0,
                 },
                 weaponry: {
-                    firecons: [
-                        { id: 1 },
-                    ],
-                    weapons: [ { id: 1, 
+                    firecons: 1,
+                    weapons: [ { 
                         type: "beam", class: 2,
                         arcs: [ 'F' ] },
-                        { id: 2, arcs: [ 'FS' ],
+                        { arcs: [ 'FS' ],
                         type: "beam", class: 1,
                         }, 
-                        { id: 3, arcs: [ 'FP' ],
+                        { arcs: [ 'FP' ],
                         type: "beam", class: 1,
                         } ],
                 },
-                structure: structure_reducer.inflate({
+                structure: {
                     hull: 4,
                     shields: [ 1, 2 ],
                     armor: 4,
                     status: 'nominal',
-                }),
+                },
                 player_id: "yanick",
             },
             { name: 'Siduri', id: 'siduri',
@@ -64,51 +56,46 @@ turns[1] = (battle) => {
                     velocity: 0,
                 },
                 player_id: "yenzie",
-                structure: structure_reducer.inflate({
+                structure: {
                     hull: 4,
                     shields: [ 1, 2 ],
                     armor: 4,
                     status: 'nominal',
-                }),
+                },
             },
         ],
     });
 
     expect(battle.state).toMatchObject({ 
         game: { name: 'gemini', turn: 0 },
-        objects: [
-            { name: 'Enkidu' },
-            { name: 'Siduri' },
-        ],
+        bogeys:{ enkidu: { name: 'Enkidu' },
+            siduri: { name: 'Siduri' }, },
     });
 
     let enkidu_orders = { thrust: 1, turn: 1, bank: 1 };
 
-    battle.set_orders( 'enkidu', {
+    battle.dispatch_action( 'set_orders', 'enkidu', {
         navigation: enkidu_orders,
     } );
 
-    battle.play_turn();
+    battle.dispatch_action( 'play_turn' );
     
     // not yet...
-    expect(battle.state.game.turn).toBe(0);
+    expect(battle.state).toHaveProperty( 'game.turn', 0 );
 
-    battle.set_orders( 'siduri', {
+    battle.dispatch_action( 'set_orders', 'siduri', {
         navigation: { thrust: 1 },
     } );
 
-    expect( _.find( battle.state.objects, { id: 'enkidu' } ).orders.navigation )
-    .toMatchObject( enkidu_orders );
+    expect( battle.state.bogeys.enkidu.orders.navigation )
+        .toMatchObject( enkidu_orders );
 
     // let's check the log
     expect( battle.state.log.map( l => l.type ) ).toEqual([
-        'INIT_GAME', 'SET_ORDERS', 'SET_ORDERS'
+        'INIT_GAME', 'SET_ORDERS', 'PLAY_TURN', 'SET_ORDERS'
     ]);
 
-    battle.play_turn();
-
-    expect(battle.state.log.map( l => l.type ))
-        .not.toContain('INIT_GAME');
+    battle.dispatch_action('play_turn');
 
     expect(battle.state.game).toMatchObject({ turn: 1 });
 
@@ -299,6 +286,8 @@ turns[8] = function turn8(battle) {
     return battle;
 }
 
+turns.splice(2,99);
+
 let  previous = Promise.resolve();
 turns = turns.map( t => {
     let p = previous.then(t);
@@ -307,42 +296,6 @@ turns = turns.map( t => {
 });
 
 turns.forEach( (t,i) => {
-    let f = i === 2 ? test.only : test;
     test( `turn ${i}`, t );
 });
-
-
-
-// describe( 'shall we play a game?', () => {
-
-//     cheatmode();
-
-//     turns.push( turn3, turn4, turn5, turn6, turn7, turn8 );
-
-//     jest.setTimeout(1000);
-
-//     turns.reduce( (previous_turn,turn) => {
-//         return new Promise( (resolve,reject) => {
-//             test( 'turn ' + turn.name, async () => {
-//                 try {
-//                     resolve( turn(await previous_turn) )
-//                 }
-//                 catch(e) { 
-//                     expect(e).toBe(null);
-//                     reject(e);
-//                 }
-//             });
-//         } );
-//     }, Promise.resolve( new Battle() ) );
-
-//     return;
-
-
-//     debug.inspectOpts.depth = 99;
-// //    debug(battle.state.log);
-
-//     writeFile('./state.json',JSON.stringify(battle.state,null,2) );
-
-
-// })
 

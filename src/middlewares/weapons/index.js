@@ -1,50 +1,52 @@
-import { put, select } from 'redux-saga/effects';
 import _ from 'lodash';
 import fp from 'lodash/fp';
 import u from 'updeep';
 
 import { actions, types } from '~/actions';
+import { roll_die } from '~/dice';
 
 import { get_bogey } from '../selectors';
-import { roll_die } from '../../../dice';
+import { mw_for, subactions } from '../utils';
 
 const debug = require('debug')('aotds:mw:sagas:weapons');
 
 const spy = thingy => { debug(thingy); return thingy };
 
-export default function*() {
-    yield takeEvery(types.INTERNAL_DAMAGE_CHECK, internal_damage_check);
-    yield takeEvery(types.FIRE_WEAPONS_PHASE, fire_weapons_phase);
-}
 
-export function* internal_damage_check({ bogey_id, hull }) {
-    if(! hull.damage ) return;  // nothing happened 
+export const internal_damage_check = mw_for( 'DAMAGE', 
+    store => next => action => {
 
-    let bogey = yield select(get_bogey, bogey_id);
+        let before = store.getState() |> get_bogey( action.bogey_id ) |> fp.get('structure.hull.current');
 
-    let probability = parseInt(100 * hull.damage / hull.max);
+        subactions( () => () => () => {
+            let bogey = store.getState() |> get_bogey( action.bogey_id );
 
-    let systems = [
-        internal_damage_drive,
-        internal_damage_firecons,
-        internal_damage_weapons,
-        internal_damage_shields,
-    ] 
-        |> fp.map( f => f(bogey,probability) )
-        |> fp.flatten
-        |> fp.filter( 'dice.hit' )
-        |> fp.map( ({system,dice}) => actions.internal_damage( bogey_id, system, dice ) )
-        |> spy
-        |> fp.map( a => put(a));
+            let hull = bogey.structure.hull;
+            
+            let damage = before - hull.current;
 
-    debug(systems);
+            if(!damage) return;
 
-    yield* systems;
+            let probability = parseInt(100 * damage / hull.max);
+
+            let systems = [
+                internal_damage_drive,
+                internal_damage_firecons,
+                internal_damage_weapons,
+                internal_damage_shields,
+            ]   |> fp.map( f => f(bogey,probability) )
+                |> fp.flatten
+                |> spy
+                |> fp.filter( 'dice.hit' )
+                |> fp.map( ({system,dice}) => actions.internal_damage( bogey.id, system, dice ) )
+                |> fp.map( store.dispatch );
+        } )(store,next,action);
+    }
+);
 
 //         // TODO: repair crews
 
 //         // TODO: core systems
-}
 
 function roll_against_target(target) {
     let rolled = roll_die(100);
@@ -62,14 +64,6 @@ function internal_damage_drive({drive},percent) {
         system: { type: 'drive' }, dice: roll_against_target(percent)
     };
 }
-
-// import * as weapons from '../../weapons';
-
-// import { mw_for } from '../utils';
-// import Actions from '../../actions';
-// import { get_object_by_id, players_not_done, active_players } from '../selectors';
-
-// import { roll_die, roll_dice } from '../../dice';
 
 function* fire_weapons_phase() {
     let bogeys = yield( select( get_bogeys ) );
@@ -96,8 +90,6 @@ function* fire_weapon( bogey_id, target_id, weapon_id ) {
     let weapon = bogey.weaponry.weapons[weapon_id];
 
     let target = yield select( get_bogey, target_id );
-
-    let action = actions.
 
 
 }
@@ -204,19 +196,19 @@ function internal_damage_weapons(ship,percent) {
         |> fp.map( id => roll_system( 'weapon', { id }, percent ) );
 }
 
-function* assign_weapons_to_firecons() {
-    let bogeys = yield select( get_bogeys );
+// function* assign_weapons_to_firecons() {
+//     let bogeys = yield select( get_bogeys );
 
-    bogeys = bogeys |> fp.filter('orders.weapons');
+//     bogeys = bogeys |> fp.filter('orders.weapons');
 
-    for ( let bogey of bogeys ) {
-        yield* _.get(bogey,'orders.weapons',[]) 
-            |> fp.map( ({ weapon_id, firecon_id }) 
-                => actions.assign_weapon_to_firecon( bogey.id, weapon_id, firecon_id) )
-            |> fp.map( a => put(a) );
-    }
+//     for ( let bogey of bogeys ) {
+//         yield* _.get(bogey,'orders.weapons',[]) 
+//             |> fp.map( ({ weapon_id, firecon_id }) 
+//                 => actions.assign_weapon_to_firecon( bogey.id, weapon_id, firecon_id) )
+//             |> fp.map( a => put(a) );
+//     }
         
-}
+// }
 
 function internal_damage_shields(ship,percent) {
     return ship |> fp.getOr([])('structure.shields')
@@ -225,3 +217,4 @@ function internal_damage_shields(ship,percent) {
         |> fp.map( id => roll_system( 'shield', { id }, percent ) );
 }
 
+export default [ internal_damage_check ];

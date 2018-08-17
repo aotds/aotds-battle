@@ -13,11 +13,11 @@ const add_timestamp = ( (store,next,action) =>
 
 
 export 
-const add_action_id = function({getStore, dispatch},next,action) {
+const add_action_id = function({getState, dispatch},next,action) {
 
     if( action.type === INC_ACTION_ID ) return next(action);
 
-    let id = _.get( getStore(), 'game.next_action_id' );
+    let id = _.get( getState(), 'game.next_action_id' );
 
     dispatch( inc_action_id() );
 
@@ -27,8 +27,8 @@ const add_action_id = function({getStore, dispatch},next,action) {
 } |> _.curry;
 
 
-export const add_parent_action = function({getStore},next,action){
-    let parent_action_id =_.get( getStore(), 'game.action_stack.0' );
+export const add_parent_action = function({getState},next,action){
+    let parent_action_id =_.get( getState(), 'game.action_stack.0' );
 
     return next( u.if(parent_action_id,
         u.updateIn('meta.parent_action_id',parent_action_id)
