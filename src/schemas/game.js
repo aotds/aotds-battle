@@ -19,12 +19,12 @@ const schema = object(
                 }),
             ),
         }),
-        objects: array(
-            { '$ref': 'http://aotds.babyl.ca/battle/ship' }
+        bogeys: object( {},
+            { additional_properties: { '$ref': 'http://aotds.babyl.ca/battle/ship' } }
         ),
     },
     {
-        '$id': "http://aotds.babyl.ca/battle/game_turn",
+        '$id': "http://aotds.babyl.ca/battle/game",
     });
 
 export default schema;
