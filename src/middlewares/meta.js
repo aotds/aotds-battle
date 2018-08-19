@@ -8,7 +8,7 @@ import { inc_action_id, INC_ACTION_ID,
 
 export
 const add_timestamp = ( (store,next,action) =>
-    next(u.updateIn('meta.timestamp', Date.now(), action))
+    next(u.updateIn('meta.timestamp', (new Date()).toISOString(), action))
 ) |> _.curry;
 
 

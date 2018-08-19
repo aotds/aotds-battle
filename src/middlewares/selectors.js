@@ -7,6 +7,11 @@ export function select( func, ...args ) {
     return func(...args)
 }
 
+export const get_bogeys = () => _.flow([
+    fp.getOr('bogeys',{}),
+    fp.values,
+]);
+
 export const get_bogey = id => fp.flow([
     fp.getOr([],'bogeys'),
     fp.find({ id })
@@ -26,6 +31,6 @@ export function get_players_not_done( state ) {
         |> fp.map('player_id')
         |> fp.uniq;
 
-    return active_players |> fp.filter( p => _.includes(active_players,p) );
+    return active_players |> fp.filter( p => _.includes(players_not_done,p.id) );
 }
 

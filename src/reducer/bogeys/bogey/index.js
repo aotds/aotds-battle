@@ -2,7 +2,8 @@ import u from 'updeep';
 import fp from 'lodash/fp';
 
 import actions from '../../../actions';
-import structure, { inflate as inflate_structure } from './structure';
+import structure from './structure';
+import inflate from './inflate';
 
 import { 
     mapping_reducer,

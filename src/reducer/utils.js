@@ -19,6 +19,10 @@ export const redactor = () => new Proxy({}, assertAction);
 export
 function actions_reducer( redactions, initial_state = {} ) {
     return function( state = initial_state, action ) {
+        if(!_.get(action,'type')) {
+            throw new Error( `action has no type? ${JSON.stringify(action,null,2)}, state: ${JSON.stringify(state,null,2)}` );
+        }
+
         let red = redactions[action.type] || redactions['*'];
         return red ? red(action)(state) : state;
     }

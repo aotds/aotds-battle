@@ -119,9 +119,5 @@ let middlewares = [
     MW_firecon_fire,
 ];
 
-import createSagaMiddleware from 'redux-saga';
-import battle_saga from './saga';
-
-
 
 */

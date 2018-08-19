@@ -1,0 +1,314 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`turn 0 1`] = `
+Object {
+  "bogeys": Object {
+    "enkidu": Object {
+      "drive": Object {
+        "current": 6,
+        "rating": 6,
+      },
+      "id": "enkidu",
+      "name": "Enkidu",
+      "navigation": Object {
+        "coords": Array [
+          0,
+          0,
+        ],
+        "heading": 0,
+        "velocity": 0,
+      },
+      "player_id": "yanick",
+      "structure": Object {
+        "armor": Object {
+          "current": 4,
+          "max": 4,
+        },
+        "hull": Object {
+          "current": 4,
+          "max": 4,
+        },
+        "shields": Object {
+          "1": Object {
+            "id": 1,
+          },
+          "2": Object {
+            "id": 2,
+          },
+        },
+        "status": "nominal",
+      },
+      "weaponry": Object {
+        "firecons": Object {
+          "1": Object {
+            "id": 1,
+          },
+        },
+        "weapons": Array [
+          Object {
+            "arcs": Array [
+              "F",
+            ],
+            "class": 2,
+            "type": "beam",
+          },
+          Object {
+            "arcs": Array [
+              "FS",
+            ],
+            "class": 1,
+            "type": "beam",
+          },
+          Object {
+            "arcs": Array [
+              "FP",
+            ],
+            "class": 1,
+            "type": "beam",
+          },
+        ],
+      },
+    },
+    "siduri": Object {
+      "drive": Object {
+        "current": 6,
+        "rating": 6,
+      },
+      "id": "siduri",
+      "name": "Siduri",
+      "navigation": Object {
+        "coords": Array [
+          10,
+          10,
+        ],
+        "heading": 6,
+        "velocity": 0,
+      },
+      "player_id": "yenzie",
+      "structure": Object {
+        "armor": Object {
+          "current": 4,
+          "max": 4,
+        },
+        "hull": Object {
+          "current": 4,
+          "max": 4,
+        },
+        "shields": Object {
+          "1": Object {
+            "id": 1,
+          },
+          "2": Object {
+            "id": 2,
+          },
+        },
+        "status": "nominal",
+      },
+      "weaponry": Object {},
+    },
+  },
+  "game": Object {
+    "action_stack": Array [],
+    "name": "gemini",
+    "next_action_id": 14,
+    "players": Array [
+      Object {
+        "id": "yanick",
+      },
+      Object {
+        "id": "yenzie",
+      },
+    ],
+    "turn": 1,
+    "turn_times": Object {
+      "started": "2018-01-01",
+    },
+  },
+  "log": Array [
+    Object {
+      "bogeys": Array [
+        Object {
+          "drive": Object {
+            "current": 6,
+            "rating": 6,
+          },
+          "id": "enkidu",
+          "name": "Enkidu",
+          "navigation": Object {
+            "coords": Array [
+              0,
+              0,
+            ],
+            "heading": 0,
+            "velocity": 0,
+          },
+          "player_id": "yanick",
+          "structure": Object {
+            "armor": 4,
+            "hull": 4,
+            "shields": Array [
+              1,
+              2,
+            ],
+            "status": "nominal",
+          },
+          "weaponry": Object {
+            "firecons": 1,
+            "weapons": Array [
+              Object {
+                "arcs": Array [
+                  "F",
+                ],
+                "class": 2,
+                "type": "beam",
+              },
+              Object {
+                "arcs": Array [
+                  "FS",
+                ],
+                "class": 1,
+                "type": "beam",
+              },
+              Object {
+                "arcs": Array [
+                  "FP",
+                ],
+                "class": 1,
+                "type": "beam",
+              },
+            ],
+          },
+        },
+        Object {
+          "drive": Object {
+            "current": 6,
+            "rating": 6,
+          },
+          "id": "siduri",
+          "name": "Siduri",
+          "navigation": Object {
+            "coords": Array [
+              10,
+              10,
+            ],
+            "heading": 6,
+            "velocity": 0,
+          },
+          "player_id": "yenzie",
+          "structure": Object {
+            "armor": 4,
+            "hull": 4,
+            "shields": Array [
+              1,
+              2,
+            ],
+            "status": "nominal",
+          },
+        },
+      ],
+      "game": Object {
+        "name": "gemini",
+        "players": Array [
+          Object {
+            "id": "yanick",
+          },
+          Object {
+            "id": "yenzie",
+          },
+        ],
+      },
+      "meta": Object {
+        "id": 1,
+        "timestamp": "2018-01-01",
+      },
+      "type": "INIT_GAME",
+    },
+    Object {
+      "bogey_id": "enkidu",
+      "meta": Object {
+        "id": 2,
+        "timestamp": "2018-01-01",
+      },
+      "orders": Object {
+        "navigation": Object {
+          "bank": 1,
+          "thrust": 1,
+          "turn": 1,
+        },
+      },
+      "type": "SET_ORDERS",
+    },
+    Object {
+      "bogey_id": "siduri",
+      "meta": Object {
+        "id": 4,
+        "timestamp": "2018-01-01",
+      },
+      "orders": Object {
+        "navigation": Object {
+          "thrust": 1,
+        },
+      },
+      "type": "SET_ORDERS",
+    },
+    Object {
+      "force": false,
+      "meta": Object {
+        "child_actions": Array [
+          Object {
+            "meta": Object {
+              "id": 7,
+              "parent_action_id": 5,
+              "timestamp": "2018-01-01",
+            },
+            "type": "MOVEMENT_PHASE",
+          },
+          Object {
+            "meta": Object {
+              "id": 8,
+              "parent_action_id": 5,
+              "timestamp": "2018-01-01",
+            },
+            "type": "EXECUTE_FIRECON_ORDERS",
+          },
+          Object {
+            "meta": Object {
+              "id": 9,
+              "parent_action_id": 5,
+              "timestamp": "2018-01-01",
+            },
+            "type": "ASSIGN_WEAPONS_TO_FIRECONS",
+          },
+          Object {
+            "meta": Object {
+              "id": 10,
+              "parent_action_id": 5,
+              "timestamp": "2018-01-01",
+            },
+            "type": "EXECUTE_FIRECON_ORDERS",
+          },
+          Object {
+            "meta": Object {
+              "id": 11,
+              "parent_action_id": 5,
+              "timestamp": "2018-01-01",
+            },
+            "type": "FIRE_WEAPONS",
+          },
+          Object {
+            "meta": Object {
+              "id": 12,
+              "parent_action_id": 5,
+              "timestamp": "2018-01-01",
+            },
+            "type": "CLEAR_ORDERS",
+          },
+        ],
+        "id": 5,
+        "timestamp": "2018-01-01",
+      },
+      "type": "PLAY_TURN",
+    },
+  ],
+}
+`;

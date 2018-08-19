@@ -1,8 +1,11 @@
 import _ from 'lodash';
 import { push_action_stack, pop_action_stack } from '~/actions';
 
+const debug = require('debug')('aotds:mw:utils');
+
+
 export const mw_for = ( function( target, inner ) {
-    console.log("here");
+    debug("here");
     return _.curry( function(store,next,action) {
         let func = next;
 

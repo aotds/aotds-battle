@@ -20,7 +20,7 @@ const schema = object(
             ),
         }),
         bogeys: object( {},
-            { additional_properties: { '$ref': 'http://aotds.babyl.ca/battle/ship' } }
+            { additionalProperties: { '$ref': 'http://aotds.babyl.ca/battle/ship' } }
         ),
     },
     {

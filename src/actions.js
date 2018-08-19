@@ -18,7 +18,7 @@ let actioner = new Actioner({
             properties: {
                 id: { description:  "action id", type:  "number", },
                 timestamp: { 
-                    type: "number",
+                    type: "string",
                 },
                 parent_action: {
                     type: "number",

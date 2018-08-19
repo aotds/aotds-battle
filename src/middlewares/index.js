@@ -1,18 +1,9 @@
-import _ from 'lodash';
-import fp from 'lodash/fp';
-import u from 'updeep';
-
-import Actions from '../actions';
-
 import { add_timestamp, add_action_id, add_parent_action } from './meta';
-
-import { get_object_by_id, players_not_done, active_players } from './selectors';
-
-import { mw_for } from './utils';
-
-const debug = require("debug")("aotds:mw");
-
 import validate_schema from './validate_schema';
+import play_turn from './play_turn';
+
+import weapons_mw from './weapons';
+import movement_mw from './movement';
 
 // players
 //Check all ships
@@ -21,23 +12,28 @@ import validate_schema from './validate_schema';
 //filter those not associated with active players
 //make sure there are at least 2 active players 
 //if 
+const debug = require('debug')('aotds:mw');
 
-import createSagaMiddleware from 'redux-saga';
-import sagas from './sagas';
 
-const thaw = () => next => action => {
-    let clone = _.cloneDeep(action);
-    clone.potato = 1;
-    console.log(clone);
-    next(clone);
-}
-
-import weapons_mw from './weapons';
+const trycatch = ({getState}) => next => action => {
+    let state = getState();
+    try {
+        next(action);
+    }
+    catch(e) {
+        debug(action);
+        debug(state);
+        throw e;
+    }
+};
 
 export default [
     add_timestamp,
     add_action_id,
     add_parent_action,
     validate_schema,
+    play_turn,
     ...weapons_mw,
+    ...movement_mw,
+    trycatch,
 ];

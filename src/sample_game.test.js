@@ -1,6 +1,8 @@
+import {toBeDeepCloseTo, toMatchCloseTo } from 'jest-matcher-deep-close-to';
 import fp from 'lodash/fp';
 
-import {toBeDeepCloseTo, toMatchCloseTo } from 'jest-matcher-deep-close-to';
+import { get_bogey } from './middlewares/selectors';
+
 expect.extend({toBeDeepCloseTo, toMatchCloseTo });
 
 import _ from 'lodash';
@@ -11,60 +13,15 @@ import { cheatmode, rig_dice } from './dice';
 
 import Battle from './index';
 
+Date.prototype.toISOString = jest.fn( () => '2018-01-01' );
+
 let turns = [ () => Promise.resolve( new Battle() ) ];
 
 turns[1] = (battle) => {
 
-    battle.dispatch_action( 'init_game', {
-        game: {
-            name: 'gemini', 
-            players: [ { id: "yanick" }, { id: "yenzie" } ],
-        },
-        bogeys: [
-            { name: 'Enkidu', id: 'enkidu',
-                drive: { current: 6 },
-                navigation: {
-                    coords: [ 0,0 ],
-                    heading: 0,
-                    velocity: 0,
-                },
-                weaponry: {
-                    firecons: 1,
-                    weapons: [ { 
-                        type: "beam", class: 2,
-                        arcs: [ 'F' ] },
-                        { arcs: [ 'FS' ],
-                        type: "beam", class: 1,
-                        }, 
-                        { arcs: [ 'FP' ],
-                        type: "beam", class: 1,
-                        } ],
-                },
-                structure: {
-                    hull: 4,
-                    shields: [ 1, 2 ],
-                    armor: 4,
-                    status: 'nominal',
-                },
-                player_id: "yanick",
-            },
-            { name: 'Siduri', id: 'siduri',
-                drive: { rating: 6, current: 6 },
-                navigation: {
-                    coords: [ 10,10 ],
-                    heading: 6,
-                    velocity: 0,
-                },
-                player_id: "yenzie",
-                structure: {
-                    hull: 4,
-                    shields: [ 1, 2 ],
-                    armor: 4,
-                    status: 'nominal',
-                },
-            },
-        ],
-    });
+    const initial_state = require('./sample_game/initial_state').default;
+
+    battle.dispatch_action( 'init_game', initial_state );
 
     expect(battle.state).toMatchObject({ 
         game: { name: 'gemini', turn: 0 },
@@ -92,32 +49,32 @@ turns[1] = (battle) => {
 
     // let's check the log
     expect( battle.state.log.map( l => l.type ) ).toEqual([
-        'INIT_GAME', 'SET_ORDERS', 'PLAY_TURN', 'SET_ORDERS'
+        'INIT_GAME', 'SET_ORDERS', 'SET_ORDERS'
     ]);
 
     battle.dispatch_action('play_turn');
 
     expect(battle.state.game).toMatchObject({ turn: 1 });
 
-    // let's check the log
-    expect( battle.state.log.map( l => l.type ) ).toEqual([
-        'PLAY_TURN', 'MOVE_OBJECTS',
-        'MOVE_OBJECT',
-        'MOVE_OBJECT',
-        'EXECUTE_FIRECON_ORDERS',
-        'FIRE_WEAPONS',
-        'CLEAR_ORDERS',
-    ]);
+    expect(battle.state).toMatchSnapshot();
 
-    // orders cleared out
-    battle.state.objects.forEach( obj => 
-        expect(obj).not.toHaveProperty('orders', expect.anything() )
+    // orders cleared out 
+    let still_with_orders = battle.state |> fp.get('bogeys')
+        |> fp.values
+        |> fp.filter('orders');
+
+    expect(still_with_orders).toEqual([]);
+
+    // Enkidu still have a drive section
+    expect(battle.state.bogeys.enkidu).toHaveProperty(
+        'drive.current'
     );
 
-    const expect_close = val =>   val.map( v => x => expect(x).toBeCloseTo(v) );
+    const expect_close = val => val.map( v => x => expect(x).toBeCloseTo(v) );
 
-    // ships have moved
-    expect( _.find( battle.state.objects, { id: 'enkidu' } ).navigation )
+    // ships have moved 
+    debug( battle.state.bogeys  );
+    expect( battle.state |> get_bogey('enkidu') |> fp.get('navigation') )
         .toMatchCloseTo({
             heading: 1,
             velocity: 1,
@@ -298,4 +255,3 @@ turns = turns.map( t => {
 turns.forEach( (t,i) => {
     test( `turn ${i}`, t );
 });
-

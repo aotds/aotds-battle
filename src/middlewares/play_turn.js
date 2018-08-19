@@ -3,9 +3,7 @@ import { actions, PLAY_TURN } from '~/actions';
 import { get_active_players, get_players_not_done } from './selectors';
 import { mw_compose, mw_for, subactions } from './utils';
 
-
 const can_play_turn = ({getState}) => next => action => {
-    console.log("!",action);
     if( !action.force ) {
         let state = getState();
         let not_done = get_players_not_done(state);

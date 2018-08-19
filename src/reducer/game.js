@@ -13,7 +13,7 @@ let redact  = {};
 redact.INIT_GAME = ({game}) =>
     u( fp.pick(['name', 'players', 'turn_times'])(game) );
 
-redact.NEW_TURN = ({meta: { timestamp }}) => state => u({ turn_times: 
+redact.PLAY_TURN = ({meta: { timestamp }}) => state => u({ turn_times: 
     u.ifElse( fp.has( 'max' ), t => {
         let started = Date.parse(t.started);
         debug(started);
