@@ -39,8 +39,8 @@ reaction.PLAY_TURN = () => u({ drive: u.omit('thrust_used') });
 
 reaction.CLEAR_ORDERS = () => u.omit('orders');
 
-reaction.MOVE_OBJECT = ({ object_id, navigation }) => {
-    return u.if( u.is( 'id', object_id ), { 
+reaction.BOGEY_MOVEMENT = ({ navigation }) => {
+    return u({ 
         navigation: fp.omit( 'thrust_used' )( navigation ),
         drive: { thrust_used: navigation.thrust_used },
     } );

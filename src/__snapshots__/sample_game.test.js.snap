@@ -7,16 +7,72 @@ Object {
       "drive": Object {
         "current": 6,
         "rating": 6,
+        "thrust_used": 3,
       },
       "id": "enkidu",
       "name": "Enkidu",
       "navigation": Object {
         "coords": Array [
-          0,
-          0,
+          1.5,
+          0.8660254037844388,
         ],
-        "heading": 0,
-        "velocity": 0,
+        "heading": 1,
+        "maneuvers": Object {
+          "bank": Array [
+            -3,
+            3,
+          ],
+          "thrust": Array [
+            -0,
+            4,
+          ],
+          "turn": Array [
+            -3,
+            3,
+          ],
+        },
+        "trajectory": Array [
+          Object {
+            "coords": Array [
+              0,
+              0,
+            ],
+            "type": "POSITION",
+          },
+          Object {
+            "coords": Array [
+              1,
+              6.123233995736766e-17,
+            ],
+            "delta": Array [
+              1,
+              6.123233995736766e-17,
+            ],
+            "type": "BANK",
+          },
+          Object {
+            "delta": 0,
+            "heading": 0,
+            "type": "ROTATE",
+          },
+          Object {
+            "delta": 1,
+            "heading": 1,
+            "type": "ROTATE",
+          },
+          Object {
+            "coords": Array [
+              1.5,
+              0.8660254037844388,
+            ],
+            "delta": Array [
+              0.49999999999999994,
+              0.8660254037844387,
+            ],
+            "type": "MOVE",
+          },
+        ],
+        "velocity": 1,
       },
       "player_id": "yanick",
       "structure": Object {
@@ -73,16 +129,51 @@ Object {
       "drive": Object {
         "current": 6,
         "rating": 6,
+        "thrust_used": 1,
       },
       "id": "siduri",
       "name": "Siduri",
       "navigation": Object {
         "coords": Array [
           10,
-          10,
+          9,
         ],
         "heading": 6,
-        "velocity": 0,
+        "maneuvers": Object {
+          "bank": Array [
+            -3,
+            3,
+          ],
+          "thrust": Array [
+            -0,
+            6,
+          ],
+          "turn": Array [
+            -3,
+            3,
+          ],
+        },
+        "trajectory": Array [
+          Object {
+            "coords": Array [
+              10,
+              10,
+            ],
+            "type": "POSITION",
+          },
+          Object {
+            "coords": Array [
+              10,
+              9,
+            ],
+            "delta": Array [
+              1.2246467991473532e-16,
+              -1,
+            ],
+            "type": "MOVE",
+          },
+        ],
+        "velocity": 1,
       },
       "player_id": "yenzie",
       "structure": Object {
@@ -110,7 +201,7 @@ Object {
   "game": Object {
     "action_stack": Array [],
     "name": "gemini",
-    "next_action_id": 14,
+    "next_action_id": 18,
     "players": Array [
       Object {
         "id": "yanick",
@@ -254,60 +345,183 @@ Object {
     Object {
       "force": false,
       "meta": Object {
-        "child_actions": Array [
-          Object {
-            "meta": Object {
-              "id": 7,
-              "parent_action_id": 5,
-              "timestamp": "2018-01-01",
-            },
-            "type": "MOVEMENT_PHASE",
-          },
-          Object {
-            "meta": Object {
-              "id": 8,
-              "parent_action_id": 5,
-              "timestamp": "2018-01-01",
-            },
-            "type": "EXECUTE_FIRECON_ORDERS",
-          },
-          Object {
-            "meta": Object {
-              "id": 9,
-              "parent_action_id": 5,
-              "timestamp": "2018-01-01",
-            },
-            "type": "ASSIGN_WEAPONS_TO_FIRECONS",
-          },
-          Object {
-            "meta": Object {
-              "id": 10,
-              "parent_action_id": 5,
-              "timestamp": "2018-01-01",
-            },
-            "type": "EXECUTE_FIRECON_ORDERS",
-          },
-          Object {
-            "meta": Object {
-              "id": 11,
-              "parent_action_id": 5,
-              "timestamp": "2018-01-01",
-            },
-            "type": "FIRE_WEAPONS",
-          },
-          Object {
-            "meta": Object {
-              "id": 12,
-              "parent_action_id": 5,
-              "timestamp": "2018-01-01",
-            },
-            "type": "CLEAR_ORDERS",
-          },
-        ],
         "id": 5,
         "timestamp": "2018-01-01",
       },
       "type": "PLAY_TURN",
+    },
+    Object {
+      "meta": Object {
+        "id": 7,
+        "parent_action_id": 5,
+        "timestamp": "2018-01-01",
+      },
+      "type": "MOVEMENT_PHASE",
+    },
+    Object {
+      "bogey_id": "enkidu",
+      "meta": Object {
+        "id": 9,
+        "parent_action_id": 7,
+        "timestamp": "2018-01-01",
+      },
+      "navigation": Object {
+        "coords": Array [
+          1.5,
+          0.8660254037844388,
+        ],
+        "heading": 1,
+        "maneuvers": Object {
+          "bank": Array [
+            -3,
+            3,
+          ],
+          "thrust": Array [
+            -0,
+            4,
+          ],
+          "turn": Array [
+            -3,
+            3,
+          ],
+        },
+        "thrust_used": 3,
+        "trajectory": Array [
+          Object {
+            "coords": Array [
+              0,
+              0,
+            ],
+            "type": "POSITION",
+          },
+          Object {
+            "coords": Array [
+              1,
+              6.123233995736766e-17,
+            ],
+            "delta": Array [
+              1,
+              6.123233995736766e-17,
+            ],
+            "type": "BANK",
+          },
+          Object {
+            "delta": 0,
+            "heading": 0,
+            "type": "ROTATE",
+          },
+          Object {
+            "delta": 1,
+            "heading": 1,
+            "type": "ROTATE",
+          },
+          Object {
+            "coords": Array [
+              1.5,
+              0.8660254037844388,
+            ],
+            "delta": Array [
+              0.49999999999999994,
+              0.8660254037844387,
+            ],
+            "type": "MOVE",
+          },
+        ],
+        "velocity": 1,
+      },
+      "type": "BOGEY_MOVEMENT",
+    },
+    Object {
+      "bogey_id": "siduri",
+      "meta": Object {
+        "id": 10,
+        "parent_action_id": 7,
+        "timestamp": "2018-01-01",
+      },
+      "navigation": Object {
+        "coords": Array [
+          10,
+          9,
+        ],
+        "heading": 6,
+        "maneuvers": Object {
+          "bank": Array [
+            -3,
+            3,
+          ],
+          "thrust": Array [
+            -0,
+            6,
+          ],
+          "turn": Array [
+            -3,
+            3,
+          ],
+        },
+        "thrust_used": 1,
+        "trajectory": Array [
+          Object {
+            "coords": Array [
+              10,
+              10,
+            ],
+            "type": "POSITION",
+          },
+          Object {
+            "coords": Array [
+              10,
+              9,
+            ],
+            "delta": Array [
+              1.2246467991473532e-16,
+              -1,
+            ],
+            "type": "MOVE",
+          },
+        ],
+        "velocity": 1,
+      },
+      "type": "BOGEY_MOVEMENT",
+    },
+    Object {
+      "meta": Object {
+        "id": 12,
+        "parent_action_id": 5,
+        "timestamp": "2018-01-01",
+      },
+      "type": "EXECUTE_FIRECON_ORDERS",
+    },
+    Object {
+      "meta": Object {
+        "id": 13,
+        "parent_action_id": 5,
+        "timestamp": "2018-01-01",
+      },
+      "type": "ASSIGN_WEAPONS_TO_FIRECONS",
+    },
+    Object {
+      "meta": Object {
+        "id": 14,
+        "parent_action_id": 5,
+        "timestamp": "2018-01-01",
+      },
+      "type": "EXECUTE_FIRECON_ORDERS",
+    },
+    Object {
+      "meta": Object {
+        "id": 15,
+        "parent_action_id": 5,
+        "timestamp": "2018-01-01",
+      },
+      "type": "FIRE_WEAPONS",
+    },
+    Object {
+      "meta": Object {
+        "id": 16,
+        "parent_action_id": 5,
+        "timestamp": "2018-01-01",
+      },
+      "type": "CLEAR_ORDERS",
     },
   ],
 }

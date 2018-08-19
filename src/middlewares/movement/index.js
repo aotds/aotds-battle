@@ -8,6 +8,10 @@ import { plot_movement } from '~/movement';
 import { get_bogey, get_bogeys, select } from '../selectors';
 import { mw_for, subactions } from '../utils';
 
+const debug = require('debug')('aotds:mw:movement');
+
+const spy = stuff => { debug(stuff); return stuff }
+
 export const movement_phase = function({getState,dispatch},next,action){
     return getState() 
         |> select( get_bogeys )

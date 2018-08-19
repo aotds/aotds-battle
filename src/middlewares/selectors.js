@@ -8,7 +8,7 @@ export function select( func, ...args ) {
 }
 
 export const get_bogeys = () => _.flow([
-    fp.getOr('bogeys',{}),
+    fp.getOr({})('bogeys'),
     fp.values,
 ]);
 

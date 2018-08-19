@@ -81,7 +81,7 @@ turns[1] = (battle) => {
             coords: [ 1.5, 0.9  ],
         },1);
 
-    expect( _.find( battle.state.objects, { id: 'siduri' } ).navigation )
+    expect( battle.state |> get_bogey('siduri') |> fp.get('navigation') )
         .toMatchCloseTo({
             heading: 6,
             velocity: 1,
