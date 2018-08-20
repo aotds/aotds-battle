@@ -77,8 +77,8 @@ actioner.add( 'play_turn', function(force=false) { return { force }} );
 actioner.add( 'start_turn' );
 actioner.add( 'clear_orders' );
 
-actioner.add( 'execute_firecon_orders' );
-actioner.add( 'execute_ship_firecon_orders',
+actioner.add( 'firecon_orders_phase' );
+actioner.add( 'execute_firecon_orders',
     ( bogey_id, firecon_id, orders ) => {
         return {
             bogey_id,

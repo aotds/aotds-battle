@@ -92,7 +92,7 @@ turns[1] = (battle) => {
 };
 
 turns[2] = function turn2(battle) {
-    battle.set_orders( 'enkidu', {
+    battle.dispatch_action( 'set_orders', 'enkidu', {
         firecons: [ { firecon_id: 1, target_id: 'siduri' } ], 
         weapons: [ { weapon_id: 1, firecon_id: 1 },
             { weapon_id: 2, firecon_id: 1 }, 
@@ -101,12 +101,13 @@ turns[2] = function turn2(battle) {
     });
 
     rig_dice([ 6, 5, 3, 3, 90, 90]);
-    battle.play_turn(true);
+    battle.dispatch_action( 'play_turn', true );
 
-    expect( _.find( battle.state.objects, { id: 'enkidu' } ).weaponry.firecons )
-        .toEqual([
+    debug(battle.state.log);
+    expect( battle.state.bogeys.enkidu.weaponry.firecons[1] )
+        .toMatchObject(
             { id: 1,  target_id: 'siduri' }
-        ]);
+        );
 
     expect( _.find( battle.state.objects, { id: 'enkidu' } ).weaponry.weapons[0] )
         .toMatchObject( { id: 1, firecon_id: 1} );
@@ -140,8 +141,9 @@ turns[3] = function turn3(battle) {
     rig_dice([4,1]);
 
     [ 'enkidu', 'siduri' ].forEach( ship =>
-        battle.set_orders( ship, { navigation: { thrust: -1 }, } ) 
+        battle.dispatch_action( 'set_orders', ship, { navigation: { thrust: -1 }, } ) 
     );
+
     battle.play_turn(true);
 
     [ 'enkidu', 'siduri' ].forEach( ship => expect(
@@ -243,7 +245,7 @@ turns[8] = function turn8(battle) {
     return battle;
 }
 
-turns.splice(2,99);
+turns.splice(3,99);
 
 let  previous = Promise.resolve();
 turns = turns.map( t => {

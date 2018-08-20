@@ -5,7 +5,9 @@ import u from 'updeep';
 import { actions } from '~/actions';
 import { cheatmode, rig_dice } from '~/dice';
 
+import { firecon_orders_phase } from './';
 import { internal_damage_check } from './index';
+import * as selectors from '../selectors';
 
 const debug = require('debug')('aotds:mw:sagas:weapon:test');
 
@@ -63,7 +65,6 @@ test( 'internal damage? Oh my', () => {
 
     rig_dice([1,2,90,3,3,90]);
 
-    let selectors = require('../selectors');
     selectors.get_bogey = jest.fn()
     selectors.get_bogey.mockReturnValueOnce( () => ship );
     selectors.get_bogey.mockReturnValueOnce( () => u.updateIn(
@@ -83,4 +84,36 @@ test( 'internal damage? Oh my', () => {
         { type:  'shield',   id: 1 },    
     ].map( system => ({ type: 'INTERNAL_DAMAGE', system })));
 
+});
+
+test('firecon_orders_phase', () => {
+
+    let mocked = mock_mw_args();
+
+    selectors.select = jest.fn( function(a,b) {
+        return [
+            { id: 'enkidu', orders: { firecons: [{ firecon_id: 1, target_id: 'siduri' }] } },
+            { id: 'siduri', orders: { firecons: [{ firecon_id: 2, target_id: 'enkidu' }] } },
+            { id: 'gilgamesh' },
+        ];
+    } |> _.curry );
+
+
+    firecon_orders_phase( mocked.store )( mocked.next )( actions.firecon_orders_phase() );
+
+    expect(mocked.store.getState).toHaveBeenCalled();
+
+    expect(selectors.select).toHaveBeenCalled();
+
+    expect(mocked.store.dispatch).toHaveBeenCalledTimes(2);
+
+    expect( mocked.store.dispatch.mock.calls |> _.flatten ).toMatchObject(
+        [
+            actions.execute_firecon_orders( 'enkidu', 1, { target_id: 'siduri' } ),
+            actions.execute_firecon_orders( 'siduri', 2, { target_id: 'enkidu' } ),
+        ]
+    );
+
+
+    
 });

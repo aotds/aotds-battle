@@ -2,13 +2,13 @@ import _ from 'lodash';
 import fp from 'lodash/fp';
 import u from 'updeep';
 
-import { actions, types } from '~/actions';
+import { actions, FIRECON_ORDERS_PHASE } from '~/actions';
 import { roll_die } from '~/dice';
 
-import { get_bogey } from '../selectors';
+import { get_bogey, get_bogeys, select } from '../selectors';
 import { mw_for, subactions } from '../utils';
 
-const debug = require('debug')('aotds:mw:sagas:weapons');
+const debug = require('debug')('aotds:mw:weapons');
 
 const spy = thingy => { debug(thingy); return thingy };
 
@@ -111,20 +111,6 @@ function* fire_weapon( bogey_id, target_id, weapon_id ) {
 //     }
 // );
 
-// export
-// const execute_firecon_orders = mw_for( Actions.EXECUTE_FIRECON_ORDERS,
-//     ({ getState, dispatch }) => next => action => {
-//         next(action);
-
-//         _.get( getState(), 'objects', [] ).forEach( bogey => {
-//             _.get(bogey,'orders.firecons',[]).forEach( order => {
-//                 dispatch(Actions.assign_target_to_firecon(
-//                     bogey.id, order.firecon_id, order.target_id
-//                 ));
-//             });
-//         });
-//     }
-// );
 
 // // must be after 'fire_weapon' to intercept the
 // // damage done
@@ -216,5 +202,30 @@ function internal_damage_shields(ship,percent) {
         |> fp.map('id')
         |> fp.map( id => roll_system( 'shield', { id }, percent ) );
 }
+
+export
+const firecon_orders_phase = function({dispatch,getState},next,action) {
+    getState() |> select( get_bogeys ) 
+        |> fp.filter( 'orders.firecons' )
+        |> fp.map( ({ id, orders: { firecons } }) => firecons.map( f => ({ id, ...f }) ) )
+        |> fp.flatten 
+        |> fp.map( o => actions.execute_firecon_orders( o.id, o.firecon_id, 
+            _.omit(o, [ 'id', 'firecon_id' ]) ) )
+        |> fp.map( dispatch )
+    ;
+} |> _.curry |> subactions |> mw_for( FIRECON_ORDERS_PHASE );
+    
+//     ({ getState, dispatch }) => next => action => {
+//         next(action);
+
+//         _.get( getState(), 'objects', [] ).forEach( bogey => {
+//             _.get(bogey,'orders.firecons',[]).forEach( order => {
+//                 dispatch(Actions.assign_target_to_firecon(
+//                     bogey.id, order.firecon_id, order.target_id
+//                 ));
+//             });
+//         });
+//     }
+// );
 
 export default [ internal_damage_check ];

@@ -19,9 +19,8 @@ const can_play_turn = ({getState}) => next => action => {
 
 const play_inner = ({dispatch}) => next => action => [
             'movement_phase',
-            'execute_firecon_orders',
+            'firecon_orders_phase',
             'assign_weapons_to_firecons',
-            'execute_firecon_orders',
             'fire_weapons',
             'clear_orders',
     ].map( a => dispatch( actions[a]() ) ); 
