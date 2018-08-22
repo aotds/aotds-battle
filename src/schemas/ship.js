@@ -76,14 +76,12 @@ const orders = definitions::add( 'orders', object({
         turn:   number(),
         bank:   number(),
     }),
-    firecons: array(object({
-        firecon_id: 'integer',
+    firecons: object({
         target_id:  'string',
-    })),
-    weapons: array(object({
-        weapon_id: 'integer',
+    }),
+    weapons: object({
         firecon_id: 'integer',
-    })),
+    }),
 }), "orders for the next turn");
 
 const drive = definitions::add('drive', object({

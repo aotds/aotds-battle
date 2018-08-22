@@ -56,11 +56,12 @@ actioner.add( 'set_orders',
                     turn:   integer(),
                     bank:   integer(),
                 }),
-                firecons: array(object({
-                    firecon_id: 'integer',
-                    clear: 'boolean',
+                firecons: object({
                     target_id: 'string'
-                })),
+                }),
+                weapons: object({
+                    firecon_id: 'string'
+                }),
             }),
         }
     )
@@ -78,6 +79,8 @@ actioner.add( 'start_turn' );
 actioner.add( 'clear_orders' );
 
 actioner.add( 'firecon_orders_phase' );
+actioner.add( 'weapon_orders_phase' );
+
 actioner.add( 'execute_firecon_orders',
     ( bogey_id, firecon_id, orders ) => {
         return {
@@ -86,6 +89,10 @@ actioner.add( 'execute_firecon_orders',
             orders,
         };
     },
+);
+
+actioner.add( 'execute_weapon_orders',
+    ( bogey_id, weapon_id, orders ) => ({ bogey_id, weapon_id, orders, }),
 );
 
 actioner.add( 'fire_weapons' );

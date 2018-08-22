@@ -18,9 +18,10 @@ export default ({getState}) => next => action => {
     if ( valid ) return;
 
     debug( 'action: %j', action );
+    debug( ajv.errors );
     debug( jsondiffpatch.console.format( 
         jsondiffpatch.diff(previous, current)
     ) );
 
-    throw new Error( `action ${action.TYPE} caused state to become invalid` );
+    throw new Error( `action ${action.type} caused state to become invalid` );
 };

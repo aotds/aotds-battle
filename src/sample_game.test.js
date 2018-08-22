@@ -93,11 +93,10 @@ turns[1] = (battle) => {
 
 turns[2] = function turn2(battle) {
     battle.dispatch_action( 'set_orders', 'enkidu', {
-        firecons: [ { firecon_id: 1, target_id: 'siduri' } ], 
-        weapons: [ { weapon_id: 1, firecon_id: 1 },
-            { weapon_id: 2, firecon_id: 1 }, 
-            { weapon_id: 3, firecon_id: 1 }, 
-        ],
+        firecons: { 1: { target_id: 'siduri' } }, 
+        weapons: { 1: { firecon_id: 1 },
+            2: { firecon_id: 1 }, 
+            3: { firecon_id: 1 }, },
     });
 
     rig_dice([ 6, 5, 3, 3, 90, 90]);

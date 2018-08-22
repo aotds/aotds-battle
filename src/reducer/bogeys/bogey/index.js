@@ -11,16 +11,10 @@ import {
 
 import drive from './drive';
 import firecon from './firecon';
+import weapon from './weapon';
 
 let debug = require('debug')('aotds:battle:reducer:object');
 
-
-let weapon_reducer = actions_reducer({
-    ASSIGN_WEAPON_TO_FIRECON: action => u.if(
-        u.is( 'id', action.weapon_id ), {
-            firecon_id: action.firecon_id
-        }),
-});
 
 let reaction = {};
 
@@ -49,6 +43,10 @@ reaction.SET_ORDERS = action => u.if( s => !fp.has('orders.done')(s), {
 
 reaction.EXECUTE_FIRECON_ORDERS = action => u.updateIn(
     `weaponry.firecons.${action.firecon_id}`, s => firecon(s,action)
+);
+
+reaction.EXECUTE_WEAPON_ORDERS = action => u.updateIn(
+    `weaponry.weapons.${action.firecon_id}`, s => weapon(s,action)
 );
 
 let subreducers = combine_reducers({ structure });

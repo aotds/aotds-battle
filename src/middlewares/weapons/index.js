@@ -2,7 +2,8 @@ import _ from 'lodash';
 import fp from 'lodash/fp';
 import u from 'updeep';
 
-import { actions, FIRECON_ORDERS_PHASE } from '~/actions';
+import { crossProduct } from '~/utils';
+import { actions, FIRECON_ORDERS_PHASE, WEAPON_ORDERS_PHASE } from '~/actions';
 import { roll_die } from '~/dice';
 
 import { get_bogey, get_bogeys, select } from '../selectors';
@@ -207,13 +208,24 @@ export
 const firecon_orders_phase = function({dispatch,getState},next,action) {
     getState() |> select( get_bogeys ) 
         |> fp.filter( 'orders.firecons' )
-        |> fp.map( ({ id, orders: { firecons } }) => firecons.map( f => ({ id, ...f }) ) )
+        |> fp.map( b => crossProduct( [b.id], b.orders.firecons |> fp.entries ) )
         |> fp.flatten 
-        |> fp.map( o => actions.execute_firecon_orders( o.id, o.firecon_id, 
-            _.omit(o, [ 'id', 'firecon_id' ]) ) )
+        |> fp.map( ([ id, [ firecon_id, orders ] ]) => actions.execute_firecon_orders( id, firecon_id, orders ) )
         |> fp.map( dispatch )
     ;
 } |> _.curry |> subactions |> mw_for( FIRECON_ORDERS_PHASE );
+
+export
+const weapon_orders_phase = function({dispatch,getState},next,action) {
+    getState() |> select( get_bogeys ) 
+        |> fp.filter( 'orders.weapons' )
+        |> fp.map( b => crossProduct( [b.id], b.orders.weapons |> fp.entries ) )
+        |> fp.flatten 
+        |> fp.map( ([ id, [ weapon_id, orders ] ]) => actions.execute_weapon_orders( id, weapon_id, orders ) )
+        |> fp.map( dispatch )
+    ;
+} |> _.curry |> subactions |> mw_for( WEAPON_ORDERS_PHASE );
+
     
 //     ({ getState, dispatch }) => next => action => {
 //         next(action);
@@ -228,4 +240,5 @@ const firecon_orders_phase = function({dispatch,getState},next,action) {
 //     }
 // );
 
-export default [ internal_damage_check, firecon_orders_phase ];
+export default [ internal_damage_check, firecon_orders_phase,
+    weapon_orders_phase];
