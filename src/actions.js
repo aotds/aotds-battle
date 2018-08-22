@@ -83,7 +83,7 @@ actioner.add( 'execute_firecon_orders',
         return {
             bogey_id,
             firecon_id,
-            ...orders,
+            orders,
         };
     },
 );

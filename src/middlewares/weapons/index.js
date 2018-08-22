@@ -228,4 +228,4 @@ const firecon_orders_phase = function({dispatch,getState},next,action) {
 //     }
 // );
 
-export default [ internal_damage_check ];
+export default [ internal_damage_check, firecon_orders_phase ];

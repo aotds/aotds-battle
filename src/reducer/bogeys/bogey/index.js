@@ -10,21 +10,10 @@ import {
     actions_reducer, combine_reducers, pipe_reducers, init_reducer } from '../../utils';
 
 import drive from './drive';
+import firecon from './firecon';
 
 let debug = require('debug')('aotds:battle:reducer:object');
 
-
-function firecon_reducer(state = {}, action ) {
-    switch( action.type ) {
-        case actions.ASSIGN_TARGET_TO_FIRECON:
-            if( action.firecon_id !== state.id ) return state;
-
-
-            return u(fp.pick(['target_id'])(action))(state);
-
-        default: return state;
-    }
-}
 
 let weapon_reducer = actions_reducer({
     ASSIGN_WEAPON_TO_FIRECON: action => u.if(
@@ -51,15 +40,6 @@ reaction.ASSIGN_WEAPON_TO_FIRECON = action => {
         u.map( w => weapon_reducer(w,action) ) } } );
 };
 
-reaction.ASSIGN_TARGET_TO_FIRECON = action => state => {
-    if( action.bogey_id !== state.id ) return state;
-
-    let reduce_firecon = f => firecon_reducer(f, action );
-    return  u({
-        weaponry: { firecons: u.map( reduce_firecon ) }
-    })(state);
-};
-
 reaction.SET_ORDERS = action => u.if( s => !fp.has('orders.done')(s), { 
     orders: u.constant({
         done: (action.timestamp || true),
@@ -67,6 +47,9 @@ reaction.SET_ORDERS = action => u.if( s => !fp.has('orders.done')(s), {
     })
 });
 
+reaction.EXECUTE_FIRECON_ORDERS = action => u.updateIn(
+    `weaponry.firecons.${action.firecon_id}`, s => firecon(s,action)
+);
 
 let subreducers = combine_reducers({ structure });
 
