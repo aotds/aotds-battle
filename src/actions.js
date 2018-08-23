@@ -80,12 +80,13 @@ actioner.add( 'clear_orders' );
 
 actioner.add( 'firecon_orders_phase' );
 actioner.add( 'weapon_orders_phase' );
+actioner.add( 'weapon_firing_phase' );
 
 actioner.add( 'execute_firecon_orders',
     ( bogey_id, firecon_id, orders ) => {
         return {
             bogey_id,
-            firecon_id,
+            firecon_id: Number(firecon_id),
             orders,
         };
     },
@@ -97,7 +98,7 @@ actioner.add( 'execute_weapon_orders',
 
 actioner.add( 'fire_weapons' );
 
-actioner.add( 'fire_weapon', 
+actioner.add( 'bogey_fire_weapon', 
     ( bogey_id, target_id, weapon_id ) => ({
         bogey_id, target_id, weapon_id
     }),

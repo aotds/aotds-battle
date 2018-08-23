@@ -21,7 +21,7 @@ const play_inner = ({dispatch}) => next => action => [
             'movement_phase',
             'firecon_orders_phase',
             'weapon_orders_phase',
-            'fire_weapons',
+            'weapon_firing_phase',
             'clear_orders',
     ].map( a => dispatch( actions[a]() ) ); 
 

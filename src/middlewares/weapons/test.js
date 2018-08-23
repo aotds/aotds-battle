@@ -2,10 +2,10 @@ import _ from 'lodash';
 import fp from 'lodash/fp';
 import u from 'updeep';
 
-import { actions } from '~/actions';
+import { actions, bogey_fire_weapon } from '~/actions';
 import { cheatmode, rig_dice } from '~/dice';
 
-import { firecon_orders_phase } from './';
+import { firecon_orders_phase, bogey_firing_actions } from './';
 import { internal_damage_check } from './index';
 import * as selectors from '../selectors';
 
@@ -92,8 +92,8 @@ test('firecon_orders_phase', () => {
 
     selectors.select = jest.fn( function(a,b) {
         return [
-            { id: 'enkidu', orders: { firecons: [{ firecon_id: 1, target_id: 'siduri' }] } },
-            { id: 'siduri', orders: { firecons: [{ firecon_id: 2, target_id: 'enkidu' }] } },
+            { id: 'enkidu', orders: { firecons: { 1: { firecon_id: 1, target_id: 'siduri' } } } },
+            { id: 'siduri', orders: { firecons: { 2: { firecon_id: 2, target_id: 'enkidu' } } } },
             { id: 'gilgamesh' },
         ];
     } |> _.curry );
@@ -113,7 +113,30 @@ test('firecon_orders_phase', () => {
             actions.execute_firecon_orders( 'siduri', 2, { target_id: 'enkidu' } ),
         ]
     );
-
-
     
+});
+
+test('bogey_firing_actions', () => {
+
+    let ship = {
+        id: 'enkidu',
+        weaponry: {
+            firecons: {
+                1: { id: 1, target_id: 'siduri' }
+            },
+            weapons: {
+                1: { id: 1, firecon_id: 1 },
+                2: { id: 2, firecon_id: 1 },
+                3: { id: 3 },
+            },
+        },
+    }
+    
+    let actions = bogey_firing_actions(ship);
+
+    expect(actions).toMatchObject([
+        bogey_fire_weapon('enkidu','siduri',1),
+        bogey_fire_weapon('enkidu','siduri',2)
+    ]);
+
 });

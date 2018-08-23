@@ -12,6 +12,14 @@ const firecons = u.if( fp.isNumber,
     )
 );
 
+const weapons = u.if( fp.isArray,
+    fp.flow(
+        fp.entries,
+        fp.map( ([i,w]) => [ 1 + parseInt(i), { id: 1 + parseInt(i), ...w } ] ),
+        fp.fromPairs,
+    )
+);
+
 const drive = u.if( fp.isNumber,     
     max => ({ max, current: max })    
 );
@@ -20,5 +28,5 @@ const drive = u.if( fp.isNumber,
 export default u({ 
     drive,
     structure,
-    weaponry: { firecons },
+    weaponry: { firecons, weapons },
 });

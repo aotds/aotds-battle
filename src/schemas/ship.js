@@ -100,12 +100,12 @@ const name = definitions::add( 'name',
 );
 
 const firecon = definitions::add('firecon', object({
-    id:        'integer',
+    id:        'integer!',
     target_id: 'string',
 }));
 
 const weapon = definitions::add('weapon', object({
-    id: 'integer',
+    id: 'integer!',
     type: 'string',
     level: 'integer',
     firecon_id: 'integer',
@@ -122,7 +122,7 @@ definitions::add( 'navigation',
 
 const weaponry  = definitions::add('weaponry', object({
     firecons: object({},{ additionalProperties: firecon }),
-    weapons: array(weapon),
+    weapons: object({}, { additionalProperties: weapon }),
 }));
 
 const structure = definitions::add('structure', object({

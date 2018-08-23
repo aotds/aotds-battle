@@ -108,10 +108,12 @@ turns[2] = function turn2(battle) {
             { id: 1,  target_id: 'siduri' }
         );
 
-    expect( _.find( battle.state.bogeys, { id: 'enkidu' } ).weaponry.weapons[1] )
-        .toMatchObject( { id: 1, firecon_id: 1} );
+    const enkidu = () => battle.state |> get_bogey('enkidu');
+    const siduri = () => battle.state |> get_bogey('siduri');
 
-    expect( _.find( battle.state.objects, { id: 'siduri' } ))
+    expect( enkidu() ).toHaveProperty( 'weaponry.weapons.1.firecon_id', 1 );
+
+    expect( siduri() )
         .toMatchObject({
             structure: {
                 hull: { current: 3, max: 4 },

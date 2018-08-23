@@ -46,7 +46,7 @@ reaction.EXECUTE_FIRECON_ORDERS = action => u.updateIn(
 );
 
 reaction.EXECUTE_WEAPON_ORDERS = action => u.updateIn(
-    `weaponry.weapons.${action.firecon_id}`, s => weapon(s,action)
+    `weaponry.weapons.${action.weapon_id}`, s => weapon(s,action)
 );
 
 let subreducers = combine_reducers({ structure });
