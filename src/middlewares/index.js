@@ -4,6 +4,7 @@ import play_turn from './play_turn';
 
 import weapons_mw from './weapons';
 import movement_mw from './movement';
+import { calculate_damage } from './damage';
 
 // players
 //Check all ships
@@ -35,5 +36,6 @@ export default [
     play_turn,
     ...weapons_mw,
     ...movement_mw,
+    calculate_damage,
     trycatch,
 ];

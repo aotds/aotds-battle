@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 const shields = u.if( fp.isArray,
     _.flow(
-        u.map( (v,id) => u({id: id+1})(v) ),
+        u.map( (level,id) => ({id: id+1, level}) ),
         fp.keyBy('id'),
     )
 );

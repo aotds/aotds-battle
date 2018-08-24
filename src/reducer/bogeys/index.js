@@ -24,14 +24,13 @@ let redaction = redactor();
 redaction.PLAY_TURN = action => u.omitBy( u.is('structure.destroyed',true) )
 
 redaction.INTERNAL_DAMAGE = only_target_object();
-redaction.DAMAGE = only_target_object();
 
 redaction.INIT_GAME = action => () => (_.get(action,'bogeys',{}) |> inflate);
 
 const specific_bogey = action => u.updateIn( action.bogey_id, b => bogey(b,action) );
 
 [ 'SET_ORDERS', 'BOGEY_MOVEMENT',
-    'EXECUTE_FIRECON_ORDERS', 'EXECUTE_WEAPON_ORDERS'
+    'EXECUTE_FIRECON_ORDERS', 'EXECUTE_WEAPON_ORDERS', 'DAMAGE'
 ].forEach( action => redaction[action] = specific_bogey );
 
 redaction.CLEAR_ORDERS = action => u.map( b => bogey(b,action) )

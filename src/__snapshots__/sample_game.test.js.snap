@@ -100,29 +100,32 @@ Object {
             "id": 1,
           },
         },
-        "weapons": Array [
-          Object {
+        "weapons": Object {
+          "1": Object {
             "arcs": Array [
               "F",
             ],
             "class": 2,
+            "id": 1,
             "type": "beam",
           },
-          Object {
+          "2": Object {
             "arcs": Array [
               "FS",
             ],
             "class": 1,
+            "id": 2,
             "type": "beam",
           },
-          Object {
+          "3": Object {
             "arcs": Array [
               "FP",
             ],
             "class": 1,
+            "id": 3,
             "type": "beam",
           },
-        ],
+        },
       },
     },
     "siduri": Object {
@@ -201,7 +204,7 @@ Object {
   "game": Object {
     "action_stack": Array [],
     "name": "gemini",
-    "next_action_id": 18,
+    "next_action_id": 23,
     "players": Array [
       Object {
         "id": "yanick",
@@ -489,23 +492,7 @@ Object {
         "parent_action_id": 5,
         "timestamp": "2018-01-01",
       },
-      "type": "EXECUTE_FIRECON_ORDERS",
-    },
-    Object {
-      "meta": Object {
-        "id": 13,
-        "parent_action_id": 5,
-        "timestamp": "2018-01-01",
-      },
-      "type": "ASSIGN_WEAPONS_TO_FIRECONS",
-    },
-    Object {
-      "meta": Object {
-        "id": 14,
-        "parent_action_id": 5,
-        "timestamp": "2018-01-01",
-      },
-      "type": "EXECUTE_FIRECON_ORDERS",
+      "type": "FIRECON_ORDERS_PHASE",
     },
     Object {
       "meta": Object {
@@ -513,11 +500,19 @@ Object {
         "parent_action_id": 5,
         "timestamp": "2018-01-01",
       },
-      "type": "FIRE_WEAPONS",
+      "type": "WEAPON_ORDERS_PHASE",
     },
     Object {
       "meta": Object {
-        "id": 16,
+        "id": 18,
+        "parent_action_id": 5,
+        "timestamp": "2018-01-01",
+      },
+      "type": "WEAPON_FIRING_PHASE",
+    },
+    Object {
+      "meta": Object {
+        "id": 21,
         "parent_action_id": 5,
         "timestamp": "2018-01-01",
       },

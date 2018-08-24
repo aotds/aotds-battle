@@ -73,7 +73,6 @@ turns[1] = (battle) => {
     const expect_close = val => val.map( v => x => expect(x).toBeCloseTo(v) );
 
     // ships have moved 
-    debug( battle.state.bogeys  );
     expect( battle.state |> get_bogey('enkidu') |> fp.get('navigation') )
         .toMatchCloseTo({
             heading: 1,
@@ -102,7 +101,6 @@ turns[2] = function turn2(battle) {
     rig_dice([ 6, 5, 3, 3, 90, 90]);
     battle.dispatch_action( 'play_turn', true );
 
-    debug(battle.state.log);
     expect( battle.state.bogeys.enkidu.weaponry.firecons[1] )
         .toMatchObject(
             { id: 1,  target_id: 'siduri' }
@@ -113,6 +111,17 @@ turns[2] = function turn2(battle) {
 
     expect( enkidu() ).toHaveProperty( 'weaponry.weapons.1.firecon_id', 1 );
 
+    let log = battle.state.log;
+    log = log.splice( _.findLastIndex( log, { type: 'PLAY_TURN' } ) );
+
+    expect( _.filter( log, { type: 'DAMAGE', bogey_id: 'siduri', penetrating: true, dice: [3] } ) ).toHaveLength(1);
+
+    expect( siduri().structure.shields ).toMatchObject({
+        1: { level: 1},
+        2: { level: 2 }
+    });
+
+    debug(log);
     expect( siduri() )
         .toMatchObject({
             structure: {
