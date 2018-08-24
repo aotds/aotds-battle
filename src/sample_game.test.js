@@ -17,6 +17,10 @@ Date.prototype.toISOString = jest.fn( () => '2018-01-01' );
 
 let turns = [ () => Promise.resolve( new Battle() ) ];
 
+function wait_forever () {
+    return new Promise((a,r) => {     });
+}
+
 turns[1] = (battle) => {
 
     const initial_state = require('./sample_game/initial_state').default;
@@ -48,7 +52,7 @@ turns[1] = (battle) => {
         .toMatchObject( enkidu_orders );
 
     // let's check the log
-    expect( battle.state.log.map( l => l.type ) ).toEqual([
+    expect( battle.state.log.map( l => l.type ).filter( t => !/@@/.test(t) ) ).toEqual([
         'INIT_GAME', 'SET_ORDERS', 'SET_ORDERS'
     ]);
 
@@ -121,7 +125,8 @@ turns[2] = function turn2(battle) {
         2: { level: 2 }
     });
 
-    debug(log);
+    expect( _.filter(log, { type: 'INTERNAL_DAMAGE' } ).length ).toBeGreaterThan(0)
+
     expect( siduri() )
         .toMatchObject({
             structure: {
@@ -136,7 +141,7 @@ turns[2] = function turn2(battle) {
         });
 
     // only siduri gets damage
-    expect( _.find( battle.state.objects, { id: 'enkidu' } ).structure )
+    expect( enkidu().structure )
         .toMatchObject({
             hull: { current: 4},
             armor: { current: 4},
@@ -237,8 +242,6 @@ turns[7] = function turn7(battle) {
             status: "destroyed",
         });
 
-    debug(battle.state);
-
     return battle;
 }
 
@@ -255,7 +258,13 @@ turns[8] = function turn8(battle) {
     return battle;
 }
 
-turns.splice(3,99);
+turns.splice(4,99);
+
+// turns.push( 
+//     async function(battle) { return await wait_forever() }
+// )
+
+// jest.setTimeout(30000000);
 
 let  previous = Promise.resolve();
 turns = turns.map( t => {
@@ -267,3 +276,4 @@ turns = turns.map( t => {
 turns.forEach( (t,i) => {
     test( `turn ${i}`, t );
 });
+

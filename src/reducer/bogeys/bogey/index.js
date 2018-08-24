@@ -49,8 +49,6 @@ reaction.EXECUTE_WEAPON_ORDERS = action => u.updateIn(
     `weaponry.weapons.${action.weapon_id}`, s => weapon(s,action)
 );
 
-let subreducers = combine_reducers({ structure });
-
 export default pipe_reducers([
     init_reducer({}),
     combine_reducers({ structure, drive }),

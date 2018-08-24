@@ -1,4 +1,5 @@
 import { createStore, applyMiddleware } from "redux";
+import { composeWithDevTools } from 'remote-redux-devtools';
 
 import _ from 'lodash';
 import fp from 'lodash/fp';
@@ -28,7 +29,7 @@ export default class Battle {
         this.store = createStore( 
             reducer,
             state,
-            applyMiddleware( ...middlewares )
+            composeWithDevTools({  port: 8000 })( applyMiddleware( ...middlewares() ) )
         );
 
         // this.store.subscribe( () => {

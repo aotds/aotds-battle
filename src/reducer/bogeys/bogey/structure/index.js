@@ -10,9 +10,10 @@ const debug = require('debug')('aotds:reducer:struct');
 export
 let redact = {};
 
-redact[Actions.DAMAGE] = ({ damage, penetrating }) => state => {
+redact.DAMAGE = ({ damage, penetrating }) => state => {
     if( !damage ) return state;
 
+    debug( state );
     let update;
     if( penetrating ) {
         update = u({ hull: { current: c => c - damage } })

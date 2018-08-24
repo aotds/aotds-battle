@@ -28,10 +28,10 @@ const trycatch = ({getState}) => next => action => {
     }
 };
 
-export default [
+export default () => [
     add_timestamp,
-    add_action_id,
-    add_parent_action,
+    add_action_id(),
+    add_parent_action(),
     validate_schema,
     play_turn,
     ...weapons_mw,

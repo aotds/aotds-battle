@@ -30,7 +30,8 @@ redaction.INIT_GAME = action => () => (_.get(action,'bogeys',{}) |> inflate);
 const specific_bogey = action => u.updateIn( action.bogey_id, b => bogey(b,action) );
 
 [ 'SET_ORDERS', 'BOGEY_MOVEMENT',
-    'EXECUTE_FIRECON_ORDERS', 'EXECUTE_WEAPON_ORDERS', 'DAMAGE'
+    'EXECUTE_FIRECON_ORDERS', 'EXECUTE_WEAPON_ORDERS', 'DAMAGE',
+    'INTERNAL_DAMAGE'
 ].forEach( action => redaction[action] = specific_bogey );
 
 redaction.CLEAR_ORDERS = action => u.map( b => bogey(b,action) )

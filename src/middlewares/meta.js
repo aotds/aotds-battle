@@ -1,7 +1,10 @@
-import u from 'updeep';
 import _ from 'lodash';
+import fp from 'lodash/fp';
+import u from 'updeep';
 
 import { inc_action_id, INC_ACTION_ID,
+    PUSH_ACTION_STACK,
+    POP_ACTION_STACK,
     push_action_stack,
     pop_action_stack 
 } from '~/actions';
@@ -13,28 +16,52 @@ const add_timestamp = ( (store,next,action) =>
 
 
 export 
-const add_action_id = function({getState, dispatch},next,action) {
+const add_action_id = () => {
+    let _id;
 
-    if( action.type === INC_ACTION_ID ) return next(action);
+    const next_id = (getState) => {
+        if( !_id ) {
+            _id = ( getState() |> fp.get('log') |> fp.map( 'meta.id' ) 
+                |> fp.filter(_.identity) |> fp.max ) || 0;
+        }
 
-    let id = _.get( getState(), 'game.next_action_id' );
+        return ++_id;
+    };
+    
+    return ({getState, dispatch}) => next => action => {
+        if( action.type === INC_ACTION_ID ) return next(action);
 
-    dispatch( inc_action_id() );
+        return next(
+            u.updateIn( 'meta.id', next_id(getState) )(action)
+        );
+    }
+};
 
-    return next(
-        u.if( id, u.updateIn( 'meta.id', id ))(action)
-    );
-} |> _.curry;
 
+export const add_parent_action = () => {
 
-export const add_parent_action = function({getState},next,action){
-    let parent_action_id =_.get( getState(), 'game.action_stack.0' );
+    let stack = [];
+    
+    return function({getState},next,action){
 
-    return next( u.if(parent_action_id,
-        u.updateIn('meta.parent_action_id',parent_action_id)
-    )(action));
+        if( action.type === PUSH_ACTION_STACK ) {
+            stack.unshift( action.meta.id );
+            return;
+        }
 
-} |> _.curry;
+        if( action.type === POP_ACTION_STACK ) {
+            stack.shift();
+            return;
+        }
+
+        let parent_action_id =_.get( getState(), 'game.action_stack.0' );
+
+        return next( u.if(stack.length,
+            u.updateIn('meta.parent_action_id',stack[0])
+        )(action));
+
+    } |> _.curry 
+};
 
 export function subactions(dispatch,action,inner) {
     let parent_id = _.get(action,'meta.id');

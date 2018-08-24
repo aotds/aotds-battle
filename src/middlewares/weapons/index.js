@@ -21,7 +21,9 @@ const spy = thingy => { debug(thingy); return thingy };
 export const internal_damage_check = mw_for( 'DAMAGE', 
     store => next => action => {
 
-        let before = store.getState() |> get_bogey( action.bogey_id ) |> fp.get('structure.hull.current');
+        let before = store.getState() 
+            |> get_bogey( action.bogey_id ) 
+            |> fp.get('structure.hull.current');
 
         subactions( () => () => () => {
             let bogey = store.getState() |> get_bogey( action.bogey_id );
@@ -29,6 +31,8 @@ export const internal_damage_check = mw_for( 'DAMAGE',
             let hull = bogey.structure.hull;
             
             let damage = before - hull.current;
+
+            debug(damage);
 
             if(!damage) return;
 
