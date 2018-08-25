@@ -66,6 +66,17 @@ function inArc( angle, arcs = Object.keys(arc_range) ){
 export function fire_weapon( attacker, target, weapon ) {
     let result = { weapon };
 
+    debug(attacker,target,weapon);
+
+    if( !target ) {
+        return result |> u({ aborted: 'no target' });
+    }
+
+    if( !weapon ) {
+        return result |> u({ aborted: 'no weapon' });
+    }
+
+
     result = u(relative_coords(attacker, target))(result);
 
     if(!inArc(result.bearing, fp.getOr([],'arcs')(weapon) )) {

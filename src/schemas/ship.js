@@ -129,10 +129,7 @@ const structure = definitions::add('structure', object({
     hull: object({ current: 'integer', max: 'integer', }),
     armor: object({ current: 'integer', max: 'integer', }),
     shields: object({}, {additionalProperties: { id: 'integer', level: 'integer' } }),
-    status: {
-        type: 'string',
-        enum: [ 'nominal', 'destroyed' ],
-    },
+    destroyed: 'boolean',
 }));
 
 export default object(

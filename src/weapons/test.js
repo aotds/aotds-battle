@@ -125,4 +125,16 @@ describe( "aft", () => {
 
 });
 
+test('no target', () => {
+    let result = fire_weapon({},null,{});
+
+    expect( result ).toHaveProperty( 'aborted' );
+});
+
+test('no weapon', () => {
+    let result = fire_weapon({},{},null);
+
+    expect( result ).toHaveProperty( 'aborted' );
+});
+
 

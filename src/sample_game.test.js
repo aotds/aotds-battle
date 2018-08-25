@@ -155,18 +155,20 @@ turns[3] = function turn3(battle) {
 
     rig_dice([4,1]);
 
+    const enkidu = () => battle.state |> get_bogey('enkidu');
+    const siduri = () => battle.state |> get_bogey('siduri');
+
     [ 'enkidu', 'siduri' ].forEach( ship =>
         battle.dispatch_action( 'set_orders', ship, { navigation: { thrust: -1 }, } ) 
     );
 
-    battle.play_turn(true);
+    battle.dispatch_action( 'play_turn', true );
 
-    [ 'enkidu', 'siduri' ].forEach( ship => expect(
-            get_object_by_id(battle.state,ship).navigation.velocity
-        ).toEqual(0)
-    );
+    [ enkidu(), siduri() ].forEach( ship => expect(
+            ship
+        ).toHaveProperty('navigation.velocity', 0) );
 
-    expect( get_object_by_id(battle.state,'siduri').drive )
+    expect( siduri().drive )
         .toMatchObject({
             damage_level: 1,
             current: 3,
@@ -181,16 +183,17 @@ turns[4] = function turn4(battle) {
     // oh my, internal damages on the drive!
     rig_dice([6,1,6,1,5,90,90]);
 
-    battle.play_turn(true);
+    battle.dispatch_action( 'play_turn', true);
 
-    expect( get_object_by_id(battle.state,'siduri').structure )
+    const siduri = () => battle.state |> get_bogey('siduri');
+
+    expect( siduri().structure )
         .toMatchObject({
             hull:  { current: 1, max: 4 },
             armor: { current: 2, max: 4 },
         });
 
-    expect( get_object_by_id(battle.state,'siduri').drive )
-        .toMatchObject({
+    expect( siduri().drive ).toMatchObject({
             damage_level: 2,
             current: 0,
         });
@@ -202,9 +205,9 @@ turns[5] = function turn5(battle) {
 
     rig_dice([5,3]);
 
-    battle.play_turn(true);
+    battle.dispatch_action('play_turn',  true);
 
-    expect( get_object_by_id(battle.state,'siduri').structure )
+    expect( battle.state |> get_bogey('siduri') |> fp.get('structure') )
         .toMatchObject({
             hull:  { current: 1, max: 4 },
             armor: { current: 1, max: 4 },
@@ -217,13 +220,14 @@ turns[6] = function turn6(battle) {
 
     rig_dice([4,6,2]);
 
-    battle.play_turn(true);
+    battle.dispatch_action('play_turn',  true);
 
-    expect( get_object_by_id(battle.state,'siduri').structure )
+    let siduri = battle.state |> get_bogey('siduri');
+
+    expect( siduri.structure )
         .toMatchObject({
             hull:  { current: 1, max: 4 },
             armor: { current: 0, max: 4 },
-            status: "nominal"
         });
 
     return battle;
@@ -233,13 +237,15 @@ turns[7] = function turn7(battle) {
 
     rig_dice([5,2,90,90,90]);
 
-    battle.play_turn(true);
+    battle.dispatch_action('play_turn',  true);
 
-    expect( get_object_by_id(battle.state,'siduri').structure )
+    let siduri = battle.state |> get_bogey('siduri');
+
+    expect( siduri.structure )
         .toMatchObject({
             hull:  { current: 0, max: 4 },
             armor: { current: 0, max: 4 },
-            status: "destroyed",
+            destroyed: true,
         });
 
     return battle;
@@ -247,18 +253,19 @@ turns[7] = function turn7(battle) {
 
 turns[8] = function turn8(battle) {
 
-    battle.play_turn(true);
+    battle.dispatch_action('play_turn',  true);
+
+    let siduri = battle.state |> get_bogey('siduri');
+    let enkidu = battle.state |> get_bogey('enkidu');
 
     // siduri is gone
-    expect( get_object_by_id(battle.state,'siduri') ).toBeUndefined();
-    expect( get_object_by_id(battle.state,'enkidu') ).toBeDefined();
+    expect( siduri ).toBeUndefined();
+    expect( enkidu ).toBeDefined();
 
     expect( battle.state.log.map( l => l.type ) ).not.toContain( 'FIRE_WEAPON' );
 
     return battle;
 }
-
-turns.splice(4,99);
 
 // turns.push( 
 //     async function(battle) { return await wait_forever() }

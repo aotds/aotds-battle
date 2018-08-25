@@ -26,7 +26,7 @@ redact.DAMAGE = ({ damage, penetrating }) => state => {
         })
     }
 
-    let destroy = u.if( s => fp.getOr(1)('hull.current')(s) <= 0, { status: 'destroyed' } );
+    let destroy = u.if( s => fp.getOr(1)('hull.current')(s) <= 0, { destroyed: true } );
 
     return destroy( update(state) );
 
