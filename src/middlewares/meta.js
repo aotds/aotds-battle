@@ -28,13 +28,13 @@ const add_action_id = () => {
         return ++_id;
     };
     
-    return ({getState, dispatch}) => next => action => {
+    return function ({getState, dispatch}, next, action ) {
         if( action.type === INC_ACTION_ID ) return next(action);
 
         return next(
             u.updateIn( 'meta.id', next_id(getState) )(action)
         );
-    }
+    } |> _.curry;
 };
 
 
@@ -45,7 +45,7 @@ export const add_parent_action = () => {
     return function({getState},next,action){
 
         if( action.type === PUSH_ACTION_STACK ) {
-            stack.unshift( action.meta.id );
+            stack.unshift( action.parent_id );
             return;
         }
 
@@ -53,8 +53,6 @@ export const add_parent_action = () => {
             stack.shift();
             return;
         }
-
-        let parent_action_id =_.get( getState(), 'game.action_stack.0' );
 
         return next( u.if(stack.length,
             u.updateIn('meta.parent_action_id',stack[0])
