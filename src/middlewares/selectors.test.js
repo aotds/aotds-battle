@@ -1,4 +1,4 @@
-import { players_not_done } from './selectors';
+import { get_players_not_done, players_not_done } from './selectors';
 
 
 test( 'players_not_done', () => {
@@ -10,7 +10,7 @@ test( 'players_not_done', () => {
                 { id: 'bob', status: 'inactive' },
             ]
         },
-        objects: [
+        bogeys: [
             { id: 'gilga', player_id: 'bob' },
             { id: 'enkidu', player_id: 'yanick', orders: { done: true } },
             { id: 'siduri', player_id: 'yenzie' },
@@ -18,7 +18,6 @@ test( 'players_not_done', () => {
         ],
     };
 
-    expect( players_not_done(state) ).toEqual([ 'yenzie' ]);
+    expect( get_players_not_done(state) ).toEqual([ { id: 'yenzie' } ]);
 
 });
-

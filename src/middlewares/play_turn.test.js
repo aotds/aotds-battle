@@ -19,11 +19,10 @@ test('play_turn, forced', () => {
     expect(
         dispatch.mock.calls |> fp.map('0') |> fp.map('type')
     ).toMatchObject([  
-        'MOVEMENT_PHASE',
-        'EXECUTE_FIRECON_ORDERS',
-        'ASSIGN_WEAPONS_TO_FIRECONS',
-        'EXECUTE_FIRECON_ORDERS',
-        'FIRE_WEAPONS',
-        'CLEAR_ORDERS',
+        "MOVEMENT_PHASE",
+        "FIRECON_ORDERS_PHASE", 
+        "WEAPON_ORDERS_PHASE", 
+        "WEAPON_FIRING_PHASE", 
+        "CLEAR_ORDERS"
     ]);
 });

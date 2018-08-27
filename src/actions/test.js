@@ -1,15 +1,25 @@
-import actioner, { INIT_GAME, fire_weapon  } from '../actions';
+import actioner, { INIT_GAME, bogey_fire_weapon  } from '../actions';
 
-test( 'it loads', () => {
-    expect( INIT_GAME ).toBe( 'INIT_GAME' );
+describe('it loads', () => {
+    test( 'INIT_GAME', () => {
+        expect( INIT_GAME ).toBe( 'INIT_GAME' );
+    });
 
-    expect( actioner.schema ).toBeDefined();
+    test('schema', () => {
+        expect( actioner.schema ).toBeDefined();
 
-    expect( actioner.schema['$id'] ).toBe( 'http://aotds.babyl.ca/battle/actions' );
+        expect( actioner.schema['$id'] ).toBe( 'http://aotds.babyl.ca/battle/actions' );
+        
+    });
 
-    expect( fire_weapon ).toThrow();
+    test('action with restrictions', () => {
 
-    expect( () => fire_weapon( 'enkidu', 'siduri', 1 ) ).not.toThrow();
+        expect( bogey_fire_weapon ).toThrow();
+
+        expect( () => bogey_fire_weapon( 'enkidu', 'siduri', 1 ) ).not.toThrow();
+
+        
+    });
 
 });
 

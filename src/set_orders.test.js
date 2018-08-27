@@ -1,31 +1,30 @@
 import _ from 'lodash';
-const debug = require('debug')('aotds:battle:test');
 
+import { get_bogey, get_object_by_id } from './middlewares/selectors';
 import Battle from './index';
 
-import { get_object_by_id } from './middlewares/selectors';
+const debug = require('debug')('aotds:battle:test');
 
 const mainstate = {
-    objects: [
-        { name: 'Enkidu', id: 'enkidu',
+    bogeys: { enkidu: { name: 'Enkidu', id: 'enkidu',
+        drive: { rating: 6, current: 6 },
+        structure: { hull: { current: 6, max: 7 } },
             weaponry: {
-                firecons: [
-                    { id: 1 }, { id: 2 },
-                ],
-                weapons: [
-                    { id: 1 }, { id: 2 },
-                ],
+                firecons: { 1: { id: 1 }, 2: { id: 2 },
+                },
+                weapons: { 1: { id: 1 }, 2: { id: 2 },
+                },
             },
-        },
-        { name: 'Siduri', id: 'siduri' },
-    ],
+    },
+        siduri: { name: 'Siduri', id: 'siduri' },
+    },
 };
 
 test( 'set orders for enkidu', () => {
 
     const battle = new Battle(mainstate);
 
-    battle.set_orders( 'enkidu', {
+    battle.dispatch_action( 'set_orders', 'enkidu', {
         navigation: {
             thrust: 3,
             turn:  -1,
@@ -39,9 +38,9 @@ test( 'set orders for enkidu', () => {
         },
     });
 
-    let ship_orders = get_object_by_id(battle.state, 'enkidu').orders;
+    const enkidu = () => battle.state |> get_bogey('enkidu');
 
-    expect( ship_orders )
+    expect( enkidu().orders )
         .toMatchObject({ 
             navigation: {
                 thrust: 3,
@@ -56,14 +55,12 @@ test( 'set orders for enkidu', () => {
             },
     });
 
-    expect(ship_orders.done).toEqual(expect.anything());
+    expect(enkidu().orders).toHaveProperty('done');
 
     // setting it a second time shouldn't work
-    battle.set_orders( 'enkidu', {
+    battle.dispatch_action( 'set_orders', 'enkidu', {
         navigation: { thrust: 0, turn:  1, }
     });
 
-    ship_orders = get_object_by_id(battle.state, 'enkidu').orders;
-    expect( ship_orders ).toMatchObject({ navigation: { thrust: 3, turn: -1 } });
+    expect( enkidu() ).toMatchObject({ orders: { navigation: { thrust: 3, turn: -1 } } });
 })
-
