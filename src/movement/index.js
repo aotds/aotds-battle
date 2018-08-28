@@ -21,8 +21,12 @@ import Actions from '../actions';
 //     bank: 'integer',
 // }
 
-export function plot_movement( ship, orders = {} ) {
+export function plot_movement( ship, orders = null ) {
     let navigation = ship.navigation;
+
+    if( !orders ) {
+        orders = _.get( ship, 'orders.navigation', {} );
+    }
 
     navigation = u({ trajectory: [
         { type: 'POSITION', coords: navigation.coords }

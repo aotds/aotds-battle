@@ -5,56 +5,67 @@
   "main": "lib/index.js",
   "scripts": {
     "test": "ava",
-    "build": "yarn build-babel && yarn build-flow",
+    "build": "npm build-babel && npm build-flow",
     "build-babel": "babel lib --out-dir dist",
-    "build-flow": "flow-copy-source lib dist"
-  },
-  "babel": {
-    "presets": [
-      [
-        "env",
-        {
-          "targets": {
-            "node": "current"
-          }
-        }
-      ],
-      "stage-1",
-      "stage-0"
-    ]
+    "build-flow": "flow-copy-source lib dist",
+    "schemas": "babel-node tools/generate_schemas.js"
   },
   "keywords": [],
   "author": "Yanick Champoux <yanick@babyl.ca> (http://techblog.babyl.ca)",
   "license": "ISC",
   "dependencies": {
+    "@babel/cli": "^7.0.0-beta.54",
+    "@babel/core": "^7.0.0-beta.54",
+    "@babel/node": "^7.0.0-beta.54",
+    "@babel/plugin-proposal-pipeline-operator": "^7.0.0-beta.54",
+    "actioner": "link:/home/yanick/work/javascript/actioner",
     "ajv-promise": "^0.2.1",
+    "babel-7-jest": "^21.3.3",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-jest": "^23.4.0",
+    "babel-plugin-module-resolver": "^3.1.1",
+    "babel-plugin-transform-class-properties": "^7.0.0-beta.3",
+    "babel-plugin-transform-decorators-legacy": "^1.3.5",
+    "babel-plugin-transform-function-bind": "^6.22.0",
+    "babel-plugin-transform-pipeline": "^0.1.0",
+    "babel-plugin-transform-pipeline-operator": "^7.0.0-beta.3",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-es2015": "^7.0.0-beta.3",
+    "babel-preset-stage-0": "^7.0.0-beta.3",
+    "babel-preset-stage-1": "^7.0.0-beta.3",
+    "debug": "^3.1.0",
     "duration-js": "^4.0.0",
     "flow-copy-source": "^1.2.1",
+    "jest-environment-jsdom": "^23.4.0",
+    "jest-extended": "^0.8.1",
     "jest-matcher-deep-close-to": "^1.2.1",
+    "json-schema-function-signatures": "^0.0.3",
     "json-schema-shorthand": "^0.3.0",
+    "jsondiffpatch": "^0.3.11",
+    "lodash": "^4.17.10",
     "pino": "^4.5.3",
     "pino-debug": "^1.0.5",
     "redux": "^3.6.0",
     "redux-actions": "^2.0.2",
+    "redux-saga": "^0.16.0",
+    "remote-redux-devtools": "^0.5.13",
     "stacktrace-js": "^2.0.0",
     "tap": "^10.3.2",
     "tracer": "^0.8.7",
-    "updeep": "^1.0.0"
+    "updeep": "^1.0.0",
+    "uws": "^99.0.0"
   },
   "devDependencies": {
-    "ajv": "^5.5.2",
-    "babel-cli": "^6.26.0",
-    "babel-plugin-transform-class-properties": "^6.24.1",
-    "babel-plugin-transform-decorators-legacy": "^1.3.4",
-    "babel-plugin-transform-function-bind": "^6.22.0",
-    "babel-preset-env": "^1.6.1",
-    "babel-preset-es2015": "^6.24.1",
-    "babel-preset-flow": "^6.23.0",
-    "babel-preset-stage-0": "^6.24.1",
-    "babel-preset-stage-1": "^6.24.1",
-    "babel-tap": "^5.0.0",
-    "jest": "^22.4.3",
-    "jest-html-reporter": "^2.0.0",
-    "redux-mock-store": "^1.5.1"
-  }
+    "ajv": "^6.5.2",
+    "docson": "^2.1.0",
+    "jest": "^23.4.1",
+    "jest-html-reporter": "^2.4.2",
+    "local-repl": "^4.0.0",
+    "redux-mock-store": "^1.5.3",
+    "remotedev-server": "^0.2.5"
+  },
+  "repl": [
+    "lodash",
+    "updeep"
+  ]
 }

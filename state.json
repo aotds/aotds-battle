@@ -1,0 +1,329 @@
+{
+  "game": {
+    "turn": 5,
+    "name": "gemini",
+    "players": [
+      {
+        "id": "yanick"
+      },
+      {
+        "id": "yenzie"
+      }
+    ]
+  },
+  "objects": [
+    {
+      "name": "Enkidu",
+      "id": "enkidu",
+      "drive_rating": 6,
+      "navigation": {
+        "coords": [
+          2,
+          1.7320508075688776
+        ],
+        "heading": 1,
+        "velocity": 0,
+        "trajectory": [
+          {
+            "type": "POSITION",
+            "coords": [
+              2,
+              1.7320508075688776
+            ]
+          },
+          {
+            "type": "MOVE",
+            "delta": [
+              0,
+              0
+            ],
+            "coords": [
+              2,
+              1.7320508075688776
+            ]
+          },
+          {
+            "type": "POSITION",
+            "coords": [
+              2,
+              1.7320508075688776
+            ]
+          }
+        ]
+      },
+      "weaponry": {
+        "firecons": [
+          {
+            "id": 1,
+            "target_id": "siduri",
+            "weapons": [
+              1,
+              2,
+              3
+            ]
+          }
+        ],
+        "weapons": [
+          {
+            "id": 1,
+            "type": "beam",
+            "class": 1,
+            "arcs": [
+              "F"
+            ]
+          },
+          {
+            "id": 2,
+            "arcs": [
+              "FS"
+            ],
+            "type": "beam",
+            "class": 1
+          },
+          {
+            "id": 3,
+            "arcs": [
+              "FP"
+            ],
+            "type": "beam",
+            "class": 1
+          }
+        ]
+      },
+      "player_id": "yanick"
+    },
+    {
+      "name": "Siduri",
+      "id": "siduri",
+      "drive_rating": 6,
+      "navigation": {
+        "coords": [
+          10,
+          8
+        ],
+        "heading": 6,
+        "velocity": 0,
+        "trajectory": [
+          {
+            "type": "POSITION",
+            "coords": [
+              10,
+              8
+            ]
+          },
+          {
+            "type": "MOVE",
+            "delta": [
+              0,
+              0
+            ],
+            "coords": [
+              10,
+              8
+            ]
+          },
+          {
+            "type": "POSITION",
+            "coords": [
+              10,
+              8
+            ]
+          }
+        ]
+      },
+      "player_id": "yenzie",
+      "structure": {
+        "hull": {
+          "current": 3,
+          "max": 4
+        },
+        "shields": [
+          {
+            "id": 1,
+            "level": 1
+          },
+          {
+            "id": 2,
+            "level": 2
+          }
+        ],
+        "armor": {
+          "current": 0,
+          "max": 4
+        }
+      }
+    }
+  ],
+  "log": [
+    {
+      "force": true,
+      "type": "PLAY_TURN"
+    },
+    {
+      "type": "MOVE_OBJECTS"
+    },
+    {
+      "object_id": "enkidu",
+      "type": "MOVE_OBJECT",
+      "navigation": {
+        "coords": [
+          2,
+          1.7320508075688776
+        ],
+        "heading": 1,
+        "velocity": 0,
+        "trajectory": [
+          {
+            "type": "POSITION",
+            "coords": [
+              2,
+              1.7320508075688776
+            ]
+          },
+          {
+            "type": "MOVE",
+            "delta": [
+              0,
+              0
+            ],
+            "coords": [
+              2,
+              1.7320508075688776
+            ]
+          },
+          {
+            "type": "POSITION",
+            "coords": [
+              2,
+              1.7320508075688776
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "object_id": "siduri",
+      "type": "MOVE_OBJECT",
+      "navigation": {
+        "coords": [
+          10,
+          8
+        ],
+        "heading": 6,
+        "velocity": 0,
+        "trajectory": [
+          {
+            "type": "POSITION",
+            "coords": [
+              10,
+              8
+            ]
+          },
+          {
+            "type": "MOVE",
+            "delta": [
+              0,
+              0
+            ],
+            "coords": [
+              10,
+              8
+            ]
+          },
+          {
+            "type": "POSITION",
+            "coords": [
+              10,
+              8
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "type": "EXECUTE_FIRECON_ORDERS"
+    },
+    {
+      "type": "FIRE_WEAPONS"
+    },
+    {
+      "object_id": "enkidu",
+      "target_id": "siduri",
+      "weapon_id": 1,
+      "type": "FIRE_WEAPON",
+      "weapon": {
+        "id": 1,
+        "type": "beam",
+        "class": 1,
+        "arcs": [
+          "F"
+        ]
+      },
+      "angle": 1.73071753701935,
+      "bearing": 0.7307175370193499,
+      "distance": 10.163030408244284,
+      "no_firing_arc": true
+    },
+    {
+      "object_id": "enkidu",
+      "target_id": "siduri",
+      "weapon_id": 2,
+      "type": "FIRE_WEAPON",
+      "weapon": {
+        "id": 2,
+        "arcs": [
+          "FS"
+        ],
+        "type": "beam",
+        "class": 1
+      },
+      "angle": 1.73071753701935,
+      "bearing": 0.7307175370193499,
+      "distance": 10.163030408244284,
+      "damage_dice": [
+        5
+      ]
+    },
+    {
+      "object_id": "siduri",
+      "weapon_type": "beam",
+      "dice": [
+        5
+      ],
+      "type": "DAMAGE",
+      "damage": 1
+    },
+    {
+      "object_id": "enkidu",
+      "target_id": "siduri",
+      "weapon_id": 3,
+      "type": "FIRE_WEAPON",
+      "weapon": {
+        "id": 3,
+        "arcs": [
+          "FP"
+        ],
+        "type": "beam",
+        "class": 1
+      },
+      "angle": 1.73071753701935,
+      "bearing": 0.7307175370193499,
+      "distance": 10.163030408244284,
+      "damage_dice": [
+        3
+      ]
+    },
+    {
+      "object_id": "siduri",
+      "weapon_type": "beam",
+      "dice": [
+        3
+      ],
+      "type": "DAMAGE",
+      "damage": 0
+    },
+    {
+      "type": "CLEAR_ORDERS"
+    }
+  ]
+}

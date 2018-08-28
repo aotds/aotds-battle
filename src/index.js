@@ -1,18 +1,26 @@
 import { createStore, applyMiddleware } from "redux";
+import { composeWithDevTools } from 'remote-redux-devtools';
 
 import _ from 'lodash';
 import fp from 'lodash/fp';
 
 import reducer from './reducer';
-import middlewares from './middlewares';
+import MW from './middlewares';
 
-import Schemas from './schemas';
-
-import actions from './actions';
+import { actions } from './actions';
 
 const debug = require('debug')('aotds:battle');
 
-let schemas = new Schemas();
+export const arcs = {
+    F:  [[ -1, 1 ]],
+    FS: [[ 1, 3 ]],
+    AS: [[ 3, 5 ]],
+    A:  [[ 5, 6], [-6,-5]],
+    AP: [[ -5, -3 ]],
+    FP: [[ -3, -1 ]],
+};
+
+import middlewares from './middlewares';
 
 export default class Battle {
 
@@ -21,7 +29,7 @@ export default class Battle {
         this.store = createStore( 
             reducer,
             state,
-            applyMiddleware( ...middlewares )
+            composeWithDevTools({  port: 8000 })( applyMiddleware( ...middlewares() ) )
         );
 
         // this.store.subscribe( () => {
@@ -42,18 +50,9 @@ export default class Battle {
         return this.store.dispatch(action);
     }
 
-    init_game( message ) {
-        return this.store.dispatch(actions.init_game(message));
+    dispatch_action( name, ...args ) {
+        return this.store.dispatch( actions[name](...args) );
     }
-
-    set_orders( ship, orders ) {
-        return this.store.dispatch(actions.set_orders(ship,orders));
-    }
-
-    play_turn(force = false) {
-        return this.store.dispatch(actions.play_turn(force))
-    }
-
 };
 
 /**
@@ -120,10 +119,6 @@ let middlewares = [
     MW_firecons_fire,
     MW_firecon_fire,
 ];
-
-import createSagaMiddleware from 'redux-saga';
-import battle_saga from './saga';
-
 
 
 */

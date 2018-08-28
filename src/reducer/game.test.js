@@ -14,7 +14,7 @@ test( 'times', () => {
         },
     },{
         type: 'PLAY_TURN',
-        timestamp,
+        meta: { timestamp },
     });
 
     expect(state).toMatchObject({
@@ -26,3 +26,4 @@ test( 'times', () => {
     });
 
 });
+

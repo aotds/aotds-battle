@@ -1,66 +1,142 @@
+import _ from 'lodash';
+import fp from 'lodash/fp';
 import u from 'updeep';
 
-import { internal_damage } from './index';
+import { actions, bogey_fire_weapon } from '~/actions';
+import { cheatmode, rig_dice } from '~/dice';
 
-import A from  '../../actions';
+import { firecon_orders_phase, bogey_firing_actions } from './';
+import { internal_damage_check } from './index';
+import * as selectors from '../selectors';
 
-import { cheatmode, rig_dice } from '../../dice';
-
-const debug = require('debug')('aotds:mw:weapon:test');
+const debug = require('debug')('aotds:mw:sagas:weapon:test');
 
 cheatmode();
 
-test( 'no damage? Nothing happen', () => {
-    let store = { getState: jest.fn(), dispatch: jest.fn() };
+test( 'no damage? Nothing happen internally', () => {
+
+    let getState = jest.fn();
+    let dispatch = jest.fn();
     let next = jest.fn();
 
-    let ship = { id: 'enkidu', structure: { hull: { current: 14, max: 14 } } };
+    getState.mockReturnValue({
+        bogeys: {
+            enkidu: { 
+                id: 'enkidu',
+                structure: { hull: {
+                    max: 14,
+                    current: 14,
+                },
+            } }
+        }
+    });
 
-    store.getState.mockImplementation( () => ({
-        objects: [ ship ]
-    }));
+    internal_damage_check({getState, dispatch})(next)(
+        actions.damage('enkidu')
+    );
 
-    let result = internal_damage(store)(next)(A.damage('enkidu'));
-
-    expect(next).toHaveBeenCalledTimes(1);
-    expect(store.dispatch).not.toBeCalled();
+    expect(next).toHaveBeenCalled();
+    expect(dispatch).not.toHaveBeenCalled();
 });
 
-test( 'damage? Oh my', () => {
-    let store = { getState: jest.fn(), dispatch: jest.fn() };
-    let next = jest.fn();
+const mock_mw_args = () => ( {
+    store: { getState: jest.fn(), dispatch: jest.fn() },
+    next: jest.fn(),
+});
+
+test( 'internal damage? Oh my', () => {
+
+    let mocked = mock_mw_args();
 
     let ship = { id: 'enkidu', 
         drive: { damage_level: 0 },
         weaponry: {
-            weapons: [ { id: 1 }, { id: 2, damaged: false }, { id: 3, damaged: true } ],
-            firecons: [ 
-                { id: 1, damaged: true },
-                { id: 2 },
-            ],
+            weapons: { 1: { id: 1 }, 2: { id: 2, damaged: false }, 3: { id: 3, damaged: true } },
+            firecons:{ 
+                1: { id: 1, damaged: true },
+                2: { id: 2 }, 
+            },
         },
         structure: { 
             hull: { current: 14, max: 14 },
-            shields: [ { id: 1 }, { id: 2 } ],
+            shields: { 1: { id: 1 }, 2: { id: 2 } },
         } 
     };
 
-    store.getState
-        .mockImplementationOnce( () => ({ objects: [ ship ] }))
-        .mockImplementationOnce( () => ({ objects: [ u.updateIn( 'structure.hull.current', 12)(ship) ] }));
-
     rig_dice([1,2,90,3,3,90]);
 
-    let result = internal_damage(store)(next)(A.damage('enkidu'));
-    debug(result);
+    selectors.get_bogey = jest.fn()
+    selectors.get_bogey.mockReturnValueOnce( () => ship );
+    selectors.get_bogey.mockReturnValueOnce( () => u.updateIn(
+        'structure.hull.current', 12
+    )(ship) );
 
-    expect(result).toMatchObject([
-        { system: { type:  'drive' } },    
-        { system: { type:  'firecon',  id: 2 } },    
-        { system: { type:  'weapon',   id: 2 } },    
-        { system: { type:  'shield',   id: 1 } },    
+    mocked.store.getState.mockReturnValueOnce({});
+
+    internal_damage_check( mocked.store, mocked.next, actions.damage( 'enkidu' ) );
+
+    expect(mocked.store.getState).toHaveBeenCalled();
+
+    expect(mocked.store.dispatch.mock.calls |> fp.flatten ).toMatchObject([
+        { type:  'drive' },  
+        { type:  'firecon',  id: 2 },    
+        { type:  'weapon',   id: 2 },    
+        { type:  'shield',   id: 1 },    
+    ].map( system => ({ type: 'INTERNAL_DAMAGE', system })));
+
+});
+
+test('firecon_orders_phase', () => {
+
+    let mocked = mock_mw_args();
+
+    selectors.select = jest.fn( function(a,b) {
+        return [
+            { id: 'enkidu', orders: { firecons: { 1: { firecon_id: 1, target_id: 'siduri' } } } },
+            { id: 'siduri', orders: { firecons: { 2: { firecon_id: 2, target_id: 'enkidu' } } } },
+            { id: 'gilgamesh' },
+        ];
+    } |> _.curry );
+
+
+    firecon_orders_phase( mocked.store )( mocked.next )( actions.firecon_orders_phase() );
+
+    expect(mocked.store.getState).toHaveBeenCalled();
+
+    expect(selectors.select).toHaveBeenCalled();
+
+    expect(mocked.store.dispatch).toHaveBeenCalledTimes(2);
+
+    expect( mocked.store.dispatch.mock.calls |> _.flatten ).toMatchObject(
+        [
+            actions.execute_firecon_orders( 'enkidu', 1, { target_id: 'siduri' } ),
+            actions.execute_firecon_orders( 'siduri', 2, { target_id: 'enkidu' } ),
+        ]
+    );
+    
+});
+
+test('bogey_firing_actions', () => {
+
+    let ship = {
+        id: 'enkidu',
+        weaponry: {
+            firecons: {
+                1: { id: 1, target_id: 'siduri' }
+            },
+            weapons: {
+                1: { id: 1, firecon_id: 1 },
+                2: { id: 2, firecon_id: 1 },
+                3: { id: 3 },
+            },
+        },
+    }
+    
+    let actions = bogey_firing_actions(ship);
+
+    expect(actions).toMatchObject([
+        bogey_fire_weapon('enkidu','siduri',1),
+        bogey_fire_weapon('enkidu','siduri',2)
     ]);
 
-    expect(next).toHaveBeenCalledTimes(1);
-    expect(store.dispatch).toHaveBeenCalledTimes(4);
 });

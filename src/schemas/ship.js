@@ -66,6 +66,7 @@ let navigation = object({
     trajectory,
     maneuvers,
 });
+
 navigation = { ...navigation, course: navigation };
 
 const orders = definitions::add( 'orders', object({
@@ -75,19 +76,17 @@ const orders = definitions::add( 'orders', object({
         turn:   number(),
         bank:   number(),
     }),
-    firecons: array(object({
-        firecon_id: 'integer',
+    firecons: object({
         target_id:  'string',
-    })),
-    weapons: array(object({
-        weapon_id: 'integer',
+    }),
+    weapons: object({
         firecon_id: 'integer',
-    })),
+    }),
 }), "orders for the next turn");
 
 const drive = definitions::add('drive', object({
-    rating: 'integer',
-    current: 'integer',
+    rating: 'integer!',
+    current: 'integer!',
     thrust_used: 'integer',
     damage_level: {
         type: 'integer',
@@ -101,32 +100,36 @@ const name = definitions::add( 'name',
 );
 
 const firecon = definitions::add('firecon', object({
-    id:        'integer',
+    id:        'integer!',
     target_id: 'string',
 }));
 
 const weapon = definitions::add('weapon', object({
-    id: 'integer',
+    id: 'integer!',
     type: 'string',
     level: 'integer',
     firecon_id: 'integer',
     arcs: array({ enum: [ 'A', 'F', 'FS', 'FP', 'AS', 'AP' ] }),
 }));
 
+definitions::add( 'navigation', 
+    "navigation-related attributes",
+    object({
+    ...heading_coords,
+    velocity,
+    course,
+}));
+
 const weaponry  = definitions::add('weaponry', object({
-    nbr_firecons: 'integer',
-    firecons: array(firecon),
-    weapons: array(weapon),
+    firecons: object({},{ additionalProperties: firecon }),
+    weapons: object({}, { additionalProperties: weapon }),
 }));
 
 const structure = definitions::add('structure', object({
     hull: object({ current: 'integer', max: 'integer', }),
     armor: object({ current: 'integer', max: 'integer', }),
-    shields: array({ id: 'integer', level: 'integer' }),
-    status: {
-        type: 'string',
-        enum: [ 'nominal', 'destroyed' ],
-    },
+    shields: object({}, {additionalProperties: { id: 'integer', level: 'integer' } }),
+    destroyed: 'boolean',
 }));
 
 export default object(

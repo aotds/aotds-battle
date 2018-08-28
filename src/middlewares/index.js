@@ -1,30 +1,10 @@
-import _ from 'lodash';
-import fp from 'lodash/fp';
-import u from 'updeep';
+import { add_timestamp, add_action_id, add_parent_action } from './meta';
+import validate_schema from './validate_schema';
+import play_turn from './play_turn';
 
-import Actions from '../actions';
-import weapon_middlewares from './weapons';
-
-import { get_object_by_id, players_not_done, active_players } from './selectors';
-
-import { mw_for } from './utils';
-
-import { plot_movement } from '../movement';
-
-const debug = require("debug")("aotds:mw");
-
-export
-const object_movement_phase = mw_for( Actions.MOVE_OBJECT, 
-    ({getState, dispatch}) => next => action => {
-
-        let object = get_object_by_id( getState(), action.object_id );
-
-        next(
-            u({
-                navigation: plot_movement( object, _.get( object, 'orders.navigation' ) )
-            })(action)
-        )
-});
+import weapons_mw from './weapons';
+import movement_mw from './movement';
+import { calculate_damage } from './damage';
 
 // players
 //Check all ships
@@ -33,51 +13,29 @@ const object_movement_phase = mw_for( Actions.MOVE_OBJECT,
 //filter those not associated with active players
 //make sure there are at least 2 active players 
 //if 
+const debug = require('debug')('aotds:mw');
 
-export const add_timestamp = () => next => action => {
-    action = u({ timestamp: (new Date).toISOString() })(action);
-    next(action);
+
+const trycatch = ({getState}) => next => action => {
+    let state = getState();
+    try {
+        next(action);
+    }
+    catch(e) {
+        debug(action);
+        debug(state);
+        throw e;
+    }
 };
 
-export
-const play_turn = mw_for( Actions.PLAY_TURN, 
-    ({getState, dispatch}) => next => action => {
-
-    if ( !action.force && (
-            players_not_done(getState()).length > 0 
-            || active_players(getState()).length <= 1 ) ) {
-        debug( "waiting for ", players_not_done(getState()) );
-        return;
-    }
-
-    next(action);
-    dispatch(Actions.move_objects());
-    dispatch(Actions.assign_weapons_to_firecons());
-    dispatch(Actions.execute_firecon_orders());
-    dispatch(Actions.fire_weapons());
-    dispatch(Actions.clear_orders());
-});
-
-export 
-const objects_movement_phase = mw_for( Actions.MOVE_OBJECTS, 
-    ({ getState, dispatch }) => next => action => {
-        next(action);
-        _.get( getState(), 'objects', [] )
-            .filter( o => o.navigation )
-            .map( o => o.id ).forEach( id => 
-            dispatch( Actions.move_object(id) )
-        );
-});
-
-
-
-let middlewares = [
+export default () => [
     add_timestamp,
-    objects_movement_phase, 
-    object_movement_phase, 
+    add_action_id(),
+    add_parent_action(),
+    validate_schema,
     play_turn,
-    ...weapon_middlewares,
+    ...weapons_mw,
+    ...movement_mw,
+    calculate_damage,
+    trycatch,
 ];
-
-
-export default middlewares;

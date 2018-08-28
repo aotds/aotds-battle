@@ -1,38 +1,50 @@
-import { inflate } from './index';
+import reducer from './index';
 
-const debug = require('debug')('aotds:reducer:test');
-debug.inspectOpts.depth = 99;
+import {  actions } from '~/actions';
+import { ajv } from '~/schemas';
 
-test( 'inflate', () => {
+const debug = require('debug')('aotds:test');
 
-    let inflated = inflate({
-        game: {
-        },
-        objects: [
-            { 
-                drive: 3,
-                structure: { shields: [ 1, 1, 2 ] },
-                weaponry: { firecons: 2 },
-            }
-        ]
-    });
+expect.extend({
+  toMatchSchema(received) {
 
-    let ship = inflated.objects[0];
+    const pass = ajv.validate({
+        '$ref': 'http://aotds.babyl.ca/battle/game'
+    }, received)
 
-    expect( ship.structure.shields[0] ).toMatchObject({
-        id: 1, level: 1
-    });
+    if (pass) {
+      return {
+        message: () =>
+          `expected schema to not be valid, but it is`,
+        pass: true,
+      };
+    } else {
+      return {
+          message: () => `expected schema to be valid.\nschema: ${ JSON.stringify(received)}\nerror: ${JSON.stringify(ajv.errors)} `,
+        pass: false,
+      };
+    }
+  },
+});
 
-    expect( ship.weaponry ).toMatchObject({
-        firecons: [
-            { id: 1 },
-            { id: 2 }
-        ]
-    });
+test('basic', () => {
+    let state = reducer(undefined, { type: 'DUMMY' } );
 
-    expect( ship.drive ).toMatchObject({
-        max: 3,
-        current: 3,
-    });
+    expect(state).toMatchObject({ game: { turn: 0 } });
 
+    expect(state).toMatchSchema();
+});
+
+test('with bogey', () => {
+   let state = reducer(undefined, actions.init_game({
+       bogeys: [ {id: 'enkidu'} ]
+   }));
+
+    expect(state).toMatchSchema();
+
+    expect(state).toHaveProperty( 'bogeys.enkidu' );
+    
+
+    debug(state);
+    
 });

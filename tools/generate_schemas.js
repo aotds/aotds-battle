@@ -1,5 +1,4 @@
 import fs from 'fs';
-import schema from '../src/schema';
 
 for ( let file of [ '../src/schemas/ship' ] ) {
     let name = file.replace( '../src/schemas/', 'schemas/'  );
@@ -8,3 +7,10 @@ for ( let file of [ '../src/schemas/ship' ] ) {
             if (err) throw err;
     })
 }
+
+
+fs.writeFile('schemas/actions.json', 
+    JSON.stringify(require('../src/actions').default.schema, null, 2), err => {
+        if (err) throw err;
+    }
+)

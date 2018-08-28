@@ -1,0 +1,323 @@
+{
+  "definitions": {
+    "init_game": {
+      "type": "object",
+      "properties": {
+        "game": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            }
+          }
+        },
+        "objects": {
+          "type": "array"
+        },
+        "type": {
+          "enum": [
+            "INIT_GAME"
+          ]
+        }
+      }
+    },
+    "set_orders": {
+      "type": "object",
+      "properties": {
+        "object_id": {
+          "type": "string"
+        },
+        "orders": {
+          "type": "object",
+          "properties": {
+            "navigation": {
+              "type": "object",
+              "properties": {
+                "thrust": {
+                  "type": "integer"
+                },
+                "turn": {
+                  "type": "integer"
+                },
+                "bank": {
+                  "type": "integer"
+                }
+              }
+            },
+            "firecons": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "firecon_id": {
+                    "type": "integer"
+                  },
+                  "clear": {
+                    "type": "boolean"
+                  },
+                  "target_id": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "type": {
+          "enum": [
+            "SET_ORDERS"
+          ]
+        }
+      },
+      "required": [
+        "object_id"
+      ]
+    },
+    "move_objects": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "enum": [
+            "MOVE_OBJECTS"
+          ]
+        }
+      }
+    },
+    "move_objects_done": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "enum": [
+            "MOVE_OBJECTS_DONE"
+          ]
+        }
+      }
+    },
+    "move_object": {
+      "type": "object",
+      "properties": {
+        "object_id": {
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "MOVE_OBJECT"
+          ]
+        }
+      },
+      "required": [
+        "object_id"
+      ]
+    },
+    "move_object_store": {
+      "type": "object",
+      "properties": {
+        "object_id": {
+          "type": "string"
+        },
+        "navigation": {
+          "$ref": "http://aotds.babyl.ca/battle/ship#/definitions/navigation"
+        },
+        "type": {
+          "enum": [
+            "MOVE_OBJECT_STORE"
+          ]
+        }
+      },
+      "required": [
+        "object_id"
+      ]
+    },
+    "play_turn": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "enum": [
+            "PLAY_TURN"
+          ]
+        }
+      }
+    },
+    "start_turn": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "enum": [
+            "START_TURN"
+          ]
+        }
+      }
+    },
+    "clear_orders": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "enum": [
+            "CLEAR_ORDERS"
+          ]
+        }
+      }
+    },
+    "execute_firecon_orders": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "enum": [
+            "EXECUTE_FIRECON_ORDERS"
+          ]
+        }
+      }
+    },
+    "execute_ship_firecon_orders": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "enum": [
+            "EXECUTE_SHIP_FIRECON_ORDERS"
+          ]
+        }
+      }
+    },
+    "fire_weapons": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "enum": [
+            "FIRE_WEAPONS"
+          ]
+        }
+      }
+    },
+    "fire_weapon": {
+      "type": "object",
+      "properties": {
+        "object_id": {
+          "type": "string"
+        },
+        "target_id": {
+          "type": "string"
+        },
+        "weapon_id": {
+          "type": "integer"
+        },
+        "type": {
+          "enum": [
+            "FIRE_WEAPON"
+          ]
+        }
+      },
+      "required": [
+        "object_id",
+        "target_id",
+        "weapon_id"
+      ]
+    },
+    "damage": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "enum": [
+            "DAMAGE"
+          ]
+        }
+      }
+    },
+    "internal_damage": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "enum": [
+            "INTERNAL_DAMAGE"
+          ]
+        }
+      }
+    },
+    "assign_weapons_to_firecons": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "enum": [
+            "ASSIGN_WEAPONS_TO_FIRECONS"
+          ]
+        }
+      }
+    },
+    "assign_weapon_to_firecon": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "enum": [
+            "ASSIGN_WEAPON_TO_FIRECON"
+          ]
+        }
+      }
+    },
+    "assign_target_to_firecon": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "enum": [
+            "ASSIGN_TARGET_TO_FIRECON"
+          ]
+        }
+      }
+    }
+  },
+  "$id": "http://aotds.babyl.ca/battle/actions",
+  "oneOf": [
+    {
+      "$ref": "#/definitions/init_game"
+    },
+    {
+      "$ref": "#/definitions/set_orders"
+    },
+    {
+      "$ref": "#/definitions/move_objects"
+    },
+    {
+      "$ref": "#/definitions/move_objects_done"
+    },
+    {
+      "$ref": "#/definitions/move_object"
+    },
+    {
+      "$ref": "#/definitions/move_object_store"
+    },
+    {
+      "$ref": "#/definitions/play_turn"
+    },
+    {
+      "$ref": "#/definitions/start_turn"
+    },
+    {
+      "$ref": "#/definitions/clear_orders"
+    },
+    {
+      "$ref": "#/definitions/execute_firecon_orders"
+    },
+    {
+      "$ref": "#/definitions/execute_ship_firecon_orders"
+    },
+    {
+      "$ref": "#/definitions/fire_weapons"
+    },
+    {
+      "$ref": "#/definitions/fire_weapon"
+    },
+    {
+      "$ref": "#/definitions/damage"
+    },
+    {
+      "$ref": "#/definitions/internal_damage"
+    },
+    {
+      "$ref": "#/definitions/assign_weapons_to_firecons"
+    },
+    {
+      "$ref": "#/definitions/assign_weapon_to_firecon"
+    },
+    {
+      "$ref": "#/definitions/assign_target_to_firecon"
+    }
+  ]
+}

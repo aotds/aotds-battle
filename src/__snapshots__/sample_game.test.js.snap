@@ -1,0 +1,520 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`turn 0 1`] = `
+Object {
+  "bogeys": Object {
+    "enkidu": Object {
+      "drive": Object {
+        "current": 6,
+        "rating": 6,
+        "thrust_used": 3,
+      },
+      "id": "enkidu",
+      "name": "Enkidu",
+      "navigation": Object {
+        "coords": Array [
+          1.5,
+          0.8660254037844388,
+        ],
+        "heading": 1,
+        "maneuvers": Object {
+          "bank": Array [
+            -3,
+            3,
+          ],
+          "thrust": Array [
+            -0,
+            4,
+          ],
+          "turn": Array [
+            -3,
+            3,
+          ],
+        },
+        "trajectory": Array [
+          Object {
+            "coords": Array [
+              0,
+              0,
+            ],
+            "type": "POSITION",
+          },
+          Object {
+            "coords": Array [
+              1,
+              6.123233995736766e-17,
+            ],
+            "delta": Array [
+              1,
+              6.123233995736766e-17,
+            ],
+            "type": "BANK",
+          },
+          Object {
+            "delta": 0,
+            "heading": 0,
+            "type": "ROTATE",
+          },
+          Object {
+            "delta": 1,
+            "heading": 1,
+            "type": "ROTATE",
+          },
+          Object {
+            "coords": Array [
+              1.5,
+              0.8660254037844388,
+            ],
+            "delta": Array [
+              0.49999999999999994,
+              0.8660254037844387,
+            ],
+            "type": "MOVE",
+          },
+        ],
+        "velocity": 1,
+      },
+      "player_id": "yanick",
+      "structure": Object {
+        "armor": Object {
+          "current": 4,
+          "max": 4,
+        },
+        "hull": Object {
+          "current": 4,
+          "max": 4,
+        },
+        "shields": Object {
+          "1": Object {
+            "id": 1,
+            "level": 1,
+          },
+          "2": Object {
+            "id": 2,
+            "level": 2,
+          },
+        },
+        "status": "nominal",
+      },
+      "weaponry": Object {
+        "firecons": Object {
+          "1": Object {
+            "id": 1,
+          },
+        },
+        "weapons": Object {
+          "1": Object {
+            "arcs": Array [
+              "F",
+            ],
+            "class": 2,
+            "id": 1,
+            "type": "beam",
+          },
+          "2": Object {
+            "arcs": Array [
+              "FS",
+            ],
+            "class": 1,
+            "id": 2,
+            "type": "beam",
+          },
+          "3": Object {
+            "arcs": Array [
+              "FP",
+            ],
+            "class": 1,
+            "id": 3,
+            "type": "beam",
+          },
+        },
+      },
+    },
+    "siduri": Object {
+      "drive": Object {
+        "current": 6,
+        "rating": 6,
+        "thrust_used": 1,
+      },
+      "id": "siduri",
+      "name": "Siduri",
+      "navigation": Object {
+        "coords": Array [
+          10,
+          9,
+        ],
+        "heading": 6,
+        "maneuvers": Object {
+          "bank": Array [
+            -3,
+            3,
+          ],
+          "thrust": Array [
+            -0,
+            6,
+          ],
+          "turn": Array [
+            -3,
+            3,
+          ],
+        },
+        "trajectory": Array [
+          Object {
+            "coords": Array [
+              10,
+              10,
+            ],
+            "type": "POSITION",
+          },
+          Object {
+            "coords": Array [
+              10,
+              9,
+            ],
+            "delta": Array [
+              1.2246467991473532e-16,
+              -1,
+            ],
+            "type": "MOVE",
+          },
+        ],
+        "velocity": 1,
+      },
+      "player_id": "yenzie",
+      "structure": Object {
+        "armor": Object {
+          "current": 4,
+          "max": 4,
+        },
+        "hull": Object {
+          "current": 4,
+          "max": 4,
+        },
+        "shields": Object {
+          "1": Object {
+            "id": 1,
+            "level": 1,
+          },
+          "2": Object {
+            "id": 2,
+            "level": 2,
+          },
+        },
+        "status": "nominal",
+      },
+      "weaponry": Object {},
+    },
+  },
+  "game": Object {
+    "action_stack": Array [],
+    "name": "gemini",
+    "next_action_id": 1,
+    "players": Array [
+      Object {
+        "id": "yanick",
+      },
+      Object {
+        "id": "yenzie",
+      },
+    ],
+    "turn": 1,
+    "turn_times": Object {
+      "started": "2018-01-01",
+    },
+  },
+  "log": Array [
+    Object {
+      "bogeys": Array [
+        Object {
+          "drive": Object {
+            "current": 6,
+            "rating": 6,
+          },
+          "id": "enkidu",
+          "name": "Enkidu",
+          "navigation": Object {
+            "coords": Array [
+              0,
+              0,
+            ],
+            "heading": 0,
+            "velocity": 0,
+          },
+          "player_id": "yanick",
+          "structure": Object {
+            "armor": 4,
+            "hull": 4,
+            "shields": Array [
+              1,
+              2,
+            ],
+            "status": "nominal",
+          },
+          "weaponry": Object {
+            "firecons": 1,
+            "weapons": Array [
+              Object {
+                "arcs": Array [
+                  "F",
+                ],
+                "class": 2,
+                "type": "beam",
+              },
+              Object {
+                "arcs": Array [
+                  "FS",
+                ],
+                "class": 1,
+                "type": "beam",
+              },
+              Object {
+                "arcs": Array [
+                  "FP",
+                ],
+                "class": 1,
+                "type": "beam",
+              },
+            ],
+          },
+        },
+        Object {
+          "drive": Object {
+            "current": 6,
+            "rating": 6,
+          },
+          "id": "siduri",
+          "name": "Siduri",
+          "navigation": Object {
+            "coords": Array [
+              10,
+              10,
+            ],
+            "heading": 6,
+            "velocity": 0,
+          },
+          "player_id": "yenzie",
+          "structure": Object {
+            "armor": 4,
+            "hull": 4,
+            "shields": Array [
+              1,
+              2,
+            ],
+            "status": "nominal",
+          },
+        },
+      ],
+      "game": Object {
+        "name": "gemini",
+        "players": Array [
+          Object {
+            "id": "yanick",
+          },
+          Object {
+            "id": "yenzie",
+          },
+        ],
+      },
+      "meta": Object {
+        "id": 1,
+        "timestamp": "2018-01-01",
+      },
+      "type": "INIT_GAME",
+    },
+    Object {
+      "bogey_id": "enkidu",
+      "meta": Object {
+        "id": 2,
+        "timestamp": "2018-01-01",
+      },
+      "orders": Object {
+        "navigation": Object {
+          "bank": 1,
+          "thrust": 1,
+          "turn": 1,
+        },
+      },
+      "type": "SET_ORDERS",
+    },
+    Object {
+      "bogey_id": "siduri",
+      "meta": Object {
+        "id": 4,
+        "timestamp": "2018-01-01",
+      },
+      "orders": Object {
+        "navigation": Object {
+          "thrust": 1,
+        },
+      },
+      "type": "SET_ORDERS",
+    },
+    Object {
+      "force": false,
+      "meta": Object {
+        "id": 5,
+        "timestamp": "2018-01-01",
+      },
+      "type": "PLAY_TURN",
+    },
+    Object {
+      "meta": Object {
+        "id": 7,
+        "timestamp": "2018-01-01",
+      },
+      "type": "MOVEMENT_PHASE",
+    },
+    Object {
+      "bogey_id": "enkidu",
+      "meta": Object {
+        "id": 9,
+        "timestamp": "2018-01-01",
+      },
+      "navigation": Object {
+        "coords": Array [
+          1.5,
+          0.8660254037844388,
+        ],
+        "heading": 1,
+        "maneuvers": Object {
+          "bank": Array [
+            -3,
+            3,
+          ],
+          "thrust": Array [
+            -0,
+            4,
+          ],
+          "turn": Array [
+            -3,
+            3,
+          ],
+        },
+        "thrust_used": 3,
+        "trajectory": Array [
+          Object {
+            "coords": Array [
+              0,
+              0,
+            ],
+            "type": "POSITION",
+          },
+          Object {
+            "coords": Array [
+              1,
+              6.123233995736766e-17,
+            ],
+            "delta": Array [
+              1,
+              6.123233995736766e-17,
+            ],
+            "type": "BANK",
+          },
+          Object {
+            "delta": 0,
+            "heading": 0,
+            "type": "ROTATE",
+          },
+          Object {
+            "delta": 1,
+            "heading": 1,
+            "type": "ROTATE",
+          },
+          Object {
+            "coords": Array [
+              1.5,
+              0.8660254037844388,
+            ],
+            "delta": Array [
+              0.49999999999999994,
+              0.8660254037844387,
+            ],
+            "type": "MOVE",
+          },
+        ],
+        "velocity": 1,
+      },
+      "type": "BOGEY_MOVEMENT",
+    },
+    Object {
+      "bogey_id": "siduri",
+      "meta": Object {
+        "id": 10,
+        "timestamp": "2018-01-01",
+      },
+      "navigation": Object {
+        "coords": Array [
+          10,
+          9,
+        ],
+        "heading": 6,
+        "maneuvers": Object {
+          "bank": Array [
+            -3,
+            3,
+          ],
+          "thrust": Array [
+            -0,
+            6,
+          ],
+          "turn": Array [
+            -3,
+            3,
+          ],
+        },
+        "thrust_used": 1,
+        "trajectory": Array [
+          Object {
+            "coords": Array [
+              10,
+              10,
+            ],
+            "type": "POSITION",
+          },
+          Object {
+            "coords": Array [
+              10,
+              9,
+            ],
+            "delta": Array [
+              1.2246467991473532e-16,
+              -1,
+            ],
+            "type": "MOVE",
+          },
+        ],
+        "velocity": 1,
+      },
+      "type": "BOGEY_MOVEMENT",
+    },
+    Object {
+      "meta": Object {
+        "id": 12,
+        "timestamp": "2018-01-01",
+      },
+      "type": "FIRECON_ORDERS_PHASE",
+    },
+    Object {
+      "meta": Object {
+        "id": 15,
+        "timestamp": "2018-01-01",
+      },
+      "type": "WEAPON_ORDERS_PHASE",
+    },
+    Object {
+      "meta": Object {
+        "id": 18,
+        "timestamp": "2018-01-01",
+      },
+      "type": "WEAPON_FIRING_PHASE",
+    },
+    Object {
+      "meta": Object {
+        "id": 21,
+        "timestamp": "2018-01-01",
+      },
+      "type": "CLEAR_ORDERS",
+    },
+  ],
+}
+`;
