@@ -24,11 +24,12 @@ import middlewares from './middlewares';
 
 export default class Battle {
 
-    constructor( state = {} ) {
+    constructor( opts = {} ) {
+        let { state } = opts;
 
         this.store = createStore( 
             reducer,
-            state,
+            state || {},
             composeWithDevTools({  port: 8000 })( applyMiddleware( ...middlewares() ) )
         );
 
