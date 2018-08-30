@@ -1,16 +1,15 @@
-import u from 'updeep';
+import _ from 'lodash';
 import fp from 'lodash/fp';
-
-import actions from '../../../actions';
-import structure from './structure';
-import inflate from './inflate';
+import u from 'updeep';
 
 import { 
     mapping_reducer,
     actions_reducer, combine_reducers, pipe_reducers, init_reducer } from '../../utils';
-
+import actions from '../../../actions';
 import drive from './drive';
 import firecon from './firecon';
+import inflate from './inflate';
+import structure from './structure';
 import weapon from './weapon';
 
 let debug = require('debug')('aotds:battle:reducer:object');
@@ -51,6 +50,9 @@ reaction.EXECUTE_WEAPON_ORDERS = action => u.updateIn(
 
 export default pipe_reducers([
     init_reducer({}),
-    combine_reducers({ structure, drive }),
+    combine_reducers({ 
+        structure, 
+        drive
+    }),
     actions_reducer(reaction),
 ]);

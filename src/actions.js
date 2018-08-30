@@ -150,4 +150,4 @@ export default actioner;
 export const types = actioner.types;
 export const actions = actioner.actions;
 
-_.merge( module.exports, actioner.mapped_types, actioner.actions );
+_.merge( module.exports, actioner.types, actioner.actions );

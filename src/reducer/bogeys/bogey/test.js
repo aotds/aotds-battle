@@ -9,6 +9,11 @@ test( 'thrust_used', () => {
 
     let ship = { drive: { }, navigation: { } };
 
+    console.log(JSON.stringify(bogey_movement( 'enkidu', {
+        thrust_used: 2
+    } ) )
+    );
+
     let state = reducer( ship, bogey_movement( 'enkidu', {
         thrust_used: 2
     } ) );

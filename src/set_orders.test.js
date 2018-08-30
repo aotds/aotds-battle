@@ -22,7 +22,7 @@ const mainstate = {
 
 test( 'set orders for enkidu', () => {
 
-    const battle = new Battle(mainstate);
+    const battle = new Battle({ state: mainstate });
 
     battle.dispatch_action( 'set_orders', 'enkidu', {
         navigation: {

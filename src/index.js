@@ -1,5 +1,5 @@
-import { createStore, applyMiddleware } from "redux";
-import { composeWithDevTools } from 'remote-redux-devtools';
+import { compose, createStore, applyMiddleware } from "redux";
+
 
 import _ from 'lodash';
 import fp from 'lodash/fp';
@@ -24,13 +24,38 @@ import middlewares from './middlewares';
 
 export default class Battle {
 
-    constructor( state = {} ) {
+    constructor( opts = {} ) {
+        let { state, devtools, persist } = opts;
 
-        this.store = createStore( 
-            reducer,
-            state,
-            composeWithDevTools({  port: 8000 })( applyMiddleware( ...middlewares() ) )
+        let red = reducer;
+        let create_store = createStore;
+
+        let enhancers = applyMiddleware(...middlewares());
+
+        if( persist ) {
+            const { persistStore, persistReducer } = require('redux-persist');
+            red = persistReducer( persist, red );
+        }
+
+        if( devtools) {
+            enhancers = 
+                require('remote-redux-devtools').composeWithDevTools(
+                    devtools |> fp.default({port: 8000})
+                )( enhancers )
+        }
+
+        this.store = create_store( 
+            red,
+            state || {},
+            enhancers,
         );
+
+        if( persist) {
+            const { persistStore, persistReducer } = require('redux-persist');
+            this.persistReady = new Promise( resolve =>
+                this.persistor = persistStore(this.store, null, resolve )
+            );
+        }
 
         // this.store.subscribe( () => {
         //      schemas.validate(
@@ -44,7 +69,7 @@ export default class Battle {
     get state() { return this.store.getState() }
 
     get name() { return fp.get('game.name')(this.state) }
-    get turn() { return fp.get('game.name')(this.state) }
+    get turn() { return fp.get('game.turn')(this.state) }
 
     dispatch( action ) {
         return this.store.dispatch(action);
