@@ -44,7 +44,7 @@ test( 'parent_action_id', () => {
 
     next.mockClear();
 
-    mw({},next,{ type: 'PUSH_ACTION_STACK', parent_id: 3 });
+    mw({},next,{ type: 'PUSH_ACTION_STACK', action_id: 3 });
 
     expect(next).not.toHaveBeenCalled();
 

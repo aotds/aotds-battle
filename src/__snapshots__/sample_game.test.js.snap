@@ -360,6 +360,7 @@ Object {
     Object {
       "meta": Object {
         "id": 7,
+        "parent_action_id": 5,
         "timestamp": "2018-01-01",
       },
       "type": "MOVEMENT_PHASE",
@@ -368,6 +369,7 @@ Object {
       "bogey_id": "enkidu",
       "meta": Object {
         "id": 9,
+        "parent_action_id": 7,
         "timestamp": "2018-01-01",
       },
       "navigation": Object {
@@ -440,6 +442,7 @@ Object {
       "bogey_id": "siduri",
       "meta": Object {
         "id": 10,
+        "parent_action_id": 7,
         "timestamp": "2018-01-01",
       },
       "navigation": Object {
@@ -490,6 +493,7 @@ Object {
     Object {
       "meta": Object {
         "id": 12,
+        "parent_action_id": 5,
         "timestamp": "2018-01-01",
       },
       "type": "FIRECON_ORDERS_PHASE",
@@ -497,6 +501,7 @@ Object {
     Object {
       "meta": Object {
         "id": 15,
+        "parent_action_id": 5,
         "timestamp": "2018-01-01",
       },
       "type": "WEAPON_ORDERS_PHASE",
@@ -504,6 +509,7 @@ Object {
     Object {
       "meta": Object {
         "id": 18,
+        "parent_action_id": 5,
         "timestamp": "2018-01-01",
       },
       "type": "WEAPON_FIRING_PHASE",
@@ -511,6 +517,7 @@ Object {
     Object {
       "meta": Object {
         "id": 21,
+        "parent_action_id": 5,
         "timestamp": "2018-01-01",
       },
       "type": "CLEAR_ORDERS",

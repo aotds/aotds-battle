@@ -41,11 +41,11 @@ const add_action_id = () => {
 export const add_parent_action = () => {
 
     let stack = [];
-    
+
     return function({getState},next,action){
 
         if( action.type === PUSH_ACTION_STACK ) {
-            stack.unshift( action.parent_id );
+            stack.unshift( action.action_id );
             return;
         }
 
@@ -54,9 +54,12 @@ export const add_parent_action = () => {
             return;
         }
 
-        return next( u.if(stack.length,
+        const add_parent_id = u.if(stack.length,
             u.updateIn('meta.parent_action_id',stack[0])
-        )(action));
+        );
+
+
+        return next( add_parent_id(action) );
 
     } |> _.curry 
 };

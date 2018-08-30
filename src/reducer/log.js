@@ -8,6 +8,8 @@ const unwanted_actions = [
     INC_ACTION_ID,
     PUSH_ACTION_STACK,
     POP_ACTION_STACK,
+    'persist/PERSIST',
+    'persist/REHYDRATE',
 ];
 
 const _log_reduce = function( action, parents, state ) {

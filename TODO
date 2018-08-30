@@ -5,3 +5,5 @@
 - add action ids
 
 - test with snapshots
+- only init_game once
+- don't log persist actions

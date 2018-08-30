@@ -13,6 +13,7 @@ const can_play_turn = ({getState}) => next => action => {
 
         if(active.length <= 1) return;
     }
+    console.log("1");
 
     next(action);
 };
