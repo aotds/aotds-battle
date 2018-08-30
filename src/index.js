@@ -53,7 +53,7 @@ export default class Battle {
         if( persist) {
             const { persistStore, persistReducer } = require('redux-persist');
             this.persistReady = new Promise( resolve =>
-                this.persistor = persistStore(this.store, null, resolve )
+                this.persistor = persistStore(this.store, null, () => resolve(this) )
             );
         }
 
