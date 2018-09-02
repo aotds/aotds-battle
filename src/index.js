@@ -66,6 +66,10 @@ export default class Battle {
 
     }
 
+    get is_started() {
+        return _.get( this.state, 'log', [] ).length > 0;
+    }
+
     get state() { return this.store.getState() }
 
     get name() { return fp.get('game.name')(this.state) }

@@ -7,3 +7,4 @@
 - test with snapshots
 - only init_game once
 - don't log persist actions
+- don't allow multiple INIT_GAME
