@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`logs: state 1`] = `
+Array [
+  Object {
+    "meta": Object {
+      "id": 123,
+    },
+    "type": "STUFF",
+  },
+  Object {
+    "meta": Object {
+      "id": 124,
+      "parent_action_id": 123,
+    },
+    "type": "FOO",
+  },
+  Object {
+    "meta": Object {
+      "id": 125,
+    },
+    "type": "BAR",
+  },
+]
+`;
+
+exports[`logs: tree 1`] = `
+Array [
+  Object {
+    "meta": Object {
+      "child_actions": Array [
+        Object {
+          "meta": Object {
+            "id": 124,
+            "parent_action_id": 123,
+          },
+          "type": "FOO",
+        },
+      ],
+      "id": 123,
+    },
+    "type": "STUFF",
+  },
+  Object {
+    "meta": Object {
+      "id": 125,
+    },
+    "type": "BAR",
+  },
+]
+`;

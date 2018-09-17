@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`inflate 1`] = `
+Object {
+  "bogeys": Object {
+    "enkidu": Object {
+      "drive": Object {
+        "current": 3,
+        "max": 3,
+      },
+      "id": "enkidu",
+      "structure": Object {
+        "shields": Object {
+          "1": Object {
+            "id": 1,
+            "level": 1,
+          },
+          "2": Object {
+            "id": 2,
+            "level": 1,
+          },
+          "3": Object {
+            "id": 3,
+            "level": 2,
+          },
+        },
+      },
+      "weaponry": Object {
+        "firecons": Object {
+          "1": Object {
+            "id": 1,
+          },
+          "2": Object {
+            "id": 2,
+          },
+        },
+      },
+    },
+  },
+  "game": Object {},
+}
+`;
