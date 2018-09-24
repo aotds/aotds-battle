@@ -34,6 +34,10 @@ const specific_bogey = action => u.updateIn( action.bogey_id, b => bogey(b,actio
     'INTERNAL_DAMAGE'
 ].forEach( action => redaction[action] = specific_bogey );
 
+redaction.DAMAGE_CONTROL = action => u.if( action.repaired, 
+    specific_bogey(action)
+);
+
 redaction.CLEAR_ORDERS = action => u.map( b => bogey(b,action) )
 
 export default actions_reducer( redaction, {} );

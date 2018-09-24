@@ -69,6 +69,8 @@ let navigation = object({
 
 navigation = { ...navigation, course: navigation };
 
+// TODO add the different sub-dcp orders 
+
 const orders = definitions::add( 'orders', object({
     done: 'boolean',
     navigation: object({
@@ -82,7 +84,15 @@ const orders = definitions::add( 'orders', object({
     weapons: object({
         firecon_id: 'integer',
     }),
+    damage_control_parties: array(
+        object({
+            system:    'string',
+            weapon_id: number(),
+            parties:   number(),
+        }),
+    ),
 }), "orders for the next turn");
+
 
 const drive = definitions::add('drive', object({
     rating: 'integer!',
@@ -132,11 +142,16 @@ const structure = definitions::add('structure', object({
     destroyed: 'boolean',
 }));
 
+const damage_control_parties = definitions::add( 'damage_control_parties',
+    object({ max: number(), current: number(), }),
+);
+
 export default object(
     { 
         id: 'string',
         name,
         navigation, 
+        damage_control_parties,
         orders, 
         drive,
         weaponry,

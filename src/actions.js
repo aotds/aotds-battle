@@ -81,6 +81,7 @@ actioner.add( 'clear_orders' );
 actioner.add( 'firecon_orders_phase' );
 actioner.add( 'weapon_orders_phase' );
 actioner.add( 'weapon_firing_phase' );
+actioner.add( 'damage_control_phase' );
 
 actioner.add( 'execute_firecon_orders',
     ( bogey_id, firecon_id, orders ) => {
@@ -144,6 +145,11 @@ actioner.add( 'push_action_stack', action_id => ({
 }), object({ action_id: 'number!' }) );
 
 actioner.add('pop_action_stack');
+
+actioner.add( 'damage_control', ( bogey_id, parties, system, system_id ) => ({
+        bogey_id, system, system_id, parties
+    }) 
+);
 
 export default actioner;
 

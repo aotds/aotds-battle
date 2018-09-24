@@ -7,3 +7,36 @@
 - test with snapshots
 - only init_game once
 - don't log persist actions
+
+## Damage Control Parties
+
+damage_control_parties: {
+    max: 4
+    current: 3,
+}
+
+
+orders: {
+    damage_control_parties: [
+        { system: "weapon", system_id: 2, parties: 3 },
+        { system: "weapon", weapon_id: 2, dcp: 3 },
+        { weapon_id: 3, dcp: 2 }, // nah, first one
+    ]
+}
+
+let max = 5;
+
+    // set limit to the sum of the values 
+    let cap_sum = max => x =>  Math.max( 0, Math.min(x, x + (max -= x))) 
+
+    dcp = u.map( u({ dcp: cap_sum(5) }) )(dcp)
+
+
+- New phase DAMAGE_CONTROL_PHASE
+- action:
+
+    damage_control( bogey_id, parties, system, subsystem )
+
+- middleware to add { dice: [ ... ], repaired: bool }
+
+- add to the reducers the repair bits

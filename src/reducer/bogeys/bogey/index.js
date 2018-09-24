@@ -48,9 +48,18 @@ reaction.EXECUTE_WEAPON_ORDERS = action => u.updateIn(
     `weaponry.weapons.${action.weapon_id}`, s => weapon(s,action)
 );
 
+const weapons = actions_reducer({
+    DAMAGE_CONTROL: action => u.if( action.system === 'weapon',
+        u.updateIn( action.system_id, state => weapon(state, action)
+    ))
+});
+
+const weaponry = combine_reducers({ weapons });
+
 export default pipe_reducers([
     init_reducer({}),
     combine_reducers({ 
+        weaponry,
         structure, 
         drive
     }),
