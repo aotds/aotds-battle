@@ -87,7 +87,7 @@ const orders = definitions::add( 'orders', object({
     damage_control_parties: array(
         object({
             system:    'string',
-            weapon_id: number(),
+            system_id: number(),
             parties:   number(),
         }),
     ),

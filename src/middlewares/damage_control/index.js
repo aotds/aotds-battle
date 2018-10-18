@@ -28,12 +28,11 @@ export const damage_control_phase = function({getState,dispatch},next,action) {
     bogeys.map( ship_damage_control ).map( action => dispatch(action) );
 } |> _.curry |> subactions |> mw_for( types.DAMAGE_CONTROL_PHASE );
 
-export const damage_control = function({getState,dispatch},next,action) {
+export const damage_control = function(store,next,action) {
     let { parties } = action;
     let die = roll_die();
 
-    return 
-        action 
+    return action 
         |> u({ dice: [ die ], repaired: die <= Math.min( 3, parties ) })
         |> next;
 

@@ -1,5 +1,11 @@
-import { ship_damage_control } from './index';
+import _ from 'lodash';
+
+import { ship_damage_control, damage_control } from './index';
 import { ejson } from '~/utils';
+
+import { cheatmode, rig_dice } from '~/dice';
+
+cheatmode(true);
 
 test( 'basic', () => {
 
@@ -20,3 +26,33 @@ test( 'basic', () => {
 
 });
 
+test( 'damage_control unsuccessful', () => {
+
+    rig_dice([3]);
+
+    let next = jest.fn();
+
+    damage_control({},next,{ type: 'DAMAGE_CONTROL', parties: 2 });
+
+    expect(next).toHaveBeenCalledWith({
+        dice: [ 3 ],
+        parties: 2,
+        repaired: false,
+        type: 'DAMAGE_CONTROL',
+    });
+});
+
+test( 'damage_control successful', () => {
+
+    rig_dice([3]);
+    let next = jest.fn();
+
+    damage_control({},next,{ type: 'DAMAGE_CONTROL', parties: 3 });
+
+    expect(next).toHaveBeenCalledWith({
+        dice: [ 3 ],
+        parties: 3,
+        repaired: true,
+        type: 'DAMAGE_CONTROL',
+    });
+});
