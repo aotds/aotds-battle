@@ -1,0 +1,7 @@
+tasks:
+    lint:
+        cmds:
+            - eslint "src/**"
+    doc:
+        cmds:
+            - typedoc --ignoreCompilerErrors --out doc src

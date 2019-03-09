@@ -1,4 +1,4 @@
-import roll_dice, { roll_die, rig_dice } from '.';
+import roll_dice, { rig_dice } from '.';
 
 test( 'vegas, baby', () => {
 
