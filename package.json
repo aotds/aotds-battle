@@ -1,0 +1,19 @@
+{
+  "name": "battle",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Yanick Champoux <yanick@babyl.ca> (http://techblog.babyl.ca)",
+  "license": "ISC",
+  "dependencies": {
+    "ts-action": "^8.0.0",
+    "ts-jest": "^24.0.0",
+    "ts-optchain": "^0.1.3",
+    "typescript": "^3.3.3333",
+    "updeep": "^1.1.0"
+  }
+}
