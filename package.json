@@ -10,6 +10,12 @@
   "author": "Yanick Champoux <yanick@babyl.ca> (http://techblog.babyl.ca)",
   "license": "ISC",
   "dependencies": {
+    "@types/jest": "^24.0.11",
+    "@types/lodash": "^4.14.122",
+    "jest": "^24.3.1",
+    "jest-html-reporters": "^1.1.2",
+    "jest-summary-reporter": "0.0.2",
+    "lodash": "^4.17.11",
     "ts-action": "^8.0.0",
     "ts-jest": "^24.0.0",
     "ts-optchain": "^0.1.3",
