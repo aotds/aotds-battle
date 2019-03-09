@@ -1,7 +1,12 @@
 tasks:
+    check:
+        deps: [ lint, test ]
     lint:
         cmds:
             - eslint "src/**"
+    test:
+        cmds:
+            - jest src/
     doc:
         cmds:
             - typedoc --ignoreCompilerErrors --out doc src
