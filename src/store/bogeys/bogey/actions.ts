@@ -1,5 +1,6 @@
 import { action } from '../../../actions';
 import { D100 } from '../../types/misc';
+import { OrdersState } from './orders/types';
 
 type InternalDamageSystem =
   | {
@@ -44,4 +45,9 @@ export const internal_damage = action(
 
       return payload;
     },
+);
+
+export const set_orders = action(
+  'SET_ORDERS',
+  (bogey_id: string, orders: OrdersState) => ({bogey_id, orders}),
 );
