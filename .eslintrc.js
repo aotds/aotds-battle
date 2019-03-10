@@ -2,6 +2,18 @@
 
 // https://dev.to/robertcoopercode/using-eslint-and-prettier-in-a-typescript-project-53jb
 
+const _ = require('lodash');
+
+const ts_nope = [
+    'no-explicit-any',
+    'explicit-function-return-type',
+    'no-object-literal-type-assertion',
+    'camelcase',
+    'member-delimiter-style',
+    'prefer-interface',
+    'indent',
+].map(r => '@typescript-eslint/' + r);
+
 module.exports = {
     parser: '@typescript-eslint/parser', // Specifies the ESLint parser
     extends: [
@@ -13,8 +25,7 @@ module.exports = {
         sourceType: 'module', // Allows for the use of imports
     },
     rules: {
-        '@typescript-eslint/camelcase': 'off',
-        '@typescript-eslint/member-delimiter-style': 'off',
+        ..._.fromPairs(ts_nope.map(r => [r, 'off'])),
         // Place to specify ESLint rules. Can be used to overwrite rules specified from the extended configs
         // e.g. "@typescript-eslint/explicit-function-return-type": "off",
     },
