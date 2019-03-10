@@ -48,10 +48,10 @@ test('asReducer', () => {
 });
 
 test('many actions', () => {
-    const redactor = new Redactor({ baz: 0 } as State);
+    const redactor = new Redactor({ baz: 0 } as State, allActions);
 
-    redactor.for({ foo, bar }, action => ({ baz }) => ({ baz: baz + 1 }));
-    redactor.for({ quux, '*': '*' }, action => state => state);
+    redactor.for({ foo, bar } as any, () => ({ baz }: State) => ({ baz: baz + 1 }));
+    redactor.for({ quux, '*': '*' }, () => state => state);
 
     expect(redactor.reduce({ baz: 0 }, foo())).toMatchObject({ baz: 1 });
 });
