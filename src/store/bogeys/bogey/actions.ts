@@ -25,7 +25,7 @@ export const internal_damage = action(
         | 'drive'
         | ['firecon' | 'weapon' | 'shield', number],
       thresholdOrHit: number | boolean,
-    ) => {
+    ): InternalDamage => {
       if (typeof system === 'string') {
         system = {type: system} as InternalDamageSystem;
       } else if (Array.isArray(system)) {
