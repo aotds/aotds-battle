@@ -2,7 +2,7 @@
 
 import { action } from '../../../actions';
 import { D100, D6 } from '../../types/misc';
-import { OrdersState } from './orders/types';
+import { OrdersState, WeaponOrdersState } from './orders/types';
 
 type InternalDamageSystem =
     | {
@@ -67,4 +67,13 @@ export const damage = action(
         }
         return payload;
     },
+);
+
+export const bogey_execute_weapon_order = action(
+    'BOGEY_EXECUTE_WEAPON_ORDER',
+    (bogey_id: string, weapon_id: number, orders: WeaponOrdersState) => ({
+        bogey_id,
+        weapon_id,
+        orders,
+    }),
 );
