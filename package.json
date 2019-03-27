@@ -24,6 +24,8 @@
     "jest-summary-reporter": "0.0.2",
     "lodash": "^4.17.11",
     "prettier": "^1.16.4",
+    "redux": "^4.0.1",
+    "remote-redux-devtools": "^0.5.16",
     "ts-action": "^8.0.0",
     "ts-jest": "^24.0.0",
     "ts-optchain": "^0.1.3",
