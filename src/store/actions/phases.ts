@@ -2,6 +2,10 @@ import { action } from "../../actions";
 import { Player } from "../game/types";
 
 export const clear_orders = action('CLEAR_ORDERS');
+export const movement_phase = action('MOVEMENT_PHASE');
+export const firecons_order_phase = action('FIRECONS_ORDER_PHASE');
+export const weapons_order_phase = action('WEAPONS_ORDER_PHASE');
+export const weapons_firing_phase = action('WEAPONS_FIRING_PHASE');
 
 type InitGamePayload = {
   game: {name: string; players: Player[]};
