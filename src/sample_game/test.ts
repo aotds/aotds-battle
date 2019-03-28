@@ -3,6 +3,7 @@
 import Battle from '../battle/index';
 import initial_state from './initial_state';
 import { init_game } from '../store/actions/phases';
+import { Action } from '../reducer/types';
 
 let turns: ((battle: Battle) => void)[] = [];
 
@@ -18,6 +19,11 @@ turns[1] = battle => {
         game: { name: 'gemini', turn: 0 },
         bogeys: { enkidu: { name: 'Enkidu' }, siduri: { name: 'Siduri' } },
     });
+
+    // let's check the log
+    expect(battle.state).toHaveProperty('log');
+
+    expect(battle.state.log.map((l: Action) => l.type)).toEqual(['INIT_GAME']);
 };
 
 test('sample game', () => {

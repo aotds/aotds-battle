@@ -2,15 +2,13 @@ import _ from 'lodash';
 import u from 'updeep';
 import { LogState, LogAction } from './types';
 
-const to_ignore = [ '@@redux/INIT', '@@INIT' ];
-
 export function log_reducer(
     state: LogState = [],
     action: LogAction
 ): LogState {
 
     // can't be caught by the middleware
-    if( to_ignore.includes( action.type ) ) return state;
+    if( /@@/.test( action.type ) ) return state;
 
     if( _.get( action, 'meta.no_log' ) ) return state;
 
