@@ -6,6 +6,7 @@ import { clear_orders } from "../../../actions/phases";
 const redactor = new Redactor({} as OrdersState);
 
 export const orders_reducer = redactor.asReducer;
+export const orders_upreducer = redactor.asUpReducer;
 
 redactor.for(set_orders, ({ payload: { orders } }) => () => ({
   ...orders,
