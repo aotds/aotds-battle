@@ -1,16 +1,32 @@
 // @format
 
 import Battle from '../battle/index';
+import initial_state from './initial_state';
+import { init_game } from '../store/actions/phases';
 
-let turns = [
-    new Battle({
-        devtools: {
-            // suppressConnectErrors: false,
-            // wsEngine: 'uws',
-        },
-    }),
-];
+let turns: ((battle: Battle) => void)[] = [];
 
-test('turn[0]', () => {
-    expect(turns[0]).toBeTruthy();
+turns[0] = (battle: Battle) => {
+    expect(battle).toBeTruthy();
+    expect(battle.state).toMatchObject({});
+};
+
+turns[1] = battle => {
+    battle.dispatch(init_game(initial_state));
+
+    expect(battle.state).toMatchObject({
+        game: { name: 'gemini', turn: 0 },
+        bogeys: { enkidu: { name: 'Enkidu' }, siduri: { name: 'Siduri' } },
+    });
+};
+
+test('sample game', () => {
+    let battle = new Battle({
+        //devtools: {
+        // suppressConnectErrors: false,
+        // wsEngine: 'uws',
+        //},
+    });
+
+    turns.forEach(turn => turn(battle));
 });
