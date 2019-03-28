@@ -1,0 +1,15 @@
+ - have redactor take more than one action
+ make src/store/bogeys/reducer.test.ts pass
+- make the src/store/**/*.test.ts tests pass
+ cat tests.json | env NODE_PATH=node_modules fx .testResults 'fp.filter({status: "failed"})' "fp.map('name')"
+- move away from typesafe-actions and to ts-actions
+- move away from Reaction for Redactor
+
+configure vim  for the make doign a dts -p ./tsconfig.json
+
+- sample_game, a little further
+    - record internal damage (on drive)
+        - make src/store/bogey/reducer.test.ts
+            then: I changed internal_damage to internal_damage_check
+            inflate_bogey
+
