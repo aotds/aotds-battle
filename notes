@@ -1,3 +1,6 @@
+- bogey movements
+
+
  - have redactor take more than one action
  make src/store/bogeys/reducer.test.ts pass
 - make the src/store/**/*.test.ts tests pass
