@@ -7,6 +7,7 @@ import { try_play_turn } from '../store/actions/phases';
 import { log_skipper } from '../store/log/middleware';
 import { timestamp } from '../store/middleware/timestamp';
 import { action_id_mw_gen } from '../store/middleware/action_id';
+import mw_play_phases from '../store/middleware/play_phases';
 
 type BattleOpts = {
     devtools?: {},
@@ -23,6 +24,7 @@ export default class Battle {
             log_skipper([ 'TRY_PLAY_TURN' ]),
             timestamp,
             action_id_mw_gen(),
+            mw_play_phases,
         );
 
         if( opts.devtools) {

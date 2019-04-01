@@ -12,16 +12,16 @@ export function log_reducer(
 
     if( _.get( action, 'meta.no_log' ) ) return state;
 
-    const level = _.get(action, 'meta.subaction_level' );
+    const [ direct_parent, ...rest ] = _.get(action, 'meta.parent_actions',[] );
 
-    if(!level) return [ ...state, _.omit( action, ['meta','subaction_level'] ) ];
+    console.log(state);
+    if(!direct_parent) return [ ...state, _.omit( action, ['meta.parent_actions'] ) ];
 
-    return u({
-        [state.length-1]: u({
-            subactions: ( subs: LogState ) =>
-                log_reducer( subs, u.updateIn('meta.subaction_level', ( x: number ) => x -1, action ) )
-        })
-    }, state) as LogState;
+    return u.map(
+        u.if( (entry: any) => _.get( entry, 'meta.action_id', null ) === direct_parent,
+             { subactions: (log_entries: LogState) => log_reducer(log_entries, u.updateIn('meta.parent_actions',rest)(action) ) }
+            )
+    )( state );
 
 }
 

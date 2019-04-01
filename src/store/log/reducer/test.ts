@@ -9,16 +9,17 @@ const testAction = (name: string, level: number = 0) => {
   return action;
 };
 
+
 test("logs", () => {
   let state = [
-    testAction("stuff"),
-    testAction("foo"),
-    testAction("bar"),
-    testAction("bar1", 1),
-    testAction("bar2", 2),
-    testAction("bar3", 1),
-    testAction("quux")
-  ].reduce((state, action) => log_reducer(state, action), undefined);
+      { type: 'STUFF', meta: { action_id: 1 } },
+      { type: 'FOO', meta: { action_id: 2 } },
+      { type: 'BAR', meta: { action_id: 3 } },
+      { type: 'BAR1', meta: { action_id: 4, parent_actions: [ 3 ] } },
+      { type: 'BAR2', meta: { action_id: 5, parent_actions: [ 3,4 ] } },
+      { type: 'BAR3', meta: { action_id: 6, parent_actions: [ 3 ] } },
+      { type: 'QUUX', meta: { action_id: 7 } },
+  ].reduce((state, action) => log_reducer(state as any, action as any) as any, []);
 
   const onlyTypes = (entry: any) => {
     let subactions = _.get(entry, "subactions");
