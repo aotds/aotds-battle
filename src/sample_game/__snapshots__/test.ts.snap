@@ -1,0 +1,129 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`sample game 1`] = `
+Object {
+  "bogeys": Object {
+    "enkidu": Object {
+      "drive": Object {
+        "current": 6,
+        "rating": 6,
+      },
+      "id": "enkidu",
+      "name": "Enkidu",
+      "navigation": Object {
+        "coords": Array [
+          0,
+          0,
+        ],
+        "heading": 0,
+        "velocity": 0,
+      },
+      "orders": Object {},
+      "player_id": "yanick",
+      "structure": Object {
+        "armor": Object {
+          "current": 4,
+          "rating": 4,
+        },
+        "hull": Object {
+          "current": 4,
+          "rating": 4,
+        },
+        "shields": Array [
+          Object {
+            "id": 0,
+            "level": 1,
+          },
+          Object {
+            "id": 1,
+            "level": 2,
+          },
+        ],
+      },
+      "weaponry": Object {
+        "firecons": Array [
+          Object {
+            "id": 0,
+          },
+        ],
+        "weapons": Array [
+          Object {
+            "arcs": Array [
+              "F",
+            ],
+            "id": 0,
+            "weapon_class": 2,
+            "weapon_type": "beam",
+          },
+          Object {
+            "arcs": Array [
+              "FS",
+            ],
+            "id": 1,
+            "weapon_class": 1,
+            "weapon_type": "beam",
+          },
+          Object {
+            "arcs": Array [
+              "FP",
+            ],
+            "id": 2,
+            "weapon_class": 1,
+            "weapon_type": "beam",
+          },
+        ],
+      },
+    },
+    "siduri": Object {
+      "drive": Object {
+        "current": 6,
+        "rating": 6,
+      },
+      "id": "siduri",
+      "name": "Siduri",
+      "navigation": Object {
+        "coords": Array [
+          10,
+          10,
+        ],
+        "heading": 6,
+        "velocity": 0,
+      },
+      "orders": Object {},
+      "player_id": "yenzie",
+      "structure": Object {
+        "armor": Object {
+          "current": 4,
+          "rating": 4,
+        },
+        "hull": Object {
+          "current": 4,
+          "rating": 4,
+        },
+        "shields": Array [
+          Object {
+            "id": 0,
+            "level": 1,
+          },
+          Object {
+            "id": 1,
+            "level": 2,
+          },
+        ],
+      },
+    },
+  },
+  "game": Object {
+    "name": "gemini",
+    "players": Array [
+      Object {
+        "id": "yanick",
+      },
+      Object {
+        "id": "yenzie",
+      },
+    ],
+    "turn": 1,
+  },
+}
+`;

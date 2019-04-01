@@ -14,4 +14,6 @@ redactor.for(init_game, ({ payload: { bogeys } }) => state => _.keyBy(bogeys, 'i
 
 redactor.for(set_orders, action => u.updateIn(action.payload.bogey_id, bogey_upreducer(action)));
 
+redactor.for('*', action => u.map(bogey_upreducer(action)));
+
 export default redactor.asReducer;

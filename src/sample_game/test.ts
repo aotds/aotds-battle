@@ -1,6 +1,7 @@
 // @format
 
 import fp from 'lodash/fp';
+import _ from 'lodash';
 import Battle from '../battle/index';
 import initial_state from './initial_state';
 import { init_game, try_play_turn } from '../store/actions/phases';
@@ -61,6 +62,18 @@ turns[1] = battle => {
 
     // a turn has been done!
     expect(battle.state.log.find((entry: any) => entry.type === 'PLAY_TURN')).toBeTruthy();
+    expect(battle.state.game).toMatchObject({ turn: 1 });
+
+    expect(_.omit(battle.state, ['log'])).toMatchSnapshot();
+
+    // orders cleared out
+    let still_with_orders = fp.flow(
+        fp.get('bogeys'),
+        fp.values,
+        fp.filter(bogey => _.keys(bogey.orders).length > 0),
+    )(battle.state);
+
+    expect(still_with_orders).toEqual([]);
 };
 
 test('sample game', () => {
