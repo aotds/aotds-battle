@@ -74,6 +74,9 @@ turns[1] = battle => {
     )(battle.state);
 
     expect(still_with_orders).toEqual([]);
+
+    // Enkidu still have a drive section
+    expect(battle.state.bogeys.enkidu).toHaveProperty('drive.current');
 };
 
 test('sample game', () => {
