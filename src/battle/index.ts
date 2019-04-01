@@ -6,6 +6,7 @@ import reducer from '../store/reducer';
 import { try_play_turn } from '../store/actions/phases';
 import { log_skipper } from '../store/log/middleware';
 import { timestamp } from '../store/middleware/timestamp';
+import { action_id_mw_gen } from '../store/middleware/action_id';
 
 type BattleOpts = {
     devtools?: {},
@@ -21,6 +22,7 @@ export default class Battle {
         let enhancers = applyMiddleware(
             log_skipper([ 'TRY_PLAY_TURN' ]),
             timestamp,
+            action_id_mw_gen(),
         );
 
         if( opts.devtools) {
