@@ -1,12 +1,12 @@
 // @format
 
-import { subactions_mw } from './subactions';
+import { subactions_mw_for } from './subactions';
 import { test_mw } from '../middleware/test_fixtures';
 
 test('basic', () => {
     const parent = { type: 'noop', meta: { action_id: 12, parent_actions: [1, 2] } };
 
-    let mw = subactions_mw(parent as any, ({ dispatch }) => () => action => {
+    let mw = subactions_mw_for(parent as any, ({ dispatch }) => () => action => {
         dispatch({ type: 'FOO', bar: action.type });
         dispatch({ type: 'THIS' });
     });

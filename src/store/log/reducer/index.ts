@@ -14,7 +14,6 @@ export function log_reducer(
 
     const [ direct_parent, ...rest ] = _.get(action, 'meta.parent_actions',[] );
 
-    console.log(state);
     if(!direct_parent) return [ ...state, _.omit( action, ['meta.parent_actions'] ) ];
 
     return u.map(

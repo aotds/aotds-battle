@@ -45,6 +45,22 @@ turns[1] = battle => {
             navigation: { thrust: 1 },
         }),
     );
+
+    expect(battle.state.bogeys.enkidu).toMatchObject({ orders: { navigation: enkidu_orders } });
+
+    // let's check the log
+    expect(battle.state).toHaveProperty('log');
+
+    expect(battle.state.log.map((l: any) => l.type).filter((t: string) => !/@@/.test(t))).toEqual([
+        'INIT_GAME',
+        'SET_ORDERS',
+        'SET_ORDERS',
+    ]);
+
+    battle.dispatch(try_play_turn());
+
+    // a turn has been done!
+    expect(battle.state.log.find((entry: any) => entry.type === 'PLAY_TURN')).toBeTruthy();
 };
 
 test('sample game', () => {
