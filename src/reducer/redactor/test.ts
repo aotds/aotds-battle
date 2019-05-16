@@ -9,7 +9,7 @@ const bar = action('BAR', (i: number) => ({ baz: i }));
 const quux = action('QUUUX');
 const outsider = action('OUTSIDER');
 
-const allActions = union({ foo, bar, quux });
+const allActions = union(foo, bar, quux);
 
 type State = {
     baz: number;
