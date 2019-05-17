@@ -62,6 +62,7 @@ turns[1] = battle => {
 
     // a turn has been done!
     expect(battle.state.log.find((entry: any) => entry.type === 'PLAY_TURN')).toBeTruthy();
+
     expect(battle.state.game).toMatchObject({ turn: 1 });
 
     expect(_.omit(battle.state, ['log'])).toMatchSnapshot();
@@ -77,6 +78,8 @@ turns[1] = battle => {
 
     // Enkidu still have a drive section
     expect(battle.state.bogeys.enkidu).toHaveProperty('drive.current');
+
+    expect(battle.state.log.filter((a: any) => a.type === 'PUSH_ACTION_STACK')).toHaveLength(0);
 };
 
 test('sample game', () => {
