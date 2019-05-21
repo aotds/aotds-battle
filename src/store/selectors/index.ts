@@ -2,6 +2,16 @@ import _ from 'lodash';
 import fp from 'lodash/fp';
 
 import { BattleState } from "../types";
+import { BogeyState } from '../bogeys/bogey/types';
+
+export function get_bogeys(state: BattleState) {
+    return _.values( state.bogeys ) as BogeyState[];
+}
+
+export const get_bogey = _.curry( function(id: string, state: BattleState) {
+    return state.bogeys[id]
+} );
+
 
 export function get_active_players(state: BattleState): string[] {
     return _(state.game.players).reject( 'inactive' ).map( 'id' ).value();

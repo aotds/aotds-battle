@@ -4,3 +4,7 @@ jest_html_reporters.html
 v1
 doc
 *.orig
+.nyc_output/
+tags
+build
+tsconfig.tsbuildinfo

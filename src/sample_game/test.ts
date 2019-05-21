@@ -2,13 +2,32 @@
 
 import fp from 'lodash/fp';
 import _ from 'lodash';
+import u from 'updeep';
 import Battle from '../battle/index';
 import initial_state from './initial_state';
 import { init_game, try_play_turn } from '../store/actions/phases';
 import { Action } from '../reducer/types';
 import { set_orders } from '../store/bogeys/bogey/actions';
+import { LogState } from '../store/log/reducer/types';
+
+expect.addSnapshotSerializer({
+    test: () => true,
+    print: val => JSON.stringify(val, null, 2),
+});
 
 let turns: ((battle: Battle) => void)[] = [];
+
+function scrub_timestamps(log: LogState) {
+    return u.map(
+        {
+            meta: u.omit(['timestamp']),
+            subactions: u.if(_.identity, scrub_timestamps),
+        },
+        log,
+    );
+}
+
+const without_ts = u({ log: scrub_timestamps });
 
 turns[0] = (battle: Battle) => {
     expect(battle).toBeTruthy();
@@ -80,6 +99,22 @@ turns[1] = battle => {
     expect(battle.state.bogeys.enkidu).toHaveProperty('drive.current');
 
     expect(battle.state.log.filter((a: any) => a.type === 'PUSH_ACTION_STACK')).toHaveLength(0);
+
+    const state = battle.state;
+
+    expect(without_ts(state)).toMatchSnapshot();
+
+    expect(battle.state.bogeys.enkidu.navigation).toMatchObject({
+        heading: 1,
+        velocity: 1,
+        coords: [1.5, 0.87],
+    });
+
+    expect(battle.state.bogeys.siduri.navigation).toMatchObject({
+        heading: 6,
+        velocity: 1,
+        coords: [10, 9],
+    });
 };
 
 test('sample game', () => {

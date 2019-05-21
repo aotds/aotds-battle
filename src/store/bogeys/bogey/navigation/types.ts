@@ -1,7 +1,22 @@
+export type Coords = [ number, number ];
+
+type Range = [ number, number ];
+
+type TrajectoryPosition = {
+    type: 'POSITION',
+    coords: Coords
+};
+
 export type NavigationState = {
-    coords: [ number, number ],
+    coords: Coords,
     heading: number,
     velocity: number,
-    maneuvers?: any,
-    trajectory?: any,
+    maneuvers?: {
+        thrust: Range,
+        turn: Range,
+        bank: Range,
+    },
+    trajectory?: [
+        TrajectoryPosition
+    ],
 };

@@ -1,31 +1,19 @@
 import _ from 'lodash';
 import fp from 'lodash/fp';
 import u from 'updeep';
-import { BogeyState } from '../types';
-import { NavOrdersState } from '../orders/types';
-import { NavigationState } from '../navigation/types';
+import { NavOrdersState } from '../../store/bogeys/bogey/orders/types';
+import { BogeyState } from '../../store/bogeys/bogey/types';
+import { NavigationState } from '../../store/bogeys/bogey/navigation/types';
 
-// let ObjectNavigation = {
-//     engine_rating: 'integer',
-//     velocity: 'number',
-//     coords: Array[2]number
-//     heading: number,
-// }
-
-// let ShipMovementOrder = {
-//     thrust: 'integer',
-//     turn: 'integer',
-//     bank: 'integer',
-// }
+import { oc } from 'ts-optchain';
 
 const upush = ( new_item: any ) => ( state = [] ) => [ ...state, new_item ];
 
-export function plot_movement( ship: BogeyState, orders: NavOrdersState|undefined = undefined ) {
-    let navigation = ship.navigation;
+type BogeyMovement = Pick< BogeyState, 'navigation' | 'drive' | 'orders' >;
 
-    if( !orders ) {
-        orders = _.get( ship, 'orders.navigation', {} ) as NavOrdersState;
-    }
+export function plot_movement( ship: BogeyMovement ) {
+    let navigation = ship.navigation;
+    let orders = oc( ship ).orders.navigation({});
 
     navigation = u({ trajectory: [
         { type: 'POSITION', coords: navigation.coords }
