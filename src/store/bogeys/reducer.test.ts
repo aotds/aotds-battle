@@ -4,7 +4,7 @@ import reducer from './reducer';
 import { set_orders } from './bogey/actions';
 import { BogeysState } from './types';
 import { clear_orders } from '../actions/phases';
-import { bogey_movement } from '../../actions/bogey';
+import { bogey_movement, bogey_firecon_orders } from '../../actions/bogey';
 import { NavigationState } from './bogey/navigation/types';
 import _ from 'lodash';
 
@@ -29,20 +29,6 @@ test('clear_orders trigger bogey_reducer', async () => {
 });
 
 describe('bogey_movement', () => {
-    const bogey = jest.fn();
-
-    beforeAll(() => {
-        BogeyReducer.bogey_upreducer = jest.fn(() => bogey);
-    });
-
-    beforeEach(() => {
-        bogey.mockClear();
-    });
-
-    afterAll(() => {
-        BogeyReducer.bogey_upreducer.mockClear();
-    });
-
     const move = bogey_movement('enkidu', { foo: 1 } as any);
 
     const run_red = (ship: string) =>
@@ -56,17 +42,26 @@ describe('bogey_movement', () => {
         );
 
     test('bad id', () => {
-        run_red('siduri');
-
-        expect(bogey).not.toHaveBeenCalled();
-        bogey.mockClear();
+        expect(run_red('siduri')).toEqual({ siduri: { id: 'siduri' } });
     });
 
     test('good id', () => {
-        bogey.mockClear();
-        run_red('enkidu');
-
-        expect(bogey).toHaveBeenCalled();
-        bogey.mockClear();
+        expect(run_red('enkidu')).toEqual({ enkidu: { id: 'enkidu', navigation: { foo: 1 } } });
     });
+});
+
+test('bogey_firecon_orders', () => {
+    const original_state = {
+        enkidu: {
+            id: 'enkidu',
+            weaponry: {
+                firecons: [{}],
+            },
+        },
+        siduri: { id: 'siduri' },
+    };
+
+    let state = reducer(original_state, bogey_firecon_orders('enkidu', 0, { target_id: 'siduri' }));
+
+    expect(state).toHaveProperty('enkidu.weaponry.firecons.0.target_id', 'siduri');
 });
