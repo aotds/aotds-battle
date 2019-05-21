@@ -1,4 +1,5 @@
 - bogey movements
+    - have the bogey reducer acts on the bogey_movement
 
 
  - have redactor take more than one action

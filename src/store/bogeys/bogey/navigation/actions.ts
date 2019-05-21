@@ -1,5 +1,5 @@
 import { NavigationState } from "./types";
-import { action } from "../../../../../../../../../actions";
+import { action } from "../../../../actions";
 
 export const move_bogey = action(
   'MOVE_BOGEY',
