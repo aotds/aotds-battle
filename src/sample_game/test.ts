@@ -5,7 +5,7 @@ import _ from 'lodash';
 import u from 'updeep';
 import Battle from '../battle/index';
 import initial_state from './initial_state';
-import { init_game, try_play_turn } from '../store/actions/phases';
+import { init_game, try_play_turn, play_turn } from '../store/actions/phases';
 import { Action } from '../reducer/types';
 import { set_orders } from '../store/bogeys/bogey/actions';
 import { LogState } from '../store/log/reducer/types';
@@ -115,6 +115,24 @@ turns[1] = battle => {
         velocity: 1,
         coords: [10, 9],
     });
+};
+
+const debug = require('debug')('aotds:sample');
+
+turns[2] = battle => {
+    battle.dispatch(
+        set_orders('enkidu', {
+            firecons: [{ target_id: 'siduri' }],
+            weapons: [{ firecon_id: 0 }, { firecon_id: 0 }, { firecon_id: 0 }],
+        }),
+    );
+
+    // rig_dice([ 6, 5, 3, 3, 90, 90]);
+    battle.dispatch(play_turn());
+
+    const state = battle.state;
+
+    expect(state.bogeys.enkidu.weaponry.firecons[0]).toMatchObject({ id: 0, target_id: 'siduri' });
 };
 
 test('sample game', () => {
