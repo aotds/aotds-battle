@@ -10,6 +10,7 @@ import { action_id_mw_gen } from '../store/middleware/action_id';
 import mw_play_phases from '../store/middleware/play_phases';
 import mw_bogeys_movement from '../middleware/movement_phase';
 import mw_bogey_firecon_orders from '../middleware/firecons_phase';
+import mw_bogey_weapon_orders from '../middleware/weapons_phase';
 
 type BattleOpts = {
     devtools?: {},
@@ -29,6 +30,7 @@ export default class Battle {
             mw_play_phases,
             mw_bogeys_movement,
             mw_bogey_firecon_orders,
+            mw_bogey_weapon_orders,
         );
 
         if( opts.devtools) {

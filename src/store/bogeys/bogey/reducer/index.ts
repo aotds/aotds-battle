@@ -6,9 +6,10 @@ import Redactor from '../../../../reducer/redactor';
 import { orders_upreducer } from '../orders/reducer';
 import { Action } from '../../../../reducer/types';
 import { combineUpReducers } from '../../../../reducer/utils';
-import { bogey_movement, bogey_firecon_orders } from '../../../../actions/bogey';
+import { bogey_movement, bogey_firecon_orders, bogey_weapon_orders } from '../../../../actions/bogey';
 import { BogeyState } from '../types';
 import { firecons_upreducer } from '../weaponry/firecons/reducer';
+import { weapon_upreducer } from '../weaponry/weapon/reducer';
 
 const redactor = new Redactor({} as BogeyState, undefined, 'aotds:reducer:bogeys:bogey');
 
@@ -25,3 +26,7 @@ redactor.for('*', default_upreducer);
 redactor.for(bogey_movement, ({ payload: { navigation } }) => u({ navigation }));
 
 redactor.for(bogey_firecon_orders, action => u.updateIn('weaponry.firecons', firecons_upreducer(action)));
+
+redactor.for(bogey_weapon_orders, action =>
+    u.updateIn('weaponry.weapons.' + action.payload.weapon_id, u.if(_.identity, weapon_upreducer(action))),
+);

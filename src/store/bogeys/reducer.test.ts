@@ -4,7 +4,7 @@ import reducer from './reducer';
 import { set_orders } from './bogey/actions';
 import { BogeysState } from './types';
 import { clear_orders } from '../actions/phases';
-import { bogey_movement, bogey_firecon_orders } from '../../actions/bogey';
+import { bogey_movement, bogey_firecon_orders, bogey_weapon_orders } from '../../actions/bogey';
 import { NavigationState } from './bogey/navigation/types';
 import _ from 'lodash';
 
@@ -64,4 +64,20 @@ test('bogey_firecon_orders', () => {
     let state = reducer(original_state, bogey_firecon_orders('enkidu', 0, { target_id: 'siduri' }));
 
     expect(state).toHaveProperty('enkidu.weaponry.firecons.0.target_id', 'siduri');
+});
+
+test('bogey_weapon_orders', () => {
+    const original_state = {
+        enkidu: {
+            id: 'enkidu',
+            weaponry: {
+                weapons: [{}],
+            },
+        },
+        siduri: { id: 'siduri' },
+    };
+
+    let state = reducer(original_state, bogey_weapon_orders('enkidu', 0, { firecon_id: 0 }));
+
+    expect(state).toHaveProperty('enkidu.weaponry.weapons.0.firecon_id', 0);
 });

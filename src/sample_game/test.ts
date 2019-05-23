@@ -9,6 +9,7 @@ import { init_game, try_play_turn, play_turn } from '../store/actions/phases';
 import { Action } from '../reducer/types';
 import { set_orders } from '../store/bogeys/bogey/actions';
 import { LogState } from '../store/log/reducer/types';
+import { get_bogey } from '../store/selectors';
 
 expect.addSnapshotSerializer({
     test: () => true,
@@ -133,6 +134,11 @@ turns[2] = battle => {
     const state = battle.state;
 
     expect(state.bogeys.enkidu.weaponry.firecons[0]).toMatchObject({ id: 0, target_id: 'siduri' });
+
+    const enkidu = get_bogey('enkidu', state);
+    const siduri = get_bogey('siduri', state);
+
+    expect(enkidu.weaponry.weapons[1]).toHaveProperty('firecon_id', 0);
 };
 
 test('sample game', () => {
