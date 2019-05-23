@@ -1,6 +1,6 @@
-- bogey movements
-    - have the bogey reducer acts on the bogey_movement
-
+- turn 2
+    - firecons_order_phase triggers firecon_orders
+    - now do weapon_fire_outcome
 
  - have redactor take more than one action
  make src/store/bogeys/reducer.test.ts pass

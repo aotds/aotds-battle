@@ -5,11 +5,12 @@ import _ from 'lodash';
 import u from 'updeep';
 import Battle from '../battle/index';
 import initial_state from './initial_state';
-import { init_game, try_play_turn, play_turn } from '../store/actions/phases';
-import { Action } from '../reducer/types';
+import { init_game, try_play_turn, play_turn, weapons_firing_phase } from '../store/actions/phases';
+import { Action, ActionCreator } from '../reducer/types';
 import { set_orders } from '../store/bogeys/bogey/actions';
-import { LogState } from '../store/log/reducer/types';
+import { LogState, LogAction } from '../store/log/reducer/types';
 import { get_bogey } from '../store/selectors';
+import { isType } from 'ts-action';
 
 expect.addSnapshotSerializer({
     test: () => true,
@@ -120,6 +121,23 @@ turns[1] = battle => {
 
 const debug = require('debug')('aotds:sample');
 
+const flattenLog = (log: any): any => {
+    return _.flatten(log.map((e: any) => (e.subactions ? [e, ...flattenLog(e.subactions)] : [e]))).map((e: any) =>
+        _.omit(e, 'subactions'),
+    );
+};
+
+const filterLogAction = _.curry(
+    (action: ActionCreator, log: LogState | LogAction = []): LogState => {
+        if (!_.isArray(log)) log = [log];
+
+        return log.reduce((accum: LogState, logEntry: LogAction) => {
+            if (isType(logEntry, action)) accum = [...accum, logEntry];
+            return [...accum, ...filterLogAction(action, _.get(logEntry, 'subactions', []))];
+        }, []);
+    },
+);
+
 turns[2] = battle => {
     battle.dispatch(
         set_orders('enkidu', {
@@ -135,10 +153,59 @@ turns[2] = battle => {
 
     expect(state.bogeys.enkidu.weaponry.firecons[0]).toMatchObject({ id: 0, target_id: 'siduri' });
 
-    const enkidu = get_bogey(state,'enkidu');
-    const siduri = get_bogey(state,'siduri');
+    const enkidu = get_bogey(state, 'enkidu');
+    const siduri = get_bogey(state, 'siduri');
 
     expect(enkidu.weaponry.weapons[1]).toHaveProperty('firecon_id', 0);
+    expect(siduri).not.toHaveProperty('weaponry.weapons.0');
+
+    // writeFileSync('./battle.json', JSON.stringify(log, undefined, 2));
+
+    const this_turn = state.log.slice(fp.findLastIndex({ type: play_turn.type })(state.log));
+
+    // shoots fired!
+    expect(_.filter(this_turn, { type: weapons_firing_phase.type })).toHaveLength(1);
+
+    // // ouch, ouch, ouch
+    // expect( _.find( log, { type: 'DAMAGE' } ) ).toBeTruthy();
+    // let damage_actions = _.filter( log, { type: 'DAMAGE' } );
+    // expect( damage_actions ).toEqual(
+    //   expect.arrayContaining([expect.objectContaining({
+    //       type: 'DAMAGE',
+    //       payload: expect.objectContaining({
+    //           dice: [3],
+    //       })
+    //   })
+    //   ]));
+    // // we haz shields?
+    // expect( siduri.structure.shields ).toEqual([
+    //     { id: 0, level: 1},
+    //     { id: 1, level: 2 }
+    // ]);
+    // // let p = new Promise( () => { } ); await p;
+    // // console.log(log);
+    // let internal_damage_actions = _.filter( log, { type: 'INTERNAL_DAMAGE' } );
+    // expect( internal_damage_actions ).not.toHaveLength(0);
+    // expect( siduri )
+    //     .toMatchObject({
+    //         structure: {
+    //             hull: { current: 3, rating: 4 },
+    //             armor: { current: 3, rating: 4 },
+    //         },
+    //         drive: {
+    //             current: 3,
+    //             damage_level: 1,
+    //             rating: 6,
+    //         },
+    //     });
+    // // // only siduri gets damage
+    // // expect( enkidu().structure )
+    // //     .toMatchObject({
+    // //         hull: { current: 4},
+    // //         armor: { current: 4},
+    // //     });
+    // // return battle;
+    // return battle;
 };
 
 test('sample game', () => {

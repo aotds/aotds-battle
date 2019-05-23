@@ -23,3 +23,15 @@ export const play_turn = action('PLAY_TURN');
  */
 export const try_play_turn = action('TRY_PLAY_TURN',
     (force: boolean = false) => ({force}) );
+
+export const fire_weapon = action('FIRE_WEAPON',
+                                  (bogey_id,target_id,weapon_id) => ({bogey_id,target_id,weapon_id}) );
+
+
+/**
+    play_turn
+        weapons_firing_phase
+            weapon_fire
+                weapon_fire
+                    weapon_fire_outcome
+*/

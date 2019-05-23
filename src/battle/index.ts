@@ -10,6 +10,7 @@ import { action_id_mw_gen } from '../store/middleware/action_id';
 import mw_play_phases from '../store/middleware/play_phases';
 import mw_bogey_firecon_orders from '../middleware/firecons_phase';
 import mw_bogey_weapon_orders from '../middleware/weapons_phase';
+import { mw_weapons_firing_phase } from '../middleware/weapons_firing_phase';
 
 import rootSaga from '../saga';
 import createSagaMiddleware from '@redux-saga/core';
@@ -35,6 +36,7 @@ export default class Battle {
             mw_bogey_firecon_orders,
             mw_bogey_weapon_orders,
             sagaMiddleware,
+            mw_weapons_firing_phase,
         );
 
         if( opts.devtools) {
