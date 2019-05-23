@@ -598,166 +598,162 @@ exports[`sample game 2`] = `
       "type": "PLAY_TURN",
       "meta": {
         "action_id": 6
-      },
-      "subactions": [
-        {
-          "type": "MOVEMENT_PHASE",
-          "meta": {
-            "action_id": 7
-          },
-          "subactions": [
+      }
+    },
+    {
+      "type": "MOVEMENT_PHASE",
+      "meta": {
+        "action_id": 7
+      }
+    },
+    {
+      "payload": {
+        "id": "enkidu",
+        "navigation": {
+          "coords": [
+            1.5,
+            0.87
+          ],
+          "heading": 1,
+          "velocity": 1,
+          "trajectory": [
             {
-              "payload": {
-                "id": "enkidu",
-                "navigation": {
-                  "coords": [
-                    1.5,
-                    0.87
-                  ],
-                  "heading": 1,
-                  "velocity": 1,
-                  "trajectory": [
-                    {
-                      "type": "POSITION",
-                      "coords": [
-                        0,
-                        0
-                      ]
-                    },
-                    {
-                      "type": "BANK",
-                      "delta": [
-                        1,
-                        6.123233995736766e-17
-                      ],
-                      "coords": [
-                        1,
-                        0
-                      ]
-                    },
-                    {
-                      "type": "ROTATE",
-                      "delta": 0,
-                      "heading": 0
-                    },
-                    {
-                      "type": "ROTATE",
-                      "delta": 1,
-                      "heading": 1
-                    },
-                    {
-                      "type": "MOVE",
-                      "delta": [
-                        0.49999999999999994,
-                        0.8660254037844387
-                      ],
-                      "coords": [
-                        1.5,
-                        0.87
-                      ]
-                    }
-                  ],
-                  "thrust_used": 3,
-                  "maneuvers": {
-                    "thrust": [
-                      0,
-                      4
-                    ],
-                    "bank": [
-                      -3,
-                      3
-                    ],
-                    "turn": [
-                      -3,
-                      3
-                    ]
-                  }
-                }
-              },
-              "type": "BOGEY_MOVEMENT",
-              "meta": {
-                "action_id": 8
-              }
+              "type": "POSITION",
+              "coords": [
+                0,
+                0
+              ]
             },
             {
-              "payload": {
-                "id": "siduri",
-                "navigation": {
-                  "coords": [
-                    10,
-                    9
-                  ],
-                  "heading": 6,
-                  "velocity": 1,
-                  "trajectory": [
-                    {
-                      "type": "POSITION",
-                      "coords": [
-                        10,
-                        10
-                      ]
-                    },
-                    {
-                      "type": "MOVE",
-                      "delta": [
-                        1.2246467991473532e-16,
-                        -1
-                      ],
-                      "coords": [
-                        10,
-                        9
-                      ]
-                    }
-                  ],
-                  "thrust_used": 1,
-                  "maneuvers": {
-                    "thrust": [
-                      0,
-                      6
-                    ],
-                    "bank": [
-                      -3,
-                      3
-                    ],
-                    "turn": [
-                      -3,
-                      3
-                    ]
-                  }
-                }
-              },
-              "type": "BOGEY_MOVEMENT",
-              "meta": {
-                "action_id": 9
-              }
+              "type": "BANK",
+              "delta": [
+                1,
+                6.123233995736766e-17
+              ],
+              "coords": [
+                1,
+                0
+              ]
+            },
+            {
+              "type": "ROTATE",
+              "delta": 0,
+              "heading": 0
+            },
+            {
+              "type": "ROTATE",
+              "delta": 1,
+              "heading": 1
+            },
+            {
+              "type": "MOVE",
+              "delta": [
+                0.49999999999999994,
+                0.8660254037844387
+              ],
+              "coords": [
+                1.5,
+                0.87
+              ]
             }
-          ]
-        },
-        {
-          "type": "FIRECONS_ORDER_PHASE",
-          "meta": {
-            "action_id": 10
-          }
-        },
-        {
-          "type": "WEAPONS_ORDER_PHASE",
-          "meta": {
-            "action_id": 11
-          }
-        },
-        {
-          "type": "WEAPONS_FIRING_PHASE",
-          "meta": {
-            "action_id": 12
-          }
-        },
-        {
-          "type": "CLEAR_ORDERS",
-          "meta": {
-            "action_id": 13
+          ],
+          "thrust_used": 3,
+          "maneuvers": {
+            "thrust": [
+              0,
+              4
+            ],
+            "bank": [
+              -3,
+              3
+            ],
+            "turn": [
+              -3,
+              3
+            ]
           }
         }
-      ]
+      },
+      "type": "BOGEY_MOVEMENT",
+      "meta": {
+        "action_id": 8
+      }
+    },
+    {
+      "payload": {
+        "id": "siduri",
+        "navigation": {
+          "coords": [
+            10,
+            9
+          ],
+          "heading": 6,
+          "velocity": 1,
+          "trajectory": [
+            {
+              "type": "POSITION",
+              "coords": [
+                10,
+                10
+              ]
+            },
+            {
+              "type": "MOVE",
+              "delta": [
+                1.2246467991473532e-16,
+                -1
+              ],
+              "coords": [
+                10,
+                9
+              ]
+            }
+          ],
+          "thrust_used": 1,
+          "maneuvers": {
+            "thrust": [
+              0,
+              6
+            ],
+            "bank": [
+              -3,
+              3
+            ],
+            "turn": [
+              -3,
+              3
+            ]
+          }
+        }
+      },
+      "type": "BOGEY_MOVEMENT",
+      "meta": {
+        "action_id": 9
+      }
+    },
+    {
+      "type": "FIRECONS_ORDER_PHASE",
+      "meta": {
+        "action_id": 10
+      }
+    },
+    {
+      "type": "WEAPONS_ORDER_PHASE",
+      "meta": {
+        "action_id": 11
+      }
+    },
+    {
+      "type": "WEAPONS_FIRING_PHASE",
+      "meta": {
+        "action_id": 12
+      }
+    },
+    {
+      "type": "CLEAR_ORDERS",
+      "meta": {
+        "action_id": 13
+      }
     }
   ]
 }
