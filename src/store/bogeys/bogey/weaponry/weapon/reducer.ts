@@ -3,11 +3,15 @@ import u from 'updeep';
 import Redactor from '../../../../../reducer/redactor';
 import { internal_damage, bogey_execute_weapon_order } from '../../actions';
 import { bogey_weapon_orders } from '../../../../../actions/bogey';
+import { Arc } from '../../../../constants';
 
 export type WeaponState = {
     id: number;
     firecon_id?: number;
     damaged?: boolean;
+    arcs: Arc[];
+    weapon_class: number;
+    weapon_type: string;
 };
 
 const redactor = new Redactor({} as WeaponState);
