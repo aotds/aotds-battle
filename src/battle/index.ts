@@ -8,9 +8,11 @@ import { log_skipper } from '../store/log/middleware';
 import { timestamp } from '../store/middleware/timestamp';
 import { action_id_mw_gen } from '../store/middleware/action_id';
 import mw_play_phases from '../store/middleware/play_phases';
-import mw_bogeys_movement from '../middleware/movement_phase';
 import mw_bogey_firecon_orders from '../middleware/firecons_phase';
 import mw_bogey_weapon_orders from '../middleware/weapons_phase';
+
+import rootSaga from '../saga';
+import createSagaMiddleware from '@redux-saga/core';
 
 type BattleOpts = {
     devtools?: {},
@@ -23,14 +25,16 @@ export default class Battle {
 
     constructor( opts: BattleOpts ) {
 
+        const sagaMiddleware = createSagaMiddleware();
+
         let enhancers = applyMiddleware(
             log_skipper([ 'TRY_PLAY_TURN' ]),
             timestamp,
             action_id_mw_gen(),
             mw_play_phases,
-            mw_bogeys_movement,
             mw_bogey_firecon_orders,
             mw_bogey_weapon_orders,
+            sagaMiddleware,
         );
 
         if( opts.devtools) {
@@ -44,6 +48,9 @@ export default class Battle {
             opts.state,
             enhancers,
         );
+
+        sagaMiddleware.run(rootSaga);
+
     }
 
     get state() { return this.store.getState() }

@@ -8,9 +8,12 @@ export function get_bogeys(state: BattleState) {
     return _.values( state.bogeys ) as BogeyState[];
 }
 
-export const get_bogey = _.curry( function(id: string, state: BattleState) {
+const debug = require('debug')('aotds:selectors');
+
+export function get_bogey(state: BattleState, id: string) {
+    debug(id);
     return state.bogeys[id]
-} );
+};
 
 
 export function get_active_players(state: BattleState): string[] {

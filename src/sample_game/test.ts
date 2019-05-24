@@ -135,8 +135,8 @@ turns[2] = battle => {
 
     expect(state.bogeys.enkidu.weaponry.firecons[0]).toMatchObject({ id: 0, target_id: 'siduri' });
 
-    const enkidu = get_bogey('enkidu', state);
-    const siduri = get_bogey('siduri', state);
+    const enkidu = get_bogey(state,'enkidu');
+    const siduri = get_bogey(state,'siduri');
 
     expect(enkidu.weaponry.weapons[1]).toHaveProperty('firecon_id', 0);
 };
