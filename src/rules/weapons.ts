@@ -7,6 +7,7 @@ import { arc_ranges, Arc } from '../store/constants';
 import roll_dice from '../dice';
 import { NavigationState } from '../store/bogeys/bogey/navigation/types';
 import { oc } from 'ts-optchain';
+import { FireWeaponOutcome } from './types';
 
 export
 function relative_coords(ship: NavigationState , target: NavigationState ) :{
@@ -29,16 +30,6 @@ function relative_coords(ship: NavigationState , target: NavigationState ) :{
     return { angle, bearing, distance };
 }
 
-type FireWeaponOutcome = {
-} & Partial<{
-    distance: number,
-    bearing: number,
-    aborted: boolean,
-    no_firing_arc: boolean,
-    out_of_range: boolean,
-    damage_dice: number[],
-    penetrating_damage_dice: number[],
-}>;
 
 type FWBogey = Pick<BogeyState, 'navigation' | 'drive' >
 
@@ -102,35 +93,16 @@ export function fire_weapon(attacker: FWBogey|undefined, target: FWBogey|undefin
     return outcome;
 }
 
+const beam_damage_table = { 4: 1, 5: 1, 6: 2 };
 
+export function weapon_damage( bogey: {}, dice: number[], is_penetrating : boolean = false ) : {
+    damage: number,
+    is_penetrating: boolean,
+}{
 
-//
-//    var penetrating = roll_dice(dice.filter(function (d) { return d == 6; }).length, { reroll: [6] });
-//
-//    weapon_fired.dice = dice;
-//
-//    weapon_fired.dice_penetrating = penetrating;
-//
-//    yield weapon_fired;
-//
-//    // split the damage calculation apart?
-//
-//    var table = { 4: 1, 5: 1, 6: 2 };
-//    var damage = _.sum(dice.map(function (d) { return table[d] || 0; }));
-//    if (damage > 0) {
-//        yield {
-//            type: 'DAMAGE',
-//            object_id: target.id,
-//            damage
-//        };
-//    }
-//    damage = _.sum(penetrating.map(function (d) { return table[d] || 0; }));
-//    if (damage > 0) {
-//        yield {
-//            type: 'DAMAGE',
-//            is_penetrating: true,
-//            object_id: target.id,
-//            damage
-//        };
-//    }
-//}
+    let damage = _.sum(dice.map(d => _.get( beam_damage_table, d, 0 )) );
+
+    return { damage, is_penetrating };
+
+}
+

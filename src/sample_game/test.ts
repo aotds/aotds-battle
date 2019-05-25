@@ -5,12 +5,13 @@ import _ from 'lodash';
 import u from 'updeep';
 import Battle from '../battle/index';
 import initial_state from './initial_state';
-import { init_game, try_play_turn, play_turn, weapons_firing_phase } from '../store/actions/phases';
+import { init_game, try_play_turn, play_turn, weapons_firing_phase, fire_weapon } from '../store/actions/phases';
 import { Action, ActionCreator } from '../reducer/types';
 import { set_orders } from '../store/bogeys/bogey/actions';
 import { LogState, LogAction } from '../store/log/reducer/types';
 import { get_bogey } from '../store/selectors';
 import { isType } from 'ts-action';
+import { fire_weapon_outcome } from '../actions/bogey';
 
 expect.addSnapshotSerializer({
     test: () => true,
@@ -165,6 +166,10 @@ turns[2] = battle => {
 
     // shoots fired!
     expect(_.filter(this_turn, { type: weapons_firing_phase.type })).toHaveLength(1);
+
+    debug(this_turn);
+    expect(_.filter(this_turn, { type: fire_weapon.type })).not.toHaveLength(0);
+    expect(_.filter(this_turn, { type: fire_weapon_outcome.type })).not.toHaveLength(0);
 
     // // ouch, ouch, ouch
     // expect( _.find( log, { type: 'DAMAGE' } ) ).toBeTruthy();
