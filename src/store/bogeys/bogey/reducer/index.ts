@@ -10,6 +10,7 @@ import { bogey_movement, bogey_firecon_orders, bogey_weapon_orders } from '../..
 import { BogeyState } from '../types';
 import { firecons_upreducer } from '../weaponry/firecons/reducer';
 import { weapon_upreducer } from '../weaponry/weapon/reducer';
+import { structure_upreducer } from '../structure/reducer';
 
 const redactor = new Redactor({} as BogeyState, undefined, 'aotds:reducer:bogeys:bogey');
 
@@ -19,6 +20,7 @@ export default bogey_reducer;
 
 const default_upreducer = combineUpReducers({
     orders: orders_upreducer,
+    structure: structure_upreducer,
 });
 
 redactor.for('*', default_upreducer);

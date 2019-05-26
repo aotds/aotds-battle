@@ -36,3 +36,9 @@ export const fire_weapon_outcome = action(
         ...outcome,
     }),
 );
+
+export const damage = action('DAMAGE', (bogey_id: string, damage: number, is_penetrating: boolean = false) => ({
+    bogey_id,
+    damage,
+    is_penetrating,
+}));

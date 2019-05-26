@@ -7,7 +7,7 @@ import { init_game } from '../actions/phases';
 import { BogeysState } from './types';
 import { set_orders } from './bogey/actions';
 import { bogey_reducer, bogey_upreducer } from './bogey/reducer';
-import { bogey_movement, bogey_firecon_orders, bogey_weapon_orders } from '../../actions/bogey';
+import { bogey_movement, bogey_firecon_orders, bogey_weapon_orders, damage } from '../../actions/bogey';
 import { Action } from '../../reducer/types';
 
 const redactor = new Redactor({} as BogeysState, undefined, 'aotds:reducer:bogeys');
@@ -29,5 +29,6 @@ function reduce_single_bogey(prop = 'id') {
 redactor.for(bogey_movement, reduce_single_bogey());
 redactor.for(bogey_firecon_orders, reduce_single_bogey('bogey_id'));
 redactor.for(bogey_weapon_orders, reduce_single_bogey('bogey_id'));
+redactor.for(damage, reduce_single_bogey('bogey_id'));
 
 export default redactor.asReducer;

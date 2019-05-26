@@ -3,7 +3,7 @@ import { takeEvery, select, call, put } from "redux-saga/effects";
 import { action } from "../actions";
 import { get_bogey } from "../store/selectors";
 import * as rules from '../rules/weapons';
-import { fire_weapon_outcome } from "../actions/bogey";
+import { fire_weapon_outcome, damage } from "../actions/bogey";
 
 
 function *fire_weapon_outcome_saga(action: ReturnType<typeof fire_weapon>) {
@@ -17,11 +17,8 @@ function *fire_weapon_outcome_saga(action: ReturnType<typeof fire_weapon>) {
         yield call( rules.fire_weapon, attacker, target, weapon )
     );
 
-    console.log( "XXX", outcome );
     yield put(outcome);
 }
-
-const damage = action('DAMAGE', (bogey_id: string, damage: number, is_penetrating : boolean = false) => ({ bogey_id, damage, is_penetrating}) );
 
 function *weapon_damage( action: ReturnType<typeof fire_weapon_outcome>) {
     const { payload: { target_id, damage_dice = [], penetrating_damage_dice = [] } } = action;

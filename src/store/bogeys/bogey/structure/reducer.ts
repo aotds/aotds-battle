@@ -10,6 +10,7 @@ import { StructureState } from './types';
 
 const redactor = new Redactor({} as StructureState);
 export const structure_reducer = redactor.asReducer;
+export const structure_upreducer = redactor.asUpReducer;
 
 redactor.for(internal_damage, ({ payload: { system } }) => struct => {
     if (system.type === 'shield') {
