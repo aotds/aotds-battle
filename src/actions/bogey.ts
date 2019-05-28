@@ -42,3 +42,19 @@ export const damage = action('DAMAGE', (bogey_id: string, damage: number, is_pen
     damage,
     is_penetrating,
 }));
+
+type InternalSystem = 'drive' | 'firecon' | 'weapon' | 'shield';
+
+export type InternalDamage = {
+    system: { type: InternalSystem; id?: number };
+    check: {
+        threshold: number;
+        die: number;
+    };
+    hit: boolean;
+};
+
+export const internal_damage = action('INTERNAL_DAMAGE', (bogey_id: string, damage: InternalDamage) => ({
+    bogey_id,
+    ...damage,
+}));

@@ -5,8 +5,9 @@ import fp from 'lodash/fp';
 import u from 'updeep';
 
 import Redactor from '../../../../reducer/redactor';
-import { internal_damage, damage } from '../actions';
+import { damage } from '../actions';
 import { StructureState } from './types';
+import { internal_damage } from '../../../../actions/bogey';
 
 const redactor = new Redactor({} as StructureState);
 export const structure_reducer = redactor.asReducer;
@@ -14,7 +15,7 @@ export const structure_upreducer = redactor.asUpReducer;
 
 redactor.for(internal_damage, ({ payload: { system } }) => struct => {
     if (system.type === 'shield') {
-        return u.updateIn(`shields.${system.id}`, { damaged: true }, struct);
+        return u.updateIn(`shields.${system.id}.damaged`, true, struct);
     }
 
     return struct;

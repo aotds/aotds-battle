@@ -98,7 +98,7 @@ turn_directives[2] = {
         }),
         play_turn(),
     ],
-    dice: [[6, 5], [3]],
+    dice: [[6, 5], [3], [1], [1], [90]],
 };
 
 const battle = new Battle({});
@@ -191,13 +191,14 @@ turn_tests[2] = state => {
     expect(_.filter(this_turn, { type: damage.type })).not.toHaveLength(0);
 
     // we haz shields?
-    expect(siduri.structure.shields).toEqual([{ id: 0, level: 1 }, { id: 1, level: 2 }]);
+    expect(siduri.structure.shields).toMatchObject([{ id: 0, level: 1 }, { id: 1, level: 2 }]);
 
     // the shields should absorb some of the damage
     expect(_.filter(this_turn, damage('siduri', 2))).not.toHaveLength(0);
 
-    //let internal_damage_actions = _.filter( log, { type: 'INTERNAL_DAMAGE' } );
-    //expect( internal_damage_actions ).not.toHaveLength(0);
+    // and we have some internal damage too
+    let internal_damage_actions = _.filter(this_turn, { type: 'INTERNAL_DAMAGE' });
+    expect(internal_damage_actions).not.toHaveLength(0);
 
     expect(siduri).toMatchObject({
         structure: {
@@ -205,8 +206,8 @@ turn_tests[2] = state => {
             armor: { current: 3, rating: 4 },
         },
         drive: {
-            // current: 3,
-            // damage_level: 1,
+            current: 3,
+            damage_level: 1,
             rating: 6,
         },
     });
