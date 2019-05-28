@@ -13,7 +13,7 @@ export type BogeyStateShorthand = {
     structure: StructureState,
     weaponry: {
         weapons?: WeaponState[],
-        firecons?: FireconState[],
+        firecons?: FireconState[]|number,
     }
 
 };
@@ -24,7 +24,7 @@ export type BogeyState = {
     orders: OrdersState,
     drive: DriveState,
     structure: StructureState,
-    weaponry: {
+    weaponry?: {
         weapons?: WeaponState[],
         firecons?: FireconState[],
     }

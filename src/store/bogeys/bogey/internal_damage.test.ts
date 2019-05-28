@@ -1,4 +1,5 @@
 import bogey_reducer from "./reducer";
+import { inflate_bogey } from "./inflate";
 
 const sample_bogey = inflate_bogey({
     id: "enkidu",
