@@ -102,10 +102,7 @@ function *internal_damage_check() {
 
             const delta = get_hull(previous_state) - get_hull(state);
 
-            const spy = (x:any) => { console.log(x); return x }
-
             if( delta > 0 ) {
-                console.log("YIP");
                 const threshold = 100 * delta / ( fp.getOr(1)(['bogeys', bogey_id, 'structure', 'hull', 'rating' ] )(state) as number );
 
                 yield* _.flattenDeep([
@@ -114,11 +111,8 @@ function *internal_damage_check() {
                     internal_damage_weapons,
                     internal_damage_shields
                 ].map( (x:any) => x(state.bogeys[bogey_id],threshold) ) )
-                .map(spy)
                 .map(system => ({system, check: { threshold, die: dice(1,{ nbr_faces: 100 })[0]  }} ))
-                .map( spy )
                 .map( id => ({ hit: id.check.die <= id.check.threshold, ...id } ) )
-                .map( spy )
                 .filter( ({hit}) => hit ).map( id =>
                     internal_damage( bogey_id, id )
                 ).map( x => put(x) );

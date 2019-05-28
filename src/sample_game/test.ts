@@ -183,7 +183,6 @@ turn_tests[2] = state => {
     // shoots fired!
     expect(_.filter(this_turn, { type: weapons_firing_phase.type })).toHaveLength(1);
 
-    debug(pretty_log(this_turn));
     expect(_.filter(this_turn, { type: fire_weapon.type })).not.toHaveLength(0);
     expect(_.filter(this_turn, { type: fire_weapon_outcome.type })).not.toHaveLength(0);
 
@@ -217,6 +216,8 @@ turn_tests[2] = state => {
         hull: { current: 4 },
         armor: { current: 4 },
     });
+
+    debug(pretty_log(this_turn));
 };
 
 describe.each(turn_tests.map((t, i) => [i, t]))('turns', function(i: any, tests: any) {

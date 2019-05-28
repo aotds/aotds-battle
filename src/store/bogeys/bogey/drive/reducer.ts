@@ -27,3 +27,4 @@ redactor.addRedaction(internal_damage, ({ payload: { system: { type } } }) =>
 );
 
 export const drive_reducer = redactor.asReducer;
+export const drive_upreducer = redactor.asUpReducer;

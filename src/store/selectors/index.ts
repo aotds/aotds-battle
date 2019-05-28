@@ -11,7 +11,6 @@ export function get_bogeys(state: BattleState) {
 const debug = require('debug')('aotds:selectors');
 
 export function get_bogey(state: BattleState, id: string) {
-    debug(id);
     return state.bogeys[id]
 };
 

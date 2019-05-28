@@ -10,6 +10,8 @@ const redactor = new Redactor([] as FireconState[],undefined,'aotds:reducer:boge
 export const firecons_reducer = redactor.asReducer;
 export const firecons_upreducer = redactor.asUpReducer;
 
+redactor.for( '*', action => u.map( firecon_upreducer(action) ) );
+
 redactor.addRedaction(
     bogey_firecon_orders,
     (action) => u({
