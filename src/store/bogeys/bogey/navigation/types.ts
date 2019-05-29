@@ -19,4 +19,5 @@ export type NavigationState = {
     trajectory?: [
         TrajectoryPosition
     ],
+    thrust_used?: number;
 };

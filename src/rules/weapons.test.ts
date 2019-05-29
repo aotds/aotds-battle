@@ -111,7 +111,7 @@ describe('aft', () => {
     });
 
     test('thrust used? no fire', () => {
-        let result = fire_weapon(u.updateIn('drive.thrust_used', 2)(attacker), target, weapon);
+        let result = fire_weapon(u.updateIn('navigation.thrust_used', 2)(attacker), target, weapon);
 
         expect(result).toHaveProperty('aborted');
         expect(result).not.toHaveProperty('damage_dice');
