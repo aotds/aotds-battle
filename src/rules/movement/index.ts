@@ -83,16 +83,6 @@ export function plot_movement( ship: BogeyMovement ) {
         turn: side_maneuver(turn),
     };
 
-    let x = u({
-        thrust_used: engine_rating - engine_power,
-        maneuvers,
-    })({});
-
-    x = u({
-        thrust_used: engine_rating - engine_power,
-        maneuvers,
-    }, {});
-
     navigation = u({
         thrust_used: engine_rating - engine_power,
         maneuvers,
