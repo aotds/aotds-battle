@@ -60,7 +60,7 @@ export function fire_weapon(
 
     let { distance, bearing } = relative_coords(attacker.navigation, target.navigation);
 
-    if (in_arcs(['A'], bearing) && _.get(attacker, 'drive.thrust_used', 0)) {
+    if (in_arcs(['A'], bearing) && oc(attacker).navigation.thrust_used(0) > 0) {
         // aft weapons can't be used when thrusting
         return { aborted: true } as FireWeaponOutcome;
     }

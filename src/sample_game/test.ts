@@ -232,10 +232,14 @@ turn_tests[3] = state => {
 
     [enkidu, siduri].forEach(ship => expect(ship).toHaveProperty('navigation.velocity', 0));
 
-    expect(siduri.drive).toMatchObject({
-        damage_level: 1,
-        current: 3,
-        thrust_used: 1,
+    expect(siduri).toMatchObject({
+        drive: {
+            damage_level: 1,
+            current: 3,
+        },
+        navigation: {
+            thrust_used: 1,
+        },
     });
 };
 
