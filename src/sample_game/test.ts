@@ -107,8 +107,6 @@ const battle = new Battle({});
 // wsEngine: 'uws',
 //},
 
-const turns = turn_directives.map((d: any) => manage_turn(battle, d));
-
 type TestFunc = (battle: BattleState) => void;
 const turn_tests: TestFunc[] = [];
 
@@ -219,6 +217,29 @@ turn_tests[2] = state => {
 
     debug(pretty_log(this_turn));
 };
+
+// turn 3, we stop and fire like mad
+turn_directives[3] = {
+    actions: [
+        ...['enkidu', 'siduri'].map(bogey_id => set_orders(bogey_id, { navigation: { thrust: -1 } })),
+        play_turn(),
+    ],
+    dice: [[4, 1], []],
+};
+
+turn_tests[3] = state => {
+    const { enkidu, siduri } = state.bogeys;
+
+    [enkidu, siduri].forEach(ship => expect(ship).toHaveProperty('navigation.velocity', 0));
+
+    expect(siduri.drive).toMatchObject({
+        damage_level: 1,
+        current: 3,
+        thrust_used: 1,
+    });
+};
+
+const turns = turn_directives.map((d: any) => manage_turn(battle, d));
 
 describe.each(turn_tests.map((t, i) => [i, t]))('turns', function(i: any, tests: any) {
     test('turn ' + i, function() {
