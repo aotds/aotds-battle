@@ -3,7 +3,7 @@
 import reducer from './reducer';
 import { set_orders } from './bogey/actions';
 import { BogeysState } from './types';
-import { clear_orders } from '../actions/phases';
+import { clear_orders, play_turn } from '../actions/phases';
 import { bogey_movement, bogey_firecon_orders, bogey_weapon_orders } from '../../actions/bogey';
 import { NavigationState } from './bogey/navigation/types';
 import _ from 'lodash';
@@ -80,4 +80,8 @@ test('bogey_weapon_orders', () => {
     let state = reducer(original_state, bogey_weapon_orders('enkidu', 0, { firecon_id: 0 }));
 
     expect(state).toHaveProperty('enkidu.weaponry.weapons.0.firecon_id', 0);
+});
+
+test('remove detroyed bogeys pre-turn', () => {
+    expect(reducer({ siduri: { structure: { destroyed: true } } }, play_turn())).toEqual({});
 });
