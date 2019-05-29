@@ -1,5 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`turns turn 0: turn_0 1`] = `
+{
+  "game": {
+    "name": "",
+    "players": [],
+    "turn": 0
+  },
+  "bogeys": {},
+  "log": []
+}
+`;
+
 exports[`turns turn 1 1`] = `
 {
   "game": {
@@ -759,6 +771,2528 @@ exports[`turns turn 1 2`] = `
       "type": "CLEAR_ORDERS",
       "meta": {
         "action_id": 12
+      }
+    }
+  ]
+}
+`;
+
+exports[`turns turn 1: turn_1 1`] = `
+{
+  "game": {
+    "name": "gemini",
+    "players": [
+      {
+        "id": "yanick"
+      },
+      {
+        "id": "yenzie"
+      }
+    ],
+    "turn": 1
+  },
+  "bogeys": {
+    "enkidu": {
+      "name": "Enkidu",
+      "id": "enkidu",
+      "drive": {
+        "rating": 6,
+        "current": 6
+      },
+      "navigation": {
+        "coords": [
+          1.5,
+          0.87
+        ],
+        "heading": 1,
+        "velocity": 1,
+        "trajectory": [
+          {
+            "type": "POSITION",
+            "coords": [
+              0,
+              0
+            ]
+          },
+          {
+            "type": "BANK",
+            "delta": [
+              1,
+              6.123233995736766e-17
+            ],
+            "coords": [
+              1,
+              0
+            ]
+          },
+          {
+            "type": "ROTATE",
+            "delta": 0,
+            "heading": 0
+          },
+          {
+            "type": "ROTATE",
+            "delta": 1,
+            "heading": 1
+          },
+          {
+            "type": "MOVE",
+            "delta": [
+              0.49999999999999994,
+              0.8660254037844387
+            ],
+            "coords": [
+              1.5,
+              0.87
+            ]
+          }
+        ],
+        "thrust_used": 3,
+        "maneuvers": {
+          "thrust": [
+            0,
+            4
+          ],
+          "bank": [
+            -3,
+            3
+          ],
+          "turn": [
+            -3,
+            3
+          ]
+        }
+      },
+      "weaponry": {
+        "firecons": [
+          {
+            "id": 0
+          }
+        ],
+        "weapons": [
+          {
+            "id": 0,
+            "weapon_type": "beam",
+            "weapon_class": 2,
+            "arcs": [
+              "F"
+            ]
+          },
+          {
+            "id": 1,
+            "arcs": [
+              "FS"
+            ],
+            "weapon_type": "beam",
+            "weapon_class": 1
+          },
+          {
+            "id": 2,
+            "arcs": [
+              "FP"
+            ],
+            "weapon_type": "beam",
+            "weapon_class": 1
+          }
+        ]
+      },
+      "structure": {
+        "hull": {
+          "current": 4,
+          "rating": 4
+        },
+        "shields": [
+          {
+            "id": 0,
+            "level": 1
+          },
+          {
+            "id": 1,
+            "level": 2
+          }
+        ],
+        "armor": {
+          "current": 4,
+          "rating": 4
+        }
+      },
+      "player_id": "yanick",
+      "orders": {}
+    },
+    "siduri": {
+      "name": "Siduri",
+      "id": "siduri",
+      "drive": {
+        "rating": 6,
+        "current": 6
+      },
+      "navigation": {
+        "coords": [
+          10,
+          9
+        ],
+        "heading": 6,
+        "velocity": 1,
+        "trajectory": [
+          {
+            "type": "POSITION",
+            "coords": [
+              10,
+              10
+            ]
+          },
+          {
+            "type": "MOVE",
+            "delta": [
+              1.2246467991473532e-16,
+              -1
+            ],
+            "coords": [
+              10,
+              9
+            ]
+          }
+        ],
+        "thrust_used": 1,
+        "maneuvers": {
+          "thrust": [
+            0,
+            6
+          ],
+          "bank": [
+            -3,
+            3
+          ],
+          "turn": [
+            -3,
+            3
+          ]
+        }
+      },
+      "player_id": "yenzie",
+      "structure": {
+        "hull": {
+          "current": 4,
+          "rating": 4
+        },
+        "shields": [
+          {
+            "id": 0,
+            "level": 1
+          },
+          {
+            "id": 1,
+            "level": 2
+          }
+        ],
+        "armor": {
+          "current": 4,
+          "rating": 4
+        }
+      },
+      "orders": {},
+      "weaponry": {
+        "firecons": []
+      }
+    }
+  },
+  "log": [
+    {
+      "payload": {
+        "game": {
+          "name": "gemini",
+          "players": [
+            {
+              "id": "yanick"
+            },
+            {
+              "id": "yenzie"
+            }
+          ]
+        },
+        "bogeys": [
+          {
+            "name": "Enkidu",
+            "id": "enkidu",
+            "drive": {
+              "rating": 6,
+              "current": 6
+            },
+            "navigation": {
+              "coords": [
+                0,
+                0
+              ],
+              "heading": 0,
+              "velocity": 0
+            },
+            "weaponry": {
+              "firecons": [
+                {
+                  "id": 0
+                }
+              ],
+              "weapons": [
+                {
+                  "id": 0,
+                  "weapon_type": "beam",
+                  "weapon_class": 2,
+                  "arcs": [
+                    "F"
+                  ]
+                },
+                {
+                  "id": 1,
+                  "arcs": [
+                    "FS"
+                  ],
+                  "weapon_type": "beam",
+                  "weapon_class": 1
+                },
+                {
+                  "id": 2,
+                  "arcs": [
+                    "FP"
+                  ],
+                  "weapon_type": "beam",
+                  "weapon_class": 1
+                }
+              ]
+            },
+            "structure": {
+              "hull": {
+                "current": 4,
+                "rating": 4
+              },
+              "shields": [
+                {
+                  "id": 0,
+                  "level": 1
+                },
+                {
+                  "id": 1,
+                  "level": 2
+                }
+              ],
+              "armor": {
+                "current": 4,
+                "rating": 4
+              }
+            },
+            "player_id": "yanick"
+          },
+          {
+            "name": "Siduri",
+            "id": "siduri",
+            "drive": {
+              "rating": 6,
+              "current": 6
+            },
+            "navigation": {
+              "coords": [
+                10,
+                10
+              ],
+              "heading": 6,
+              "velocity": 0
+            },
+            "player_id": "yenzie",
+            "structure": {
+              "hull": {
+                "current": 4,
+                "rating": 4
+              },
+              "shields": [
+                {
+                  "id": 0,
+                  "level": 1
+                },
+                {
+                  "id": 1,
+                  "level": 2
+                }
+              ],
+              "armor": {
+                "current": 4,
+                "rating": 4
+              }
+            }
+          }
+        ]
+      },
+      "type": "INIT_GAME",
+      "meta": {
+        "action_id": 1
+      }
+    },
+    {
+      "payload": {
+        "bogey_id": "enkidu",
+        "orders": {
+          "navigation": {
+            "thrust": 1,
+            "turn": 1,
+            "bank": 1
+          }
+        }
+      },
+      "type": "SET_ORDERS",
+      "meta": {
+        "action_id": 2
+      }
+    },
+    {
+      "payload": {
+        "bogey_id": "siduri",
+        "orders": {
+          "navigation": {
+            "thrust": 1
+          }
+        }
+      },
+      "type": "SET_ORDERS",
+      "meta": {
+        "action_id": 4
+      }
+    },
+    {
+      "type": "PLAY_TURN",
+      "meta": {
+        "action_id": 5
+      }
+    },
+    {
+      "type": "MOVEMENT_PHASE",
+      "meta": {
+        "action_id": 6
+      }
+    },
+    {
+      "payload": {
+        "id": "enkidu",
+        "navigation": {
+          "coords": [
+            1.5,
+            0.87
+          ],
+          "heading": 1,
+          "velocity": 1,
+          "trajectory": [
+            {
+              "type": "POSITION",
+              "coords": [
+                0,
+                0
+              ]
+            },
+            {
+              "type": "BANK",
+              "delta": [
+                1,
+                6.123233995736766e-17
+              ],
+              "coords": [
+                1,
+                0
+              ]
+            },
+            {
+              "type": "ROTATE",
+              "delta": 0,
+              "heading": 0
+            },
+            {
+              "type": "ROTATE",
+              "delta": 1,
+              "heading": 1
+            },
+            {
+              "type": "MOVE",
+              "delta": [
+                0.49999999999999994,
+                0.8660254037844387
+              ],
+              "coords": [
+                1.5,
+                0.87
+              ]
+            }
+          ],
+          "thrust_used": 3,
+          "maneuvers": {
+            "thrust": [
+              0,
+              4
+            ],
+            "bank": [
+              -3,
+              3
+            ],
+            "turn": [
+              -3,
+              3
+            ]
+          }
+        }
+      },
+      "type": "BOGEY_MOVEMENT",
+      "meta": {
+        "action_id": 7
+      }
+    },
+    {
+      "payload": {
+        "id": "siduri",
+        "navigation": {
+          "coords": [
+            10,
+            9
+          ],
+          "heading": 6,
+          "velocity": 1,
+          "trajectory": [
+            {
+              "type": "POSITION",
+              "coords": [
+                10,
+                10
+              ]
+            },
+            {
+              "type": "MOVE",
+              "delta": [
+                1.2246467991473532e-16,
+                -1
+              ],
+              "coords": [
+                10,
+                9
+              ]
+            }
+          ],
+          "thrust_used": 1,
+          "maneuvers": {
+            "thrust": [
+              0,
+              6
+            ],
+            "bank": [
+              -3,
+              3
+            ],
+            "turn": [
+              -3,
+              3
+            ]
+          }
+        }
+      },
+      "type": "BOGEY_MOVEMENT",
+      "meta": {
+        "action_id": 8
+      }
+    },
+    {
+      "type": "FIRECONS_ORDER_PHASE",
+      "meta": {
+        "action_id": 9
+      }
+    },
+    {
+      "type": "WEAPONS_ORDER_PHASE",
+      "meta": {
+        "action_id": 10
+      }
+    },
+    {
+      "type": "WEAPONS_FIRING_PHASE",
+      "meta": {
+        "action_id": 11
+      }
+    },
+    {
+      "type": "CLEAR_ORDERS",
+      "meta": {
+        "action_id": 12
+      }
+    }
+  ]
+}
+`;
+
+exports[`turns turn 2: turn_2 1`] = `
+{
+  "game": {
+    "name": "gemini",
+    "players": [
+      {
+        "id": "yanick"
+      },
+      {
+        "id": "yenzie"
+      }
+    ],
+    "turn": 2
+  },
+  "bogeys": {
+    "enkidu": {
+      "name": "Enkidu",
+      "id": "enkidu",
+      "drive": {
+        "rating": 6,
+        "current": 3,
+        "damage_level": 1
+      },
+      "navigation": {
+        "coords": [
+          2,
+          1.74
+        ],
+        "heading": 1,
+        "velocity": 1,
+        "trajectory": [
+          {
+            "type": "POSITION",
+            "coords": [
+              1.5,
+              0.87
+            ]
+          },
+          {
+            "type": "MOVE",
+            "delta": [
+              0.49999999999999994,
+              0.8660254037844387
+            ],
+            "coords": [
+              2,
+              1.74
+            ]
+          }
+        ],
+        "thrust_used": 0,
+        "maneuvers": {
+          "thrust": [
+            -1,
+            6
+          ],
+          "bank": [
+            -3,
+            3
+          ],
+          "turn": [
+            -3,
+            3
+          ]
+        }
+      },
+      "weaponry": {
+        "firecons": [
+          {
+            "id": 0,
+            "target_id": "siduri"
+          }
+        ],
+        "weapons": [
+          {
+            "id": 0,
+            "weapon_type": "beam",
+            "weapon_class": 2,
+            "arcs": [
+              "F"
+            ],
+            "firecon_id": 0
+          },
+          {
+            "id": 1,
+            "arcs": [
+              "FS"
+            ],
+            "weapon_type": "beam",
+            "weapon_class": 1,
+            "firecon_id": 0
+          },
+          {
+            "id": 2,
+            "arcs": [
+              "FP"
+            ],
+            "weapon_type": "beam",
+            "weapon_class": 1,
+            "firecon_id": 0
+          }
+        ]
+      },
+      "structure": {
+        "hull": {
+          "current": 4,
+          "rating": 4
+        },
+        "shields": [
+          {
+            "id": 0,
+            "level": 1,
+            "damaged": true
+          },
+          {
+            "id": 1,
+            "level": 2
+          }
+        ],
+        "armor": {
+          "current": 4,
+          "rating": 4
+        }
+      },
+      "player_id": "yanick",
+      "orders": {}
+    },
+    "siduri": {
+      "name": "Siduri",
+      "id": "siduri",
+      "drive": {
+        "rating": 6,
+        "current": 3,
+        "damage_level": 1
+      },
+      "navigation": {
+        "coords": [
+          10,
+          8
+        ],
+        "heading": 6,
+        "velocity": 1,
+        "trajectory": [
+          {
+            "type": "POSITION",
+            "coords": [
+              10,
+              9
+            ]
+          },
+          {
+            "type": "MOVE",
+            "delta": [
+              1.2246467991473532e-16,
+              -1
+            ],
+            "coords": [
+              10,
+              8
+            ]
+          }
+        ],
+        "thrust_used": 0,
+        "maneuvers": {
+          "thrust": [
+            -1,
+            6
+          ],
+          "bank": [
+            -3,
+            3
+          ],
+          "turn": [
+            -3,
+            3
+          ]
+        }
+      },
+      "player_id": "yenzie",
+      "structure": {
+        "hull": {
+          "current": 3,
+          "rating": 4
+        },
+        "shields": [
+          {
+            "id": 0,
+            "level": 1,
+            "damaged": true
+          },
+          {
+            "id": 1,
+            "level": 2
+          }
+        ],
+        "armor": {
+          "current": 3,
+          "rating": 4
+        }
+      },
+      "orders": {},
+      "weaponry": {
+        "firecons": []
+      }
+    }
+  },
+  "log": [
+    {
+      "payload": {
+        "game": {
+          "name": "gemini",
+          "players": [
+            {
+              "id": "yanick"
+            },
+            {
+              "id": "yenzie"
+            }
+          ]
+        },
+        "bogeys": [
+          {
+            "name": "Enkidu",
+            "id": "enkidu",
+            "drive": {
+              "rating": 6,
+              "current": 6
+            },
+            "navigation": {
+              "coords": [
+                0,
+                0
+              ],
+              "heading": 0,
+              "velocity": 0
+            },
+            "weaponry": {
+              "firecons": [
+                {
+                  "id": 0
+                }
+              ],
+              "weapons": [
+                {
+                  "id": 0,
+                  "weapon_type": "beam",
+                  "weapon_class": 2,
+                  "arcs": [
+                    "F"
+                  ]
+                },
+                {
+                  "id": 1,
+                  "arcs": [
+                    "FS"
+                  ],
+                  "weapon_type": "beam",
+                  "weapon_class": 1
+                },
+                {
+                  "id": 2,
+                  "arcs": [
+                    "FP"
+                  ],
+                  "weapon_type": "beam",
+                  "weapon_class": 1
+                }
+              ]
+            },
+            "structure": {
+              "hull": {
+                "current": 4,
+                "rating": 4
+              },
+              "shields": [
+                {
+                  "id": 0,
+                  "level": 1
+                },
+                {
+                  "id": 1,
+                  "level": 2
+                }
+              ],
+              "armor": {
+                "current": 4,
+                "rating": 4
+              }
+            },
+            "player_id": "yanick"
+          },
+          {
+            "name": "Siduri",
+            "id": "siduri",
+            "drive": {
+              "rating": 6,
+              "current": 6
+            },
+            "navigation": {
+              "coords": [
+                10,
+                10
+              ],
+              "heading": 6,
+              "velocity": 0
+            },
+            "player_id": "yenzie",
+            "structure": {
+              "hull": {
+                "current": 4,
+                "rating": 4
+              },
+              "shields": [
+                {
+                  "id": 0,
+                  "level": 1
+                },
+                {
+                  "id": 1,
+                  "level": 2
+                }
+              ],
+              "armor": {
+                "current": 4,
+                "rating": 4
+              }
+            }
+          }
+        ]
+      },
+      "type": "INIT_GAME",
+      "meta": {
+        "action_id": 1
+      }
+    },
+    {
+      "payload": {
+        "bogey_id": "enkidu",
+        "orders": {
+          "navigation": {
+            "thrust": 1,
+            "turn": 1,
+            "bank": 1
+          }
+        }
+      },
+      "type": "SET_ORDERS",
+      "meta": {
+        "action_id": 2
+      }
+    },
+    {
+      "payload": {
+        "bogey_id": "siduri",
+        "orders": {
+          "navigation": {
+            "thrust": 1
+          }
+        }
+      },
+      "type": "SET_ORDERS",
+      "meta": {
+        "action_id": 4
+      }
+    },
+    {
+      "type": "PLAY_TURN",
+      "meta": {
+        "action_id": 5
+      }
+    },
+    {
+      "type": "MOVEMENT_PHASE",
+      "meta": {
+        "action_id": 6
+      }
+    },
+    {
+      "payload": {
+        "id": "enkidu",
+        "navigation": {
+          "coords": [
+            1.5,
+            0.87
+          ],
+          "heading": 1,
+          "velocity": 1,
+          "trajectory": [
+            {
+              "type": "POSITION",
+              "coords": [
+                0,
+                0
+              ]
+            },
+            {
+              "type": "BANK",
+              "delta": [
+                1,
+                6.123233995736766e-17
+              ],
+              "coords": [
+                1,
+                0
+              ]
+            },
+            {
+              "type": "ROTATE",
+              "delta": 0,
+              "heading": 0
+            },
+            {
+              "type": "ROTATE",
+              "delta": 1,
+              "heading": 1
+            },
+            {
+              "type": "MOVE",
+              "delta": [
+                0.49999999999999994,
+                0.8660254037844387
+              ],
+              "coords": [
+                1.5,
+                0.87
+              ]
+            }
+          ],
+          "thrust_used": 3,
+          "maneuvers": {
+            "thrust": [
+              0,
+              4
+            ],
+            "bank": [
+              -3,
+              3
+            ],
+            "turn": [
+              -3,
+              3
+            ]
+          }
+        }
+      },
+      "type": "BOGEY_MOVEMENT",
+      "meta": {
+        "action_id": 7
+      }
+    },
+    {
+      "payload": {
+        "id": "siduri",
+        "navigation": {
+          "coords": [
+            10,
+            9
+          ],
+          "heading": 6,
+          "velocity": 1,
+          "trajectory": [
+            {
+              "type": "POSITION",
+              "coords": [
+                10,
+                10
+              ]
+            },
+            {
+              "type": "MOVE",
+              "delta": [
+                1.2246467991473532e-16,
+                -1
+              ],
+              "coords": [
+                10,
+                9
+              ]
+            }
+          ],
+          "thrust_used": 1,
+          "maneuvers": {
+            "thrust": [
+              0,
+              6
+            ],
+            "bank": [
+              -3,
+              3
+            ],
+            "turn": [
+              -3,
+              3
+            ]
+          }
+        }
+      },
+      "type": "BOGEY_MOVEMENT",
+      "meta": {
+        "action_id": 8
+      }
+    },
+    {
+      "type": "FIRECONS_ORDER_PHASE",
+      "meta": {
+        "action_id": 9
+      }
+    },
+    {
+      "type": "WEAPONS_ORDER_PHASE",
+      "meta": {
+        "action_id": 10
+      }
+    },
+    {
+      "type": "WEAPONS_FIRING_PHASE",
+      "meta": {
+        "action_id": 11
+      }
+    },
+    {
+      "type": "CLEAR_ORDERS",
+      "meta": {
+        "action_id": 12
+      }
+    },
+    {
+      "payload": {
+        "bogey_id": "enkidu",
+        "orders": {
+          "firecons": [
+            {
+              "target_id": "siduri"
+            }
+          ],
+          "weapons": [
+            {
+              "firecon_id": 0
+            },
+            {
+              "firecon_id": 0
+            },
+            {
+              "firecon_id": 0
+            }
+          ]
+        }
+      },
+      "type": "SET_ORDERS",
+      "meta": {
+        "action_id": 13
+      }
+    },
+    {
+      "type": "PLAY_TURN",
+      "meta": {
+        "action_id": 14
+      }
+    },
+    {
+      "type": "MOVEMENT_PHASE",
+      "meta": {
+        "action_id": 15
+      }
+    },
+    {
+      "payload": {
+        "id": "enkidu",
+        "navigation": {
+          "coords": [
+            2,
+            1.74
+          ],
+          "heading": 1,
+          "velocity": 1,
+          "trajectory": [
+            {
+              "type": "POSITION",
+              "coords": [
+                1.5,
+                0.87
+              ]
+            },
+            {
+              "type": "MOVE",
+              "delta": [
+                0.49999999999999994,
+                0.8660254037844387
+              ],
+              "coords": [
+                2,
+                1.74
+              ]
+            }
+          ],
+          "thrust_used": 0,
+          "maneuvers": {
+            "thrust": [
+              -1,
+              6
+            ],
+            "bank": [
+              -3,
+              3
+            ],
+            "turn": [
+              -3,
+              3
+            ]
+          }
+        }
+      },
+      "type": "BOGEY_MOVEMENT",
+      "meta": {
+        "action_id": 16
+      }
+    },
+    {
+      "payload": {
+        "id": "siduri",
+        "navigation": {
+          "coords": [
+            10,
+            8
+          ],
+          "heading": 6,
+          "velocity": 1,
+          "trajectory": [
+            {
+              "type": "POSITION",
+              "coords": [
+                10,
+                9
+              ]
+            },
+            {
+              "type": "MOVE",
+              "delta": [
+                1.2246467991473532e-16,
+                -1
+              ],
+              "coords": [
+                10,
+                8
+              ]
+            }
+          ],
+          "thrust_used": 0,
+          "maneuvers": {
+            "thrust": [
+              -1,
+              6
+            ],
+            "bank": [
+              -3,
+              3
+            ],
+            "turn": [
+              -3,
+              3
+            ]
+          }
+        }
+      },
+      "type": "BOGEY_MOVEMENT",
+      "meta": {
+        "action_id": 17
+      }
+    },
+    {
+      "type": "FIRECONS_ORDER_PHASE",
+      "meta": {
+        "action_id": 18
+      }
+    },
+    {
+      "payload": {
+        "bogey_id": "enkidu",
+        "firecon_id": 0,
+        "orders": {
+          "target_id": "siduri"
+        }
+      },
+      "type": "BOGEY_FIRECON_ORDERS",
+      "meta": {
+        "action_id": 19
+      }
+    },
+    {
+      "type": "WEAPONS_ORDER_PHASE",
+      "meta": {
+        "action_id": 20
+      }
+    },
+    {
+      "payload": {
+        "bogey_id": "enkidu",
+        "weapon_id": 0,
+        "orders": {
+          "firecon_id": 0
+        }
+      },
+      "type": "BOGEY_WEAPON_ORDERS",
+      "meta": {
+        "action_id": 21
+      }
+    },
+    {
+      "payload": {
+        "bogey_id": "enkidu",
+        "weapon_id": 1,
+        "orders": {
+          "firecon_id": 0
+        }
+      },
+      "type": "BOGEY_WEAPON_ORDERS",
+      "meta": {
+        "action_id": 22
+      }
+    },
+    {
+      "payload": {
+        "bogey_id": "enkidu",
+        "weapon_id": 2,
+        "orders": {
+          "firecon_id": 0
+        }
+      },
+      "type": "BOGEY_WEAPON_ORDERS",
+      "meta": {
+        "action_id": 23
+      }
+    },
+    {
+      "type": "WEAPONS_FIRING_PHASE",
+      "meta": {
+        "action_id": 24
+      }
+    },
+    {
+      "payload": {
+        "bogey_id": "enkidu",
+        "target_id": "siduri",
+        "weapon_id": 0
+      },
+      "type": "FIRE_WEAPON",
+      "meta": {
+        "action_id": 25
+      }
+    },
+    {
+      "payload": {
+        "bogey_id": "enkidu",
+        "target_id": "siduri",
+        "distance": 10.158129749122129,
+        "bearing": 0.7318939977131773,
+        "damage_dice": [
+          6,
+          5
+        ],
+        "penetrating_damage_dice": [
+          3
+        ]
+      },
+      "type": "FIRE_WEAPON_OUTCOME",
+      "meta": {
+        "action_id": 26
+      }
+    },
+    {
+      "payload": {
+        "bogey_id": "siduri",
+        "damage": 2,
+        "is_penetrating": false
+      },
+      "type": "DAMAGE",
+      "meta": {
+        "action_id": 27
+      }
+    },
+    {
+      "payload": {
+        "bogey_id": "siduri",
+        "damage": 0,
+        "is_penetrating": true
+      },
+      "type": "DAMAGE",
+      "meta": {
+        "action_id": 28
+      }
+    },
+    {
+      "payload": {
+        "bogey_id": "siduri",
+        "hit": true,
+        "system": {
+          "type": "drive"
+        },
+        "check": {
+          "threshold": 25,
+          "die": 1
+        }
+      },
+      "type": "INTERNAL_DAMAGE",
+      "meta": {
+        "action_id": 29
+      }
+    },
+    {
+      "payload": {
+        "bogey_id": "siduri",
+        "hit": true,
+        "system": {
+          "type": "shield",
+          "id": 0
+        },
+        "check": {
+          "threshold": 25,
+          "die": 1
+        }
+      },
+      "type": "INTERNAL_DAMAGE",
+      "meta": {
+        "action_id": 30
+      }
+    },
+    {
+      "payload": {
+        "bogey_id": "enkidu",
+        "target_id": "siduri",
+        "weapon_id": 1
+      },
+      "type": "FIRE_WEAPON",
+      "meta": {
+        "action_id": 31
+      }
+    },
+    {
+      "payload": {
+        "bogey_id": "enkidu",
+        "target_id": "siduri",
+        "distance": 10.158129749122129,
+        "bearing": 0.7318939977131773,
+        "no_firing_arc": true
+      },
+      "type": "FIRE_WEAPON_OUTCOME",
+      "meta": {
+        "action_id": 32
+      }
+    },
+    {
+      "payload": {
+        "bogey_id": "enkidu",
+        "target_id": "siduri",
+        "weapon_id": 2
+      },
+      "type": "FIRE_WEAPON",
+      "meta": {
+        "action_id": 33
+      }
+    },
+    {
+      "payload": {
+        "bogey_id": "enkidu",
+        "target_id": "siduri",
+        "distance": 10.158129749122129,
+        "bearing": 0.7318939977131773,
+        "no_firing_arc": true
+      },
+      "type": "FIRE_WEAPON_OUTCOME",
+      "meta": {
+        "action_id": 34
+      }
+    },
+    {
+      "type": "CLEAR_ORDERS",
+      "meta": {
+        "action_id": 35
+      }
+    }
+  ]
+}
+`;
+
+exports[`turns turn 3: turn_3 1`] = `
+{
+  "game": {
+    "name": "gemini",
+    "players": [
+      {
+        "id": "yanick"
+      },
+      {
+        "id": "yenzie"
+      }
+    ],
+    "turn": 3
+  },
+  "bogeys": {
+    "enkidu": {
+      "name": "Enkidu",
+      "id": "enkidu",
+      "drive": {
+        "rating": 6,
+        "current": 3,
+        "damage_level": 1
+      },
+      "navigation": {
+        "coords": [
+          2,
+          1.74
+        ],
+        "heading": 1,
+        "velocity": 0,
+        "trajectory": [
+          {
+            "type": "POSITION",
+            "coords": [
+              2,
+              1.74
+            ]
+          }
+        ],
+        "thrust_used": 1,
+        "maneuvers": {
+          "thrust": [
+            -1,
+            3
+          ],
+          "bank": [
+            -1,
+            1
+          ],
+          "turn": [
+            -1,
+            1
+          ]
+        }
+      },
+      "weaponry": {
+        "firecons": [
+          {
+            "id": 0,
+            "target_id": "siduri"
+          }
+        ],
+        "weapons": [
+          {
+            "id": 0,
+            "weapon_type": "beam",
+            "weapon_class": 2,
+            "arcs": [
+              "F"
+            ],
+            "firecon_id": 0
+          },
+          {
+            "id": 1,
+            "arcs": [
+              "FS"
+            ],
+            "weapon_type": "beam",
+            "weapon_class": 1,
+            "firecon_id": 0
+          },
+          {
+            "id": 2,
+            "arcs": [
+              "FP"
+            ],
+            "weapon_type": "beam",
+            "weapon_class": 1,
+            "firecon_id": 0
+          }
+        ]
+      },
+      "structure": {
+        "hull": {
+          "current": 4,
+          "rating": 4
+        },
+        "shields": [
+          {
+            "id": 0,
+            "level": 1,
+            "damaged": true
+          },
+          {
+            "id": 1,
+            "level": 2
+          }
+        ],
+        "armor": {
+          "current": 4,
+          "rating": 4
+        }
+      },
+      "player_id": "yanick",
+      "orders": {}
+    },
+    "siduri": {
+      "name": "Siduri",
+      "id": "siduri",
+      "drive": {
+        "rating": 6,
+        "current": 3,
+        "damage_level": 1
+      },
+      "navigation": {
+        "coords": [
+          10,
+          8
+        ],
+        "heading": 6,
+        "velocity": 0,
+        "trajectory": [
+          {
+            "type": "POSITION",
+            "coords": [
+              10,
+              8
+            ]
+          }
+        ],
+        "thrust_used": 1,
+        "maneuvers": {
+          "thrust": [
+            -1,
+            3
+          ],
+          "bank": [
+            -1,
+            1
+          ],
+          "turn": [
+            -1,
+            1
+          ]
+        }
+      },
+      "player_id": "yenzie",
+      "structure": {
+        "hull": {
+          "current": 3,
+          "rating": 4
+        },
+        "shields": [
+          {
+            "id": 0,
+            "level": 1,
+            "damaged": true
+          },
+          {
+            "id": 1,
+            "level": 2
+          }
+        ],
+        "armor": {
+          "current": 3,
+          "rating": 4
+        }
+      },
+      "orders": {},
+      "weaponry": {
+        "firecons": []
+      }
+    }
+  },
+  "log": [
+    {
+      "payload": {
+        "game": {
+          "name": "gemini",
+          "players": [
+            {
+              "id": "yanick"
+            },
+            {
+              "id": "yenzie"
+            }
+          ]
+        },
+        "bogeys": [
+          {
+            "name": "Enkidu",
+            "id": "enkidu",
+            "drive": {
+              "rating": 6,
+              "current": 6
+            },
+            "navigation": {
+              "coords": [
+                0,
+                0
+              ],
+              "heading": 0,
+              "velocity": 0
+            },
+            "weaponry": {
+              "firecons": [
+                {
+                  "id": 0
+                }
+              ],
+              "weapons": [
+                {
+                  "id": 0,
+                  "weapon_type": "beam",
+                  "weapon_class": 2,
+                  "arcs": [
+                    "F"
+                  ]
+                },
+                {
+                  "id": 1,
+                  "arcs": [
+                    "FS"
+                  ],
+                  "weapon_type": "beam",
+                  "weapon_class": 1
+                },
+                {
+                  "id": 2,
+                  "arcs": [
+                    "FP"
+                  ],
+                  "weapon_type": "beam",
+                  "weapon_class": 1
+                }
+              ]
+            },
+            "structure": {
+              "hull": {
+                "current": 4,
+                "rating": 4
+              },
+              "shields": [
+                {
+                  "id": 0,
+                  "level": 1
+                },
+                {
+                  "id": 1,
+                  "level": 2
+                }
+              ],
+              "armor": {
+                "current": 4,
+                "rating": 4
+              }
+            },
+            "player_id": "yanick"
+          },
+          {
+            "name": "Siduri",
+            "id": "siduri",
+            "drive": {
+              "rating": 6,
+              "current": 6
+            },
+            "navigation": {
+              "coords": [
+                10,
+                10
+              ],
+              "heading": 6,
+              "velocity": 0
+            },
+            "player_id": "yenzie",
+            "structure": {
+              "hull": {
+                "current": 4,
+                "rating": 4
+              },
+              "shields": [
+                {
+                  "id": 0,
+                  "level": 1
+                },
+                {
+                  "id": 1,
+                  "level": 2
+                }
+              ],
+              "armor": {
+                "current": 4,
+                "rating": 4
+              }
+            }
+          }
+        ]
+      },
+      "type": "INIT_GAME",
+      "meta": {
+        "action_id": 1
+      }
+    },
+    {
+      "payload": {
+        "bogey_id": "enkidu",
+        "orders": {
+          "navigation": {
+            "thrust": 1,
+            "turn": 1,
+            "bank": 1
+          }
+        }
+      },
+      "type": "SET_ORDERS",
+      "meta": {
+        "action_id": 2
+      }
+    },
+    {
+      "payload": {
+        "bogey_id": "siduri",
+        "orders": {
+          "navigation": {
+            "thrust": 1
+          }
+        }
+      },
+      "type": "SET_ORDERS",
+      "meta": {
+        "action_id": 4
+      }
+    },
+    {
+      "type": "PLAY_TURN",
+      "meta": {
+        "action_id": 5
+      }
+    },
+    {
+      "type": "MOVEMENT_PHASE",
+      "meta": {
+        "action_id": 6
+      }
+    },
+    {
+      "payload": {
+        "id": "enkidu",
+        "navigation": {
+          "coords": [
+            1.5,
+            0.87
+          ],
+          "heading": 1,
+          "velocity": 1,
+          "trajectory": [
+            {
+              "type": "POSITION",
+              "coords": [
+                0,
+                0
+              ]
+            },
+            {
+              "type": "BANK",
+              "delta": [
+                1,
+                6.123233995736766e-17
+              ],
+              "coords": [
+                1,
+                0
+              ]
+            },
+            {
+              "type": "ROTATE",
+              "delta": 0,
+              "heading": 0
+            },
+            {
+              "type": "ROTATE",
+              "delta": 1,
+              "heading": 1
+            },
+            {
+              "type": "MOVE",
+              "delta": [
+                0.49999999999999994,
+                0.8660254037844387
+              ],
+              "coords": [
+                1.5,
+                0.87
+              ]
+            }
+          ],
+          "thrust_used": 3,
+          "maneuvers": {
+            "thrust": [
+              0,
+              4
+            ],
+            "bank": [
+              -3,
+              3
+            ],
+            "turn": [
+              -3,
+              3
+            ]
+          }
+        }
+      },
+      "type": "BOGEY_MOVEMENT",
+      "meta": {
+        "action_id": 7
+      }
+    },
+    {
+      "payload": {
+        "id": "siduri",
+        "navigation": {
+          "coords": [
+            10,
+            9
+          ],
+          "heading": 6,
+          "velocity": 1,
+          "trajectory": [
+            {
+              "type": "POSITION",
+              "coords": [
+                10,
+                10
+              ]
+            },
+            {
+              "type": "MOVE",
+              "delta": [
+                1.2246467991473532e-16,
+                -1
+              ],
+              "coords": [
+                10,
+                9
+              ]
+            }
+          ],
+          "thrust_used": 1,
+          "maneuvers": {
+            "thrust": [
+              0,
+              6
+            ],
+            "bank": [
+              -3,
+              3
+            ],
+            "turn": [
+              -3,
+              3
+            ]
+          }
+        }
+      },
+      "type": "BOGEY_MOVEMENT",
+      "meta": {
+        "action_id": 8
+      }
+    },
+    {
+      "type": "FIRECONS_ORDER_PHASE",
+      "meta": {
+        "action_id": 9
+      }
+    },
+    {
+      "type": "WEAPONS_ORDER_PHASE",
+      "meta": {
+        "action_id": 10
+      }
+    },
+    {
+      "type": "WEAPONS_FIRING_PHASE",
+      "meta": {
+        "action_id": 11
+      }
+    },
+    {
+      "type": "CLEAR_ORDERS",
+      "meta": {
+        "action_id": 12
+      }
+    },
+    {
+      "payload": {
+        "bogey_id": "enkidu",
+        "orders": {
+          "firecons": [
+            {
+              "target_id": "siduri"
+            }
+          ],
+          "weapons": [
+            {
+              "firecon_id": 0
+            },
+            {
+              "firecon_id": 0
+            },
+            {
+              "firecon_id": 0
+            }
+          ]
+        }
+      },
+      "type": "SET_ORDERS",
+      "meta": {
+        "action_id": 13
+      }
+    },
+    {
+      "type": "PLAY_TURN",
+      "meta": {
+        "action_id": 14
+      }
+    },
+    {
+      "type": "MOVEMENT_PHASE",
+      "meta": {
+        "action_id": 15
+      }
+    },
+    {
+      "payload": {
+        "id": "enkidu",
+        "navigation": {
+          "coords": [
+            2,
+            1.74
+          ],
+          "heading": 1,
+          "velocity": 1,
+          "trajectory": [
+            {
+              "type": "POSITION",
+              "coords": [
+                1.5,
+                0.87
+              ]
+            },
+            {
+              "type": "MOVE",
+              "delta": [
+                0.49999999999999994,
+                0.8660254037844387
+              ],
+              "coords": [
+                2,
+                1.74
+              ]
+            }
+          ],
+          "thrust_used": 0,
+          "maneuvers": {
+            "thrust": [
+              -1,
+              6
+            ],
+            "bank": [
+              -3,
+              3
+            ],
+            "turn": [
+              -3,
+              3
+            ]
+          }
+        }
+      },
+      "type": "BOGEY_MOVEMENT",
+      "meta": {
+        "action_id": 16
+      }
+    },
+    {
+      "payload": {
+        "id": "siduri",
+        "navigation": {
+          "coords": [
+            10,
+            8
+          ],
+          "heading": 6,
+          "velocity": 1,
+          "trajectory": [
+            {
+              "type": "POSITION",
+              "coords": [
+                10,
+                9
+              ]
+            },
+            {
+              "type": "MOVE",
+              "delta": [
+                1.2246467991473532e-16,
+                -1
+              ],
+              "coords": [
+                10,
+                8
+              ]
+            }
+          ],
+          "thrust_used": 0,
+          "maneuvers": {
+            "thrust": [
+              -1,
+              6
+            ],
+            "bank": [
+              -3,
+              3
+            ],
+            "turn": [
+              -3,
+              3
+            ]
+          }
+        }
+      },
+      "type": "BOGEY_MOVEMENT",
+      "meta": {
+        "action_id": 17
+      }
+    },
+    {
+      "type": "FIRECONS_ORDER_PHASE",
+      "meta": {
+        "action_id": 18
+      }
+    },
+    {
+      "payload": {
+        "bogey_id": "enkidu",
+        "firecon_id": 0,
+        "orders": {
+          "target_id": "siduri"
+        }
+      },
+      "type": "BOGEY_FIRECON_ORDERS",
+      "meta": {
+        "action_id": 19
+      }
+    },
+    {
+      "type": "WEAPONS_ORDER_PHASE",
+      "meta": {
+        "action_id": 20
+      }
+    },
+    {
+      "payload": {
+        "bogey_id": "enkidu",
+        "weapon_id": 0,
+        "orders": {
+          "firecon_id": 0
+        }
+      },
+      "type": "BOGEY_WEAPON_ORDERS",
+      "meta": {
+        "action_id": 21
+      }
+    },
+    {
+      "payload": {
+        "bogey_id": "enkidu",
+        "weapon_id": 1,
+        "orders": {
+          "firecon_id": 0
+        }
+      },
+      "type": "BOGEY_WEAPON_ORDERS",
+      "meta": {
+        "action_id": 22
+      }
+    },
+    {
+      "payload": {
+        "bogey_id": "enkidu",
+        "weapon_id": 2,
+        "orders": {
+          "firecon_id": 0
+        }
+      },
+      "type": "BOGEY_WEAPON_ORDERS",
+      "meta": {
+        "action_id": 23
+      }
+    },
+    {
+      "type": "WEAPONS_FIRING_PHASE",
+      "meta": {
+        "action_id": 24
+      }
+    },
+    {
+      "payload": {
+        "bogey_id": "enkidu",
+        "target_id": "siduri",
+        "weapon_id": 0
+      },
+      "type": "FIRE_WEAPON",
+      "meta": {
+        "action_id": 25
+      }
+    },
+    {
+      "payload": {
+        "bogey_id": "enkidu",
+        "target_id": "siduri",
+        "distance": 10.158129749122129,
+        "bearing": 0.7318939977131773,
+        "damage_dice": [
+          6,
+          5
+        ],
+        "penetrating_damage_dice": [
+          3
+        ]
+      },
+      "type": "FIRE_WEAPON_OUTCOME",
+      "meta": {
+        "action_id": 26
+      }
+    },
+    {
+      "payload": {
+        "bogey_id": "siduri",
+        "damage": 2,
+        "is_penetrating": false
+      },
+      "type": "DAMAGE",
+      "meta": {
+        "action_id": 27
+      }
+    },
+    {
+      "payload": {
+        "bogey_id": "siduri",
+        "damage": 0,
+        "is_penetrating": true
+      },
+      "type": "DAMAGE",
+      "meta": {
+        "action_id": 28
+      }
+    },
+    {
+      "payload": {
+        "bogey_id": "siduri",
+        "hit": true,
+        "system": {
+          "type": "drive"
+        },
+        "check": {
+          "threshold": 25,
+          "die": 1
+        }
+      },
+      "type": "INTERNAL_DAMAGE",
+      "meta": {
+        "action_id": 29
+      }
+    },
+    {
+      "payload": {
+        "bogey_id": "siduri",
+        "hit": true,
+        "system": {
+          "type": "shield",
+          "id": 0
+        },
+        "check": {
+          "threshold": 25,
+          "die": 1
+        }
+      },
+      "type": "INTERNAL_DAMAGE",
+      "meta": {
+        "action_id": 30
+      }
+    },
+    {
+      "payload": {
+        "bogey_id": "enkidu",
+        "target_id": "siduri",
+        "weapon_id": 1
+      },
+      "type": "FIRE_WEAPON",
+      "meta": {
+        "action_id": 31
+      }
+    },
+    {
+      "payload": {
+        "bogey_id": "enkidu",
+        "target_id": "siduri",
+        "distance": 10.158129749122129,
+        "bearing": 0.7318939977131773,
+        "no_firing_arc": true
+      },
+      "type": "FIRE_WEAPON_OUTCOME",
+      "meta": {
+        "action_id": 32
+      }
+    },
+    {
+      "payload": {
+        "bogey_id": "enkidu",
+        "target_id": "siduri",
+        "weapon_id": 2
+      },
+      "type": "FIRE_WEAPON",
+      "meta": {
+        "action_id": 33
+      }
+    },
+    {
+      "payload": {
+        "bogey_id": "enkidu",
+        "target_id": "siduri",
+        "distance": 10.158129749122129,
+        "bearing": 0.7318939977131773,
+        "no_firing_arc": true
+      },
+      "type": "FIRE_WEAPON_OUTCOME",
+      "meta": {
+        "action_id": 34
+      }
+    },
+    {
+      "type": "CLEAR_ORDERS",
+      "meta": {
+        "action_id": 35
+      }
+    },
+    {
+      "payload": {
+        "bogey_id": "enkidu",
+        "orders": {
+          "navigation": {
+            "thrust": -1
+          }
+        }
+      },
+      "type": "SET_ORDERS",
+      "meta": {
+        "action_id": 36
+      }
+    },
+    {
+      "payload": {
+        "bogey_id": "siduri",
+        "orders": {
+          "navigation": {
+            "thrust": -1
+          }
+        }
+      },
+      "type": "SET_ORDERS",
+      "meta": {
+        "action_id": 37
+      }
+    },
+    {
+      "type": "PLAY_TURN",
+      "meta": {
+        "action_id": 38
+      }
+    },
+    {
+      "type": "MOVEMENT_PHASE",
+      "meta": {
+        "action_id": 39
+      }
+    },
+    {
+      "payload": {
+        "id": "enkidu",
+        "navigation": {
+          "coords": [
+            2,
+            1.74
+          ],
+          "heading": 1,
+          "velocity": 0,
+          "trajectory": [
+            {
+              "type": "POSITION",
+              "coords": [
+                2,
+                1.74
+              ]
+            }
+          ],
+          "thrust_used": 1,
+          "maneuvers": {
+            "thrust": [
+              -1,
+              3
+            ],
+            "bank": [
+              -1,
+              1
+            ],
+            "turn": [
+              -1,
+              1
+            ]
+          }
+        }
+      },
+      "type": "BOGEY_MOVEMENT",
+      "meta": {
+        "action_id": 40
+      }
+    },
+    {
+      "payload": {
+        "id": "siduri",
+        "navigation": {
+          "coords": [
+            10,
+            8
+          ],
+          "heading": 6,
+          "velocity": 0,
+          "trajectory": [
+            {
+              "type": "POSITION",
+              "coords": [
+                10,
+                8
+              ]
+            }
+          ],
+          "thrust_used": 1,
+          "maneuvers": {
+            "thrust": [
+              -1,
+              3
+            ],
+            "bank": [
+              -1,
+              1
+            ],
+            "turn": [
+              -1,
+              1
+            ]
+          }
+        }
+      },
+      "type": "BOGEY_MOVEMENT",
+      "meta": {
+        "action_id": 41
+      }
+    },
+    {
+      "type": "FIRECONS_ORDER_PHASE",
+      "meta": {
+        "action_id": 42
+      }
+    },
+    {
+      "type": "WEAPONS_ORDER_PHASE",
+      "meta": {
+        "action_id": 43
+      }
+    },
+    {
+      "type": "WEAPONS_FIRING_PHASE",
+      "meta": {
+        "action_id": 44
+      }
+    },
+    {
+      "payload": {
+        "bogey_id": "enkidu",
+        "target_id": "siduri",
+        "weapon_id": 0
+      },
+      "type": "FIRE_WEAPON",
+      "meta": {
+        "action_id": 45
+      }
+    },
+    {
+      "payload": {
+        "bogey_id": "enkidu",
+        "target_id": "siduri",
+        "distance": 10.158129749122129,
+        "bearing": 0.7318939977131773,
+        "damage_dice": [
+          4,
+          1
+        ],
+        "penetrating_damage_dice": []
+      },
+      "type": "FIRE_WEAPON_OUTCOME",
+      "meta": {
+        "action_id": 46
+      }
+    },
+    {
+      "payload": {
+        "bogey_id": "siduri",
+        "damage": 0,
+        "is_penetrating": false
+      },
+      "type": "DAMAGE",
+      "meta": {
+        "action_id": 47
+      }
+    },
+    {
+      "payload": {
+        "bogey_id": "enkidu",
+        "target_id": "siduri",
+        "weapon_id": 1
+      },
+      "type": "FIRE_WEAPON",
+      "meta": {
+        "action_id": 48
+      }
+    },
+    {
+      "payload": {
+        "bogey_id": "enkidu",
+        "target_id": "siduri",
+        "distance": 10.158129749122129,
+        "bearing": 0.7318939977131773,
+        "no_firing_arc": true
+      },
+      "type": "FIRE_WEAPON_OUTCOME",
+      "meta": {
+        "action_id": 49
+      }
+    },
+    {
+      "payload": {
+        "bogey_id": "enkidu",
+        "target_id": "siduri",
+        "weapon_id": 2
+      },
+      "type": "FIRE_WEAPON",
+      "meta": {
+        "action_id": 50
+      }
+    },
+    {
+      "payload": {
+        "bogey_id": "enkidu",
+        "target_id": "siduri",
+        "distance": 10.158129749122129,
+        "bearing": 0.7318939977131773,
+        "no_firing_arc": true
+      },
+      "type": "FIRE_WEAPON_OUTCOME",
+      "meta": {
+        "action_id": 51
+      }
+    },
+    {
+      "type": "CLEAR_ORDERS",
+      "meta": {
+        "action_id": 52
       }
     }
   ]

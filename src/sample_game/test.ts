@@ -29,9 +29,11 @@ expect.addSnapshotSerializer({
 type TurnDirective = {
     actions: Action[];
     dice: number[][];
+    tests: (state: BattleState) => void;
+    end_state?: BattleState;
 };
 
-const turn_directives = [];
+const turns: TurnDirective[] = [];
 
 function scrub_timestamps(log: LogState) {
     return u.map(
@@ -64,19 +66,15 @@ const filterLogAction = _.curry(
     },
 );
 
-const manage_turn = function(battle: Battle, directives: TurnDirective) {
-    _.get(directives, 'dice', []).forEach((result: any) => dice.default.mockImplementationOnce(() => result));
-
-    directives.actions.forEach(a => battle.dispatch(a));
-
-    return battle.state;
-};
-
-turn_directives[0] = {
+turns[0] = {
     actions: [],
+    dice: [],
+    tests(state) {
+        expect(state).toMatchObject({});
+    },
 };
 
-turn_directives[1] = {
+turns[1] = {
     actions: [
         init_game(initial_state),
         set_orders('enkidu', {
@@ -88,9 +86,56 @@ turn_directives[1] = {
         }),
         play_turn(),
     ],
+    dice: [],
+    tests(state) {
+        expect(state).toHaveProperty('game.turn', 1);
+
+        expect(state).toMatchObject({
+            game: { name: 'gemini', turn: 1 },
+            bogeys: { enkidu: { name: 'Enkidu' }, siduri: { name: 'Siduri' } },
+        });
+
+        // let's check the log
+        expect(state).toHaveProperty('log');
+
+        expect(state.log.map((l: Action) => l.type)).toContain('INIT_GAME');
+
+        // a turn has been done!
+        expect(state.log.find((entry: any) => entry.type === 'PLAY_TURN')).toBeTruthy();
+
+        expect(_.omit(state, ['log'])).toMatchSnapshot();
+
+        // orders cleared out
+        let still_with_orders = fp.flow(
+            fp.get('bogeys'),
+            fp.values,
+            fp.filter(bogey => _.keys(bogey.orders).length > 0),
+        )(state);
+
+        expect(still_with_orders).toEqual([]);
+
+        // Enkidu still have a drive section
+        expect(state.bogeys.enkidu).toHaveProperty('drive.current');
+
+        expect(state.log.filter((a: any) => a.type === 'PUSH_ACTION_STACK')).toHaveLength(0);
+
+        expect(without_ts(state)).toMatchSnapshot();
+
+        expect(state.bogeys.enkidu.navigation).toMatchObject({
+            heading: 1,
+            velocity: 1,
+            coords: [1.5, 0.87],
+        });
+
+        expect(state.bogeys.siduri.navigation).toMatchObject({
+            heading: 6,
+            velocity: 1,
+            coords: [10, 9],
+        });
+    },
 };
 
-turn_directives[2] = {
+turns[2] = {
     actions: [
         set_orders('enkidu', {
             firecons: [{ target_id: 'siduri' }],
@@ -99,6 +144,89 @@ turn_directives[2] = {
         play_turn(),
     ],
     dice: [[6, 5], [3], [1], [1], [90]],
+    tests(state) {
+        expect(state.bogeys.enkidu.weaponry.firecons[0]).toMatchObject({ id: 0, target_id: 'siduri' });
+
+        const enkidu = get_bogey(state, 'enkidu');
+        const siduri = get_bogey(state, 'siduri');
+
+        expect(enkidu.weaponry.weapons[1]).toHaveProperty('firecon_id', 0);
+        expect(siduri).not.toHaveProperty('weaponry.weapons.0');
+
+        // writeFileSync('./battle.json', JSON.stringify(log, undefined, 2));
+
+        const this_turn = state.log.slice(fp.findLastIndex({ type: play_turn.type })(state.log));
+
+        // shoots fired!
+        expect(_.filter(this_turn, { type: weapons_firing_phase.type })).toHaveLength(1);
+
+        expect(_.filter(this_turn, { type: fire_weapon.type })).not.toHaveLength(0);
+        expect(_.filter(this_turn, { type: fire_weapon_outcome.type })).not.toHaveLength(0);
+
+        // ouch, ouch, ouch
+        expect(_.filter(this_turn, { type: damage.type })).not.toHaveLength(0);
+
+        // we haz shields?
+        expect(siduri.structure.shields).toMatchObject([{ id: 0, level: 1 }, { id: 1, level: 2 }]);
+
+        // the shields should absorb some of the damage
+        expect(_.filter(this_turn, damage('siduri', 2))).not.toHaveLength(0);
+
+        // and we have some internal damage too
+        let internal_damage_actions = _.filter(this_turn, { type: 'INTERNAL_DAMAGE' });
+        expect(internal_damage_actions).not.toHaveLength(0);
+
+        expect(siduri).toMatchObject({
+            structure: {
+                hull: { current: 3, rating: 4 },
+                armor: { current: 3, rating: 4 },
+            },
+            drive: {
+                current: 3,
+                damage_level: 1,
+                rating: 6,
+            },
+        });
+
+        // only siduri gets damage
+        expect(state.bogeys.enkidu.structure).toMatchObject({
+            hull: { current: 4 },
+            armor: { current: 4 },
+        });
+
+        debug(pretty_log(this_turn));
+    },
+};
+
+type TestFunc = (battle: BattleState) => void;
+const turn_tests: TestFunc[] = [];
+
+function pretty_log(log: LogState) {
+    return log.map(({ type, payload }: any) => ({ [type]: payload }));
+}
+
+// turn 3, we stop and fire like mad
+turns[3] = {
+    actions: [
+        ...['enkidu', 'siduri'].map(bogey_id => set_orders(bogey_id, { navigation: { thrust: -1 } })),
+        play_turn(),
+    ],
+    dice: [[4, 1], []],
+    tests(state) {
+        const { enkidu, siduri } = state.bogeys;
+
+        [enkidu, siduri].forEach(ship => expect(ship).toHaveProperty('navigation.velocity', 0));
+
+        expect(siduri).toMatchObject({
+            drive: {
+                damage_level: 1,
+                current: 3,
+            },
+            navigation: {
+                thrust_used: 1,
+            },
+        });
+    },
 };
 
 const battle = new Battle({});
@@ -107,146 +235,19 @@ const battle = new Battle({});
 // wsEngine: 'uws',
 //},
 
-type TestFunc = (battle: BattleState) => void;
-const turn_tests: TestFunc[] = [];
+const manage_turn = function(battle: Battle, directives: TurnDirective) {
+    _.get(directives, 'dice', []).forEach((result: any) => dice.default.mockImplementationOnce(() => result));
 
-turn_tests[0] = state => {
-    expect(state).toMatchObject({});
+    directives.actions.forEach(a => battle.dispatch(a));
+
+    directives.end_state = battle.state;
 };
 
-turn_tests[1] = state => {
-    expect(state).toHaveProperty('game.turn', 1);
+turns.forEach(turn => manage_turn(battle, turn));
 
-    expect(state).toMatchObject({
-        game: { name: 'gemini', turn: 1 },
-        bogeys: { enkidu: { name: 'Enkidu' }, siduri: { name: 'Siduri' } },
-    });
-
-    // let's check the log
-    expect(state).toHaveProperty('log');
-
-    expect(state.log.map((l: Action) => l.type)).toContain('INIT_GAME');
-
-    // a turn has been done!
-    expect(state.log.find((entry: any) => entry.type === 'PLAY_TURN')).toBeTruthy();
-
-    expect(_.omit(state, ['log'])).toMatchSnapshot();
-
-    // orders cleared out
-    let still_with_orders = fp.flow(
-        fp.get('bogeys'),
-        fp.values,
-        fp.filter(bogey => _.keys(bogey.orders).length > 0),
-    )(state);
-
-    expect(still_with_orders).toEqual([]);
-
-    // Enkidu still have a drive section
-    expect(state.bogeys.enkidu).toHaveProperty('drive.current');
-
-    expect(state.log.filter((a: any) => a.type === 'PUSH_ACTION_STACK')).toHaveLength(0);
-
-    expect(without_ts(state)).toMatchSnapshot();
-
-    expect(state.bogeys.enkidu.navigation).toMatchObject({
-        heading: 1,
-        velocity: 1,
-        coords: [1.5, 0.87],
-    });
-
-    expect(state.bogeys.siduri.navigation).toMatchObject({
-        heading: 6,
-        velocity: 1,
-        coords: [10, 9],
-    });
-};
-
-function pretty_log(log: LogState) {
-    return log.map(({ type, payload }: any) => ({ [type]: payload }));
-}
-
-turn_tests[2] = state => {
-    expect(state.bogeys.enkidu.weaponry.firecons[0]).toMatchObject({ id: 0, target_id: 'siduri' });
-
-    const enkidu = get_bogey(state, 'enkidu');
-    const siduri = get_bogey(state, 'siduri');
-
-    expect(enkidu.weaponry.weapons[1]).toHaveProperty('firecon_id', 0);
-    expect(siduri).not.toHaveProperty('weaponry.weapons.0');
-
-    // writeFileSync('./battle.json', JSON.stringify(log, undefined, 2));
-
-    const this_turn = state.log.slice(fp.findLastIndex({ type: play_turn.type })(state.log));
-
-    // shoots fired!
-    expect(_.filter(this_turn, { type: weapons_firing_phase.type })).toHaveLength(1);
-
-    expect(_.filter(this_turn, { type: fire_weapon.type })).not.toHaveLength(0);
-    expect(_.filter(this_turn, { type: fire_weapon_outcome.type })).not.toHaveLength(0);
-
-    // ouch, ouch, ouch
-    expect(_.filter(this_turn, { type: damage.type })).not.toHaveLength(0);
-
-    // we haz shields?
-    expect(siduri.structure.shields).toMatchObject([{ id: 0, level: 1 }, { id: 1, level: 2 }]);
-
-    // the shields should absorb some of the damage
-    expect(_.filter(this_turn, damage('siduri', 2))).not.toHaveLength(0);
-
-    // and we have some internal damage too
-    let internal_damage_actions = _.filter(this_turn, { type: 'INTERNAL_DAMAGE' });
-    expect(internal_damage_actions).not.toHaveLength(0);
-
-    expect(siduri).toMatchObject({
-        structure: {
-            hull: { current: 3, rating: 4 },
-            armor: { current: 3, rating: 4 },
-        },
-        drive: {
-            current: 3,
-            damage_level: 1,
-            rating: 6,
-        },
-    });
-
-    // only siduri gets damage
-    expect(state.bogeys.enkidu.structure).toMatchObject({
-        hull: { current: 4 },
-        armor: { current: 4 },
-    });
-
-    debug(pretty_log(this_turn));
-};
-
-// turn 3, we stop and fire like mad
-turn_directives[3] = {
-    actions: [
-        ...['enkidu', 'siduri'].map(bogey_id => set_orders(bogey_id, { navigation: { thrust: -1 } })),
-        play_turn(),
-    ],
-    dice: [[4, 1], []],
-};
-
-turn_tests[3] = state => {
-    const { enkidu, siduri } = state.bogeys;
-
-    [enkidu, siduri].forEach(ship => expect(ship).toHaveProperty('navigation.velocity', 0));
-
-    expect(siduri).toMatchObject({
-        drive: {
-            damage_level: 1,
-            current: 3,
-        },
-        navigation: {
-            thrust_used: 1,
-        },
-    });
-};
-
-const turns = turn_directives.map((d: any) => manage_turn(battle, d));
-
-describe.each(turn_tests.map((t, i) => [i, t]))('turns', function(i: any, tests: any) {
+describe.each(turns.map((t, i) => [i, t]))('turns', function(i: any, turn: any) {
     test('turn ' + i, function() {
-        tests(turns[i]);
+        turn.tests(turn.end_state);
+        expect(u({ log: scrub_timestamps })(turn.end_state)).toMatchSnapshot('turn_' + i);
     });
 });
