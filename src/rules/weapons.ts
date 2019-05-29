@@ -82,11 +82,11 @@ export function fire_weapon(
         return outcome;
     }
 
-    outcome.damage_dice = roll_dice(nbr_dice);
+    outcome.damage_dice = roll_dice(nbr_dice, { note: 'fire_weapon' });
 
     const nbr_p_dice = outcome.damage_dice.filter(d => d === 6).length;
 
-    outcome.penetrating_damage_dice = roll_dice(nbr_p_dice, { reroll: [6] });
+    outcome.penetrating_damage_dice = roll_dice(nbr_p_dice, { reroll: [6], note: 'fire_weapon penetrating damage' });
 
     // if the target gets it in Aft, all damages are penetrating
     if (in_arcs(['A'], relative_coords(target.navigation, attacker.navigation).bearing)) {

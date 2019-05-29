@@ -32,6 +32,7 @@ redactor.for(damage, ({ payload: { damage, is_penetrating } }) => state => {
 
     if (armor && !is_penetrating) {
         const armor_damage = fp.min([fp.ceil(damage / 2), armor]);
+        console.log('XXX', armor_damage, damage);
         damage -= armor_damage;
         update.armor = dec_current(armor_damage);
     }

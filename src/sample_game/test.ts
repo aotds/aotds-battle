@@ -17,10 +17,6 @@ import { BattleState } from '../store/types';
 jest.mock('../dice');
 const dice = require('../dice');
 
-dice.default = jest.fn().mockImplementation((...args) => {
-    throw new Error('roll dice needs mocking: ' + JSON.stringify(args));
-});
-
 expect.addSnapshotSerializer({
     test: () => true,
     print: val => JSON.stringify(val, null, 2),
@@ -193,8 +189,6 @@ turns[2] = {
             hull: { current: 4 },
             armor: { current: 4 },
         });
-
-        debug(pretty_log(this_turn));
     },
 };
 
@@ -229,6 +223,74 @@ turns[3] = {
     },
 };
 
+turns[4] = {
+    actions: [play_turn()],
+    dice: [[6, 1], [6, 1], [5], [90], [90]],
+    tests(state) {
+        const { siduri, enkidu } = state.bogeys;
+
+        expect(siduri.structure).toMatchObject({
+            hull: { current: 2, rating: 4 },
+            armor: { current: 2, rating: 4 },
+        });
+
+        expect(siduri.drive).toMatchObject({
+            damage_level: 2,
+            current: 0,
+        });
+    },
+};
+
+turns[5] = {
+    actions: [play_turn()],
+    dice: [[5, 3], [], [90], [90]],
+    tests(state) {
+        const { siduri } = state.bogeys;
+        debug(pretty_log(state.log));
+        expect(siduri.structure).toMatchObject({
+            hull: { current: 2, rating: 4 },
+            armor: { current: 1, rating: 4 },
+        });
+    },
+};
+
+turns[6] = {
+    actions: [play_turn()],
+    dice: [[5, 6], [2], [90], [90]],
+    tests(state) {
+        const { siduri } = state.bogeys;
+
+        expect(siduri.structure).toMatchObject({
+            hull: { current: 1 },
+            armor: { current: 0 },
+        });
+    },
+};
+
+turns[7] = {
+    actions: [play_turn()],
+    dice: [[5, 2], [], [90], [90], [90]],
+    tests(state) {
+        const { siduri } = state.bogeys;
+
+        expect(siduri.structure).toMatchObject({
+            hull: { current: 0 },
+            armor: { current: 0 },
+            destroyed: true,
+        });
+    },
+};
+
+turns[8] = {
+    actions: [play_turn()],
+    dice: [],
+    tests(state) {
+        const { siduri } = state.bogeys;
+        expect(state.bogeys).not.toHaveProperty('siduri');
+        expect(state.bogeys).toHaveProperty('enkidu');
+    },
+};
+
 const battle = new Battle({});
 //devtools: {
 // suppressConnectErrors: false,
@@ -236,6 +298,12 @@ const battle = new Battle({});
 //},
 
 const manage_turn = function(battle: Battle, directives: TurnDirective) {
+    dice.default.mockReset();
+
+    dice.default.mockImplementation((...args: any) => {
+        throw new Error('roll dice needs mocking: ' + JSON.stringify(args));
+    });
+
     _.get(directives, 'dice', []).forEach((result: any) => dice.default.mockImplementationOnce(() => result));
 
     directives.actions.forEach(a => battle.dispatch(a));

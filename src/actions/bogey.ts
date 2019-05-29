@@ -88,5 +88,5 @@ export const internal_damage = action('INTERNAL_DAMAGE', (bogey_id: string, dama
         d.system = { type: system[0], id: system[1] } as any;
     }
 
-    return { bogey_id, ...d };
+    return { bogey_id, ...(d as InternalDamage) };
 });

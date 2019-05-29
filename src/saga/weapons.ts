@@ -111,7 +111,7 @@ function *internal_damage_check() {
                     internal_damage_weapons,
                     internal_damage_shields
                 ].map( (x:any) => x(state.bogeys[bogey_id],threshold) ) )
-                .map(system => ({system, check: { threshold, die: dice(1,{ nbr_faces: 100 })[0]  }} ))
+                .map(system => ({system, check: { threshold, die: dice(1,{ nbr_faces: 100, note: `internal damage check ${JSON.stringify(system)}` })[0]  }} ))
                 .map( id => ({ hit: id.check.die <= id.check.threshold, ...id } ) )
                 .filter( ({hit}) => hit ).map( id =>
                     internal_damage( bogey_id, id )
