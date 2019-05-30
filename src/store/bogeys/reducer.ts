@@ -34,8 +34,6 @@ redactor.for(bogey_firecon_orders, reduce_single_bogey('bogey_id'));
 redactor.for(bogey_weapon_orders, reduce_single_bogey('bogey_id'));
 redactor.for(damage, reduce_single_bogey('bogey_id'));
 
-redactor.for(play_turn, () => fp.omitBy(
-    fp.get('structure.destroyed')
-));
+redactor.for(play_turn, () => fp.omitBy('structure.destroyed'));
 
 export default redactor.asReducer;
