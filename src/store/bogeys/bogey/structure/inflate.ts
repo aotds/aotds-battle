@@ -2,7 +2,7 @@
 
 import u from 'updeep';
 import fp from 'lodash/fp';
-import { ShieldStateShorthand, Shield, StructureStateShorthand, StructureState } from './types';
+import { ShieldStateShorthand, ShieldState, StructureStateShorthand, StructureState } from './types';
 
 const add_ids = u.map((v: unknown, id: number) => u({ id }, v));
 
@@ -11,7 +11,7 @@ const inflate_rating = u.if(fp.isNumber, (rating: number) => ({
     rating,
 }));
 
-function inflate_shields(shorthand: ShieldStateShorthand[]): Shield[] {
+function inflate_shields(shorthand: ShieldStateShorthand[]): ShieldState[] {
     return add_ids(u.map(u.if(fp.isNumber, (level: number) => ({ level })), shorthand));
 }
 
