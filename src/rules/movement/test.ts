@@ -6,6 +6,9 @@ import { NavigationState, Coords } from "../../store/bogeys/bogey/navigation/typ
 import { BogeyState } from "../../store/bogeys/bogey/types";
 import { NavOrdersState } from "../../store/bogeys/bogey/orders/types";
 
+const debug = require('debug')('aotds:rules:test');
+
+
 test("move_thrust", () => {
   let ship: NavigationState = { coords: [0, 0], heading: 1, velocity: 0 };
 
@@ -245,4 +248,29 @@ test("maneuvers", () => {
     bank: [-3, 3],
     turn: [-3, 3]
   });
+});
+
+test( "course is stable", () => {
+
+  let ship = {
+    navigation: { coords: [0, 0], velocity: 2, heading: 0 },
+    drive: { current: 6 },
+  } as BogeyState;
+
+  let course = plot_movement( with_orders({ bank: -1, thrust: -1, turn: 2 })(ship));
+
+  // don't recursively accumulate coursey cruft
+  expect(course).not.toHaveProperty('course');
+
+  ship = u.updateIn( 'navigation.course', u.constant( course), ship );
+
+  expect(ship).not.toHaveProperty('navigation.course.course');
+
+  course = plot_movement(ship);
+  expect(course).not.toHaveProperty('course');
+
+  ship = u.updateIn( 'navigation.course', u.constant( course), ship );
+
+  expect(ship).not.toHaveProperty('navigation.course.course');
+
 });
