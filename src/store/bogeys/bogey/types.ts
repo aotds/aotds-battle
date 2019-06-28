@@ -7,6 +7,7 @@ import { StructureState } from "./structure/types";
 
 export type BogeyStateShorthand = {
     id: string,
+    name: string,
     navigation: NavigationState,
     orders: OrdersState,
     drive: DriveState,
@@ -20,6 +21,7 @@ export type BogeyStateShorthand = {
 
 export type BogeyState = {
     id: string,
+    name: string,
     navigation: NavigationState,
     orders: OrdersState,
     drive: DriveState,

@@ -3,7 +3,7 @@ import fp from 'lodash/fp';
 import { compose, createStore, applyMiddleware } from "redux";
 import { Action } from '../reducer/types';
 import reducer from '../store/reducer';
-import { try_play_turn } from '../store/actions/phases';
+import { try_play_turn, init_game, InitGamePayload } from '../store/actions/phases';
 import { log_skipper } from '../store/log/middleware';
 import { timestamp } from '../store/middleware/timestamp';
 import { action_id_mw_gen } from '../store/middleware/action_id';
@@ -14,17 +14,19 @@ import { mw_weapons_firing_phase } from '../middleware/weapons_firing_phase';
 
 import rootSaga from '../saga';
 import createSagaMiddleware from '@redux-saga/core';
+import { set_orders } from '../store/bogeys/bogey/actions';
+import { OrdersState } from '../store/bogeys/bogey/orders/types';
 
 type BattleOpts = {
     devtools?: {},
     state?: {}
 }
 
-export default class Battle {
+export class Battle {
 
     store: any;
 
-    constructor( opts: BattleOpts ) {
+    constructor( opts: BattleOpts = {} ) {
 
         const sagaMiddleware = createSagaMiddleware();
 
@@ -61,4 +63,14 @@ export default class Battle {
         this.store.dispatch(action);
     }
 
+    init(config: InitGamePayload) {
+        this.dispatch( init_game(config) )
+    }
+
+    set_orders( bogey_id: string, orders: OrdersState ) {
+        this.dispatch( set_orders( bogey_id, orders ) );
+    }
+
 }
+
+export default Battle;

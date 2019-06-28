@@ -7,6 +7,8 @@ type TrajectoryPosition = {
     coords: Coords
 };
 
+type Trajectory = [ TrajectoryPosition ]
+
 export type NavigationState = {
     coords: Coords,
     heading: number,
@@ -16,8 +18,9 @@ export type NavigationState = {
         turn: Range,
         bank: Range,
     },
-    trajectory?: [
-        TrajectoryPosition
-    ],
+    // where we are going with the current orders
+    course?: NavigationState,
+    // course of last turn
+    trajectory?: Trajectory,
     thrust_used?: number;
 };
