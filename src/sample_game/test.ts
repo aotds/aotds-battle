@@ -291,7 +291,7 @@ turns[8] = {
     },
 };
 
-const battle = new Battle({});
+const battle = new Battle({ name: 'gemini' });
 //devtools: {
 // suppressConnectErrors: false,
 // wsEngine: 'uws',

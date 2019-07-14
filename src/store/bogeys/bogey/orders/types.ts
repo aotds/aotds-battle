@@ -14,6 +14,7 @@ export type FireconOrdersState = {
 };
 
 export type OrdersState = {
+  issued?: boolean | string;  // can be a timestamp
   navigation?: NavOrdersState;
   firecons?: FireconOrdersState[];
   weapons?: WeaponOrdersState[];

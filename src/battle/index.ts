@@ -1,6 +1,6 @@
 import fp from 'lodash/fp';
 
-import { compose, createStore, applyMiddleware } from "redux";
+import { compose, createStore, applyMiddleware, Store, Reducer } from 'redux';
 import { Action } from '../reducer/types';
 import reducer from '../store/reducer';
 import { try_play_turn, init_game, InitGamePayload } from '../store/actions/phases';
@@ -17,21 +17,29 @@ import createSagaMiddleware from '@redux-saga/core';
 import { set_orders } from '../store/bogeys/bogey/actions';
 import { OrdersState } from '../store/bogeys/bogey/orders/types';
 
+import { BattleState } from '../store/types';
+
 type BattleOpts = {
-    devtools?: {},
-    state?: {}
-}
+    name: string;
+    devtools?: {};
+    state?: {};
+    persist?: {
+        storage: any,
+        persistReducer: Function,
+    };
+};
 
 export class Battle {
+    store: Store<BattleState>;
 
-    store: any;
+    persistor?: any;
+    ready?: Promise<Battle>;
 
-    constructor( opts: BattleOpts = {} ) {
-
+    constructor(opts: BattleOpts) {
         const sagaMiddleware = createSagaMiddleware();
 
         let enhancers = applyMiddleware(
-            log_skipper([ 'TRY_PLAY_TURN' ]),
+            log_skipper(['TRY_PLAY_TURN']),
             timestamp,
             action_id_mw_gen(),
             mw_play_phases,
@@ -41,36 +49,46 @@ export class Battle {
             mw_weapons_firing_phase,
         );
 
-        if( opts.devtools) {
+        if (opts.devtools) {
             enhancers = require('remote-redux-devtools').composeWithDevTools(
-                fp.defaults({port: 8000, hostname: 'localhost'}, opts.devtools)
-            )( enhancers )
+                fp.defaults({ port: 8000, hostname: 'localhost' }, opts.devtools),
+            )(enhancers);
         }
 
-        this.store = createStore(
-            reducer,
-            opts.state,
-            enhancers,
-        );
+        let myReducer = reducer;
+
+        if (opts.persist) {
+            let pr = opts.persist.persistReducer || require('redux-persist-pouchdb').persistReducer;
+
+
+            myReducer = pr({storage : opts.persist.storage, key: opts.name },myReducer);
+        }
+
+        this.store = createStore(myReducer, opts.state, enhancers);
 
         sagaMiddleware.run(rootSaga);
 
+        if (opts.persist) {
+            this.ready = new Promise((accept, reject) => {
+                const { persistStore } = require('redux-persist');
+                this.persistor = persistStore(this.store, null, () => {
+                    accept(this);
+                });
+            });
+        }
     }
 
-    get state() { return this.store.getState() }
-
-    dispatch(action :Action) {
-        this.store.dispatch(action);
+    dispatch(action: Action) {
+        return this.store.dispatch(action);
     }
 
-    init(config: InitGamePayload) {
-        this.dispatch( init_game(config) )
+    get state(): BattleState {
+        return this.getState();
     }
 
-    set_orders( bogey_id: string, orders: OrdersState ) {
-        this.dispatch( set_orders( bogey_id, orders ) );
+    getState() {
+        return this.store.getState();
     }
-
 }
 
 export default Battle;
