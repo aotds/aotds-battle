@@ -29,7 +29,7 @@ type TurnDirective = {
     end_state?: BattleState;
 };
 
-const turns: TurnDirective[] = [];
+let turns: TurnDirective[] = [];
 
 function scrub_timestamps(log: LogState) {
     return u.map(
@@ -168,6 +168,7 @@ turns[2] = {
         // the shields should absorb some of the damage
         expect(_.filter(this_turn, damage('siduri', 2))).not.toHaveLength(0);
 
+        debug(this_turn);
         // and we have some internal damage too
         let internal_damage_actions = _.filter(this_turn, { type: 'INTERNAL_DAMAGE' });
         expect(internal_damage_actions).not.toHaveLength(0);
@@ -311,6 +312,7 @@ const manage_turn = function(battle: Battle, directives: TurnDirective) {
     directives.end_state = battle.state;
 };
 
+turns = turns.splice(0, 3);
 turns.forEach(turn => manage_turn(battle, turn));
 
 describe.each(turns.map((t, i) => [i, t]))('turns', function(i: any, turn: any) {

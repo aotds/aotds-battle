@@ -7,10 +7,15 @@ import { mw_for } from '../middleware/utils';
 import { Middleware } from 'redux';
 import { Action, ActionCreator } from '../reducer/types';
 
-export function subactions_mw_for(parent_action: ActionCreator, subactions_mw: Middleware) {
+export function mw_subactions_for(parent_action: ActionCreator, subactions_mw: Middleware) {
     return mw_for(parent_action, api => next => action => {
         next(action);
 
-        return subactions_mw(api)(next)(action);
+        let parents = action.meta.parent_ids || [];
+        parents = [...parents, action.meta.id];
+
+        const dispatch = (action: Action) => api.dispatch(u.updateIn('meta.parent_ids', parents, action));
+
+        return subactions_mw({ ...api, dispatch })(next)(action);
     });
 }

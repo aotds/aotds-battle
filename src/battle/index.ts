@@ -10,14 +10,14 @@ import { action_id_mw_gen } from '../store/middleware/action_id';
 import mw_play_phases from '../store/middleware/play_phases';
 import mw_bogey_firecon_orders from '../middleware/firecons_phase';
 import mw_bogey_weapon_orders from '../middleware/weapons_phase';
-import { mw_weapons_firing_phase } from '../middleware/weapons_firing_phase';
 
-import rootSaga from '../saga';
-import createSagaMiddleware from '@redux-saga/core';
 import { set_orders } from '../store/bogeys/bogey/actions';
 import { OrdersState } from '../store/bogeys/bogey/orders/types';
 
 import { BattleState } from '../store/types';
+
+import mw_assess_turn from '../middleware/turn';
+import { mw_movement_phase } from '../middleware/movement_phase';
 
 type BattleOpts = {
     name: string;
@@ -36,17 +36,16 @@ export class Battle {
     ready?: Promise<Battle>;
 
     constructor(opts: BattleOpts) {
-        const sagaMiddleware = createSagaMiddleware();
 
         let enhancers = applyMiddleware(
             log_skipper(['TRY_PLAY_TURN']),
             timestamp,
             action_id_mw_gen(),
+            mw_assess_turn,
             mw_play_phases,
             mw_bogey_firecon_orders,
             mw_bogey_weapon_orders,
-            sagaMiddleware,
-            mw_weapons_firing_phase,
+            mw_movement_phase,
         );
 
         if (opts.devtools) {
@@ -65,8 +64,6 @@ export class Battle {
         }
 
         this.store = createStore(myReducer, opts.state, enhancers);
-
-        sagaMiddleware.run(rootSaga);
 
         if (opts.persist) {
             this.ready = new Promise((accept, reject) => {

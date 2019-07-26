@@ -61,7 +61,7 @@ test('bogey_firecon_orders', () => {
         siduri: { id: 'siduri' },
     };
 
-    let state = reducer(original_state, bogey_firecon_orders('enkidu', 0, { target_id: 'siduri' }));
+    let state = reducer(original_state, bogey_firecon_orders('enkidu', 0, { target_id: 'siduri' } as any));
 
     expect(state).toHaveProperty('enkidu.weaponry.firecons.0.target_id', 'siduri');
 });
@@ -77,7 +77,7 @@ test('bogey_weapon_orders', () => {
         siduri: { id: 'siduri' },
     };
 
-    let state = reducer(original_state, bogey_weapon_orders('enkidu', 0, { firecon_id: 0 }));
+    let state = reducer(original_state, bogey_weapon_orders('enkidu', 0, { firecon_id: 0 } as any));
 
     expect(state).toHaveProperty('enkidu.weaponry.weapons.0.firecon_id', 0);
 });
