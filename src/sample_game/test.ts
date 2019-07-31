@@ -29,7 +29,7 @@ type TurnDirective = {
     end_state?: BattleState;
 };
 
-const turns: TurnDirective[] = [];
+let turns: TurnDirective[] = [];
 
 function scrub_timestamps(log: LogState) {
     return u.map(
@@ -134,8 +134,8 @@ turns[1] = {
 turns[2] = {
     actions: [
         set_orders('enkidu', {
-            firecons: [{ target_id: 'siduri' }],
-            weapons: [{ firecon_id: 0 }, { firecon_id: 0 }, { firecon_id: 0 }],
+            firecons: [{ firecon_id: 0, target_id: 'siduri' }],
+            weapons: [{ weapon_id: 0, firecon_id: 0 }, { weapon_id: 1, firecon_id: 0 }, { weapon_id: 2, firecon_id: 0 }],
         }),
         play_turn(),
     ],
@@ -151,7 +151,7 @@ turns[2] = {
 
         // writeFileSync('./battle.json', JSON.stringify(log, undefined, 2));
 
-        const this_turn = state.log.slice(fp.findLastIndex({ type: play_turn.type })(state.log));
+        const this_turn :any  = state.log.slice(fp.findLastIndex({ type: play_turn.type }, state.log));
 
         // shoots fired!
         expect(_.filter(this_turn, { type: weapons_firing_phase.type })).toHaveLength(1);
@@ -168,6 +168,7 @@ turns[2] = {
         // the shields should absorb some of the damage
         expect(_.filter(this_turn, damage('siduri', 2))).not.toHaveLength(0);
 
+        debug(this_turn);
         // and we have some internal damage too
         let internal_damage_actions = _.filter(this_turn, { type: 'INTERNAL_DAMAGE' });
         expect(internal_damage_actions).not.toHaveLength(0);
@@ -291,7 +292,7 @@ turns[8] = {
     },
 };
 
-const battle = new Battle({});
+const battle = new Battle({ name: 'gemini' });
 //devtools: {
 // suppressConnectErrors: false,
 // wsEngine: 'uws',
@@ -308,14 +309,27 @@ const manage_turn = function(battle: Battle, directives: TurnDirective) {
 
     directives.actions.forEach(a => battle.dispatch(a));
 
-    directives.end_state = battle.state;
+    directives.end_state = _.cloneDeep( battle.state );
 };
 
+turns = turns.splice(0, 2);
 turns.forEach(turn => manage_turn(battle, turn));
 
+function scrub_log(log: LogState) {
+    return u.map( 
+        {
+            meta: u.omitted,
+            subactions: u.if( _.identity, scrub_log )
+        }, log
+    );
+}
+
+function snapshot_scrub(state: BattleState ) {
+    return u({log: scrub_log }, state);
+}
 describe.each(turns.map((t, i) => [i, t]))('turns', function(i: any, turn: any) {
     test('turn ' + i, function() {
         turn.tests(turn.end_state);
-        expect(u({ log: scrub_timestamps })(turn.end_state)).toMatchSnapshot('turn_' + i);
+        expect( snapshot_scrub( turn.end_state ) ).toMatchSnapshot('turn_' + i);
     });
 });

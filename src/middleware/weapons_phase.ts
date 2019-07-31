@@ -1,4 +1,4 @@
-import { subactions_mw_for } from "./subactions";
+import { mw_subactions_for } from "./subactions";
 import { Middleware } from "redux";
 import { get_bogeys } from "../store/selectors";
 import _ from 'lodash';
@@ -19,5 +19,5 @@ export const bogey_weapon : Middleware = ({getState,dispatch}) => () => () => {
 
 };
 
-const mw_bogey_weapon_orders = subactions_mw_for( weapons_order_phase, bogey_weapon );
+const mw_bogey_weapon_orders = mw_subactions_for( weapons_order_phase, bogey_weapon );
 export default mw_bogey_weapon_orders;

@@ -11,7 +11,7 @@ import roll_dice from '../dice';
 import { NavigationState } from '../store/bogeys/bogey/navigation/types';
 import { oc } from 'ts-optchain';
 import { FireWeaponOutcome } from './types';
-import { Shield } from '../store/bogeys/bogey/structure/types';
+import { ShieldState } from '../store/bogeys/bogey/structure/types';
 
 export function relative_coords(
     ship: NavigationState,
@@ -122,7 +122,7 @@ export function weapon_damage(
         _.max(
             oc(bogey)
                 .structure.shields([])
-                .filter((s: Shield) => !s.damaged)
+                .filter((s: ShieldState) => !s.damaged)
                 .map(s => s.level),
         ),
     );

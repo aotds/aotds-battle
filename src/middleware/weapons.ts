@@ -1,5 +1,4 @@
-import { fire_weapon } from "../store/actions/phases";
-import { takeEvery, select, call, put, takeLeading, fork, take } from "redux-saga/effects";
+import { fire_weapon, weapons_firing_phase } from "../store/actions/phases";
 import { action } from "../actions";
 import { get_bogey } from "../store/selectors";
 import * as rules from '../rules/weapons';
@@ -14,39 +13,41 @@ import u from 'updeep';
 import dice from '../dice';
 import { oc } from 'ts-optchain';
 import { BogeyState } from "../store/bogeys/bogey/types";
+import { mw_for, mw_compose } from './utils';
+import weapons_firing_phase_mw from './weapons_firing_phase';
 
 
-function *fire_weapon_outcome_saga(action: ReturnType<typeof fire_weapon>) {
-    let attacker = yield select( get_bogey, action.payload.bogey_id );
-    let target = yield select( get_bogey, action.payload.target_id );
+const fire_weapon_mw = mw_for( fire_weapon, ({getState,dispatch}) => (next) => (action) => {
+
+    let attacker = get_bogey( getState(), action.payload.bogey_id );
+    let target =  get_bogey( getState(), action.payload.target_id );
     let weapon = attacker.weaponry.weapons[ action.payload.weapon_id ];
 
     const outcome = fire_weapon_outcome(
         action.payload.bogey_id,
         action.payload.target_id,
-        yield call( rules.fire_weapon, attacker, target, weapon )
+        rules.fire_weapon(attacker, target, weapon )
     );
 
-    yield put(outcome);
-}
+    dispatch( outcome );
+});
 
-function *weapon_damage( action: ReturnType<typeof fire_weapon_outcome>) {
-    const { payload: { target_id, damage_dice = [], penetrating_damage_dice = [] } } = action;
+const weapon_damage = mw_for( fire_weapon_outcome,
+  ({getState,dispatch}) => next => action => {
+        const { payload: { target_id, damage_dice = [], penetrating_damage_dice = [] } } = action;
 
-    let target = yield select( get_bogey, target_id );
+    let target = get_bogey( getState(), target_id );
 
     if(damage_dice.length > 0 ) {
         const result = rules.weapon_damage( target, damage_dice, false );
-        yield put( damage( target.id, result.damage, result.is_penetrating ) );
+        dispatch( damage( target.id, result.damage, result.is_penetrating ) );
     }
 
     if(penetrating_damage_dice.length > 0 ) {
         const result = rules.weapon_damage( target, penetrating_damage_dice, true );
-        yield put( damage( target.id, result.damage, result.is_penetrating ) );
+        dispatch( damage( target.id, result.damage, result.is_penetrating ) );
     }
-
-}
-
+});
 
 type InternalDamageResolver = (
   ship: BogeyState,
@@ -88,46 +89,43 @@ const internal_damage_shields : InternalCheck = bogey  =>
     .map((id: number) => ({type: 'shield', id }));
 
 
-function *internal_damage_check() {
-    let previous_state = {} as BattleState;
+const internal_damage_check = mw_for( damage, ({getState,dispatch})=>(next)=>(action) => {
 
-    while(true) {
-        const action = yield take();
-        const state = yield select();
+    const bogey_id = action.payload.target_id;
 
-        if( isType( action, damage ) ) {
-            const bogey_id = action.payload.bogey_id;
+    let bogey = get_bogey( getState(), bogey_id );
 
-            const get_hull : (x:any) => number = fp.getOr(0)([ 'bogeys', bogey_id, 'structure', 'hull', 'current' ]);
+    let before = bogey.structure.hull.current;
 
-            const delta = get_hull(previous_state) - get_hull(state);
+    next(action);
+
+    bogey = get_bogey( getState(), bogey_id );
+
+    let delta = before - bogey.structure.hull.current;
 
             if( delta > 0 ) {
-                const threshold = 100 * delta / ( fp.getOr(1)(['bogeys', bogey_id, 'structure', 'hull', 'rating' ] )(state) as number );
+                console.log("H*NK");
+                const threshold = 100 * delta / ( fp.getOr(1)(['bogeys', bogey_id, 'structure', 'hull', 'rating' ] )(bogey) as number );
 
-                yield* _.flattenDeep([
+                _.flattenDeep([
                     internal_damage_drive,
                     internal_damage_firecons,
                     internal_damage_weapons,
                     internal_damage_shields
-                ].map( (x:any) => x(state.bogeys[bogey_id],threshold) ) )
+                ].map( (x:any) => x(bogey,threshold) ) )
                 .map(system => ({system, check: { threshold, die: dice(1,{ nbr_faces: 100, note: `internal damage check ${JSON.stringify(system)}` })[0]  }} ))
                 .map( id => ({ hit: id.check.die <= id.check.threshold, ...id } ) )
                 .filter( ({hit}) => hit ).map( id =>
                     internal_damage( bogey_id, id )
-                ).map( x => put(x) );
+                ).map( x => dispatch(x) );
             }
 
-        }
-
-        previous_state = state;
-    }
-
-}
+});
 
 
-export default function*() {
-    yield takeEvery( fire_weapon.type, fire_weapon_outcome_saga );
-    yield takeEvery( fire_weapon_outcome.type, weapon_damage );
-    yield fork( internal_damage_check );
-};
+export default mw_compose([
+    fire_weapon_mw,
+    weapon_damage,
+    weapons_firing_phase_mw,
+    internal_damage_check,
+]);

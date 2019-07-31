@@ -1,9 +1,10 @@
 {
-  "name": "battle",
+  "types": "./build/index.d.ts",
+  "name": "aotds-battle",
   "private": true,
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "build/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -16,6 +17,7 @@
     "@types/node": "^12.0.2",
     "@typescript-eslint/eslint-plugin": "^1.4.2",
     "@typescript-eslint/parser": "^1.4.2",
+    "debug": "^4.1.1",
     "eslint": "^5.15.1",
     "eslint-config-prettier": "^4.1.0",
     "eslint-plugin-import": "^2.16.0",
@@ -26,7 +28,7 @@
     "lodash": "^4.17.11",
     "prettier": "^1.16.4",
     "redux": "^4.0.1",
-    "redux-saga": "^1.0.2",
+    "redux-persist-pouchdb": "^0.1.0",
     "remote-redux-devtools": "^0.5.16",
     "sinon": "^7.3.2",
     "tap": "^13.1.11",

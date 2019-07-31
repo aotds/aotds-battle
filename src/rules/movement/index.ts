@@ -11,9 +11,12 @@ const upush = ( new_item: any ) => ( state = [] ) => [ ...state, new_item ];
 
 type BogeyMovement = Pick< BogeyState, 'navigation' | 'drive' | 'orders' >;
 
-export function plot_movement( ship: BogeyMovement ) {
-    let navigation = ship.navigation;
-    let orders = oc( ship ).orders.navigation({});
+// returns the course of the ship
+export function plot_movement( ship: BogeyMovement, orders?: NavOrdersState ) {
+
+    let navigation = fp.omit(['course'], ship.navigation);
+
+    if(!orders) orders = oc( ship ).orders.navigation({});
 
     navigation = u({ trajectory: [
         { type: 'POSITION', coords: navigation.coords }
