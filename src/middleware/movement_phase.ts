@@ -14,8 +14,10 @@ const move_bogeys = ({getState,dispatch}:any) => () => () => {
 
     for( const id of ship_ids ) {
         dispatch(
-            id,
-            plot_movement( get_bogey(getState(),id) )
+            bogey_movement(
+                id,
+                plot_movement( get_bogey(getState(),id) )
+            )
         )
     };
 };

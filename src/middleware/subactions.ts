@@ -12,7 +12,7 @@ export function mw_subactions_for(parent_action: ActionCreator, subactions_mw: M
         next(action);
 
         let parents = action.meta.parent_ids || [];
-        parents = [...parents, action.meta.id];
+        parents = [...parents, action.meta.action_id];
 
         const dispatch = (action: Action) => api.dispatch(u.updateIn('meta.parent_ids', parents, action));
 

@@ -10,7 +10,7 @@ function add_subaction( log: LogState = [], action: LogAction, parents: number[]
     if(!id) return [ ...log, action ];
 
     return u.map(
-        u.if( (log:LogAction) => log.meta.id === id,
+        u.if( (log:LogAction) => log.meta && ( log.meta.action_id === id ),
              u( { subactions: (subs:LogState) => add_subaction( subs, action, rest )
         }
             )

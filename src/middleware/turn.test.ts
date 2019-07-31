@@ -9,7 +9,7 @@ const debug = require('debug')('aotds:saga');
 test( 'no issued orders, no turn', () => {
 
     selectors.get_bogeys = jest.fn().mockReturnValueOnce(
-        [ 'yenzie', 'yanick', '' ].map( player => ({ player }) )
+        [ 'yenzie', 'yanick', '' ].map( player_id => ({ player_id }) )
     );
 
     const res = test_mw( assess_turn );
@@ -21,8 +21,8 @@ test( 'issued orders, turn triggered!', () => {
 
     selectors.get_bogeys = jest.fn().mockReturnValueOnce(
         [
-            { player: 'yanick', orders: { issued: true } },
-            { player: 'yenzie', orders: { issued: true } },
+            { player_id: 'yanick', orders: { issued: true } },
+            { player_id: 'yenzie', orders: { issued: true } },
             { id: 'asteroid' },
         ]
     );

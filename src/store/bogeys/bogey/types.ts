@@ -22,6 +22,7 @@ export type BogeyStateShorthand = {
 export type BogeyState = {
     id: string,
     name: string,
+    player_id?: string,
     navigation: NavigationState,
     orders: OrdersState,
     drive: DriveState,

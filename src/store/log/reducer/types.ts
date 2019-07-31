@@ -3,7 +3,7 @@ import { Action } from "../../../reducer/types";
 export type LogAction = Action & {
     subactions?: LogState;
     meta?: {
-        id: number,
+        action_id: number,
         parent_ids?: number[]
     }
 };
