@@ -1,5 +1,8 @@
 tasks:
-    check:
+    build:
+        cmds:
+            - tsc
+    checks:
         deps: [ lint, test ]
     lint:
         cmds:
