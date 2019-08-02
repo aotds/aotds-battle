@@ -17,6 +17,7 @@
     "@types/node": "^12.0.2",
     "@typescript-eslint/eslint-plugin": "^1.4.2",
     "@typescript-eslint/parser": "^1.4.2",
+    "aotds-battle": "^1.0.0",
     "debug": "^4.1.1",
     "eslint": "^5.15.1",
     "eslint-config-prettier": "^4.1.0",
