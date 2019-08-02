@@ -11,12 +11,12 @@ export const bogey_weapon : Middleware = ({getState,dispatch}) => () => () => {
 
     let ships = get_bogeys( getState() );
 
-    ships.forEach( ship => {
-        _.get( ship, 'orders.weapons', [] ).forEach( ( orders: WeaponOrdersState, weapon_id: number ) => {
-            dispatch( bogey_weapon_orders( ship.id, weapon_id, orders ) );
+    for( const ship of ships ) {
+        const orders = ship.orders.weapons || {};
+        Object.entries( orders ).forEach( ([ weapon_id, orders ]) => {
+            dispatch( bogey_weapon_orders( ship.id, +weapon_id, orders ) );
         });
-    });
-
+    }
 };
 
 const mw_bogey_weapon_orders = mw_subactions_for( weapons_order_phase, bogey_weapon );
