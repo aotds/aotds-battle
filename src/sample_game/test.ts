@@ -131,67 +131,7 @@ turns[1] = {
     },
 };
 
-turns[2] = {
-    actions: [
-        set_orders('enkidu', {
-            firecons: { 0: { target_id: 'siduri' } },
-            weapons: { 0: { firecon_id: 0 }, 1: { firecon_id: 0 }, 2: { firecon_id: 0 } },
-        }),
-        play_turn(),
-    ],
-    dice: [[6, 5], [3], [1], [1], [90]],
-    tests(state) {
-        expect(state.bogeys.enkidu.weaponry.firecons[0]).toMatchObject({ id: 0, target_id: 'siduri' });
-
-        const enkidu = get_bogey(state, 'enkidu');
-        const siduri = get_bogey(state, 'siduri');
-
-        expect(enkidu.weaponry.weapons[1]).toHaveProperty('firecon_id', 0);
-        expect(siduri).not.toHaveProperty('weaponry.weapons.0');
-
-        // writeFileSync('./battle.json', JSON.stringify(log, undefined, 2));
-
-        const this_turn: any = state.log.slice(fp.findLastIndex({ type: play_turn.type }, state.log));
-
-        // shoots fired!
-        expect(_.filter(this_turn, { type: weapons_firing_phase.type })).toHaveLength(1);
-
-        expect(_.filter(this_turn, { type: fire_weapon.type })).not.toHaveLength(0);
-        expect(_.filter(this_turn, { type: fire_weapon_outcome.type })).not.toHaveLength(0);
-
-        // ouch, ouch, ouch
-        expect(_.filter(this_turn, { type: damage.type })).not.toHaveLength(0);
-
-        // we haz shields?
-        expect(siduri.structure.shields).toMatchObject([{ id: 0, level: 1 }, { id: 1, level: 2 }]);
-
-        // the shields should absorb some of the damage
-        expect(_.filter(this_turn, damage('siduri', 2))).not.toHaveLength(0);
-
-        debug(this_turn);
-        // and we have some internal damage too
-        let internal_damage_actions = _.filter(this_turn, { type: 'INTERNAL_DAMAGE' });
-        expect(internal_damage_actions).not.toHaveLength(0);
-
-        expect(siduri).toMatchObject({
-            structure: {
-                hull: { current: 3, rating: 4 },
-                armor: { current: 3, rating: 4 },
-            },
-            drive: {
-                current: 3,
-                damage_level: 1,
-                rating: 6,
-            },
-        });
-
-        // only siduri gets damage
-        expect(state.bogeys.enkidu.structure).toMatchObject({
-            hull: { current: 4 },
-            armor: { current: 4 },
-        });
-    },
-};
+turns[2] = require('./turn-2');
 
 type TestFunc = (battle: BattleState) => void;
 const turn_tests: TestFunc[] = [];
@@ -297,7 +237,7 @@ const battle = new Battle({ name: 'gemini' });
 // suppressConnectErrors: false,
 // wsEngine: 'uws',
 //},
-
+let i = 0;
 const manage_turn = function(battle: Battle, directives: TurnDirective) {
     dice.default.mockReset();
 
@@ -312,7 +252,7 @@ const manage_turn = function(battle: Battle, directives: TurnDirective) {
     directives.end_state = _.cloneDeep(battle.state);
 };
 
-turns = turns.splice(0, 2);
+turns = turns.splice(0, 3);
 turns.forEach(turn => manage_turn(battle, turn));
 
 function scrub_log(log: LogState) {

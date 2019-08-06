@@ -9,14 +9,18 @@ import { get_bogey } from '../store/selectors';
 import { FireconState } from "../store/bogeys/bogey/weaponry/firecon/types";
 import { WeaponState } from "../store/bogeys/bogey/weaponry/weapon/reducer";
 
+const debug = require('debug')('aotds:mw:weapons_firing_phase');
+
 export const mw_weapons_firing_phase_inner :Middleware = ({getState,dispatch}) => () => () => {
 
     let ship_ids = get_bogeys( getState() ).map(({id})=>id);
 
     ship_ids.forEach( id => {
         const bogey = get_bogey( getState(), id );
-        oc(bogey).weaponry.firecons([]).forEach( (firecon: FireconState,firecon_id: number) => {
+        debug(bogey.id);
+        oc(bogey).weaponry.firecons([]).forEach( (firecon,firecon_id) => {
             if( ! firecon.target_id ) return;
+            debug( firecon.id );
 
             ( _.filter( oc(bogey).weaponry.weapons([]), { firecon_id }) as any ).forEach(
                 ({id:weapon_id}: WeaponState) => {

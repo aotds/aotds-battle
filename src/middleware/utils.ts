@@ -8,7 +8,7 @@ export function mw_for<A extends Action = Action>(target: ActionCreator<A>, inne
     let mw = (api: MiddlewareAPI) => (next: Dispatch) => (action: A) =>
         isType(action, target) ? inner(api)(next)(action) : next(action);
 
-    return mw as Middleware;
+    return mw;
 }
 
 export function mw_compose(mws: Middleware<any>[]): Middleware {

@@ -18,6 +18,10 @@ import { BattleState } from '../store/types';
 
 import mw_assess_turn from '../middleware/turn';
 import { mw_movement_phase } from '../middleware/movement_phase';
+import mw_weapons_firing_phase from '../middleware/weapons_firing_phase';
+import mw_weapons from '../middleware/weapons';
+
+import { middleware as battle_middleware } from '../store';
 
 type BattleOpts = {
     name: string;
@@ -46,6 +50,8 @@ export class Battle {
             mw_bogey_firecon_orders,
             mw_bogey_weapon_orders,
             mw_movement_phase,
+            mw_weapons,
+            battle_middleware
         );
 
         if (opts.devtools) {
