@@ -2,13 +2,22 @@ import Updux from 'updux';
 import { LogState, LogAction } from './reducer/types';
 import fp from 'lodash/fp';
 import u from 'updeep';
+import { Action } from 'redux';
 
 const ignore_types = [ 'TRY_PLAY_TURN' ];
+
+type BattleAction = Action<any> & {
+    meta: {
+        timestamp: number,
+        parent_ids: number[],
+        no_log?: boolean,
+    }
+}
 
 const updux = new Updux({
     initial: [],
     mutations: {
-        '*': (p, action) => state => {
+        '*': (p, action ) => state => {
             // can't be caught by the middleware
             if (/@@/.test(action.type)) return state;
 
@@ -16,12 +25,14 @@ const updux = new Updux({
 
             if( ignore_types.indexOf( action.type ) > -1 ) return state;
 
-            if (!action.meta || !action.meta.parent_ids) return [...state, action];
+            const a = action as BattleAction;
+
+            if (!a.meta || !a.meta.parent_ids) return [...state, a];
 
             return add_subaction(
                 state,
-                fp.omit('meta.parent_ids',action) as LogAction,
-                action.meta.parent_ids as number[],
+                fp.omit('meta.parent_ids',a) as LogAction,
+                a.meta.parent_ids as number[],
             );
         },
     },

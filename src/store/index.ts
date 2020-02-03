@@ -16,8 +16,6 @@ const updux = new Updux({
 
 const addTimestamp = u.updateIn('meta.timestamp', (new Date()).toISOString() );
 
-updux.addAction( 'play_turn', null );
-
 updux.addEffect(
         '*', () => next => action => next( addTimestamp(action) )
 )
