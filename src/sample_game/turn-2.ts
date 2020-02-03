@@ -34,11 +34,7 @@ const flattenSubactions = (log: LogState) =>
     log.reduce((accum, { subactions }) => (subactions ? [...accum, ...subactions] : accum), [] as LogState);
 
 function pretty_print_log(log: LogState = []): any {
-    return log
-        .map(
-            l => ({ [l.type]:  [ (l as any).payload,
-                pretty_print_log(l.subactions) ] })
-        );
+    return log.map(l => ({ [l.type]: [(l as any).payload, pretty_print_log(l.subactions)] }));
 }
 
 const debugSave = (log: any) => writeFileSync('./debug.json', JSON.stringify(pretty_print_log(log), undefined, 2));

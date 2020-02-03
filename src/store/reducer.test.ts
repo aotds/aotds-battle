@@ -1,8 +1,8 @@
-import reducer from './reducer';
+import battle from '.';
 
 test( 'extras stay', () => {
 
-    expect( reducer( { something: "else" } as any, { type: "noop" }  ) )
+    expect( battle.reducer( { something: "else" } as any, { type: "noop" }  ) )
         .toHaveProperty( "something", "else" );
 
 });

@@ -16,7 +16,6 @@ import { OrdersState } from '../store/bogeys/bogey/orders/types';
 
 import { BattleState } from '../store/types';
 
-import mw_assess_turn from '../middleware/turn';
 import { mw_movement_phase } from '../middleware/movement_phase';
 import mw_weapons_firing_phase from '../middleware/weapons_firing_phase';
 import mw_weapons from '../middleware/weapons';
@@ -45,7 +44,6 @@ export class Battle {
             log_skipper(['TRY_PLAY_TURN']),
             timestamp,
             action_id_mw_gen(),
-            mw_assess_turn,
             mw_play_phases,
             mw_bogey_firecon_orders,
             mw_bogey_weapon_orders,

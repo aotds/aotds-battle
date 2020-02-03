@@ -7,8 +7,8 @@ import { FireWeaponOutcome } from '../rules/types';
 import u from 'updeep';
 import _ from 'lodash';
 
-export const bogey_movement = action('BOGEY_MOVEMENT', (id: string, navigation: NavigationState) => ({
-    id,
+export const bogey_movement = action('BOGEY_MOVEMENT', (bogey_id: string, navigation: NavigationState) => ({
+    bogey_id,
     navigation,
 }));
 

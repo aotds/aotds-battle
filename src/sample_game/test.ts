@@ -1,11 +1,9 @@
-// @format
-
 import fp from 'lodash/fp';
 import _ from 'lodash';
 import u from 'updeep';
-import Battle from '../battle/index';
+import Battle from '../store/index';
 import initial_state from './initial_state';
-import { init_game, try_play_turn, play_turn, weapons_firing_phase, fire_weapon } from '../store/actions/phases';
+import { init_game, try_play_turn, weapons_firing_phase, fire_weapon } from '../store/actions/phases';
 import { Action, ActionCreator } from '../reducer/types';
 import { set_orders } from '../store/bogeys/bogey/actions';
 import { LogState, LogAction } from '../store/log/reducer/types';
@@ -13,6 +11,8 @@ import { get_bogey } from '../store/selectors';
 import { isType } from 'ts-action';
 import { fire_weapon_outcome, damage } from '../actions/bogey';
 import { BattleState } from '../store/types';
+
+const { play_turn } = Battle.actions;
 
 jest.mock('../dice');
 const dice = require('../dice');
@@ -31,17 +31,6 @@ type TurnDirective = {
 
 let turns: TurnDirective[] = [];
 
-function scrub_timestamps(log: LogState) {
-    return u.map(
-        {
-            meta: u.omit(['timestamp']),
-            subactions: u.if(_.identity, scrub_timestamps),
-        },
-        log,
-    );
-}
-
-const without_ts = u({ log: scrub_timestamps });
 
 const debug = require('debug')('aotds:sample');
 
@@ -62,76 +51,11 @@ const filterLogAction = _.curry(
     },
 );
 
-turns[0] = {
-    actions: [],
-    dice: [],
-    tests(state) {
-        expect(state).toMatchObject({});
-    },
-};
+turns[0] = require('./turn-0');
 
-turns[1] = {
-    actions: [
-        init_game(initial_state),
-        set_orders('enkidu', {
-            navigation: { thrust: 1, turn: 1, bank: 1 },
-        }),
-        try_play_turn(),
-        set_orders('siduri', {
-            navigation: { thrust: 1 },
-        }),
-        play_turn(),
-    ],
-    dice: [],
-    tests(state) {
-        expect(state).toHaveProperty('game.turn', 1);
+turns[1] = require('./turn-1');
 
-        expect(state).toMatchObject({
-            game: { name: 'gemini', turn: 1 },
-            bogeys: { enkidu: { name: 'Enkidu' }, siduri: { name: 'Siduri' } },
-        });
-
-        // let's check the log
-        expect(state).toHaveProperty('log');
-
-        expect(state.log.map((l: Action) => l.type)).toContain('INIT_GAME');
-
-        // a turn has been done!
-        expect(state.log.find((entry: any) => entry.type === 'PLAY_TURN')).toBeTruthy();
-
-        expect(_.omit(state, ['log'])).toMatchSnapshot();
-
-        // orders cleared out
-        let still_with_orders = fp.flow(
-            fp.get('bogeys'),
-            fp.values,
-            fp.filter(bogey => _.keys(bogey.orders).length > 0),
-        )(state);
-
-        expect(still_with_orders).toEqual([]);
-
-        // Enkidu still have a drive section
-        expect(state.bogeys.enkidu).toHaveProperty('drive.current');
-
-        expect(state.log.filter((a: any) => a.type === 'PUSH_ACTION_STACK')).toHaveLength(0);
-
-        expect(without_ts(state)).toMatchSnapshot();
-
-        expect(state.bogeys.enkidu.navigation).toMatchObject({
-            heading: 1,
-            velocity: 1,
-            coords: [1.5, 0.87],
-        });
-
-        expect(state.bogeys.siduri.navigation).toMatchObject({
-            heading: 6,
-            velocity: 1,
-            coords: [10, 9],
-        });
-    },
-};
-
-turns[2] = require('./turn-2');
+//turns[2] = require('./turn-2');
 
 type TestFunc = (battle: BattleState) => void;
 const turn_tests: TestFunc[] = [];
@@ -232,13 +156,13 @@ turns[8] = {
     },
 };
 
-const battle = new Battle({ name: 'gemini' });
+const battle = Battle.createStore();
 //devtools: {
 // suppressConnectErrors: false,
 // wsEngine: 'uws',
 //},
 let i = 0;
-const manage_turn = function(battle: Battle, directives: TurnDirective) {
+const manage_turn = function(battle: any, directives: TurnDirective) {
     dice.default.mockReset();
 
     dice.default.mockImplementation((...args: any) => {
@@ -249,10 +173,10 @@ const manage_turn = function(battle: Battle, directives: TurnDirective) {
 
     directives.actions.forEach(a => battle.dispatch(a));
 
-    directives.end_state = _.cloneDeep(battle.state);
+    directives.end_state = battle.getState();
 };
 
-turns = turns.splice(0, 3);
+turns = turns.slice(0, 2);
 turns.forEach(turn => manage_turn(battle, turn));
 
 function scrub_log(log: LogState) {
@@ -268,6 +192,7 @@ function scrub_log(log: LogState) {
 function snapshot_scrub(state: BattleState) {
     return u({ log: scrub_log }, state);
 }
+
 describe.each(turns.map((t, i) => [i, t]))('turns', function(i: any, turn: any) {
     test('turn ' + i, function() {
         turn.tests(turn.end_state);

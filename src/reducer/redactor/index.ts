@@ -22,7 +22,7 @@ export default class Redactor<A extends Action = Action, S = {}> {
         this.initialState = initialState;
 
         if (name) {
-            this.debug = require('debug')(name);
+            // this.debug = require('debug')(name);
         }
     }
 

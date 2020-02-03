@@ -22,9 +22,12 @@ const inc_damage = u({
     damage_level: (level: number) => Math.min(2, (level || 0) + 1),
 });
 
-redactor.addRedaction(internal_damage, ({ payload: { system: { type } } }) =>
-    u.if(type === 'drive', (drive: DriveState) => damage_rating(inc_damage(drive))),
-);
+const debug = require('debug')('aotds:drive');
+
+redactor.addRedaction(internal_damage, ({ payload }) => {
+    debug(payload);
+    return u.if(payload.system.type === 'drive', (drive: DriveState) => damage_rating(inc_damage(drive)));
+});
 
 export const drive_reducer = redactor.asReducer;
 export const drive_upreducer = redactor.asUpReducer;

@@ -1,3 +1,5 @@
+import { BogeyState } from "./bogey/types";
+
 export type BogeysState = {
-    [ id: string ]: any
+    [ bogey_id: string ]: BogeyState
 }

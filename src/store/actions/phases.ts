@@ -13,11 +13,9 @@ export type InitGamePayload = {
 };
 
 export const init_game = action(
-  'INIT_GAME',
+  'init_game',
   (payload: InitGamePayload) => payload,
 );
-
-export const play_turn = action('PLAY_TURN');
 
 /**
  */

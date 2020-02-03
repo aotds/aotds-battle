@@ -9,8 +9,6 @@ export default mw_subactions_for( fire_weapon_outcome,
   ({getState,dispatch}) => next => action => {
         const { payload: { target_id, damage_dice = [], penetrating_damage_dice = [] } } = action;
 
-        next(action);
-
     let target = get_bogey( getState(), target_id );
 
     if(damage_dice.length > 0 ) {

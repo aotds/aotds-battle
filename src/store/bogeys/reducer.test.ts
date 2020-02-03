@@ -1,20 +1,18 @@
-// @format
-
-import reducer from './reducer';
+import bogeys from '.';
 import { set_orders } from './bogey/actions';
 import { BogeysState } from './types';
-import { clear_orders, play_turn } from '../actions/phases';
+import { clear_orders, play_turn, init_game } from '../actions/phases';
 import { bogey_movement, bogey_firecon_orders, bogey_weapon_orders } from '../../actions/bogey';
 import { NavigationState } from './bogey/navigation/types';
 import _ from 'lodash';
 
 const BogeyReducer = require('./bogey/reducer');
+const reducer = bogeys.reducer;
 
 test('set_orders', () => {
-    let state: BogeysState = {
-        enkidu: {},
-        siduri: {},
-    };
+    let state = ['enkidu', 'siduri'].map(id => ({ id }));
+
+    state = reducer(state,init_game({bogeys:state} as any));
 
     state = reducer(state, set_orders('enkidu', { navigation: { thrust: 2 } }));
 

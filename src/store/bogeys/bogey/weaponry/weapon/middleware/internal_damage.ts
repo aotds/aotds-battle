@@ -1,4 +1,4 @@
-import { mw_subactions_for } from "../../../../../../middleware/subactions";
+import { mw_subactions_for, subaction_dispatch } from "../../../../../../middleware/subactions";
 import { BogeyState } from "../../../types";
 import { InternalDamage, internal_damage, damage } from "../../../../../../actions/bogey";
 import dice from "../../../../../../dice";
@@ -6,6 +6,7 @@ import _ from 'lodash';
 import fp from 'lodash/fp';
 import { get_bogey } from "../../../../../selectors";
 import { oc } from 'ts-optchain';
+import { mw_for } from "../../../../../../middleware/utils";
 
 type InternalDamageResolver = (
   ship: BogeyState,
@@ -47,7 +48,7 @@ const internal_damage_shields : InternalCheck = (bogey: BogeyState)  =>
     .map((id: number) => ({type: 'shield', id }));
 
 
-export default mw_subactions_for( damage, ({getState,dispatch})=>(next)=>(action: ReturnType<typeof damage>) => {
+export default mw_for( damage, ({getState,dispatch})=>(next)=>(action: ReturnType<typeof damage>) => {
 
     const bogey_id = action.payload.bogey_id;
 
@@ -57,12 +58,14 @@ export default mw_subactions_for( damage, ({getState,dispatch})=>(next)=>(action
 
     next(action);
 
+    dispatch = subaction_dispatch(action, dispatch);
+
     bogey = get_bogey( getState(), bogey_id );
 
     let delta = before - bogey.structure.hull.current;
 
             if( delta > 0 ) {
-                const threshold = 100 * delta / ( fp.getOr(1)(['bogeys', bogey_id, 'structure', 'hull', 'rating' ] )(bogey as any) as number );
+                const threshold = 100 * delta / ( fp.getOr(1)(['structure', 'hull', 'rating' ] )(bogey as any) as number );
 
                 _.flattenDeep([
                     internal_damage_drive,
