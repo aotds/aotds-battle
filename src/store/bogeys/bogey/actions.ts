@@ -5,7 +5,10 @@ import { D100, D6 } from '../../types/misc';
 import { OrdersState, WeaponOrdersState } from './orders/types';
 
 export const clear_orders = action('clear_orders', empty());
-export const set_orders = action('set_orders', payload<{ bogey_id: string; orders: OrdersState }>());
+export const set_orders = action(
+    'set_orders',
+    payload<{ bogey_id: string; orders: OrdersState; done: boolean | string }>(),
+);
 
 type Damage = {
     bogey_id: string;

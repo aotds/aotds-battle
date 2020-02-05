@@ -7,7 +7,7 @@ import { set_orders, clear_orders } from "../actions";
 const dux = new Updux();
 
 dux.addMutation(
-    set_orders, ({orders}) => () => ({...orders,done: true})
+    set_orders, ({orders,done=true}) => () => ({done, ...orders})
 )
 
 dux.addMutation(
