@@ -17,3 +17,19 @@ configure vim  for the make doign a dts -p ./tsconfig.json
             then: I changed internal_damage to internal_damage_check
             inflate_bogey
 
+
+
+
+structure:
+
+
+    store
+        index
+            // exports reducer as default,
+            // middleware or middleware_builder (optional)
+            // then all the actions, and types
+        reducer/index.ts
+        middleware/index.ts
+        rules/index.ts
+        types.ts
+        actions.ts
