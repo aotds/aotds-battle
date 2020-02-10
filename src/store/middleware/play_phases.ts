@@ -14,25 +14,6 @@ export const play_steps :Middleware = ({dispatch}) => (next) => () => {
     ].forEach( action => dispatch(action) )
 }
 
-export const try_play_turn_mw :Middleware = ({getState,dispatch}) => (next) => (action) => {
-    if(!action.payload.force) {
-        let state = getState();
-
-        // any player not done? can't play turn
-        let not_done = get_players_not_done(state);
-
-        if(not_done.length) return;
-
-        // don't play a turn if there's only 1 player left
-        let active = get_active_players(state);
-
-        if(active.length <= 1) return;
-    }
-
-    next(action);
-
-    dispatch(play_turn());
-}
 
 export default mw_compose([
     mw_subactions_for( play_turn, play_steps ),
