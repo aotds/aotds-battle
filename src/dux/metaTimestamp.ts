@@ -3,6 +3,7 @@ import u from 'updeep';
 
 const dux = new Updux();
 export default dux;
+export const metaTimestampDux = dux;
 
 const addTimestamp = u.updateIn('meta.timestamp', new Date().toISOString());
 
