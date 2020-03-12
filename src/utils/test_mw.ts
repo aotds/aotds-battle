@@ -4,7 +4,6 @@ import { UpduxMiddleware } from 'updux/dist/types';
 
 type MockFn = ReturnType<typeof jest.fn>;
 
-
 type MWFixtures = {
     dispatch: MockFn;
     getState: MockFn;
