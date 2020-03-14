@@ -1,14 +1,23 @@
-import dux from '.';
+import dux, { actionIdEffect } from '.';
+import { test } from 'tap';
 
-test('action ids', () => {
+test('action ids', t => {
+
+    dux.addEffect( '*', actionIdEffect(state => state));
+
     const store = dux.createStore();
 
-    expect( store.dispatch({ type: 'noop' }) ).toHaveProperty(
-        'meta.action_id', 1 );
+    t.matches(
+        store.dispatch({ type: 'noop' }),
+        { meta: { action_id: 1} }
+    );
 
-    expect( store.dispatch({ type: 'noop' }) ).toHaveProperty(
-        'meta.action_id', 2 );
+    t.matches(
+        store.dispatch({ type: 'noop' }),
+        { meta: { action_id: 2} }
+    );
 
-    expect( store.getState() ).toEqual(3);
+    t.equal( store.getState(), 3, "store is updated" );
 
+    t.end();
 });

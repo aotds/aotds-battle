@@ -1,8 +1,9 @@
 import fp from 'lodash/fp';
 import { Action } from 'redux';
 import { UpduxMiddleware } from 'updux/dist/types';
+import sinon from 'sinon';
 
-type MockFn = ReturnType<typeof jest.fn>;
+type MockFn = ReturnType<typeof sinon.spy>;
 
 type MWFixtures = {
     dispatch: MockFn;
@@ -13,9 +14,9 @@ type MWFixtures = {
 
 function mw_fixtures(fixtures: Partial<MWFixtures>) {
     return fp.defaults({
-        dispatch: jest.fn(),
-        getState: jest.fn(),
-        next: jest.fn(),
+        dispatch: sinon.spy(),
+        getState: sinon.spy(),
+        next: sinon.spy(),
         action: { type: 'NOOP' },
     })(fixtures) as MWFixtures;
 }
