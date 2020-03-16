@@ -8,6 +8,8 @@ tap.pass( 'this is fine...' );
 const playRound = battle => round => {
     const turn = require(`./turn-${round}`);
 
+    ( turn.actions ?? [] ).forEach( battle.dispatch );
+
     const state = groomState(battle.getState());
 
     tap.test(`turn ${round}`, { autoend: true },
@@ -18,7 +20,10 @@ const playRound = battle => round => {
 
 const battle = Battle.createStore();
 
-_.range(1).forEach( playRound(battle) );
+console.log(Battle.mutations);
+
+
+_.range(2).forEach( playRound(battle) );
 
 
 /*
