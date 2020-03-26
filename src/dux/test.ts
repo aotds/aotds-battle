@@ -1,17 +1,38 @@
 import dux from '.';
+import { test_mw } from '../utils/test_mw';
+import { phases } from './playPhases';
+import { test } from 'tap';
 
-test('action ids', () => {
+test('action ids', t => {
     const store = dux.createStore();
 
-    store.dispatch({type: 'noop'});
-    const action = store.dispatch({type: 'noop'});
+    store.dispatch({ type: 'noop' });
+    const action: any = store.dispatch({ type: 'noop' });
 
-    expect(action).toHaveProperty('meta.action_id',2);
+    t.equal(action.meta.action_id, 2);
+
+    t.end();
 });
-test('timestamps', () => {
+test('timestamps', t => {
     const store = dux.createStore();
 
-    const action = store.dispatch({type: 'noop'});
+    const action: any = store.dispatch({ type: 'noop' });
 
-    expect(action).toHaveProperty('meta.timestamp');
+    t.ok(action.meta.timestamp);
+
+    t.end();
+});
+
+test('play_turn', t => {
+    const mw = dux.middleware;
+
+    const result = test_mw(mw, {
+        action: dux.actions.play_turn(),
+    });
+
+    const actions = result.dispatch.getCalls().map(({ args }) => args[0].type);
+
+    phases.forEach(phase => t.ok(actions.includes(phase)));
+
+    t.end();
 });

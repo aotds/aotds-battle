@@ -1,7 +1,7 @@
 import Updux from 'updux';
 import u from 'updeep';
 
-const dux = new Updux();
+const dux = new Updux({});
 export default dux;
 export const metaTimestampDux = dux;
 
