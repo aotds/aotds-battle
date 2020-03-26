@@ -13,7 +13,7 @@ export default dux;
 export const actionIdDux = dux;
 
 
-dux.addMutation( inc_action_id, () => fp.add(1) );
+dux.addMutation( inc_action_id, () => fp.add(1) as any );
 
 export const actionIdEffect : any = selector =>
     ({dispatch,actions: {inc_action_id},getState}) => next => action => {

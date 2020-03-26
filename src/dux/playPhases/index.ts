@@ -1,10 +1,7 @@
 import Updux from "updux";
 import { action, empty } from "ts-action";
 import subactions from "../subactions";
-
-
-const dux = new Updux();
-export default dux;
+import fp from 'lodash/fp';
 
 const play_turn = action('play_turn', empty());
 
@@ -16,7 +13,22 @@ export const phases = [
     'clear_orders',
 ];
 
-phases.forEach(p => dux.addAction(p, action(p, empty())));
+const movement_phase       = action('movement_phase',empty());
+const firecon_orders_phase = action('firecon_orders_phase',empty());
+const weapon_orders_phase  = action('weapon_orders_phase',empty());
+const weapon_firing_phase  = action('weapon_firing_phase',empty());
+const clear_orders         = action('clear_orders',empty());
+
+const dux = new Updux({
+    actions: {
+        play_turn,
+ movement_phase       ,
+ firecon_orders_phase ,
+ weapon_orders_phase  ,
+ weapon_firing_phase  ,
+ clear_orders         ,
+    }
+});
 
 dux.addEffect(
     play_turn,
@@ -24,3 +36,5 @@ dux.addEffect(
         phases.map(p => actions[p]()).forEach( dispatch );
     }),
 );
+
+export default dux.asDux;
