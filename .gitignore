@@ -9,3 +9,4 @@ tags
 build
 tsconfig.tsbuildinfo
 jest-stare
+pnpm-lock.yaml
