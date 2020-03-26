@@ -7,7 +7,7 @@ test('action ids', t => {
     const store = dux.createStore();
 
     store.dispatch({ type: 'noop' });
-    const action :any = store.dispatch({ type: 'noop' });
+    const action: any = store.dispatch({ type: 'noop' });
 
     t.equal(action.meta.action_id, 2);
 
@@ -16,7 +16,7 @@ test('action ids', t => {
 test('timestamps', t => {
     const store = dux.createStore();
 
-    const action :any = store.dispatch({ type: 'noop' });
+    const action: any = store.dispatch({ type: 'noop' });
 
     t.ok(action.meta.timestamp);
 
@@ -30,7 +30,7 @@ test('play_turn', t => {
         action: dux.actions.play_turn(),
     });
 
-    const actions = result.dispatch.getCalls().map(({args}) => args[0].type);
+    const actions = result.dispatch.getCalls().map(({ args }) => args[0].type);
 
     phases.forEach(phase => t.ok(actions.includes(phase)));
 

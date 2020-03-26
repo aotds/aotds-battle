@@ -18,5 +18,5 @@ tap.same(getBogey('siduri')?.orders, {}, 'siduri has no orders');
 
 const enkidu = getBogey('enkidu');
 
-tap.is( enkidu?.orders?.navigation?.thrust, 2, 'orders are in' );
-tap.match( enkidu?.orders?.done, /^202/, 'done is timestamped' );
+tap.is(enkidu?.orders?.navigation?.thrust, 2, 'orders are in');
+tap.match(enkidu?.orders?.done, /^202/, 'done is timestamped');

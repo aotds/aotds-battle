@@ -4,15 +4,12 @@ import u from 'updeep';
 
 type GameInitPayload = {};
 
-const init_game = action('init_game', payload<GameInitPayload>() );
+const init_game = action('init_game', payload<GameInitPayload>());
 
 const dux = new Updux({
     actions: {
-        init_game
+        init_game,
     },
-    mutations: [
-        [ init_game, payload => u(payload) ]
-    ]
+    mutations: [[init_game, payload => u(payload)]],
 });
 export default dux;
-

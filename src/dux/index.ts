@@ -12,19 +12,18 @@ import bogeys from './bogeys';
 
 type State = {
     game: {
-        next_action_id: number
-    }
-}
+        next_action_id: number;
+    };
+};
 
 const d = dux({
     initial: {} as State,
-    ...coduxes( metaTimestampDux, playPhases, gameInit ),
+    ...coduxes(metaTimestampDux, playPhases, gameInit),
     subduxes: {
-       'game.next_action_id': actionId,
-        bogeys: bogeys },
+        'game.next_action_id': actionId,
+        bogeys: bogeys,
+    },
     effects: [['*', actionIdEffect(state => state?.game?.next_action_id)]],
 });
 
 export default d;
-
-

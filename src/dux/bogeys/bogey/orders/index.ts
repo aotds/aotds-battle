@@ -34,7 +34,8 @@ const dux = new Updux({
 
 dux.addMutation(set_orders, ({ orders, done = true }) => () => {
     console.log(orders);
-    return { done, ...orders } });
+    return { done, ...orders };
+});
 
 dux.addMutation(clear_orders, () => () => ({}));
 

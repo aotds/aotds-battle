@@ -3,28 +3,25 @@ import _ from 'lodash';
 import Battle from '../dux';
 import groomState from './groomState';
 
-tap.pass( 'this is fine...' );
+tap.pass('this is fine...');
 
 const playRound = battle => round => {
     const turn = require(`./turn-${round}`);
 
-    ( turn.actions ?? [] ).forEach( battle.dispatch );
+    (turn.actions ?? []).forEach(battle.dispatch);
 
     const state = groomState(battle.getState());
 
-    tap.test(`turn ${round}`, { autoend: true },
-             turn.tests(state) );
+    tap.test(`turn ${round}`, { autoend: true }, turn.tests(state));
 
     return battle;
-}
+};
 
 const battle = Battle.createStore();
 
 console.log(Battle.mutations);
 
-
-_.range(2).forEach( playRound(battle) );
-
+_.range(2).forEach(playRound(battle));
 
 /*
 turns[0] = require('./turn-0');

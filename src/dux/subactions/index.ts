@@ -7,4 +7,3 @@ export default mw => api => next => action => {
     const dispatch = action => api.dispatch(u.updateIn('meta', { parent_actions }, action));
     return mw({ ...api, dispatch })(action);
 };
-

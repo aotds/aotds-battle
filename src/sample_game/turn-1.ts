@@ -1,15 +1,11 @@
 import Battle from '../dux';
 import initial_state from './initial_state';
 
-const {
-    init_game,
-    set_orders,
-    play_turn,
-} = Battle.actions;
+const { init_game, set_orders, play_turn } = Battle.actions;
 
 export const actions = [
     init_game(initial_state),
-    set_orders('enkidu',{
+    set_orders('enkidu', {
         navigation: { thrust: 1, turn: 1, bank: 1 },
     }),
     play_turn(),
@@ -21,8 +17,7 @@ export const actions = [
 ];
 
 export const tests = state => t => {
+    t.equal(state.game.name, 'gemini', 'game name updated');
 
-    t.equal( state.game.name, "gemini", 'game name updated' );
-
-    console.log( state.game );
-}
+    console.log(state.game);
+};
