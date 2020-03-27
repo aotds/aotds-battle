@@ -6,6 +6,7 @@ import u from 'updeep';
 type BogeyState = {
     id: string;
     name: string;
+    player_id?: string;
 };
 
 const dux = new Updux({

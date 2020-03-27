@@ -9,6 +9,8 @@ import subactions from './subactions';
 import playPhases from './playPhases';
 import gameInit from './gameInit';
 import bogeys from './bogeys';
+import log from './log';
+import game from './game';
 
 type State = {
     game: {
@@ -20,8 +22,9 @@ const d = dux({
     initial: {} as State,
     ...coduxes(metaTimestampDux, playPhases, gameInit),
     subduxes: {
-        'game.next_action_id': actionId,
-        bogeys: bogeys,
+        game,
+        bogeys,
+        log,
     },
     effects: [['*', actionIdEffect(state => state?.game?.next_action_id)]],
 });
