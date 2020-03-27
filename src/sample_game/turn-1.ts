@@ -21,11 +21,14 @@ export const actions = [
 export const tests = state => t => {
     t.equal(state.game.name, 'gemini', 'game name updated');
 
-    t.is( state.game.turn, 1, 'we are at turn 1' );
+    t.is(state.game.turn, 1, 'we are at turn 1');
 
-    const turn = fp.findLast({
-        type: 'play_turn'
-    }, state.log );
+    const turn = fp.findLast(
+        {
+            type: 'play_turn',
+        },
+        state.log,
+    );
 
     debug(turn);
 };
