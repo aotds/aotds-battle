@@ -1,10 +1,12 @@
 import Battle from '../dux';
 import initial_state from './initial_state';
 import fp from 'lodash/fp';
+import roundDeep from '../utils/roundDeep';
 
 const debug = require('debug')('aotds:sample');
 
 const { init_game, set_orders, try_play_turn } = Battle.actions;
+const { getBogey } = Battle.selectors;
 
 export const actions = [
     init_game(initial_state),
@@ -28,6 +30,25 @@ export const tests = state => t => {
             type: 'play_turn',
         },
         state.log,
+    );
+
+    debug( getBogey(state)('enkidu') );
+    t.match(
+        roundDeep(getBogey(state)('enkidu')?.navigation),
+{
+        heading: 1,
+        velocity: 1,
+        coords: [1.5, 0.87],
+    }
+    );
+
+    t.match(
+        roundDeep(getBogey(state)('siduri')?.navigation),
+{
+        heading: 6,
+        velocity: 1,
+        coords: [10, 9],
+    }
     );
 
     debug(turn);

@@ -12,7 +12,17 @@ const playRound = battle => round => {
 
     const state = groomState(battle.getState());
 
-    tap.test(`turn ${round}`, { autoend: true }, turn.tests(state));
+    tap.test(`turn ${round}`, async(t) => {
+        turn.tests(state)(t);
+
+        t.cleanSnapshot =
+            s => s.replace( /"timestamp": ".*?",/g, '"timestamp": "",' )
+                .replace( /"done": "20.*?"/g, '"done": true' )
+            ;
+
+        t.matchSnapshot(state, 'state');
+    });
+
 
     return battle;
 };

@@ -49,7 +49,7 @@ const navigationDux = new Updux({
 });
 
 navigationDux.addMutation(
-    bogey_movement_move, (course) => () => course
+    bogey_movement_move, ({ course }) => () => course
 )
 
 
