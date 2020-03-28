@@ -12,7 +12,7 @@ type Action = {
     };
 };
 
-type LogAction = {
+export type LogAction = {
     meta: {
         action_id: number;
     };

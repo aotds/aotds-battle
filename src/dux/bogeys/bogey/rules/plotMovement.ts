@@ -3,7 +3,13 @@ import u from 'updeep';
 import fp from 'lodash/fp';
 import _ from 'lodash';
 
-import { BogeyState, NavigationState } from '../';
+import bogey from '..';
+
+
+import { NavigationState } from '../navigation';
+import { DuxState } from 'updux';
+
+type BogeyState = DuxState<typeof bogey>;
 
 const upush = (new_item: any) => (state = []) => [...state, new_item];
 
@@ -65,7 +71,7 @@ function two_steps(n: number): [number, number] {
 
 
 // returns the course of the ship
-export function plotMovement(ship: BogeyState ) {
+export function plotMovement(ship: BogeyState ): NavigationState {
 
     let navigation = fp.omit(['course'], ship.navigation);
 
@@ -130,10 +136,8 @@ export function plotMovement(ship: BogeyState ) {
         turn: side_maneuver(turn),
     };
 
-    navigation = u({
+    return u({
         thrust_used: engine_rating - engine_power,
         maneuvers,
     }, navigation) as NavigationState;
-
-    return navigation;
 }

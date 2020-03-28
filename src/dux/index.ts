@@ -18,7 +18,7 @@ type State = {
     };
 };
 
-const d = dux({
+const battleDux = dux({
     initial: {} as State,
     ...coduxes(metaTimestampDux, playPhases, gameInit),
     subduxes: {
@@ -29,4 +29,4 @@ const d = dux({
     effects: [['*', actionIdEffect(state => state?.game?.next_action_id)]],
 });
 
-export default d;
+export default battleDux;
