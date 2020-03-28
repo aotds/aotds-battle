@@ -30,6 +30,7 @@
         "jest-stare": "^1.26.0",
         "jest-summary-reporter": "0.0.2",
         "lodash": "^4.17.15",
+        "mermaid.cli": "^0.5.1",
         "prettier": "^1.19.1",
         "redux": "^4.0.5",
         "redux-persist-pouchdb": "^0.2.1",
