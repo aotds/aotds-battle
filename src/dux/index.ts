@@ -1,4 +1,4 @@
-import Updux, { coduxes, dux } from 'updux';
+import Updux, { coduxes, dux, DuxState } from 'updux';
 import fp from 'lodash/fp';
 import u from 'updeep';
 import { action, empty, payload } from 'ts-action';
@@ -28,5 +28,7 @@ const battleDux = dux({
     },
     effects: [['*', actionIdEffect(state => state?.game?.next_action_id)]],
 });
+
+export type BattleState = DuxState< typeof battleDux >;
 
 export default battleDux;
