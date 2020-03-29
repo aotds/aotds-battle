@@ -40,7 +40,6 @@ function pretty_print_log(log: LogState = []): any {
 const debugSave = (log: any) => writeFileSync('./debug.json', JSON.stringify(pretty_print_log(log), undefined, 2));
 
 export const tests = (state: BattleState) => {
-    expect(state.bogeys.enkidu.weaponry.firecons[0]).toMatchObject({ id: 0, target_id: 'siduri' });
 
     debug(pretty_print_log(state.log));
     debugSave(state.log);

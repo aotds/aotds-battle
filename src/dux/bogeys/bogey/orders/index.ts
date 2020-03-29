@@ -8,8 +8,18 @@ const {
     actions: { clear_orders },
 } = playPhases;
 
-export type Orders = Partial<{
-    navigation: {
+type FireconOrders = {
+    id: number,
+    target_id: string|null,
+}
+
+type WeaponOrders = {
+    id: number,
+    firecon_id: number|null,
+}
+
+type Orders = {
+    navigation?: {
         thrust?: number;
         turn?: number;
         bank?: number;
