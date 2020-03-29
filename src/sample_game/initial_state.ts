@@ -12,9 +12,7 @@ export default {
                     velocity: 0,
                 },
                 weaponry: {
-                    firecons: [
-                        { id: 0 }
-                    ],
+                    firecons: 1,
                     weapons: [ { id: 0,
                         weapon_type: "beam", weapon_class: 2,
                         arcs: [ 'F' ] },

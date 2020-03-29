@@ -1,5 +1,5 @@
 import Updux, { DuxState } from 'updux';
-import bogey from './bogey';
+import bogey, { inflateBogey } from './bogey';
 import fp from 'lodash/fp';
 import u from 'updeep';
 import play_phases from '../playPhases';
@@ -47,3 +47,7 @@ dux.addEffect(
 );
 
 export default dux.asDux;
+
+export function inflateBogeys(shorthand:any) {
+    return u.map( inflateBogey, shorthand );
+}

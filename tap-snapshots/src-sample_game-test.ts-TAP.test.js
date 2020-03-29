@@ -115,7 +115,7 @@ Object {
       "weaponry": Object {
         "firecons": Array [
           Object {
-            "id": 0,
+            "id": 1,
           },
         ],
         "weapons": Array [
@@ -218,6 +218,13 @@ Object {
           },
         ],
       },
+      "weaponry": Object {
+        "firecons": Array [
+          Object {
+            "id": 1,
+          },
+        ],
+      },
     },
   ],
   "game": Object {
@@ -277,11 +284,7 @@ Object {
               ],
             },
             "weaponry": Object {
-              "firecons": Array [
-                Object {
-                  "id": 0,
-                },
-              ],
+              "firecons": 1,
               "weapons": Array [
                 Object {
                   "arcs": Array [
