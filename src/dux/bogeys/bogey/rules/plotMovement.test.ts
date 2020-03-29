@@ -4,7 +4,7 @@ import _ from 'lodash';
 import u from 'updeep';
 
 import { plotMovement, move_thrust, move_rotate } from './plotMovement';
-import { NavigationState, Coords } from '..';
+import { NavigationState, Coords } from '../navigation';
 
 function roundDeep(obj) {
     return fp.mapValues(v => (typeof v === 'object' ? roundDeep(v) : typeof v === 'number' ? _.round(v, 2) : v))(obj);
@@ -54,7 +54,7 @@ test('simple movements', async t => {
 
     const ship = { navigation: { coords: [0, 0], velocity: 10, heading: 0 } };
 
-    for (let a in angle) {
+    for (const a in angle) {
         ship.navigation.heading = +a;
         const movement = plotMovement(ship as any);
         t.match(roundDeep(movement) as any, {
@@ -93,154 +93,139 @@ test('change of speed', async t => {
 
     t.move_ok(ship, { thrust: -6 }, { velocity: 4, coords: [0, 4] }, 'decelerate');
 
-    t.move_ok(u.updateIn( 'navigation.velocity', 2, ship ), { thrust: -6}, { velocity: 0, coords: [0, 0] }, 'decelerate to min of zero');
+    t.move_ok(
+        u.updateIn('navigation.velocity', 2, ship),
+        { thrust: -6 },
+        { velocity: 0, coords: [0, 0] },
+        'decelerate to min of zero',
+    );
 });
 
-
-test("turning", async(t) => {
-  let ship = {
-    navigation: { coords: [0, 0], velocity: 5, heading: 0 },
-    drive: { current: 6 }
-  };
+test('turning', async t => {
+    const ship = {
+        navigation: { coords: [0, 0], velocity: 5, heading: 0 },
+        drive: { current: 6 },
+    };
 
     t.move_ok(
-      ship,
-      { turn: 3 },
-      {
-        coords: [4, 1.73],
-        velocity: 5,
-        heading: 3
-      }, 'turn of 3'
-    )
+        ship,
+        { turn: 3 },
+        {
+            coords: [4, 1.73],
+            velocity: 5,
+            heading: 3,
+        },
+        'turn of 3',
+    );
     t.move_ok(
-      ship,
-      { turn: -3 },
-      {
-        coords: [-4, 1.73],
-        velocity: 5,
-        heading: 9
-      }, 'turn of -3'
-    )
+        ship,
+        { turn: -3 },
+        {
+            coords: [-4, 1.73],
+            velocity: 5,
+            heading: 9,
+        },
+        'turn of -3',
+    );
     t.move_ok(
-      ship,
-      { turn: -9 },
-      {
-        coords: [-4, 1.73],
-        velocity: 5,
-        heading: 9
-      }, "can't turn more than limit"
-    )
+        ship,
+        { turn: -9 },
+        {
+            coords: [-4, 1.73],
+            velocity: 5,
+            heading: 9,
+        },
+        "can't turn more than limit",
+    );
 });
 
+test('banking', async t => {
+    const ship = {
+        navigation: {
+            coords: [0, 0],
+            velocity: 5,
+            heading: 0,
+        },
+        drive: { current: 6 },
+    };
 
-test("banking", async(t) => {
-  let ship = {
-    navigation: {
-      coords: [0, 0],
-      velocity: 5,
-      heading: 0
-    },
-    drive: { current: 6 }
-  };
+    const tests = [
+        [
+            'bank while heading at 3',
+            u({ navigation: { heading: 3 } })(ship),
+            { bank: -3 },
+            { coords: [5, 3], heading: 3, velocity: 5 },
+        ],
+        ['bank of 3', ship, { bank: 3 }, { coords: [3, 5], heading: 0, velocity: 5 }],
+        ['bank of -3', ship, { bank: -3 }, { coords: [-3, 5], heading: 0, velocity: 5 }],
+        ["can't bank more than the limit", ship, { bank: -9 }, { coords: [-3, 5], heading: 0, velocity: 5 }],
+    ];
 
-  let tests = [
-    [
-      "bank while heading at 3",
-      u({ navigation: { heading: 3 } })(ship),
-      { bank: -3 },
-      { coords: [5, 3], heading: 3, velocity: 5 }
-    ],
-    [
-      "bank of 3",
-      ship,
-      { bank: 3 },
-      { coords: [3, 5], heading: 0, velocity: 5 }
-    ],
-    [
-      "bank of -3",
-      ship,
-      { bank: -3 },
-      { coords: [-3, 5], heading: 0, velocity: 5 }
-    ],
-    [
-      "can't bank more than the limit",
-      ship,
-      { bank: -9 },
-      { coords: [-3, 5], heading: 0, velocity: 5 }
-    ]
-  ];
-
-  tests.forEach(([desc, ship, orders, expected]) =>
-    t.move_ok(ship, orders, expected, desc)
-  );
+    tests.forEach(([desc, ship, orders, expected]) => t.move_ok(ship, orders, expected, desc));
 });
 
-const with_orders = ( orders: any ) => u.updateIn( 'orders.navigation', orders );
+const with_orders = (orders: any) => u.updateIn('orders.navigation', orders);
 
-test("complex maneuvers", async(t) => {
-  let ship = {
-    navigation: { coords: [0, 0], velocity: 5, heading: 0 },
-    drive: { current: 6 }
-  };
+test('complex maneuvers', async t => {
+    const ship = {
+        navigation: { coords: [0, 0], velocity: 5, heading: 0 },
+        drive: { current: 6 },
+    };
 
-  let navigation = roundDeep(plotMovement( with_orders({ bank: -1, thrust: -1, turn: 2 })(ship) ));
+    const navigation = roundDeep(plotMovement(with_orders({ bank: -1, thrust: -1, turn: 2 })(ship)));
 
-  t.match( navigation.trajectory,
-    [
-      { type: "POSITION", coords: [0, 0] },
-      { type: "BANK", coords: [-1, -0], delta: [-1, -0] },
-      { type: "ROTATE", delta: 1, heading: 1 },
-      { type: "MOVE", coords: [-0, 1.73], delta: [1, 1.73] },
-      { type: "ROTATE", delta: 1, heading: 2 },
-      { type: "MOVE", coords: [1.73, 2.73], delta: [1.73, 1] }
-    ],
-  );
-
+    t.match(navigation.trajectory, [
+        { type: 'POSITION', coords: [0, 0] },
+        { type: 'BANK', coords: [-1, -0], delta: [-1, -0] },
+        { type: 'ROTATE', delta: 1, heading: 1 },
+        { type: 'MOVE', coords: [-0, 1.73], delta: [1, 1.73] },
+        { type: 'ROTATE', delta: 1, heading: 2 },
+        { type: 'MOVE', coords: [1.73, 2.73], delta: [1.73, 1] },
+    ]);
 });
 
-test("maneuvers", async(t) => {
-  let ship = {
-    navigation: { coords: [0, 0], velocity: 2, heading: 0 },
-    drive: { current: 6 }
-  };
+test('maneuvers', async t => {
+    const ship = {
+        navigation: { coords: [0, 0], velocity: 2, heading: 0 },
+        drive: { current: 6 },
+    };
 
-  let course = plotMovement( with_orders({ bank: -1, thrust: -1, turn: 2 })(ship));
+    let course = plotMovement(with_orders({ bank: -1, thrust: -1, turn: 2 })(ship));
 
-  t.match(course.maneuvers,{
-    thrust: [-2, 3],
-    bank: [-3, 3],
-    turn: [-3, 3]
-  });
+    t.match(course.maneuvers, {
+        thrust: [-2, 3],
+        bank: [-3, 3],
+        turn: [-3, 3],
+    });
 
-  course = plotMovement(with_orders({ bank: 0, thrust: -1 })(ship));
+    course = plotMovement(with_orders({ bank: 0, thrust: -1 })(ship));
 
-  t.match(course.maneuvers,{
-    thrust: [-2, 6],
-    bank: [-3, 3],
-    turn: [-3, 3]
-  });
+    t.match(course.maneuvers, {
+        thrust: [-2, 6],
+        bank: [-3, 3],
+        turn: [-3, 3],
+    });
 });
 
-test( "course is stable", async(t) => {
+test('course is stable', async t => {
+    let ship: any = {
+        navigation: { coords: [0, 0], velocity: 2, heading: 0 },
+        drive: { current: 6 },
+    };
 
-  let ship:any = {
-    navigation: { coords: [0, 0], velocity: 2, heading: 0 },
-    drive: { current: 6 },
-  };
+    let course: any = plotMovement(with_orders({ bank: -1, thrust: -1, turn: 2 })(ship));
 
-  let course :any = plotMovement( with_orders({ bank: -1, thrust: -1, turn: 2 })(ship));
+    // don't recursively accumulate coursey cruft
+    t.ok(!course.course);
 
-  // don't recursively accumulate coursey cruft
-  t.ok( !course.course )
+    ship = u.updateIn('navigation.course', u.constant(course), ship);
 
-  ship = u.updateIn( 'navigation.course', u.constant( course), ship );
+    t.ok(!ship?.navigation?.course?.course);
 
-  t.ok(!ship?.navigation?.course?.course);
+    course = plotMovement(ship);
+    t.ok(!course.course);
 
-  course = plotMovement(ship);
-  t.ok( !course.course );
+    ship = u.updateIn('navigation.course', u.constant(course), ship);
 
-  ship = u.updateIn( 'navigation.course', u.constant( course), ship );
-
-  t.ok(!ship?.navigation?.course?.course);
+    t.ok(!ship?.navigation?.course?.course);
 });
