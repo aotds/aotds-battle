@@ -46,5 +46,3 @@ battleDux.addMutation( init_game,
 export type BattleState = DuxState< typeof battleDux >;
 
 export default battleDux.asDux;
-
-export type BattleState = DuxState<typeof battleDux>;
