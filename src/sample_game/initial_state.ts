@@ -13,13 +13,13 @@ export default {
                 },
                 weaponry: {
                     firecons: 1,
-                    weapons: [ { id: 1,
+                    weapons: [ {
                         weapon_type: "beam", weapon_class: 2,
                         arcs: [ 'F' ] },
-                        { id: 2, arcs: [ 'FS' ],
+                        {  arcs: [ 'FS' ],
                         weapon_type: "beam", weapon_class: 1,
                         },
-                        { id: 3, arcs: [ 'FP' ],
+                        { arcs: [ 'FP' ],
                         weapon_type: "beam", weapon_class: 1,
                         } ],
                 },

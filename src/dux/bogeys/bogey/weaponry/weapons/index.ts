@@ -4,9 +4,12 @@ import u from 'updeep';
 import fp from 'lodash/fp';
 import { action } from 'ts-action';
 
+type Arc = "F" | "FP" | "FS" | "A" | "AS" | "AF";
+
 type BeamWeapon = {
     weapon_type: "beam",
     weapon_class: number,
+    arcs: Arc[],
 };
 
 type WeaponState = {
@@ -43,3 +46,10 @@ weaponsDux.addMutation(
 )
 
 export default weaponsDux.asDux;
+
+type WeaponShorthand = BeamWeapon;
+
+export function inflateWeapons(shorthand: WeaponShorthand[] = []): WeaponState[] {
+    let id = 1;
+    return shorthand.map( s => ({...s, id: id++}) );
+}
