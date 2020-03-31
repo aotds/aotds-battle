@@ -4,7 +4,6 @@ import fp from 'lodash/fp';
 import u from 'updeep';
 import play_phases from '../playPhases';
 import subactions from '../subactions';
-import { action, payload } from 'ts-action';
 import { plotMovement } from './bogey/rules/plotMovement';
 
 type BogeyState = DuxState<typeof bogey>;
@@ -28,8 +27,13 @@ const dux = new Updux({
 const singleBogey: any = (prop = 'bogey_id') => (payload, action) =>
     u.map(u.if(fp.matches({ id: payload[prop] }), bogey.upreducer(action)));
 
-dux.addMutation(bogey.actions.set_orders, singleBogey(), true);
-dux.addMutation(bogey_movement_move, singleBogey(), true);
+[
+    bogey.actions.set_orders,
+    bogey_movement_move,
+    bogey.actions.set_orders,
+    bogey.actions.bogey_firecon_orders,
+    bogey.actions.bogey_weapon_orders,
+].forEach(action => dux.addMutation(action, singleBogey(), true));
 
 dux.addEffect(
     play_phases.actions.movement_phase,
@@ -46,8 +50,28 @@ dux.addEffect(
     }),
 );
 
+dux.addEffect(
+    play_phases.actions.firecon_orders_phase,
+    subactions(({ getState, dispatch }) => () => {
+        const bogeys = getState();
+        bogeys.forEach(({ id, orders }: BogeyState) => {
+            orders.firecons?.forEach(orders => dispatch(bogey.actions.bogey_firecon_orders(id, orders)));
+        });
+    }),
+);
+
+dux.addEffect(
+    play_phases.actions.weapon_orders_phase,
+    subactions(({ getState, dispatch }) => () => {
+        const bogeys = getState();
+        bogeys.forEach(({ id, orders }: BogeyState) => {
+            orders.weapons?.forEach(orders => dispatch(bogey.actions.bogey_weapon_orders(id, orders)));
+        });
+    }),
+);
+
 export default dux.asDux;
 
-export function inflateBogeys(shorthand:any) {
-    return u.map( inflateBogey, shorthand );
+export function inflateBogeys(shorthand: any) {
+    return u.map(inflateBogey, shorthand);
 }

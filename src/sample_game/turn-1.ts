@@ -32,24 +32,15 @@ export const tests = state => t => {
         state.log,
     );
 
-    debug( getBogey(state)('enkidu') );
-    t.match(
-        roundDeep(getBogey(state)('enkidu')?.navigation),
-{
+    t.match(roundDeep(getBogey(state)('enkidu')?.navigation), {
         heading: 1,
         velocity: 1,
         coords: [1.5, 0.87],
-    }
-    );
+    });
 
-    t.match(
-        roundDeep(getBogey(state)('siduri')?.navigation),
-{
+    t.match(roundDeep(getBogey(state)('siduri')?.navigation), {
         heading: 6,
         velocity: 1,
         coords: [10, 9],
-    }
-    );
-
-    debug(turn);
+    });
 };

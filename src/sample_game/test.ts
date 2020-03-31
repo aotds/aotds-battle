@@ -31,7 +31,7 @@ const battle = Battle.createStore();
 
 console.log(Battle.mutations);
 
-_.range(2).forEach(playRound(battle));
+_.range(3).forEach(playRound(battle));
 
 /*
 turns[0] = require('./turn-0');

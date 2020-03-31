@@ -4,7 +4,7 @@ import orders from './orders';
 import navigation from './navigation';
 import u from 'updeep';
 import fp from 'lodash/fp';
-import { inflateWeaponry } from './weaponry';
+import weaponry, { inflateWeaponry } from './weaponry';
 
 type State = {
     id: string;
@@ -29,6 +29,7 @@ const dux = new Updux({
     subduxes: {
         orders,
         navigation,
+        weaponry,
     },
     selectors: {
     }
