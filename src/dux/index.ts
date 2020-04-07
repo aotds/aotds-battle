@@ -40,6 +40,7 @@ export function inflateBattle( shorthand: any ) {
     }, shorthand)
 }
 
+
 battleDux.addMutation( init_game,
     initState => u(inflateBattle(initState)) );
 

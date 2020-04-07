@@ -38,6 +38,8 @@ const dux = new Updux({
 
 export default dux.asDux;
 
+export type BogeyState = DuxState<typeof dux>;
+
 export function inflateBogey(shorthand: any) {
     return u({
         weaponry: inflateWeaponry
