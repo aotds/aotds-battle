@@ -3,7 +3,7 @@ import { test_mw } from '../utils/test_mw';
 import { phases } from './playPhases';
 import { test } from 'tap';
 
-test('action ids', t => {
+test('action ids', async t => {
     const store = dux.createStore();
 
     store.dispatch({ type: 'noop' });
@@ -11,19 +11,17 @@ test('action ids', t => {
 
     t.equal(action.meta.action_id, 2);
 
-    t.end();
 });
-test('timestamps', t => {
+test('timestamps', async t => {
     const store = dux.createStore();
 
     const action: any = store.dispatch({ type: 'noop' });
 
     t.ok(action.meta.timestamp);
 
-    t.end();
 });
 
-test('play_turn', t => {
+test('play_turn', async t => {
     const mw = dux.middleware;
 
     const result = test_mw(mw, {
@@ -34,5 +32,4 @@ test('play_turn', t => {
 
     phases.forEach(phase => t.ok(actions.includes(phase)));
 
-    t.end();
 });

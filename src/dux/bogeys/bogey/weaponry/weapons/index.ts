@@ -27,7 +27,7 @@ type WeaponOrders = {
     firecon_id?: number|null
 }
 
-const getWeapon = state => id => fp.find({id})(state);
+const getWeapon = (state:any) => id => fp.find({id})(state);
 
 const bogey_weapon_orders = action('bogey_weapon_orders', (bogey_id: string, orders: WeaponOrders) => ({
     payload: {
@@ -56,5 +56,5 @@ type WeaponShorthand = BeamWeapon;
 
 export function inflateWeapons(shorthand: WeaponShorthand[] = []): WeaponState[] {
     let id = 1;
-    return shorthand.map( s => ({...s, id: id++}) );
+    return shorthand.map( s => ({...s, id: id++}) ) as any;
 }

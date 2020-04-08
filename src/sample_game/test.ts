@@ -3,6 +3,8 @@ import _ from 'lodash';
 import Battle from '../dux';
 import groomState from './groomState';
 
+declare function require(name:string): any;
+
 tap.pass('this is fine...');
 
 const playRound = battle => round => {

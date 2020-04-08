@@ -2,8 +2,11 @@ import Battle from '../dux';
 import initial_state from './initial_state';
 import fp from 'lodash/fp';
 import roundDeep from '../utils/roundDeep';
+declare function require(name:string): any;
 
-const debug = require('debug')('aotds:sample');
+import Debug from 'debug';
+
+const debug = Debug('aotds:sample');
 
 const { init_game, set_orders, try_play_turn } = Battle.actions;
 const { getBogey } = Battle.selectors;
