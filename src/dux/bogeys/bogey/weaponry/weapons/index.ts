@@ -4,18 +4,23 @@ import u from 'updeep';
 import fp from 'lodash/fp';
 import { action } from 'ts-action';
 
-type Arc = "F" | "FP" | "FS" | "A" | "AS" | "AF";
+export type Arc = "F" | "FP" | "FS" | "A" | "AS" | "AP";
 
 type BeamWeapon = {
     weapon_type: "beam",
     weapon_class: number,
-    arcs: Arc[],
 };
 
-type WeaponState = {
+export type Weapon = BeamWeapon;
+
+export type WeaponMount = { arcs: Arc[] }
+
+export type WeaponMounted = Weapon & WeaponMount;
+
+export type WeaponState = {
     id: number;
     firecon_id?: number|null
-} & BeamWeapon;
+} & WeaponMounted;
 
 type WeaponOrders = {
     weapon_id: number,
