@@ -6,7 +6,7 @@
     "description": "",
     "main": "build/index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
+        "test": "tap src/**/*test.ts",
         "test:stare": "jest --reporters default jest-stare",
         "test:reporter": "jest --reporters default jest-html-reporters"
     },

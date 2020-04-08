@@ -1,0 +1,22 @@
+import _ from 'lodash';
+
+const rollDie = n => _.random(1,n);
+
+export function rollDice(
+    nbr_dice: number,
+    options: { reroll?: number[]; nbr_faces?: number; } = {},
+    note?: unknown
+) {
+    if (nbr_dice === 0) return [];
+
+    const reroll_on = options.reroll ?? [];
+    const nbr_faces = options.nbr_faces ?? 6;
+
+    const roll: number[] = Array.from({ length: nbr_dice }, () => rollDie(nbr_faces));
+
+    const rerolls = roll.filter( d => reroll_on.includes(d) );
+
+    if(rerolls.length === 0 ) return roll;
+
+    return ([roll, rollDice(rerolls.length, options)] as any).flat();
+}

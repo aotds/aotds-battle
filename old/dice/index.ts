@@ -1,5 +1,3 @@
-// @format
-
 import * as fp from 'lodash/fp';
 
 let rigged_dice: number[] | null = null;
