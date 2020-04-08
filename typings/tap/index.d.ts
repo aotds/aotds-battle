@@ -39,6 +39,7 @@ declare module 'tap' {
     function cleanSnapshot(...args: any[]): any;
     function matchSnapshot(...args: any[]): any;
 
+
     type MatchObject<T, K extends keyof T> = Partial<
         {
             // A subset of fields of original object, but RegExp's can appear in
