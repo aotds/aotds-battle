@@ -4,25 +4,30 @@ import u from 'updeep';
 import fp from 'lodash/fp';
 import { action } from 'ts-action';
 
-type Arc = "F" | "FP" | "FS" | "A" | "AS" | "AF";
+export type Arc = "F" | "FP" | "FS" | "A" | "AS" | "AP";
 
 type BeamWeapon = {
     weapon_type: "beam",
     weapon_class: number,
-    arcs: Arc[],
 };
 
-type WeaponState = {
+export type Weapon = BeamWeapon;
+
+export type WeaponMount = { arcs: Arc[] }
+
+export type WeaponMounted = Weapon & WeaponMount;
+
+export type WeaponState = {
     id: number;
     firecon_id?: number|null
-} & BeamWeapon;
+} & WeaponMounted;
 
 type WeaponOrders = {
     weapon_id: number,
     firecon_id?: number|null
 }
 
-const getWeapon = state => id => fp.find({id})(state);
+const getWeapon = (state:any) => id => fp.find({id})(state);
 
 const bogey_weapon_orders = action('bogey_weapon_orders', (bogey_id: string, orders: WeaponOrders) => ({
     payload: {
@@ -51,5 +56,5 @@ type WeaponShorthand = BeamWeapon;
 
 export function inflateWeapons(shorthand: WeaponShorthand[] = []): WeaponState[] {
     let id = 1;
-    return shorthand.map( s => ({...s, id: id++}) );
+    return shorthand.map( s => ({...s, id: id++}) ) as any;
 }

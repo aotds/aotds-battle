@@ -1,8 +1,9 @@
 import Battle, { BattleState } from '../dux';
 import bogey from '../dux/bogeys/bogey';
 import fp from 'lodash/fp';
+import D from 'debug';
 
-const debug = require('debug')('aotds:sample:t2');
+const debug = D('aotds:sample:t2');
 
 const { init_game, set_orders, play_turn } = Battle.actions;
 const { getBogey } = Battle.selectors;

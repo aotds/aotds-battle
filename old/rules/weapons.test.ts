@@ -13,20 +13,6 @@ dice.default = jest.fn().mockImplementation((...args) => {
     throw new Error(`dice roll needs to be faked ${JSON.stringify(args)}`);
 });
 
-describe('relative_coords', () => {
-    let attacker = { coords: [0, 0], heading: 1 };
-    let target = { coords: [0, 10], heading: 5 };
-
-    [
-        { coords: [0, 10], e: { angle: 0, bearing: -1 } },
-        { coords: [0, -10], e: { angle: 6, bearing: 5 } },
-        { coords: [10, 0], e: { angle: 3, bearing: 2 } },
-    ].forEach(({ coords, e }) => {
-        test(JSON.stringify(coords), () => {
-            expect(relative_coords(attacker as any, u({ coords })(target))).toMatchObject(e);
-        });
-    });
-});
 
 test('basic', () => {
     let attacker = { navigation: { coords: [0, 0], heading: 0, velocity: 0 } } as BogeyState;

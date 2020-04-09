@@ -13,32 +13,6 @@ import { oc } from 'ts-optchain';
 import { FireWeaponOutcome } from './types';
 import { ShieldState } from '../store/bogeys/bogey/structure/types';
 
-export function relative_coords(
-    ship: NavigationState,
-    target: NavigationState,
-): {
-    angle: number;
-    bearing: number;
-    distance: number;
-} {
-    let relative = _.zip.apply(null, [ship, target].map(fp.get('coords'))).map((x: any) => x[1] - x[0]);
-
-    let angle = (Math.atan2(relative[0], relative[1]) * 6) / Math.PI;
-
-    let bearing = angle - ship.heading;
-
-    let distance = Math.sqrt(
-        relative
-            .map(function(x) {
-                return Math.pow(x, 2);
-            })
-            .reduce(function(a, b) {
-                return a + b;
-            }),
-    );
-
-    return { angle, bearing, distance };
-}
 
 type FWBogey = Pick<BogeyState, 'navigation' | 'drive'>;
 
@@ -100,7 +74,7 @@ export function fire_weapon(
 
 const beam_damage_table = { 4: 1, 5: 1, 6: 2 };
 
-const beam_damage = (shield: number = 0) => (dice: number) => {
+const beam_damage = (shield = 0) => (dice: number) => {
     let table = u({
         4: u.if(shield, 0),
         6: u.if(shield >= 2, 1),

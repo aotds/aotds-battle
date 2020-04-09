@@ -77,7 +77,7 @@ tap.Test.prototype.addAssert('move_ok', 3, function(
     return this.match(navigation, expected, message, extra);
 });
 
-test('change of speed', async t => {
+test('change of speed', async (t:any) => {
     const ship = {
         navigation: {
             coords: [0, 0],
@@ -101,7 +101,7 @@ test('change of speed', async t => {
     );
 });
 
-test('turning', async t => {
+test('turning', async (t:any) => {
     const ship = {
         navigation: { coords: [0, 0], velocity: 5, heading: 0 },
         drive: { current: 6 },
@@ -139,7 +139,7 @@ test('turning', async t => {
     );
 });
 
-test('banking', async t => {
+test('banking', async (t:any) => {
     const ship = {
         navigation: {
             coords: [0, 0],
@@ -166,7 +166,7 @@ test('banking', async t => {
 
 const with_orders = (orders: any) => u.updateIn('orders.navigation', orders);
 
-test('complex maneuvers', async t => {
+test('complex maneuvers', async (t:any) => {
     const ship = {
         navigation: { coords: [0, 0], velocity: 5, heading: 0 },
         drive: { current: 6 },

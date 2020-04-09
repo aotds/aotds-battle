@@ -1,7 +1,7 @@
 import dux, { actionIdEffect } from '.';
 import { test } from 'tap';
 
-test('action ids', t => {
+test('action ids', async t => {
     dux.addEffect(
         '*',
         actionIdEffect(state => state),
@@ -9,11 +9,9 @@ test('action ids', t => {
 
     const store = dux.createStore();
 
-    t.matches(store.dispatch({ type: 'noop' }), { meta: { action_id: 1 } });
+    t.match(store.dispatch({ type: 'noop' }), { meta: { action_id: 1 } } as any);
 
-    t.matches(store.dispatch({ type: 'noop' }), { meta: { action_id: 2 } });
+    t.match(store.dispatch({ type: 'noop' }), { meta: { action_id: 2 } } as any);
 
     t.equal(store.getState(), 3, 'store is updated');
-
-    t.end();
 });

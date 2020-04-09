@@ -14,9 +14,10 @@
     "author": "Yanick Champoux <yanick@babyl.ca> (http://techblog.babyl.ca)",
     "license": "ISC",
     "dependencies": {
+        "@snyk/types-tap": "^1.1.0",
         "@types/jest": "^25.1.4",
         "@types/lodash": "^4.14.149",
-        "@types/node": "^13.9.0",
+        "@types/node": "^13.11.1",
         "@typescript-eslint/eslint-plugin": "^2.23.0",
         "@typescript-eslint/parser": "^2.23.0",
         "debug": "^4.1.1",
