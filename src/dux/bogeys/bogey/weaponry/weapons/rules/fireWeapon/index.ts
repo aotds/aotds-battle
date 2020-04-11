@@ -5,17 +5,21 @@ import inArcs from './inArcs';
 import {rollDice} from '../../../../../../../dice';
 import {NavigationState} from '../../../../navigation';
 
-type FireWeaponOutcome = {
+type Aborted = {
     aborted: true,
     reason: 'no firing arc' | 'aft weapon while thrusting' | 'out of range',
-    distance: number,
-    bearing: number,
-} | {
+    bearing: number;
+    distance: number;
+}
+
+type Success = {
     damage_dice: number[],
     penetrating_damage_dice: number[],
-    distance: number,
-    bearing: number,
-}
+    bearing: number;
+    distance: number;
+};
+
+type FireWeaponOutcome = Aborted | Success;
 
 export function fireWeapon(attacker: NavigationState, target: NavigationState, weapon: WeaponMounted): FireWeaponOutcome {
     // right now it's all beam weapons

@@ -1,5 +1,5 @@
 import Updux from 'updux';
-import { action, empty } from 'ts-action';
+import { action } from 'ts-action';
 import u from 'updeep';
 import playPhases from '../../../playPhases';
 import { FireconOrders } from '../weaponry/firecons';
@@ -7,11 +7,6 @@ import { FireconOrders } from '../weaponry/firecons';
 const {
     actions: { clear_orders },
 } = playPhases;
-
-type FireconOrders = {
-    id: number,
-    target_id: string|null,
-}
 
 type WeaponOrders = {
     id: number,
@@ -29,7 +24,7 @@ type Orders = {
         weapon_id: number;
         firecon_id: number;
     }>;
-}>;
+}
 
 const set_orders = action('set_orders', (bogey_id: string, orders: Orders) => ({
     payload: {

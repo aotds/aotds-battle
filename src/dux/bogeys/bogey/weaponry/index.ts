@@ -9,6 +9,9 @@ const weaponryDux = new Updux({
         firecons,
         weapons,
     },
+    selectors: {
+        firecons: state => state.firecons
+    }
 });
 
 export default weaponryDux.asDux;

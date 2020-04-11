@@ -27,7 +27,7 @@ type WeaponOrders = {
     firecon_id?: number|null
 }
 
-const getWeapon = (state:any) => id => fp.find({id})(state);
+const getWeapon = (state:WeaponState[]) => (id:number) => fp.find({id})(state) as WeaponState;
 
 const bogey_weapon_orders = action('bogey_weapon_orders', (bogey_id: string, orders: WeaponOrders) => ({
     payload: {
