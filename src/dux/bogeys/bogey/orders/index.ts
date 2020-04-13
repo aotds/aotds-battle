@@ -8,19 +8,14 @@ const {
     actions: { clear_orders },
 } = playPhases;
 
-type WeaponOrders = {
-    id: number,
-    firecon_id: number|null,
-}
-
 type Orders = {
     navigation?: {
         thrust?: number;
         turn?: number;
         bank?: number;
     };
-    firecons: Array<FireconOrders>;
-    weapons: Array<{
+    firecons?: Array<FireconOrders>;
+    weapons?: Array<{
         weapon_id: number;
         firecon_id: number;
     }>;

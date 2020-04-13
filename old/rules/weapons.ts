@@ -23,54 +23,7 @@ export function fire_weapon(
     attacker: FWBogey | undefined,
     target: FWBogey | undefined,
     weapon: WeaponState | undefined,
-) {
-    if (!attacker || !target || !weapon) {
-        return {
-            aborted: true,
-        } as FireWeaponOutcome;
-    }
-
-    // right now it's all beam weapons
-
-    let { distance, bearing } = relative_coords(attacker.navigation, target.navigation);
-
-    if (in_arcs(['A'], bearing) && oc(attacker).navigation.thrust_used(0) > 0) {
-        // aft weapons can't be used when thrusting
-        return { aborted: true } as FireWeaponOutcome;
-    }
-
-    let outcome: FireWeaponOutcome = {
-        distance,
-        bearing,
-    };
-
-    if (!in_arcs(weapon.arcs, bearing)) {
-        outcome.no_firing_arc = true;
-        return outcome;
-    }
-
-    const nbr_dice = weapon.weapon_class - Math.trunc(distance / 12);
-
-    if (nbr_dice <= 0) {
-        outcome.out_of_range = true;
-        return outcome;
-    }
-
-    outcome.damage_dice = roll_dice(nbr_dice, { note: 'fire_weapon' });
-
-    const nbr_p_dice = outcome.damage_dice.filter(d => d === 6).length;
-
-    outcome.penetrating_damage_dice = roll_dice(nbr_p_dice, { reroll: [6], note: 'fire_weapon penetrating damage' });
-
-    // if the target gets it in Aft, all damages are penetrating
-    if (in_arcs(['A'], relative_coords(target.navigation, attacker.navigation).bearing)) {
-        outcome.penetrating_damage_dice = [...outcome.damage_dice, ...outcome.penetrating_damage_dice];
-
-        outcome.damage_dice = [];
-    }
-
-    return outcome;
-}
+)
 
 const beam_damage_table = { 4: 1, 5: 1, 6: 2 };
 

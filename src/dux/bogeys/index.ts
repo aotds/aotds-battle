@@ -24,7 +24,7 @@ const weapon_fire_outcome = action(
     'weapon_fire_outcome',
     payload<
         {
-            target_id: string;
+            bogey_id: string;
         } & ReturnType<typeof fireWeapon>
     >(),
 );
@@ -114,7 +114,7 @@ addSubEffect(
 
         dispatch(
             weapon_fire_outcome({
-                target_id,
+                bogey_id: target_id,
                 ...result,
             }),
         );
@@ -136,15 +136,15 @@ dux.addEffect(
     }),
 );
 
-// dux.addEffect(
-//     play_phases.actions.firecon_orders_phase,
-//     subactions(({ getState, dispatch }) => () => {
-//         const bogeys = getState();
-//         bogeys.forEach(({ id, orders }: BogeyState) => {
-//             orders.firecons?.forEach(orders => dispatch(bogey.actions.bogey_firecon_orders(id, orders)));
-//         });
-//     }),
-// );
+addSubEffect(
+    play_phases.actions.firecon_orders_phase,
+    ({ getState, dispatch }) => () => {
+        const bogeys = getState();
+        bogeys.forEach(({ id, orders }) => {
+            orders.firecons?.forEach(orders => dispatch(bogey.actions.bogey_firecon_orders(id, orders)));
+        });
+    },
+);
 
 dux.addEffect(
     play_phases.actions.weapon_orders_phase,
