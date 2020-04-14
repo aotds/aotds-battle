@@ -21,11 +21,20 @@ type State = {
 
 const bogey_movement = action('bogey_movement', payload<string>());
 
+const bogey_fire = action('bogey_fire', payload<string>()); // bogey's turn to let loose
+const firecon_fire = action( 'firecon_fire', payload<{bogey_id: string; firecon_id: number;}>() );
+const weapon_fire = action( 'weapon_fire', payload<{
+    bogey_id: string;
+    target_id: string;
+    weapon_id: number;
+}>() );
+
 // ---
 
 const dux = new Updux({
     initial: { id: '', name: '' } as State,
-    actions: { bogey_movement },
+    actions: { bogey_movement, bogey_fire,
+        firecon_fire, weapon_fire },
     subduxes: {
         orders,
         navigation,
@@ -37,6 +46,8 @@ const dux = new Updux({
 });
 
 export default dux.asDux;
+
+export type BogeyState = DuxState<typeof dux>;
 
 export function inflateBogey(shorthand: any) {
     return u({

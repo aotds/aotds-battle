@@ -10,6 +10,7 @@ import playPhases from './playPhases';
 import bogeys, { inflateBogeys } from './bogeys';
 import log from './log';
 import game from './game';
+import { inflateFirecons } from './bogeys/bogey/weaponry/firecons';
 
 type State = {
     game: {
@@ -38,6 +39,7 @@ export function inflateBattle( shorthand: any ) {
         bogeys: inflateBogeys
     }, shorthand)
 }
+
 
 battleDux.addMutation( init_game,
     initState => u(inflateBattle(initState)) );

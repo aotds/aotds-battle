@@ -1,5 +1,5 @@
 import Updux from 'updux';
-import { action, empty } from 'ts-action';
+import { action } from 'ts-action';
 import u from 'updeep';
 import playPhases from '../../../playPhases';
 import { FireconOrders } from '../weaponry/firecons';
@@ -8,18 +8,18 @@ const {
     actions: { clear_orders },
 } = playPhases;
 
-export type Orders = Partial<{
-    navigation: {
+type Orders = {
+    navigation?: {
         thrust?: number;
         turn?: number;
         bank?: number;
     };
-    firecons: Array<FireconOrders>;
-    weapons: Array<{
+    firecons?: Array<FireconOrders>;
+    weapons?: Array<{
         weapon_id: number;
         firecon_id: number;
     }>;
-}>;
+}
 
 const set_orders = action('set_orders', (bogey_id: string, orders: Orders) => ({
     payload: {

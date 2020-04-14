@@ -28,7 +28,7 @@ test('play_turn', async t => {
         action: dux.actions.play_turn(),
     });
 
-    const actions = result.dispatch.getCalls().map(({ args }) => args[0].type);
+    const actions = result.api.dispatch.getCalls().map(({ args }) => args[0].type);
 
     phases.forEach(phase => t.ok(actions.includes(phase)));
 

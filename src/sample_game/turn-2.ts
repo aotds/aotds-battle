@@ -10,6 +10,10 @@ const { getBogey } = Battle.selectors;
 
 const { getFirecon, getWeapon } = bogey.selectors;
 
+export const dice = [
+    [6, 5], [3], [1], [1], [90]
+].map( r => [ r ] );
+
 export const actions = [
     set_orders('enkidu', {
         firecons: [{ firecon_id: 1, target_id: 'siduri' }],
@@ -22,19 +26,28 @@ export const actions = [
     play_turn(),
 ];
 
+function findAction(log: any, {type}: {type: string}): any {
+    return log.map(
+        (action) => [
+            action.type === type ? action : [],
+            action.subactions ? findAction(action.subactions,{type}) : []
+        ]
+    ).flat(Infinity);
+}
+
+const lastTurn = log =>fp.last(findAction(log,Battle.actions.play_turn))
+
 export const tests = (state: BattleState) => async t => {
     const { enkidu, siduri } = fp.keyBy('id', state.bogeys);
 
-    t.match(getFirecon(enkidu)(1), { id: 1, target_id: 'siduri' }, 'enkidu is targeting siduri');
+    const [log] = findAction( [lastTurn(state.log)], Battle.actions.weapon_orders_phase);
+    // console.log("waiting");
 
-    const log = fp.flow([
-        fp.findLast({ type: Battle.actions.play_turn.type }),
-        ({ subactions }) => subactions,
-        fp.find({ type: Battle.actions.weapon_orders_phase.type }),
-        ({ subactions }) => subactions,
-    ])(state.log);
+    // const p = new Promise( resolve => setTimeout(resolve,1000000));
+    // await p;
 
-    t.is(log.length, 3, 'weapon orders made it to the log');
+
+    t.is(log.subactions.length, 3, 'weapon orders made it to the log');
 
     t.test('weapon assigned to firecon', async t => {
         const x = [1, 2, 3];

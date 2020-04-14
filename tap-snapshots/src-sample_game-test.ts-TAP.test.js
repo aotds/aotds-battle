@@ -101,21 +101,21 @@ Object {
           "current": 4,
           "rating": 4,
         },
-        "shields": Array [
-          Object {
-            "id": 0,
-            "level": 1,
-          },
-          Object {
-            "id": 1,
-            "level": 2,
-          },
-        ],
       },
       "weaponry": Object {
         "firecons": Array [
           Object {
             "id": 1,
+          },
+        ],
+        "shields": Array [
+          Object {
+            "id": 1,
+            "level": 1,
+          },
+          Object {
+            "id": 2,
+            "level": 2,
           },
         ],
         "weapons": Array [
@@ -224,6 +224,16 @@ Object {
             "id": 1,
           },
         ],
+        "shields": Array [
+          Object {
+            "id": 1,
+            "level": 1,
+          },
+          Object {
+            "id": 2,
+            "level": 2,
+          },
+        ],
         "weapons": Array [],
       },
     },
@@ -273,19 +283,13 @@ Object {
                 "current": 4,
                 "rating": 4,
               },
-              "shields": Array [
-                Object {
-                  "id": 0,
-                  "level": 1,
-                },
-                Object {
-                  "id": 1,
-                  "level": 2,
-                },
-              ],
             },
             "weaponry": Object {
               "firecons": 1,
+              "shields": Array [
+                1,
+                2,
+              ],
               "weapons": Array [
                 Object {
                   "arcs": Array [
@@ -345,6 +349,12 @@ Object {
                   "id": 1,
                   "level": 2,
                 },
+              ],
+            },
+            "weaponry": Object {
+              "shields": Array [
+                1,
+                2,
               ],
             },
           },
@@ -578,11 +588,29 @@ Object {
             "action_id": 14,
             "timestamp": "",
           },
+          "subactions": Array [
+            Object {
+              "meta": Object {
+                "action_id": 15,
+                "timestamp": "",
+              },
+              "payload": "enkidu",
+              "type": "bogey_fire",
+            },
+            Object {
+              "meta": Object {
+                "action_id": 16,
+                "timestamp": "",
+              },
+              "payload": "siduri",
+              "type": "bogey_fire",
+            },
+          ],
           "type": "weapon_firing_phase",
         },
         Object {
           "meta": Object {
-            "action_id": 15,
+            "action_id": 17,
             "timestamp": "",
           },
           "type": "clear_orders",
@@ -658,22 +686,22 @@ Object {
           "current": 4,
           "rating": 4,
         },
-        "shields": Array [
-          Object {
-            "id": 0,
-            "level": 1,
-          },
-          Object {
-            "id": 1,
-            "level": 2,
-          },
-        ],
       },
       "weaponry": Object {
         "firecons": Array [
           Object {
             "id": 1,
             "target_id": "siduri",
+          },
+        ],
+        "shields": Array [
+          Object {
+            "id": 1,
+            "level": 1,
+          },
+          Object {
+            "id": 2,
+            "level": 2,
           },
         ],
         "weapons": Array [
@@ -785,6 +813,16 @@ Object {
             "id": 1,
           },
         ],
+        "shields": Array [
+          Object {
+            "id": 1,
+            "level": 1,
+          },
+          Object {
+            "id": 2,
+            "level": 2,
+          },
+        ],
         "weapons": Array [],
       },
     },
@@ -834,19 +872,13 @@ Object {
                 "current": 4,
                 "rating": 4,
               },
-              "shields": Array [
-                Object {
-                  "id": 0,
-                  "level": 1,
-                },
-                Object {
-                  "id": 1,
-                  "level": 2,
-                },
-              ],
             },
             "weaponry": Object {
               "firecons": 1,
+              "shields": Array [
+                1,
+                2,
+              ],
               "weapons": Array [
                 Object {
                   "arcs": Array [
@@ -906,6 +938,12 @@ Object {
                   "id": 1,
                   "level": 2,
                 },
+              ],
+            },
+            "weaponry": Object {
+              "shields": Array [
+                1,
+                2,
               ],
             },
           },
@@ -1139,11 +1177,29 @@ Object {
             "action_id": 14,
             "timestamp": "",
           },
+          "subactions": Array [
+            Object {
+              "meta": Object {
+                "action_id": 15,
+                "timestamp": "",
+              },
+              "payload": "enkidu",
+              "type": "bogey_fire",
+            },
+            Object {
+              "meta": Object {
+                "action_id": 16,
+                "timestamp": "",
+              },
+              "payload": "siduri",
+              "type": "bogey_fire",
+            },
+          ],
           "type": "weapon_firing_phase",
         },
         Object {
           "meta": Object {
-            "action_id": 15,
+            "action_id": 17,
             "timestamp": "",
           },
           "type": "clear_orders",
@@ -1153,7 +1209,7 @@ Object {
     },
     Object {
       "meta": Object {
-        "action_id": 16,
+        "action_id": 18,
         "timestamp": "",
       },
       "payload": Object {
@@ -1186,26 +1242,26 @@ Object {
     },
     Object {
       "meta": Object {
-        "action_id": 17,
+        "action_id": 19,
         "timestamp": "",
       },
       "subactions": Array [
         Object {
           "meta": Object {
-            "action_id": 18,
+            "action_id": 20,
             "timestamp": "",
           },
           "subactions": Array [
             Object {
               "meta": Object {
-                "action_id": 19,
+                "action_id": 21,
                 "timestamp": "",
               },
               "payload": "enkidu",
               "subactions": Array [
                 Object {
                   "meta": Object {
-                    "action_id": 20,
+                    "action_id": 22,
                     "timestamp": "",
                   },
                   "payload": Object {
@@ -1261,14 +1317,14 @@ Object {
             },
             Object {
               "meta": Object {
-                "action_id": 21,
+                "action_id": 23,
                 "timestamp": "",
               },
               "payload": "siduri",
               "subactions": Array [
                 Object {
                   "meta": Object {
-                    "action_id": 22,
+                    "action_id": 24,
                     "timestamp": "",
                   },
                   "payload": Object {
@@ -1327,13 +1383,13 @@ Object {
         },
         Object {
           "meta": Object {
-            "action_id": 23,
+            "action_id": 25,
             "timestamp": "",
           },
           "subactions": Array [
             Object {
               "meta": Object {
-                "action_id": 24,
+                "action_id": 26,
                 "timestamp": "",
               },
               "payload": Object {
@@ -1350,13 +1406,13 @@ Object {
         },
         Object {
           "meta": Object {
-            "action_id": 25,
+            "action_id": 27,
             "timestamp": "",
           },
           "subactions": Array [
             Object {
               "meta": Object {
-                "action_id": 26,
+                "action_id": 28,
                 "timestamp": "",
               },
               "payload": Object {
@@ -1370,7 +1426,7 @@ Object {
             },
             Object {
               "meta": Object {
-                "action_id": 27,
+                "action_id": 29,
                 "timestamp": "",
               },
               "payload": Object {
@@ -1384,7 +1440,7 @@ Object {
             },
             Object {
               "meta": Object {
-                "action_id": 28,
+                "action_id": 30,
                 "timestamp": "",
               },
               "payload": Object {
@@ -1401,14 +1457,149 @@ Object {
         },
         Object {
           "meta": Object {
-            "action_id": 29,
+            "action_id": 31,
             "timestamp": "",
           },
+          "subactions": Array [
+            Object {
+              "meta": Object {
+                "action_id": 32,
+                "timestamp": "",
+              },
+              "payload": "enkidu",
+              "subactions": Array [
+                Object {
+                  "meta": Object {
+                    "action_id": 33,
+                    "timestamp": "",
+                  },
+                  "payload": Object {
+                    "bogey_id": "enkidu",
+                    "firecon_id": 1,
+                  },
+                  "subactions": Array [
+                    Object {
+                      "meta": Object {
+                        "action_id": 34,
+                        "timestamp": "",
+                      },
+                      "payload": Object {
+                        "bogey_id": "enkidu",
+                        "target_id": "siduri",
+                        "weapon_id": 1,
+                      },
+                      "subactions": Array [
+                        Object {
+                          "meta": Object {
+                            "action_id": 35,
+                            "timestamp": "",
+                          },
+                          "payload": Object {
+                            "bearing": 0.7307175370193499,
+                            "bogey_id": "siduri",
+                            "damage_dice": Array [
+                              6,
+                              5,
+                            ],
+                            "distance": 10.163030408244284,
+                            "penetrating_damage_dice": Array [
+                              3,
+                            ],
+                          },
+                          "subactions": Array [
+                            Object {
+                              "meta": Object {
+                                "action_id": 36,
+                                "timestamp": "",
+                              },
+                              "payload": Object {
+                                "bogey_id": "siduri",
+                                "damage": 2,
+                              },
+                              "type": "bogey_damage",
+                            },
+                          ],
+                          "type": "weapon_fire_outcome",
+                        },
+                      ],
+                      "type": "weapon_fire",
+                    },
+                    Object {
+                      "meta": Object {
+                        "action_id": 37,
+                        "timestamp": "",
+                      },
+                      "payload": Object {
+                        "bogey_id": "enkidu",
+                        "target_id": "siduri",
+                        "weapon_id": 2,
+                      },
+                      "subactions": Array [
+                        Object {
+                          "meta": Object {
+                            "action_id": 38,
+                            "timestamp": "",
+                          },
+                          "payload": Object {
+                            "aborted": true,
+                            "bearing": 0.7307175370193499,
+                            "bogey_id": "siduri",
+                            "distance": 10.163030408244284,
+                            "reason": "no firing arc",
+                          },
+                          "type": "weapon_fire_outcome",
+                        },
+                      ],
+                      "type": "weapon_fire",
+                    },
+                    Object {
+                      "meta": Object {
+                        "action_id": 39,
+                        "timestamp": "",
+                      },
+                      "payload": Object {
+                        "bogey_id": "enkidu",
+                        "target_id": "siduri",
+                        "weapon_id": 3,
+                      },
+                      "subactions": Array [
+                        Object {
+                          "meta": Object {
+                            "action_id": 40,
+                            "timestamp": "",
+                          },
+                          "payload": Object {
+                            "aborted": true,
+                            "bearing": 0.7307175370193499,
+                            "bogey_id": "siduri",
+                            "distance": 10.163030408244284,
+                            "reason": "no firing arc",
+                          },
+                          "type": "weapon_fire_outcome",
+                        },
+                      ],
+                      "type": "weapon_fire",
+                    },
+                  ],
+                  "type": "firecon_fire",
+                },
+              ],
+              "type": "bogey_fire",
+            },
+            Object {
+              "meta": Object {
+                "action_id": 41,
+                "timestamp": "",
+              },
+              "payload": "siduri",
+              "type": "bogey_fire",
+            },
+          ],
           "type": "weapon_firing_phase",
         },
         Object {
           "meta": Object {
-            "action_id": 30,
+            "action_id": 42,
             "timestamp": "",
           },
           "type": "clear_orders",

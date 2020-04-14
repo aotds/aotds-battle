@@ -8,9 +8,10 @@
 // are aimed to help you to write clean and readable tests.
 
 declare module 'tap' {
-    // Enforce using async tests only.
-    function test(name: string, options: { timeout: number }, asyncfn: (t: Test) => Promise<void>): void;
-    function test(name: string, fn: (t: Test) => Promise<void>): void;
+
+  // Enforce using async tests only.
+  function test(name: string, options: {timeout: number}, asyncfn: (t: Test) => Promise<void>): void;
+  function test(name: string, fn: (t: Test) => Promise<void>): void;
 
     // Assertions, see https://node-tap.org/docs/api/asserts/
     function ok(value: any, message?: string): void;
@@ -37,6 +38,7 @@ declare module 'tap' {
 
     function cleanSnapshot(...args: any[]): any;
     function matchSnapshot(...args: any[]): any;
+
 
     type MatchObject<T, K extends keyof T> = Partial<
         {
