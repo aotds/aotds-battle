@@ -101,21 +101,21 @@ Object {
           "current": 4,
           "rating": 4,
         },
-        "shields": Array [
-          Object {
-            "id": 0,
-            "level": 1,
-          },
-          Object {
-            "id": 1,
-            "level": 2,
-          },
-        ],
       },
       "weaponry": Object {
         "firecons": Array [
           Object {
             "id": 1,
+          },
+        ],
+        "shields": Array [
+          Object {
+            "id": 1,
+            "level": 1,
+          },
+          Object {
+            "id": 2,
+            "level": 2,
           },
         ],
         "weapons": Array [
@@ -224,6 +224,16 @@ Object {
             "id": 1,
           },
         ],
+        "shields": Array [
+          Object {
+            "id": 1,
+            "level": 1,
+          },
+          Object {
+            "id": 2,
+            "level": 2,
+          },
+        ],
         "weapons": Array [],
       },
     },
@@ -273,19 +283,13 @@ Object {
                 "current": 4,
                 "rating": 4,
               },
-              "shields": Array [
-                Object {
-                  "id": 0,
-                  "level": 1,
-                },
-                Object {
-                  "id": 1,
-                  "level": 2,
-                },
-              ],
             },
             "weaponry": Object {
               "firecons": 1,
+              "shields": Array [
+                1,
+                2,
+              ],
               "weapons": Array [
                 Object {
                   "arcs": Array [
@@ -345,6 +349,12 @@ Object {
                   "id": 1,
                   "level": 2,
                 },
+              ],
+            },
+            "weaponry": Object {
+              "shields": Array [
+                1,
+                2,
               ],
             },
           },
@@ -676,22 +686,22 @@ Object {
           "current": 4,
           "rating": 4,
         },
-        "shields": Array [
-          Object {
-            "id": 0,
-            "level": 1,
-          },
-          Object {
-            "id": 1,
-            "level": 2,
-          },
-        ],
       },
       "weaponry": Object {
         "firecons": Array [
           Object {
             "id": 1,
             "target_id": "siduri",
+          },
+        ],
+        "shields": Array [
+          Object {
+            "id": 1,
+            "level": 1,
+          },
+          Object {
+            "id": 2,
+            "level": 2,
           },
         ],
         "weapons": Array [
@@ -803,6 +813,16 @@ Object {
             "id": 1,
           },
         ],
+        "shields": Array [
+          Object {
+            "id": 1,
+            "level": 1,
+          },
+          Object {
+            "id": 2,
+            "level": 2,
+          },
+        ],
         "weapons": Array [],
       },
     },
@@ -852,19 +872,13 @@ Object {
                 "current": 4,
                 "rating": 4,
               },
-              "shields": Array [
-                Object {
-                  "id": 0,
-                  "level": 1,
-                },
-                Object {
-                  "id": 1,
-                  "level": 2,
-                },
-              ],
             },
             "weaponry": Object {
               "firecons": 1,
+              "shields": Array [
+                1,
+                2,
+              ],
               "weapons": Array [
                 Object {
                   "arcs": Array [
@@ -924,6 +938,12 @@ Object {
                   "id": 1,
                   "level": 2,
                 },
+              ],
+            },
+            "weaponry": Object {
+              "shields": Array [
+                1,
+                2,
               ],
             },
           },
@@ -1486,6 +1506,19 @@ Object {
                               3,
                             ],
                           },
+                          "subactions": Array [
+                            Object {
+                              "meta": Object {
+                                "action_id": 36,
+                                "timestamp": "",
+                              },
+                              "payload": Object {
+                                "bogey_id": "siduri",
+                                "damage": 2,
+                              },
+                              "type": "bogey_damage",
+                            },
+                          ],
                           "type": "weapon_fire_outcome",
                         },
                       ],
@@ -1493,7 +1526,7 @@ Object {
                     },
                     Object {
                       "meta": Object {
-                        "action_id": 36,
+                        "action_id": 37,
                         "timestamp": "",
                       },
                       "payload": Object {
@@ -1504,7 +1537,7 @@ Object {
                       "subactions": Array [
                         Object {
                           "meta": Object {
-                            "action_id": 37,
+                            "action_id": 38,
                             "timestamp": "",
                           },
                           "payload": Object {
@@ -1521,7 +1554,7 @@ Object {
                     },
                     Object {
                       "meta": Object {
-                        "action_id": 38,
+                        "action_id": 39,
                         "timestamp": "",
                       },
                       "payload": Object {
@@ -1532,7 +1565,7 @@ Object {
                       "subactions": Array [
                         Object {
                           "meta": Object {
-                            "action_id": 39,
+                            "action_id": 40,
                             "timestamp": "",
                           },
                           "payload": Object {
@@ -1555,7 +1588,7 @@ Object {
             },
             Object {
               "meta": Object {
-                "action_id": 40,
+                "action_id": 41,
                 "timestamp": "",
               },
               "payload": "siduri",
@@ -1566,7 +1599,7 @@ Object {
         },
         Object {
           "meta": Object {
-            "action_id": 41,
+            "action_id": 42,
             "timestamp": "",
           },
           "type": "clear_orders",

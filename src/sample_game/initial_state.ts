@@ -13,6 +13,7 @@ export default {
                 },
                 weaponry: {
                     firecons: 1,
+                    shields: [ 1, 2 ],
                     weapons: [ {
                         weapon_type: "beam", weapon_class: 2,
                         arcs: [ 'F' ] },
@@ -25,10 +26,6 @@ export default {
                 },
                 structure: {
                     hull: { current: 4, rating: 4},
-                    shields: [
-                        { id: 0, level: 1 },
-                        { id: 1, level: 2 }
-                    ],
                     armor: { current: 4, rating: 4},
                 },
                 player_id: "yanick",
@@ -41,6 +38,7 @@ export default {
                     velocity: 0,
                 },
                 player_id: "yenzie",
+                weaponry: { shields: [ 1, 2 ] },
                 structure: {
                     hull: { current: 4, rating: 4},
                     shields: [

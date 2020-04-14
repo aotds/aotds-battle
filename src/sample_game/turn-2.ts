@@ -40,12 +40,12 @@ const lastTurn = log =>fp.last(findAction(log,Battle.actions.play_turn))
 export const tests = (state: BattleState) => async t => {
     const { enkidu, siduri } = fp.keyBy('id', state.bogeys);
 
+    const [log] = findAction( [lastTurn(state.log)], Battle.actions.weapon_orders_phase);
     // console.log("waiting");
 
     // const p = new Promise( resolve => setTimeout(resolve,1000000));
     // await p;
 
-    const [log] = findAction( [lastTurn(state.log)], Battle.actions.weapon_orders_phase);
 
     t.is(log.subactions.length, 3, 'weapon orders made it to the log');
 

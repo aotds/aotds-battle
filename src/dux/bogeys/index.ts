@@ -5,10 +5,11 @@ import u from 'updeep';
 import play_phases from '../playPhases';
 import subactions from '../subactions';
 import { plotMovement } from './bogey/rules/plotMovement';
-import { fireWeapon } from './bogey/weaponry/weapons/rules/fireWeapon';
+import { fireWeapon, isFireWeaponSuccess } from './bogey/weaponry/weapons/rules/fireWeapon';
 import { action, payload } from 'ts-action';
 import playPhasesDux from '../playPhases';
 import genAddSubEffect from '../genAddSubEffect';
+import { calculateDamage } from './bogey/weaponry/rules/calculateDamage';
 
 const { weapon_firing_phase } = playPhasesDux.actions;
 
@@ -17,6 +18,16 @@ type BogeyState = DuxState<typeof bogey>;
 const getBogey = (bogeys: BogeyState[]) => (id: string) => fp.find({ id }, bogeys);
 
 // -- actions
+const bogey_damage = action(
+    'bogey_damage',
+    payload<{
+        bogey_id: string;
+        damage: number;
+        is_penetrating?: boolean;
+    }>(),
+);
+
+const bogey_internal_systems_check = action('bogey_internal_systems_check', payload<string>());
 
 const { bogey_movement, bogey_movement_move } = bogey.actions;
 
@@ -36,6 +47,8 @@ const dux = new Updux({
     actions: {
         weapon_firing_phase,
         weapon_fire_outcome,
+        bogey_damage,
+        bogey_internal_systems_check,
     },
     subduxes: {
         '*': bogey,
@@ -136,15 +149,12 @@ dux.addEffect(
     }),
 );
 
-addSubEffect(
-    play_phases.actions.firecon_orders_phase,
-    ({ getState, dispatch }) => () => {
-        const bogeys = getState();
-        bogeys.forEach(({ id, orders }) => {
-            orders.firecons?.forEach(orders => dispatch(bogey.actions.bogey_firecon_orders(id, orders)));
-        });
-    },
-);
+addSubEffect(play_phases.actions.firecon_orders_phase, ({ getState, dispatch }) => () => {
+    const bogeys = getState();
+    bogeys.forEach(({ id, orders }) => {
+        orders.firecons?.forEach(orders => dispatch(bogey.actions.bogey_firecon_orders(id, orders)));
+    });
+});
 
 dux.addEffect(
     play_phases.actions.weapon_orders_phase,
@@ -155,6 +165,31 @@ dux.addEffect(
         });
     }),
 );
+
+addSubEffect(dux.actions.weapon_fire_outcome, ({ getState, dispatch }) => ({ payload }) => {
+    if (!isFireWeaponSuccess(payload)) return;
+
+    const bogey = getBogey(getState())(payload.bogey_id);
+    if (!bogey) return;
+
+    [
+        {
+            damage: calculateDamage(bogey, payload.damage_dice),
+        },
+        {
+            damage: calculateDamage(bogey, payload.penetrating_damage_dice),
+            is_penetrating: true,
+        },
+    ]
+        .filter(({ damage }) => damage > 0)
+        .map(damage => ({ ...damage, bogey_id: bogey.id }))
+        .map(bogey_damage)
+        .forEach(dispatch as any);
+});
+
+addSubEffect(dux.actions.bogey_damage, () => ({ payload: { bogey_id } }) => {
+    // internal damage check
+});
 
 export default dux.asDux;
 

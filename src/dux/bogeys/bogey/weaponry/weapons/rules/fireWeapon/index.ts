@@ -21,6 +21,10 @@ type Success = {
 
 type FireWeaponOutcome = Aborted | Success;
 
+export function isFireWeaponSuccess(outcome: FireWeaponOutcome): outcome is FireWeaponOutcome & Success {
+    return ! (outcome as Aborted).aborted;
+}
+
 export function fireWeapon(attacker: NavigationState, target: NavigationState, weapon: WeaponMounted): FireWeaponOutcome {
     // right now it's all beam weapons
     const { distance, bearing } = relativeCoords(attacker, target);
