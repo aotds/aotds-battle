@@ -31,7 +31,7 @@ type StructureShorthand = {
     hull: number | HullState;
     armor?: number | ArmorState;
     destroyed?: boolean;
-}
+};
 
 function inflateHull( shorthand: HullState|number ): HullState {
     if( typeof shorthand === 'number' ) {
@@ -58,7 +58,9 @@ function inflateArmor(shorthand?: number | ArmorState ) : ArmorState {
     return shorthand;
 }
 
-export function inflateStructure(shorthand: StructureShorthand): StructureState {
+export function inflateStructure(shorthand?: StructureShorthand): StructureState {
+
+    if(!shorthand) return inflateStructure({ hull: 0 });
 
     return {
         destroyed: shorthand.destroyed ?? false,
