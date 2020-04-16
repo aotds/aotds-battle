@@ -97,6 +97,7 @@ Object {
           "current": 4,
           "rating": 4,
         },
+        "destroyed": false,
         "hull": Object {
           "current": 4,
           "rating": 4,
@@ -203,20 +204,11 @@ Object {
           "current": 4,
           "rating": 4,
         },
+        "destroyed": false,
         "hull": Object {
           "current": 4,
           "rating": 4,
         },
-        "shields": Array [
-          Object {
-            "id": 0,
-            "level": 1,
-          },
-          Object {
-            "id": 1,
-            "level": 2,
-          },
-        ],
       },
       "weaponry": Object {
         "firecons": Array [
@@ -682,6 +674,7 @@ Object {
           "current": 4,
           "rating": 4,
         },
+        "destroyed": false,
         "hull": Object {
           "current": 4,
           "rating": 4,
@@ -792,20 +785,11 @@ Object {
           "current": 4,
           "rating": 4,
         },
+        "destroyed": false,
         "hull": Object {
           "current": 4,
           "rating": 4,
         },
-        "shields": Array [
-          Object {
-            "id": 0,
-            "level": 1,
-          },
-          Object {
-            "id": 1,
-            "level": 2,
-          },
-        ],
       },
       "weaponry": Object {
         "firecons": Array [
