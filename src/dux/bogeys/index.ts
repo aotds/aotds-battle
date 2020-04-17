@@ -30,8 +30,6 @@ const weapon_fire_outcome = action(
     >(),
 );
 
-// --
-
 const dux = new Updux({
     initial: [] as BogeyState[],
     actions: {
@@ -56,6 +54,7 @@ const singleBogey: any = (prop = 'bogey_id') => (payload, action) =>
     bogey.actions.set_orders,
     bogey.actions.bogey_firecon_orders,
     bogey.actions.bogey_weapon_orders,
+    bogey.actions.bogey_damage,
 ].forEach(action => dux.addMutation(action, singleBogey(), true));
 
 dux.addEffect(
