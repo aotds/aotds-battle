@@ -17,16 +17,6 @@ type BogeyState = DuxState<typeof bogey>;
 
 const getBogey = (bogeys: BogeyState[]) => (id: string) => fp.find({ id }, bogeys);
 
-// -- actions
-const bogey_damage = action(
-    'bogey_damage',
-    payload<{
-        bogey_id: string;
-        damage: number;
-        is_penetrating?: boolean;
-    }>(),
-);
-
 const bogey_internal_systems_check = action('bogey_internal_systems_check', payload<string>());
 
 const { bogey_movement, bogey_movement_move } = bogey.actions;
@@ -47,7 +37,6 @@ const dux = new Updux({
     actions: {
         weapon_firing_phase,
         weapon_fire_outcome,
-        bogey_damage,
         bogey_internal_systems_check,
     },
     subduxes: {
@@ -183,7 +172,7 @@ addSubEffect(dux.actions.weapon_fire_outcome, ({ getState, dispatch }) => ({ pay
     ]
         .filter(({ damage }) => damage > 0)
         .map(damage => ({ ...damage, bogey_id: bogey.id }))
-        .map(bogey_damage)
+        .map(dux.actions.bogey_damage)
         .forEach(dispatch as any);
 });
 

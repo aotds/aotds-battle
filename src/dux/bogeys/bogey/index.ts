@@ -3,7 +3,6 @@ import { action, payload } from 'ts-action';
 import orders from './orders';
 import navigation from './navigation';
 import u from 'updeep';
-import fp from 'lodash/fp';
 import weaponry, { inflateWeaponry } from './weaponry';
 import structure, { inflateStructure } from './structure';
 

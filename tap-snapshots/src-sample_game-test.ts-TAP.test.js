@@ -671,12 +671,12 @@ Object {
       "player_id": "yanick",
       "structure": Object {
         "armor": Object {
-          "current": 4,
+          "current": 3,
           "rating": 4,
         },
         "destroyed": false,
         "hull": Object {
-          "current": 4,
+          "current": 3,
           "rating": 4,
         },
       },
@@ -782,12 +782,12 @@ Object {
       "player_id": "yenzie",
       "structure": Object {
         "armor": Object {
-          "current": 4,
+          "current": 3,
           "rating": 4,
         },
         "destroyed": false,
         "hull": Object {
-          "current": 4,
+          "current": 3,
           "rating": 4,
         },
       },
