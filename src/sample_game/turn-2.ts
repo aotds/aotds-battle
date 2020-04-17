@@ -41,11 +41,6 @@ export const tests = (state: BattleState) => async t => {
     const { enkidu, siduri } = fp.keyBy('id', state.bogeys);
 
     const [log] = findAction( [lastTurn(state.log)], Battle.actions.weapon_orders_phase);
-    // console.log("waiting");
-
-    // const p = new Promise( resolve => setTimeout(resolve,1000000));
-    // await p;
-
 
     t.is(log.subactions.length, 3, 'weapon orders made it to the log');
 
@@ -55,4 +50,12 @@ export const tests = (state: BattleState) => async t => {
             t.match(getWeapon(enkidu)(i), { firecon_id: 1 }, 'weapon assigned to firecon')
         })
     });
+
+    t.is( siduri.structure.hull.current, 3, "siduri got hit" );
+    t.is( enkidu.structure.hull.current, 4, "not enkidu" );
+
+    console.log("waiting");
+
+    const p = new Promise( resolve => setTimeout(resolve,1000000));
+    await p;
 };
