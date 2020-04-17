@@ -172,7 +172,7 @@ addSubEffect(dux.actions.weapon_fire_outcome, ({ getState, dispatch }) => ({ pay
     ]
         .filter(({ damage }) => damage > 0)
         .map(damage => ({ ...damage, bogey_id: bogey.id }))
-        .map(bogey_damage)
+        .map(dux.actions.bogey_damage)
         .forEach(dispatch as any);
 });
 

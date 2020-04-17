@@ -89,13 +89,15 @@ function inflateArmor(shorthand?: number | ArmorState ) : ArmorState {
         return {
             current: shorthand,
             rating: shorthand,
-        }
+        };
     }
 
     return shorthand;
 }
 
-export function inflateStructure(shorthand: StructureShorthand): StructureState {
+export function inflateStructure(shorthand?: StructureShorthand): StructureState {
+
+    if(!shorthand) return inflateStructure({ hull: 0 });
 
     return {
         destroyed: shorthand.destroyed ?? false,
