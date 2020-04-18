@@ -14,6 +14,7 @@ type State = {
     drive: {
         rating: number;
         current: number;
+        damage_level?: 0|1|2;
     }
 };
 

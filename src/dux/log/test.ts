@@ -25,4 +25,4 @@ store.dispatch({
     },
 });
 
-tap.match(store.getState(), [{ type: 'alpha', subactions: [{ type: 'beta' }] }, { type: 'gamma' }]);
+tap.match(store.getState() as any, [{ type: 'alpha', subactions: [{ type: 'beta' }] }, { type: 'gamma' }]);

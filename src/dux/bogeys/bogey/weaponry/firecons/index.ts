@@ -7,6 +7,7 @@ import { action } from 'ts-action';
 type FireconState = {
     id: number;
     target_id?: string | null;
+    damaged?: boolean;
 };
 
 export type FireconOrders = {
