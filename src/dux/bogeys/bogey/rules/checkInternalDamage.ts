@@ -1,6 +1,7 @@
 import {BogeyState} from '..';
 import fp from 'lodash/fp';
 import {rollDice} from '../../../../dice';
+import { action, payload } from 'ts-action';
 
 function drive(bogey: BogeyState) {
     if( (bogey.drive.damage_level??0) >= 2 ) return;
@@ -18,6 +19,17 @@ const subSystem = (system: 'firecon'|'weapon'|'shield', subs: {id: number, damag
 const firecons = ( bogey: BogeyState ) => subSystem( 'firecon', bogey.weaponry.firecons );
 const weapons = ( bogey: BogeyState ) => subSystem( 'weapon', bogey.weaponry.weapons );
 const shields = ( bogey: BogeyState ) => subSystem( 'shield', bogey.weaponry.shields );
+
+export const internal_damage = action(
+    'internal_damage',
+    payload<{
+        bogey_id: string;
+        system: string;
+        system_id?: number;
+        threshold: number;
+        hit: boolean;
+    }>(),
+);
 
 export default function checkInternalDamage(bogey: BogeyState, damage: number) {
     const threshold = 100 * damage / (bogey.structure.hull.rating || 1);

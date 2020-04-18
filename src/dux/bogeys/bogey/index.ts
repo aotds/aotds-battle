@@ -5,6 +5,7 @@ import navigation from './navigation';
 import u from 'updeep';
 import weaponry, { inflateWeaponry } from './weaponry';
 import structure, { inflateStructure } from './structure';
+import { internal_damage } from './rules/checkInternalDamage';
 
 type State = {
     id: string;
@@ -35,7 +36,7 @@ const weapon_fire = action( 'weapon_fire', payload<{
 const dux = new Updux({
     initial: { id: '', name: '' } as State,
     actions: { bogey_movement, bogey_fire,
-        firecon_fire, weapon_fire },
+        firecon_fire, weapon_fire, internal_damage },
     subduxes: {
         orders,
         navigation,
@@ -46,6 +47,13 @@ const dux = new Updux({
     }
 
 });
+
+dux.addMutation(dux.actions.internal_damage, ({ system }) =>
+    u.if(
+        system === 'drive',
+        u.updateIn('drive.damage_level', (level?: number) => Math.min((level ?? 0) + 1, 2)),
+    ),
+);
 
 export default dux.asDux;
 

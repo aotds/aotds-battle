@@ -3,6 +3,7 @@ import Updux from 'updux';
 import u from 'updeep';
 import fp from 'lodash/fp';
 import { action } from 'ts-action';
+import { internal_damage} from '../../rules/checkInternalDamage';
 
 export type Arc = "F" | "FP" | "FS" | "A" | "AS" | "AP";
 
@@ -41,7 +42,7 @@ const bogey_weapon_orders = action('bogey_weapon_orders', (bogey_id: string, ord
 
 const weaponsDux = new Updux({
     initial: [] as WeaponState[],
-    actions: { bogey_weapon_orders },
+    actions: { bogey_weapon_orders, internal_damage },
     selectors: { getWeapon }
 });
 
@@ -49,6 +50,10 @@ weaponsDux.addMutation(
     bogey_weapon_orders, ({weapon_id: id,orders:{firecon_id}}) =>
     u.map( u.if(fp.matches({id}), u({firecon_id}) )) as any
 )
+
+weaponsDux.addMutation(weaponsDux.actions.internal_damage, ({ system, system_id }) =>
+    u.if(system === 'weapon', u.map(u.if(fp.matches({ id: system_id }), { damaged: true }))),
+);
 
 export default weaponsDux.asDux;
 
