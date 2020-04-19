@@ -3,10 +3,12 @@ import fp from 'lodash/fp';
 import _ from 'lodash';
 import u from 'updeep';
 import { action } from 'ts-action';
+import { internal_damage } from '../../rules/checkInternalDamage';
 
 type FireconState = {
     id: number;
     target_id?: string | null;
+    damaged?: boolean;
 };
 
 export type FireconOrders = {
@@ -33,8 +35,13 @@ const dux = new Updux({
     },
     actions: {
         bogey_firecon_orders,
+        internal_damage,
     },
 });
+
+dux.addMutation(dux.actions.internal_damage, ({ system, system_id }) =>
+    u.if(system === 'firecon', u.map(u.if(fp.matches({ id: system_id }), { damaged: true }))),
+);
 
 dux.addMutation(
     bogey_firecon_orders,
@@ -50,7 +57,7 @@ type FireconsState = DuxState<typeof fireconsDux>;
 
 type FireconsShorthand = FireconsState | number;
 
-export function inflateFirecons(shorthand: FireconsShorthand): FireconsState {
+export function inflateFirecons(shorthand: FireconsShorthand = 0): FireconsState {
     if (typeof shorthand === 'object') return shorthand;
 
     return _.range(1, shorthand + 1).map(id => ({ id }));

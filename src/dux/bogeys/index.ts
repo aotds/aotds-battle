@@ -10,6 +10,7 @@ import { action, payload } from 'ts-action';
 import playPhasesDux from '../playPhases';
 import genAddSubEffect from '../genAddSubEffect';
 import { calculateDamage } from './bogey/weaponry/rules/calculateDamage';
+import checkInternalDamage from './bogey/rules/checkInternalDamage';
 
 const { weapon_firing_phase } = playPhasesDux.actions;
 
@@ -35,7 +36,7 @@ const dux = new Updux({
     actions: {
         weapon_firing_phase,
         weapon_fire_outcome,
-        bogey_internal_systems_check,
+        bogey_internal_systems_check
     },
     subduxes: {
         '*': bogey,
@@ -55,6 +56,8 @@ const singleBogey: any = (prop = 'bogey_id') => (payload, action) =>
     bogey.actions.bogey_firecon_orders,
     bogey.actions.bogey_weapon_orders,
     bogey.actions.bogey_damage,
+    bogey.actions.internal_damage,
+    bogey.actions.update_internal_check,
 ].forEach(action => dux.addMutation(action, singleBogey(), true));
 
 dux.addEffect(
@@ -175,8 +178,27 @@ addSubEffect(dux.actions.weapon_fire_outcome, ({ getState, dispatch }) => ({ pay
         .forEach(dispatch as any);
 });
 
-addSubEffect(dux.actions.bogey_damage, () => ({ payload: { bogey_id } }) => {
-    // internal damage check
+
+// internal damage check
+addSubEffect(dux.actions.bogey_damage, ({ getState, dispatch }) => ({ payload: { bogey_id } }) => {
+    const bogey = getBogey(getState())(bogey_id);
+    if (!bogey) return;
+
+    const damage = bogey.structure.hull.last_internal_check - bogey.structure.hull.current;
+
+    if (!damage) return;
+
+    dispatch(dux.actions.update_internal_check({ bogey_id,
+        last_internal_check: bogey.structure.hull.current}));
+
+    checkInternalDamage(bogey,damage)
+        .filter(({ hit }) => hit)
+        .map((damage: object) => ({
+            ...damage,
+            bogey_id,
+        }))
+        .map(dux.actions.internal_damage)
+        .forEach(dispatch);
 });
 
 export default dux.asDux;

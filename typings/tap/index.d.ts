@@ -22,7 +22,7 @@ declare module 'tap' {
     function same<T>(actual: T, expected: T, message: string): void;
     function deepEqual<T>(actual: T, expected: T, message?: string): void;
     function match(actual: string | undefined, expected: string | RegExp, message?: string): void;
-    function match<T>(actual: T, expected: MatchObject<T>, message?: string): void;
+    function match<T>(actual: T, expected: MatchObject<T, keyof T>, message?: string): void;
     function rejects<T>(p: Promise<T>, matcher?: RegExp, message?: string): void;
 
     function fail(message: string): void;

@@ -22,6 +22,7 @@ Object {
     Object {
       "drive": Object {
         "current": 6,
+        "damage_level": 0,
         "rating": 6,
       },
       "id": "enkidu",
@@ -100,6 +101,7 @@ Object {
         "destroyed": false,
         "hull": Object {
           "current": 4,
+          "last_internal_check": 4,
           "rating": 4,
         },
       },
@@ -150,6 +152,7 @@ Object {
     Object {
       "drive": Object {
         "current": 6,
+        "damage_level": 0,
         "rating": 6,
       },
       "id": "siduri",
@@ -207,15 +210,12 @@ Object {
         "destroyed": false,
         "hull": Object {
           "current": 4,
+          "last_internal_check": 4,
           "rating": 4,
         },
       },
       "weaponry": Object {
-        "firecons": Array [
-          Object {
-            "id": 1,
-          },
-        ],
+        "firecons": Array [],
         "shields": Array [
           Object {
             "id": 1,
@@ -267,14 +267,8 @@ Object {
             },
             "player_id": "yanick",
             "structure": Object {
-              "armor": Object {
-                "current": 4,
-                "rating": 4,
-              },
-              "hull": Object {
-                "current": 4,
-                "rating": 4,
-              },
+              "armor": 4,
+              "hull": 4,
             },
             "weaponry": Object {
               "firecons": 1,
@@ -328,19 +322,10 @@ Object {
                 "current": 4,
                 "rating": 4,
               },
-              "hull": Object {
-                "current": 4,
-                "rating": 4,
-              },
+              "hull": 4,
               "shields": Array [
-                Object {
-                  "id": 0,
-                  "level": 1,
-                },
-                Object {
-                  "id": 1,
-                  "level": 2,
-                },
+                1,
+                2,
               ],
             },
             "weaponry": Object {
@@ -620,6 +605,7 @@ Object {
     Object {
       "drive": Object {
         "current": 6,
+        "damage_level": 0,
         "rating": 6,
       },
       "id": "enkidu",
@@ -671,12 +657,13 @@ Object {
       "player_id": "yanick",
       "structure": Object {
         "armor": Object {
-          "current": 3,
+          "current": 4,
           "rating": 4,
         },
         "destroyed": false,
         "hull": Object {
-          "current": 3,
+          "current": 4,
+          "last_internal_check": 4,
           "rating": 4,
         },
       },
@@ -730,7 +717,8 @@ Object {
     },
     Object {
       "drive": Object {
-        "current": 6,
+        "current": 3,
+        "damage_level": 1,
         "rating": 6,
       },
       "id": "siduri",
@@ -788,17 +776,15 @@ Object {
         "destroyed": false,
         "hull": Object {
           "current": 3,
+          "last_internal_check": 3,
           "rating": 4,
         },
       },
       "weaponry": Object {
-        "firecons": Array [
-          Object {
-            "id": 1,
-          },
-        ],
+        "firecons": Array [],
         "shields": Array [
           Object {
+            "damaged": true,
             "id": 1,
             "level": 1,
           },
@@ -848,14 +834,8 @@ Object {
             },
             "player_id": "yanick",
             "structure": Object {
-              "armor": Object {
-                "current": 4,
-                "rating": 4,
-              },
-              "hull": Object {
-                "current": 4,
-                "rating": 4,
-              },
+              "armor": 4,
+              "hull": 4,
             },
             "weaponry": Object {
               "firecons": 1,
@@ -909,19 +889,10 @@ Object {
                 "current": 4,
                 "rating": 4,
               },
-              "hull": Object {
-                "current": 4,
-                "rating": 4,
-              },
+              "hull": 4,
               "shields": Array [
-                Object {
-                  "id": 0,
-                  "level": 1,
-                },
-                Object {
-                  "id": 1,
-                  "level": 2,
-                },
+                1,
+                2,
               ],
             },
             "weaponry": Object {
@@ -1500,6 +1471,48 @@ Object {
                                 "bogey_id": "siduri",
                                 "damage": 2,
                               },
+                              "subactions": Array [
+                                Object {
+                                  "meta": Object {
+                                    "action_id": 37,
+                                    "timestamp": "",
+                                  },
+                                  "payload": Object {
+                                    "bogey_id": "siduri",
+                                    "last_internal_check": 3,
+                                  },
+                                  "type": "update_internal_check",
+                                },
+                                Object {
+                                  "meta": Object {
+                                    "action_id": 38,
+                                    "timestamp": "",
+                                  },
+                                  "payload": Object {
+                                    "bogey_id": "siduri",
+                                    "hit": true,
+                                    "roll": 1,
+                                    "system": "drive",
+                                    "threshold": 25,
+                                  },
+                                  "type": "internal_damage",
+                                },
+                                Object {
+                                  "meta": Object {
+                                    "action_id": 39,
+                                    "timestamp": "",
+                                  },
+                                  "payload": Object {
+                                    "bogey_id": "siduri",
+                                    "hit": true,
+                                    "roll": 1,
+                                    "system": "shield",
+                                    "system_id": 1,
+                                    "threshold": 25,
+                                  },
+                                  "type": "internal_damage",
+                                },
+                              ],
                               "type": "bogey_damage",
                             },
                           ],
@@ -1510,7 +1523,7 @@ Object {
                     },
                     Object {
                       "meta": Object {
-                        "action_id": 37,
+                        "action_id": 40,
                         "timestamp": "",
                       },
                       "payload": Object {
@@ -1521,7 +1534,7 @@ Object {
                       "subactions": Array [
                         Object {
                           "meta": Object {
-                            "action_id": 38,
+                            "action_id": 41,
                             "timestamp": "",
                           },
                           "payload": Object {
@@ -1538,7 +1551,7 @@ Object {
                     },
                     Object {
                       "meta": Object {
-                        "action_id": 39,
+                        "action_id": 42,
                         "timestamp": "",
                       },
                       "payload": Object {
@@ -1549,7 +1562,7 @@ Object {
                       "subactions": Array [
                         Object {
                           "meta": Object {
-                            "action_id": 40,
+                            "action_id": 43,
                             "timestamp": "",
                           },
                           "payload": Object {
@@ -1572,7 +1585,7 @@ Object {
             },
             Object {
               "meta": Object {
-                "action_id": 41,
+                "action_id": 44,
                 "timestamp": "",
               },
               "payload": "siduri",
@@ -1583,7 +1596,7 @@ Object {
         },
         Object {
           "meta": Object {
-            "action_id": 42,
+            "action_id": 45,
             "timestamp": "",
           },
           "type": "clear_orders",

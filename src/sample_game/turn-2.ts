@@ -54,8 +54,8 @@ export const tests = (state: BattleState) => async t => {
     t.is( siduri.structure.hull.current, 3, "siduri got hit" );
     t.is( enkidu.structure.hull.current, 4, "not enkidu" );
 
-    console.log("waiting");
+    // console.log("waiting");
 
-    const p = new Promise( resolve => setTimeout(resolve,1000000));
-    await p;
+    // const p = new Promise( resolve => setTimeout(resolve,1000000));
+    // await p;
 };

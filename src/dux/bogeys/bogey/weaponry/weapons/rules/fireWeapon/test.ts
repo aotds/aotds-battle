@@ -8,7 +8,7 @@ let rigged: any = [
     {returns: [6, 1]},
 ];
 
-(dice as any).rollDice = (nbr, options) => {
+(dice as any).rollDice = (nbr: number, options = {}) => {
     const args = {nbr, ...options};
     let result = rigged.shift();
     if (!result) {
@@ -20,7 +20,7 @@ let rigged: any = [
 let attacker: any = {coords: [0, 0], heading: 0, velocity: 0};
 let target: any = {coords: [10, 1], heading: 6, velocity: 0};
 
-let result = fireWeapon(attacker, target, {weapon_type: 'beam', weapon_class: 1, arcs: ['FS']});
+let result : any = fireWeapon(attacker, target, {weapon_type: 'beam', weapon_class: 1, arcs: ['FS']});
 
 tap.match(result, {
     damage_dice: [6],

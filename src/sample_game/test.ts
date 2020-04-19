@@ -12,6 +12,7 @@ declare var process: {
     env: {
         TURN: string;
         REDUX_DEBUG: string;
+        SKIP_SNAPSHOT: string;
     };
 };
 
@@ -52,7 +53,7 @@ const playRound = battle => round => {
         t.cleanSnapshot = s =>
             s.replace(/"timestamp": ".*?",/g, '"timestamp": "",').replace(/"done": "20.*?"/g, '"done": true');
 
-        t.matchSnapshot(state, 'state');
+        if( ! process.env.SKIP_SNAPSHOT ) t.matchSnapshot(state, 'state');
     });
 
     return battle;

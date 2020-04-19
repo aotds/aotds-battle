@@ -4,7 +4,7 @@ import tap from 'tap';
 tap.match(
     inflateBattle({
         bogeys: [{ weaponry: { firecons: 2 } }],
-    }).bogeys,
+    }).bogeys as any,
     [
         {
             weaponry: {
