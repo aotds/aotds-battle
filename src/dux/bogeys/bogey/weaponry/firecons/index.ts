@@ -57,7 +57,7 @@ type FireconsState = DuxState<typeof fireconsDux>;
 
 type FireconsShorthand = FireconsState | number;
 
-export function inflateFirecons(shorthand: FireconsShorthand): FireconsState {
+export function inflateFirecons(shorthand: FireconsShorthand = 0): FireconsState {
     if (typeof shorthand === 'object') return shorthand;
 
     return _.range(1, shorthand + 1).map(id => ({ id }));

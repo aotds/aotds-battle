@@ -25,8 +25,8 @@ export default {
                         } ],
                 },
                 structure: {
-                    hull: { current: 4, rating: 4},
-                    armor: { current: 4, rating: 4},
+                    hull: 4,
+                    armor: 4,
                 },
                 player_id: "yanick",
             },
@@ -40,11 +40,8 @@ export default {
                 player_id: "yenzie",
                 weaponry: { shields: [ 1, 2 ] },
                 structure: {
-                    hull: { current: 4, rating: 4},
-                    shields: [
-                        { id: 0, level: 1 },
-                        { id: 1, level: 2 }
-                    ],
+                    hull: 4,
+                    shields: [ 1,2 ],
                     armor: { current: 4, rating: 4},
                 },
             },

@@ -35,15 +35,19 @@ export const tests = state => t => {
         state.log,
     );
 
-    t.match(roundDeep(getBogey(state)('enkidu')?.navigation), {
+    const { enkidu, siduri } = fp.keyBy('id', state.bogeys );
+
+    t.match(roundDeep(enkidu?.navigation), {
         heading: 1,
         velocity: 1,
         coords: [1.5, 0.87],
     });
 
-    t.match(roundDeep(getBogey(state)('siduri')?.navigation), {
+    t.match(roundDeep(siduri?.navigation), {
         heading: 6,
         velocity: 1,
         coords: [10, 9],
     });
+
+    t.is(siduri?.weaponry.firecons.length, 0, "Siduri has no firecons" );
 };
