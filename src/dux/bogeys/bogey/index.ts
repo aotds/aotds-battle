@@ -5,22 +5,8 @@ import orders from './orders';
 import navigation from './navigation';
 import u from 'updeep';
 import weaponry, { inflateWeaponry } from './weaponry';
-import structure, { inflateStructure } from './structure';
+import structure, { inflateStructure, StructureState } from './structure';
 import { internal_damage } from './rules/checkInternalDamage';
-
-type DriveState = {
-    rating: number;
-    current: number;
-    damage_level?: 0 | 1 | 2;
-};
-
-type State = {
-    id: string;
-    name: string;
-    player_id?: string;
-    orders: DuxState<typeof orders>;
-    drive: DriveState;
-};
 
 //--- actions
 
@@ -39,8 +25,26 @@ const weapon_fire = action(
 
 // ---
 
+type DriveState = {
+    rating: number;
+    current: number;
+    damage_level?: 0 | 1 | 2;
+};
+
+export type BogeyState = {
+    id: string;
+    name: string;
+    player_id?: string;
+    orders: DuxState<typeof orders>;
+    drive: DriveState;
+    structure: StructureState;
+    navigation: DuxState<typeof navigation>;
+    weaponry: DuxState<typeof weaponry>;
+};
+
+
 const dux = new Updux({
-    initial: { id: '', name: '' } as State,
+    initial: { id: '', name: '' } as BogeyState,
     actions: { bogey_movement, bogey_fire, firecon_fire, weapon_fire, internal_damage },
     subduxes: {
         orders,
@@ -66,8 +70,6 @@ dux.addMutation(dux.actions.internal_damage, ({ system }) => (state: any) => {
 });
 
 export default dux.asDux;
-
-export type BogeyState = DuxState<typeof dux>;
 
 type DriveStateShorthand = number | DriveState;
 

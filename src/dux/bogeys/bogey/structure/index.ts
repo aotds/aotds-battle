@@ -14,7 +14,7 @@ type ArmorState = {
     current: number;
 };
 
-type StructureState = {
+export type StructureState = {
     hull: HullState;
     armor: ArmorState;
     destroyed: boolean;

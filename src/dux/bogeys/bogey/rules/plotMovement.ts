@@ -141,3 +141,5 @@ export function plotMovement(ship: BogeyState ): NavigationState {
         maneuvers,
     }, navigation) as NavigationState;
 }
+
+export default plotMovement;
