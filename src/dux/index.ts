@@ -60,6 +60,6 @@ export function inflateBattle( shorthand: any ) {
 battleDux.addMutation( init_game,
     initState => u(inflateBattle(initState)) );
 
-export type BattleState = DuxState< typeof battleDux >;
+export type BattleState = typeof battleDux.initial;
 
 export default battleDux.asDux;
