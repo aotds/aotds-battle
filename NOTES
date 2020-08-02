@@ -1,0 +1,11 @@
+
+
+rm tsconfig.tsbuildinfo
+
+tsc
+
+api-extractor init
+
+api-extractor run
+
+https://github.com/microsoft/rushstack/issues/1050

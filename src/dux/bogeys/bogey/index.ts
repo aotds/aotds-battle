@@ -1,4 +1,4 @@
-import Updux, { DuxState } from 'updux';
+import Updux, { Dux, DuxState, Dictionary } from 'updux';
 import { action, payload } from 'ts-action';
 import fp from 'lodash/fp';
 import orders from './orders';

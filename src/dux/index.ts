@@ -1,7 +1,23 @@
-import Updux, { coduxes, dux, DuxState } from 'updux';
+import Updux, { coduxes, dux, DuxState, Upreducer, Dictionary, Dux, UpduxMiddleware, Action, Mutation } from 'updux';
 import fp from 'lodash/fp';
 import u from 'updeep';
-import { action, empty, payload } from 'ts-action';
+import {UpdateReturnMap} from 'updeep/types/types';
+import { action, empty, payload, FunctionWithParametersType } from 'ts-action';
+import {Store, AnyAction} from 'redux';
+
+import {
+    WeaponState
+} from './bogeys/bogey/weaponry/weapons';
+
+import {
+    FireconOrders
+} from './bogeys/bogey/weaponry/firecons';
+
+import { BogeyState } from './bogeys/bogey';
+import { NavigationState } from './bogeys/bogey/navigation';
+import { StructureState } from './bogeys/bogey/structure';
+import { LogAction } from './log';
+
 
 import { metaTimestampDux } from './metaTimestamp';
 import actionId, { actionIdEffect } from './game/actionId';
