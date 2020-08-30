@@ -1,6 +1,6 @@
 {
     "types": "./build/index.d.ts",
-    "name": "aotds-battle",
+    "name": "@aotds/aotds-battle",
     "private": true,
     "version": "1.0.0",
     "description": "",

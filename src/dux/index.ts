@@ -34,7 +34,14 @@ type State = {
     };
 };
 
-type GameInitPayload = {};
+// TODO move back from bogeys to ships after all?
+// add bogeyShorthand type in this type
+type GameInitPayload = {
+    game: {
+        name: string;
+    },
+    bogeys: any[],
+};
 
 const init_game = action('init_game', payload<GameInitPayload>());
 
