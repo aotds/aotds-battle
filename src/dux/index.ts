@@ -20,7 +20,6 @@ import { LogAction } from './log';
 
 
 import { metaTimestampDux } from './metaTimestamp';
-import actionId, { actionIdEffect } from './game/actionId';
 import subactions from './subactions';
 import playPhases from './playPhases';
 import bogeys, { inflateBogeys } from './bogeys';
@@ -54,7 +53,6 @@ const battleDux = new Updux({
         log,
     },
     actions: { init_game },
-    effects: [['*', actionIdEffect(state => state?.game?.next_action_id)]],
 });
 
 export function inflateBattle( shorthand: any ) {

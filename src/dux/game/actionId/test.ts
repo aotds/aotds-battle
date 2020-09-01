@@ -1,12 +1,7 @@
-import dux, { actionIdEffect } from '.';
+import dux  from '.';
 import { test } from 'tap';
 
 test('action ids', async t => {
-    dux.addEffect(
-        '*',
-        actionIdEffect(state => state),
-    );
-
     const store = dux.createStore();
 
     t.match(store.dispatch({ type: 'noop' }), { meta: { action_id: 1 } } as any);

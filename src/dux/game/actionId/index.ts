@@ -14,15 +14,18 @@ export const actionIdDux = dux;
 
 dux.addMutation(inc_action_id, () => fp.add(1) as any);
 
-export const actionIdEffect: any = selector => ({
+dux.addEffect(
+    '*', ({
     dispatch,
     actions: { inc_action_id },
     getState,
 }) => next => action => {
+    // we don't want an infinite loop, do we?
     if (isType(action, inc_action_id)) return next(action);
 
-    const action_id = selector(getState());
+    const action_id = getState();
     dispatch(inc_action_id());
 
     return next(u.updateIn('meta.action_id', action_id, action));
-};
+}
+);
