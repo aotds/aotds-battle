@@ -6,7 +6,8 @@
     "main": "build/index.js",
     "scripts": {
         "test:coverage": "tap --coverage src/**/*test.ts --coverage-report html",
-        "test": "tap src/**/*test.ts"
+        "test": "tap src/**/*test.ts",
+        "build": "babel src/ -d lib"
     },
     "keywords": [],
     "author": "Yanick Champoux <yanick@babyl.ca> (http://techblog.babyl.ca)",
@@ -39,8 +40,14 @@
         "updux": "^2.1.0"
     },
     "devDependencies": {
+        "@babel/cli": "^7.0.0",
+        "@babel/core": "^7.0.0",
+        "@babel/preset-env": "*"
     },
     "tap": {
         "coverage": false
+    },
+    "babel": {
+        "presets": ["@babel/preset-env"]
     }
 }
