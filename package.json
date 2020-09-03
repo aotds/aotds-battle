@@ -1,5 +1,4 @@
 {
-    "types": "./build/index.d.ts",
     "name": "@aotds/aotds-battle",
     "private": true,
     "version": "1.0.0",
@@ -17,12 +16,6 @@
     "dependencies": {
         "@microsoft/api-documenter": "^7.8.9",
         "@microsoft/api-extractor": "^7.8.9",
-        "@snyk/types-tap": "^1.1.0",
-        "@types/jest": "^25.1.4",
-        "@types/lodash": "^4.14.149",
-        "@types/node": "^13.11.1",
-        "@typescript-eslint/eslint-plugin": "^2.23.0",
-        "@typescript-eslint/parser": "^2.23.0",
         "debug": "^4.1.1",
         "docsify-cli": "^4.4.0",
         "docsify-tools": "^1.0.20",
@@ -51,8 +44,6 @@
         "ts-node": "^8.6.2",
         "ts-optchain": "^0.1.8",
         "typedoc": "^0.16.11",
-        "typescript": "3.8",
-        "typescript-json-schema": "^0.42.0",
         "updeep": "^1.2.0",
         "updux": "^2.1.0"
     },
