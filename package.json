@@ -6,9 +6,7 @@
     "main": "build/index.js",
     "scripts": {
         "test:coverage": "tap --coverage src/**/*test.ts --coverage-report html",
-        "test": "tap src/**/*test.ts",
-        "test:stare": "jest --reporters default jest-stare",
-        "test:reporter": "jest --reporters default jest-html-reporters"
+        "test": "tap src/**/*test.ts"
     },
     "keywords": [],
     "author": "Yanick Champoux <yanick@babyl.ca> (http://techblog.babyl.ca)",
@@ -25,10 +23,6 @@
         "eslint-plugin-import": "^2.20.1",
         "eslint-plugin-prettier": "^3.1.2",
         "immer": "^6.0.1",
-        "jest": "^25.1.0",
-        "jest-html-reporters": "^1.2.1",
-        "jest-stare": "^1.26.0",
-        "jest-summary-reporter": "0.0.2",
         "lodash": "^4.17.15",
         "mermaid.cli": "^0.5.1",
         "prettier": "^1.19.1",
@@ -39,7 +33,6 @@
         "sinon": "^9.0.1",
         "tap": "^14.10.6",
         "ts-action": "^11.0.0",
-        "ts-jest": "^25.2.1",
         "ts-json-schema-generator": "^0.67.1",
         "ts-node": "^8.6.2",
         "ts-optchain": "^0.1.8",
