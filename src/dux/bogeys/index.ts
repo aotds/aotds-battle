@@ -12,6 +12,8 @@ import genAddSubEffect from '../genAddSubEffect';
 import { calculateDamage } from './bogey/weaponry/rules/calculateDamage';
 import checkInternalDamage from './bogey/rules/checkInternalDamage';
 
+import * as bogeys_actions from './actions';
+
 const { weapon_firing_phase } = playPhasesDux.actions;
 
 type BogeyState = DuxState<typeof bogey>;
@@ -36,7 +38,8 @@ const dux = new Updux({
     actions: {
         weapon_firing_phase,
         weapon_fire_outcome,
-        bogey_internal_systems_check
+        bogey_internal_systems_check,
+        ...bogeys_actions
     },
     subduxes: {
         '*': bogey,
@@ -124,6 +127,12 @@ addSubEffect(
         );
     },
 );
+
+addSubEffect(bogeys_actions.init_game, ({ dispatch }) => ({ payload: { ships = [] } }) => {
+    for (let ship of ships) {
+        dispatch(bogeys_actions.add_ship(ship));
+    }
+});
 
 dux.addEffect(
     play_phases.actions.movement_phase,

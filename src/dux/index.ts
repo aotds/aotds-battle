@@ -33,37 +33,16 @@ type State = {
     };
 };
 
-// TODO move back from bogeys to ships after all?
-// add bogeyShorthand type in this type
-type GameInitPayload = {
-    game: {
-        name: string;
-    },
-    bogeys: any[],
-};
-
-const init_game = action('init_game', payload<GameInitPayload>());
 
 const battleDux = new Updux({
     initial: {} as State,
     ...coduxes(metaTimestampDux, playPhases),
     subduxes: {
         game,
-        bogeys,
+        ships: bogeys,
         log,
     },
-    actions: { init_game },
 });
-
-export function inflateBattle( shorthand: any ) {
-    return u({
-        bogeys: inflateBogeys
-    }, shorthand)
-}
-
-
-battleDux.addMutation( init_game,
-    initState => u(inflateBattle(initState)) );
 
 export type BattleState = typeof battleDux.initial;
 
