@@ -18,14 +18,12 @@
         "debug": "^4.1.1",
         "docsify-cli": "^4.4.0",
         "docsify-tools": "^1.0.20",
-        "dts-bundle-generator": "^4.3.0",
         "eslint": "^6.8.0",
         "eslint-config-prettier": "^6.10.0",
         "eslint-plugin-import": "^2.20.1",
         "eslint-plugin-prettier": "^3.1.2",
         "immer": "^6.0.1",
         "lodash": "^4.17.15",
-        "mermaid.cli": "^0.5.1",
         "prettier": "^1.19.1",
         "redux": "^4.0.5",
         "redux-persist-pouchdb": "^0.2.1",
@@ -40,14 +38,39 @@
         "updux": "^2.1.0"
     },
     "devDependencies": {
+        "@ava/babel": "^1.0.1",
         "@babel/cli": "^7.0.0",
         "@babel/core": "^7.0.0",
-        "@babel/preset-env": "*"
+        "@babel/node": "^7.10.5",
+        "@babel/plugin-proposal-optional-chaining": "*",
+        "@babel/plugin-transform-runtime": "*",
+        "@babel/preset-env": "*",
+        "ava": "^3.12.1",
+        "babel-node": "0.0.1-security",
+        "babel-tap": "^5.0.0",
+        "jest": "^26.4.2"
     },
     "tap": {
         "coverage": false
     },
     "babel": {
-        "presets": ["@babel/preset-env"]
+        "presets": [
+            "@babel/preset-env"
+        ],
+        "plugins": [
+            "@babel/plugin-proposal-optional-chaining",
+            [
+                "@babel/plugin-transform-runtime",
+                {
+                    "regenerator": true
+                }
+            ]
+        ]
+    },
+    "ava": {
+        "babel": true,
+        "files": [
+            "src/**/*"
+        ]
     }
 }
