@@ -1,23 +1,24 @@
-import tap from 'tap';
-
 import dux from '.';
+import {mock_mw} from '../utils/mock-mw';
 
 const store = dux.createStore();
 
-store.dispatch(
-    store.actions.init_game({
+test('init_game', () => {
+    store.dispatch(
+        store.actions.init_game({
+            game: {
+                name: 'Gemini',
+            },
+            ships: [{ id: 1 }, { id: 2 }],
+        }),
+    );
+
+    expect(store.getState()).toMatchObject({
         game: {
             name: 'Gemini',
+            turn: 0,
         },
-        ships: [{ id: 1 }, { id: 2 }],
-    }),
-);
+    });
 
-tap.match( store.getState(), {
-    game: {
-        name: 'Gemini',
-        turn: 0,
-    }
-}, 'game has been initialized');
-
-tap.equal( store.getState().ships.length, 2, 'we have two ships' );
+    expect(store.getState().ships).toHaveLength(2);
+});

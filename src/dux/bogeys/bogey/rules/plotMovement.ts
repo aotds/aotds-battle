@@ -5,31 +5,34 @@ import _ from 'lodash';
 
 import bogey from '..';
 
-
 import { NavigationState } from '../navigation';
 import { DuxState } from 'updux';
+
+const round = (n: number) => _.round(n,2);
 
 type BogeyState = DuxState<typeof bogey>;
 
 const upush = (new_item: any) => (state = []) => [...state, new_item];
 
 export function move_thrust(navigation: NavigationState, thrust: number): NavigationState {
+    if(!thrust)  return navigation;
+
     const angle = (navigation.heading * Math.PI) / 6;
-    const delta = [Math.sin(angle), Math.cos(angle)].map(x => thrust * x);
+    const delta = [Math.sin(angle), Math.cos(angle)].map(x => thrust * x).map(round);
 
-    const coords = _.zip(navigation.coords, delta).map(_.sum);
+    let coords = _.zip(navigation.coords, delta).map(_.sum).map(round);
 
-    return u.if(!!thrust, {
+    return u({
         trajectory: upush({ type: 'MOVE', delta, coords }),
-        coords,
-    })(navigation) as NavigationState;
+        coords
+    }, navigation) as NavigationState;
 }
 
 export function move_bank(movement: NavigationState, velocity: number): NavigationState {
     const angle = ((movement.heading + 3) * Math.PI) / 6;
-    const delta = [Math.sin(angle), Math.cos(angle)].map(x => velocity * x);
+    const delta = [Math.sin(angle), Math.cos(angle)].map(x => velocity * x).map(round);
 
-    const coords = _.zip(movement.coords, delta).map(_.sum);
+    const coords = _.zip(movement.coords, delta).map(_.sum).map(round);
 
     return u({
         trajectory: u.withDefault([], upush({ type: 'BANK', delta, coords })),
@@ -107,6 +110,7 @@ export function plotMovement(ship: BogeyState ): NavigationState {
         engine_power -= Math.abs(bank);
 
         navigation = move_bank(navigation, bank);
+
     }
 
     if (turn) {
@@ -139,6 +143,7 @@ export function plotMovement(ship: BogeyState ): NavigationState {
     return u({
         thrust_used: engine_rating - engine_power,
         maneuvers,
+        coords: u.map(round)
     }, navigation) as NavigationState;
 }
 
