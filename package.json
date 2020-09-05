@@ -45,6 +45,8 @@
         "@babel/plugin-proposal-optional-chaining": "*",
         "@babel/plugin-transform-runtime": "*",
         "@babel/preset-env": "*",
+        "@babel/preset-typescript": "^7.10.4",
+        "@types/jest": "^26.0.13",
         "ava": "^3.12.1",
         "babel-node": "0.0.1-security",
         "babel-tap": "^5.0.0",
@@ -55,7 +57,8 @@
     },
     "babel": {
         "presets": [
-            "@babel/preset-env"
+            "@babel/preset-env",
+            "@babel/preset-typescript"
         ],
         "plugins": [
             "@babel/plugin-proposal-optional-chaining",
@@ -65,12 +68,6 @@
                     "regenerator": true
                 }
             ]
-        ]
-    },
-    "ava": {
-        "babel": true,
-        "files": [
-            "src/**/*"
         ]
     }
 }
