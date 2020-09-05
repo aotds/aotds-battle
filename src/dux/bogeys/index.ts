@@ -141,6 +141,10 @@ dux.addEffect(
     }),
 );
 
+dux.addMutation( bogeys_actions.add_ship,
+    ship => state => [ ...state, ship ]
+);
+
 dux.addEffect(
     bogey_movement,
     subactions(({ getState, dispatch }) => (action: ReturnType<typeof bogey_movement>) => {

@@ -1,5 +1,4 @@
 import dux from '.';
-import {mock_mw} from '../utils/mock-mw';
 
 const store = dux.createStore();
 
