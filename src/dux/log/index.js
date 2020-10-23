@@ -18,7 +18,7 @@ function addSubaction(log = [], action, parents = []) {
 const logDux = dux({
     initial: [],
     mutations: {
-        '*': (payload, action) => log => {
+        '*': (_payload, action) => log => {
             // can't be caught by the middleware
             if (/@@/.test(action.type)) return log;
 
