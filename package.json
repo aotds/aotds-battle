@@ -33,7 +33,6 @@
         "tap": "^14.10.6",
         "ts-action": "^11.0.0",
         "ts-json-schema-generator": "^0.67.1",
-        "typedoc": "^0.16.11",
         "updeep": "^1.2.0",
         "updux": "^2.1.0"
     },
@@ -46,8 +45,6 @@
         "@babel/plugin-transform-runtime": "*",
         "@babel/preset-env": "*",
         "@babel/preset-typescript": "^7.10.4",
-        "@types/jest": "^26.0.13",
-        "ava": "^3.12.1",
         "babel-node": "0.0.1-security",
         "babel-tap": "^5.0.0",
         "jest": "^26.4.2"
