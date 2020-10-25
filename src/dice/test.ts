@@ -1,5 +1,4 @@
-import tap from 'tap';
-import {rollDice} from '.';
+import { rollDice } from '.';
 import _ from 'lodash';
 
 let rigged_dice: number[] = [];
@@ -8,21 +7,19 @@ _.random = () => (rigged_dice as any).shift();
 
 rigged_dice = [6, 5, 4];
 
-tap.match(rollDice(2, {reroll: [6]}), [
-    6, 5, 4
-]);
+test('basic', () => {
+    expect(rollDice(2, { reroll: [6] })).toEqual([6, 5, 4]);
 
-rigged_dice = [6, 5, 6, 3];
+    rigged_dice = [6, 5, 6, 3];
 
-tap.match(rollDice(2, {reroll: [6]}), [
-    6, 5, 6, 3
-]);
+    expect(rollDice(2, { reroll: [6] })).toEqual([6, 5, 6, 3]);
+});
 
-tap.test( 'nbr_faces', async () => {
+test('nbr_faces', () => {
     const original = _.random;
-    _.random = ((one,n) => n ) as any;
+    _.random = ((_one: any, n: number) => n) as any;
 
-    tap.match( rollDice(1,{nbr_faces: 99}), [ 99 ], 'got 99' );
+    expect(rollDice(1, { nbr_faces: 99 })).toEqual([99]);
 
     _.random = original;
 });
