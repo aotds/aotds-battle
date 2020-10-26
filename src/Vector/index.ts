@@ -15,9 +15,9 @@ export default class Vector {
         this.v = [ vector[0], vector[1] ];
     }
 
-    add(vector: [number,number]): Vector {
+    add(vector: V): Vector {
         return new Vector(
-            _.zip( this.v, vector ).map( fp.sum )
+            _.zip( this.v, vector ).map( fp.sum ) as V
         );
     }
 
@@ -33,7 +33,7 @@ export default class Vector {
 
     dot(vector: [number,number]): number {
         return fp.sum(
-            _.zip( this.v, vector ).map( (v: number[]) => _.multiply(...v) )
+            _.zip( this.v, vector ).map( (v: any[]) => _.multiply(...v as V) )
         )
     }
 
