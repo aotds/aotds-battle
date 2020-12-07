@@ -1,5 +1,3 @@
-import tap from 'tap';
-
 import dux from '.';
 
 const store = dux.createStore();
@@ -26,6 +24,6 @@ store.dispatch({
     },
 });
 
-tap.test('log is okay', async (t) => {
-    t.match(store.getState(),[{ type: 'alpha', subactions: [{ type: 'beta' }] }, { type: 'gamma' }]);
+test('log is okay', () => {
+    expect( store.getState() ).toMatchObject([{ type: 'alpha', subactions: [{ type: 'beta' }] }, { type: 'gamma' }]);
 });
