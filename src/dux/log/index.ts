@@ -1,4 +1,4 @@
-import { dux } from 'updux';
+import Updux from 'updux';
 import fp from 'lodash/fp';
 import u from 'updeep';
 
@@ -14,7 +14,7 @@ function addSubaction(log :any[] = [], action: any, parents : string[] = [] ) {
     );
 }
 
-const logDux = dux({
+const logDux = new Updux({
     initial: [],
     mutations: {
         '*': (_payload: any, action: {type: string; meta: {no_log: any; action_id: any; parent_actions: string[] | undefined;};}) => log => {
@@ -30,4 +30,4 @@ const logDux = dux({
     },
 });
 
-export default logDux;
+export default logDux.asDux;

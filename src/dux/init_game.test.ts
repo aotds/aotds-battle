@@ -1,9 +1,8 @@
-import tap from 'tap';
-import dux from '.';
+import battle_dux from '.';
 
-const store = dux.createStore();
+const store = battle_dux.createStore();
 
-tap.test('init_game', async(t) => {
+test('init_game', () => {
     store.dispatch(
         store.actions.init_game({
             game: {
@@ -13,13 +12,12 @@ tap.test('init_game', async(t) => {
         }),
     );
 
-    t.match(store.getState(),
-    {
-        game: {
+    expect(store.getState()).toMatchObject(
+    { game: {
             name: 'Gemini',
             turn: 0,
         },
     });
 
-    t.equal(store.getState().bogeys.length, 2 );
+    expect(store.getState().bogeys).toHaveLength(2);
 });

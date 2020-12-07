@@ -23,12 +23,6 @@ const dux = new Updux({
 
 dux.addMutation(playPhases.actions.play_turn, () => u({ turn: fp.add(1) }));
 
-dux.addMutation(init_game, ({ game: { name } }) =>
-    u({
-        name,
-        turn: u.constant(0),
-    }),
-);
 
 export const gameDux = dux.asDux;
 export default gameDux;

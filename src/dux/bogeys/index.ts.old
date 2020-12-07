@@ -1,4 +1,3 @@
-import Updux, { DuxState } from 'updux';
 import bogey from './bogey';
 import fp from 'lodash/fp';
 import u from 'updeep';
@@ -128,21 +127,12 @@ addSubEffect(
     },
 );
 
-addSubEffect(bogeys_actions.init_game, ({ dispatch }) => ({ payload: { bogeys = [] } }) => {
-    for (let bogey of bogeys) {
-        dispatch(bogeys_actions.add_bogey(bogey));
-    }
-});
 
 dux.addEffect(
     play_phases.actions.movement_phase,
     subactions(({ getState, dispatch }) => () => {
         fp.map('id', getState()).forEach(id => dispatch(bogey_movement(id)));
     }),
-);
-
-dux.addMutation( bogeys_actions.add_bogey,
-    ( ship => (state: unknown[] ) => [ ...state, ship ] ) as any
 );
 
 dux.addEffect(
