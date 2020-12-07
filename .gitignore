@@ -10,3 +10,5 @@ build
 tsconfig.tsbuildinfo
 jest-stare
 pnpm-lock.yaml
+dist
+package-lock.json
