@@ -5,11 +5,6 @@ import u from 'updeep';
 import { action } from 'ts-action';
 import { internal_damage } from '../../rules/checkInternalDamage';
 
-type FireconState = {
-    id: number;
-    target_id?: string | null;
-    damaged?: boolean;
-};
 
 export type FireconOrders = {
     firecon_id: number;
@@ -29,7 +24,7 @@ const bogey_firecon_orders = action('bogey_firecon_orders', (bogey_id: string, o
 const getFirecon = state => id => fp.find({id}, state);
 
 const dux = new Updux({
-    initial: [] as FireconState[],
+    initial: [] as any[],
     selectors: {
         getFirecon,
     },
@@ -55,10 +50,4 @@ export default fireconsDux;
 
 type FireconsState = DuxState<typeof fireconsDux>;
 
-type FireconsShorthand = FireconsState | number;
 
-export function inflateFirecons(shorthand: FireconsShorthand = 0): FireconsState {
-    if (typeof shorthand === 'object') return shorthand;
-
-    return _.range(1, shorthand + 1).map(id => ({ id }));
-}

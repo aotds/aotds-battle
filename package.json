@@ -6,7 +6,8 @@
     "main": "build/index.js",
     "scripts": {
         "test:coverage": "tap --coverage src/**/*test.ts --coverage-report html",
-        "test": "tap src/**/*test.ts",
+        "test": "tap",
+        "test:prog": "tap --coverage -stests -n",
         "build": "babel src/ -d lib"
     },
     "keywords": [],
@@ -15,6 +16,7 @@
     "dependencies": {
         "@microsoft/api-documenter": "^7.8.9",
         "@microsoft/api-extractor": "^7.8.9",
+        "@types/lodash": "^4.14.162",
         "debug": "^4.1.1",
         "docsify-cli": "^4.4.0",
         "docsify-tools": "^1.0.20",
@@ -23,6 +25,10 @@
         "eslint-plugin-import": "^2.20.1",
         "eslint-plugin-prettier": "^3.1.2",
         "immer": "^6.0.1",
+        "jest-html-reporter": "^3.3.0",
+        "jest-stare": "^2.2.0",
+        "json-schema-shorthand": "^2.0.0",
+        "json-schema-to-typescript": "^9.1.1",
         "lodash": "^4.17.15",
         "prettier": "^1.19.1",
         "redux": "^4.0.5",
@@ -37,20 +43,22 @@
         "updux": "^2.1.0"
     },
     "devDependencies": {
-        "@ava/babel": "^1.0.1",
         "@babel/cli": "^7.0.0",
         "@babel/core": "^7.0.0",
+        "@babel/eslint-parser": "^7.12.1",
         "@babel/node": "^7.10.5",
         "@babel/plugin-proposal-optional-chaining": "*",
+        "@babel/plugin-proposal-pipeline-operator": "^7.12.1",
         "@babel/plugin-transform-runtime": "*",
         "@babel/preset-env": "*",
         "@babel/preset-typescript": "^7.10.4",
+        "@typescript-eslint/eslint-plugin": "^4.5.0",
+        "@typescript-eslint/parser": "^4.5.0",
         "babel-node": "0.0.1-security",
         "babel-tap": "^5.0.0",
-        "jest": "^26.4.2"
-    },
-    "tap": {
-        "coverage": false
+        "jest": "^26.4.2",
+        "ts-node": "^9.0.0",
+        "typescript": "^4.0.3"
     },
     "babel": {
         "presets": [
@@ -64,7 +72,17 @@
                 {
                     "regenerator": true
                 }
+            ],
+            [
+                "@babel/proposal-pipeline-operator",
+                {
+                    "proposal": "minimal"
+                }
             ]
         ]
+    },
+    "tap": {
+        "test-regex": "^dist/.*/.*test.js$",
+        "coverage": false
     }
 }

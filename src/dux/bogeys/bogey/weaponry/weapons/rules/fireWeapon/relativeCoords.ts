@@ -1,14 +1,7 @@
-import { NavigationState } from '../../../../navigation';
 import _ from 'lodash';
 import fp from 'lodash/fp';
 
-type RelativeCoords = {
-    angle: number;
-    bearing: number;
-    distance: number;
-};
-
-export function relativeCoords(ship: NavigationState, target: NavigationState): RelativeCoords {
+export function relativeCoords(ship, target) {
     const relative = _.zip.apply(null, [ship, target].map(fp.get('coords'))).map((x: any) => x[1] - x[0]);
 
     const angle = (Math.atan2(relative[0], relative[1]) * 6) / Math.PI;

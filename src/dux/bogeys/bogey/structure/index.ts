@@ -50,7 +50,7 @@ const dux = new Updux({
 });
 
 dux.addMutation(dux.actions.update_internal_check, ({ last_internal_check }) =>
-    u.updateIn('hull', { last_internal_check }),
+    (u.updateIn as any)('hull', { last_internal_check }),
 );
 
 dux.addMutation(

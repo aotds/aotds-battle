@@ -8,7 +8,7 @@ import bogey from '..';
 import { NavigationState } from '../navigation';
 import { DuxState } from 'updux';
 
-const round = (n: number) => _.round(n,2);
+export const round = (n: number) => _.round(n,2);
 
 type BogeyState = DuxState<typeof bogey>;
 
@@ -144,7 +144,7 @@ export function plotMovement(ship: BogeyState ): NavigationState {
         thrust_used: engine_rating - engine_power,
         maneuvers,
         coords: u.map(round)
-    }, navigation) as NavigationState;
+    } as unknown as NavigationState, navigation) as NavigationState;
 }
 
 export default plotMovement;

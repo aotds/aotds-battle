@@ -1,3 +1,5 @@
+import tap from 'tap';
+
 import { fireWeapon } from '.';
 
 import * as dice from '../../../../../../../dice';
@@ -18,8 +20,8 @@ let target = { coords: [10, 1], heading: 6, velocity: 0 };
 
 let result = fireWeapon(attacker as any, target as any, { weapon_type: 'beam', weapon_class: 1, arcs: ['FS'] });
 
-test('basic', () => {
-    expect(result).toMatchObject({
+tap.test('basic', async (t) => {
+    t.match(result,{
         damage_dice: [6],
         penetrating_damage_dice: [6, 1],
     });

@@ -6,7 +6,7 @@ import fp from 'lodash/fp';
 const inc_action_id = action('inc_action_id', empty());
 
 const dux = new Updux({
-    initial: 1,
+    initial: 1 as number,
     actions: { inc_action_id },
 });
 export default dux;
@@ -14,12 +14,7 @@ export const actionIdDux = dux;
 
 dux.addMutation(inc_action_id, () => fp.add(1) as any);
 
-dux.addEffect(
-    '*', ({
-    dispatch,
-    actions: { inc_action_id },
-    getState,
-}) => next => action => {
+dux.addEffect('*', ({ dispatch, actions: { inc_action_id }, getState }) => next => action => {
     // we don't want an infinite loop, do we?
     if (isType(action, inc_action_id)) return next(action);
 
@@ -27,5 +22,4 @@ dux.addEffect(
     dispatch(inc_action_id());
 
     return next(u.updateIn('meta.action_id', action_id, action));
-}
-);
+});

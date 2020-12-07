@@ -1,8 +1,9 @@
-import { inflateBattle } from '.';
 import tap from 'tap';
 
+import inflate from './inflate';
+
 tap.match(
-    inflateBattle({
+    inflate({
         bogeys: [{ weaponry: { firecons: 2 } }],
     }).bogeys as any,
     [

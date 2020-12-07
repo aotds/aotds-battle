@@ -4,7 +4,7 @@ import fp from 'lodash/fp';
 import orders from './orders';
 import navigation from './navigation';
 import u from 'updeep';
-import weaponry, { inflateWeaponry } from './weaponry';
+import weaponry from './weaponry';
 import structure, { inflateStructure, StructureState } from './structure';
 import { internal_damage } from './rules/checkInternalDamage';
 
@@ -41,7 +41,6 @@ export type BogeyState = {
     navigation: DuxState<typeof navigation>;
     weaponry: DuxState<typeof weaponry>;
 };
-
 
 const dux = new Updux({
     initial: { id: '', name: '' } as BogeyState,
@@ -86,13 +85,3 @@ function inflateDrive(shorthand: DriveStateShorthand = 0): DriveState {
     })(shorthand);
 }
 
-export function inflateBogey(shorthand: any) {
-    return u(
-        {
-            weaponry: inflateWeaponry,
-            structure: inflateStructure,
-            drive: inflateDrive,
-        },
-        shorthand,
-    );
-}

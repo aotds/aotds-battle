@@ -11,7 +11,7 @@ export function rollDice(
     const reroll_on = options.reroll ?? [];
     const nbr_faces = options.nbr_faces ?? 6;
 
-    const roll: number[] = (Array as any).from({ length: nbr_dice }, () => rollDie(nbr_faces));
+    const roll: number[] = Array.from({ length: nbr_dice }, () => rollDie(nbr_faces));
 
     const rerolls = roll.filter( d => (reroll_on as any).includes(d) );
 

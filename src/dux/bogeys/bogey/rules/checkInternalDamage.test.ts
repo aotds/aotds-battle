@@ -1,4 +1,5 @@
 import tap from 'tap';
+
 import checkInternalDamage from './checkInternalDamage';
 import { inflateBogey } from '..';
 import * as dice from '../../../../dice';

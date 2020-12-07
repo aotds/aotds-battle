@@ -2,7 +2,7 @@ import { dux } from 'updux';
 import fp from 'lodash/fp';
 import u from 'updeep';
 
-function addSubaction(log = [], action, parents = []) {
+function addSubaction(log :any[] = [], action: any, parents : string[] = [] ) {
     const [id, ...rest] = parents;
 
     if (!id) return [...log, action];
@@ -10,15 +10,14 @@ function addSubaction(log = [], action, parents = []) {
     if (log.length === 0) return [action];
 
     return u.map(
-        u.if(log => log.meta?.action_id === id, u({ subactions: subs => addSubaction(subs, action, rest) })),
-        log,
+        u.if( (log:any) => log.meta?.action_id === id, u({ subactions: (subs: any[] | undefined) => addSubaction(subs, action, rest) })), log
     );
 }
 
 const logDux = dux({
     initial: [],
     mutations: {
-        '*': (_payload, action) => log => {
+        '*': (_payload: any, action: {type: string; meta: {no_log: any; action_id: any; parent_actions: string[] | undefined;};}) => log => {
             // can't be caught by the middleware
             if (/@@/.test(action.type)) return log;
 

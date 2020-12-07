@@ -1,7 +1,8 @@
+import { test } from 'tap';
+
 import dux from './metaTimestamp';
 import rootDux from '.';
 import { test_mw } from '../utils/test_mw';
-import { test } from 'tap';
 
 test('add a timestamp', async t => {
     const result = test_mw(dux.middleware);

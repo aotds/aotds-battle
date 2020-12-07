@@ -1,5 +1,5 @@
 import Updux, { DuxState } from 'updux';
-import bogey, { inflateBogey } from './bogey';
+import bogey from './bogey';
 import fp from 'lodash/fp';
 import u from 'updeep';
 import play_phases from '../playPhases';
@@ -128,9 +128,9 @@ addSubEffect(
     },
 );
 
-addSubEffect(bogeys_actions.init_game, ({ dispatch }) => ({ payload: { ships = [] } }) => {
-    for (let ship of ships) {
-        dispatch(bogeys_actions.add_ship(ship));
+addSubEffect(bogeys_actions.init_game, ({ dispatch }) => ({ payload: { bogeys = [] } }) => {
+    for (let bogey of bogeys) {
+        dispatch(bogeys_actions.add_bogey(bogey));
     }
 });
 
@@ -141,8 +141,8 @@ dux.addEffect(
     }),
 );
 
-dux.addMutation( bogeys_actions.add_ship,
-    ship => state => [ ...state, ship ]
+dux.addMutation( bogeys_actions.add_bogey,
+    ( ship => (state: unknown[] ) => [ ...state, ship ] ) as any
 );
 
 dux.addEffect(
@@ -216,6 +216,3 @@ addSubEffect(dux.actions.bogey_damage, ({ getState, dispatch }) => ({ payload: {
 
 export default dux.asDux;
 
-export function inflateBogeys(shorthand: any) {
-    return u.map(inflateBogey, shorthand);
-}

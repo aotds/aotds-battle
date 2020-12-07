@@ -16,16 +16,14 @@ import {
 import { BogeyState } from './bogeys/bogey';
 import { NavigationState } from './bogeys/bogey/navigation';
 import { StructureState } from './bogeys/bogey/structure';
-import { LogAction } from './log';
 
 
 import { metaTimestampDux } from './metaTimestamp';
 import subactions from './subactions';
 import playPhases from './playPhases';
-import bogeys, { inflateBogeys } from './bogeys';
+import bogeys from './bogeys';
 import log from './log';
 import game from './game';
-import { inflateFirecons } from './bogeys/bogey/weaponry/firecons';
 
 type State = {
     game: {
@@ -39,7 +37,7 @@ const battleDux = new Updux({
     ...coduxes(metaTimestampDux, playPhases),
     subduxes: {
         game,
-        ships: bogeys,
+        bogeys,
         log,
     },
 });
@@ -47,3 +45,5 @@ const battleDux = new Updux({
 export type BattleState = typeof battleDux.initial;
 
 export default battleDux.asDux;
+
+
