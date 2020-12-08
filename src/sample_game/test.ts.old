@@ -3,8 +3,6 @@ import _ from 'lodash';
 import fp from 'lodash/fp';
 import Battle from '../dux';
 import groomState from './groomState';
-import devToolsEnhancer, {composeWithDevTools} from 'remote-redux-devtools';
-import { applyMiddleware,compose } from 'redux';
 import * as dice from '../dice';
 
 declare function require(name: string): any;
@@ -38,40 +36,7 @@ let rigged_dice = [];
     return _.last(result);
 }
 
-const playRound = battle => round => {
-    const turn = require(`./turn-${round}`);
 
-    rigged_dice = turn.dice ?? [];
-
-    (turn.actions ?? []).forEach(battle.dispatch);
-
-    const state = groomState(battle.getState());
-
-    tap.test(`turn ${round}`, { skip: process.env.TURN && process.env.TURN !== round } as any, async t => {
-        turn.tests(state)(t);
-
-        t.cleanSnapshot = s =>
-            s.replace(/"timestamp": ".*?",/g, '"timestamp": "",').replace(/"done": "20.*?"/g, '"done": true');
-
-        if( ! process.env.SKIP_SNAPSHOT ) t.matchSnapshot(state, 'state');
-    });
-
-    return battle;
-};
-
-const composeEnhancers = composeWithDevTools({ realtime: true, port: 8000,
-                                             maxAge: 3000,
-    actionsBlacklist: [
-        'inc_action_id'
-]});
-const battle = Battle.createStore(undefined, mws => {
-    if(process.env.REDUX_DEBUG)
-        return composeEnhancers(applyMiddleware(mws));
-
-    return applyMiddleware(mws);
-});
-
-_.range(3).forEach(playRound(battle));
 
 /*
 turns[0] = require('./turn-0');
