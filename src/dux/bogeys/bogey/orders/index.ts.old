@@ -8,19 +8,6 @@ const {
     actions: { clear_orders },
 } = playPhases;
 
-type Orders = {
-    navigation?: {
-        thrust?: number;
-        turn?: number;
-        bank?: number;
-    };
-    firecons?: Array<FireconOrders>;
-    weapons?: Array<{
-        weapon_id: number;
-        firecon_id: number;
-    }>;
-}
-
 const set_orders = action('set_orders', (bogey_id: string, orders: Orders) => ({
     payload: {
         bogey_id,
@@ -29,19 +16,7 @@ const set_orders = action('set_orders', (bogey_id: string, orders: Orders) => ({
     },
 }));
 
-type OrdersState = Orders & {
-    done?: boolean | string;
-};
 
-const dux = new Updux({
-    initial: {} as OrdersState,
-    actions: { set_orders },
-});
-
-dux.addMutation(set_orders, ({ orders, done = true }) => () => {
-    console.log(orders);
-    return { done, ...orders };
-});
 
 dux.addMutation(clear_orders, () => () => ({}));
 
