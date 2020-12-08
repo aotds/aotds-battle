@@ -85,5 +85,8 @@
     "tap": {
         "test-regex": "^dist/.*/.*test.js$",
         "coverage": false
+    },
+    "jest": {
+        "roots": [ "src" ]
     }
 }
