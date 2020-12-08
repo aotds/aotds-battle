@@ -4,6 +4,7 @@ import fp from 'lodash/fp';
 import Updux from '../../../BattleUpdux';
 import orders from './orders';
 import navigation from './navigation';
+import weaponry, {inflate as inflate_weaponry } from './weaponry';
 import * as actions from './actions';
 
 const bogey_dux = new Updux({
@@ -14,6 +15,7 @@ const bogey_dux = new Updux({
     subduxes: {
         orders,
         navigation,
+        weaponry,
     },
 });
 
@@ -30,3 +32,7 @@ bogey_dux.addMutation(
 );
 
 export default bogey_dux.asDux;
+
+export const inflate = u({
+    weaponry: inflate_weaponry
+});
