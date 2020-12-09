@@ -1,4 +1,5 @@
 import dux from '.';
+import { hierarchical_log } from '.';
 
 const store = dux.createStore();
 
@@ -25,5 +26,8 @@ store.dispatch({
 });
 
 test('log is okay', () => {
-    expect( store.getState() ).toMatchObject([{ type: 'alpha', subactions: [{ type: 'beta' }] }, { type: 'gamma' }]);
+    expect(hierarchical_log(store.getState() as any)).toMatchObject([
+        { type: 'alpha', subactions: [{ type: 'beta' }] },
+        { type: 'gamma' },
+    ]);
 });
