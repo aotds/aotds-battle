@@ -1,4 +1,4 @@
-import Updux from 'updux';
+import Updux from '../BattleUpdux';
 import u from 'updeep';
 
 import log from './log';
@@ -17,10 +17,16 @@ const battle_dux = new Updux({
     },
 });
 
-battle_dux.addEffect( '*',
-    () => next => action =>
-        next( u.updateIn( 'meta.timestamp', new Date().toISOString(), action ) )
+battle_dux.addEffect('*', () => next => action => next(u.updateIn('meta.timestamp', new Date().toISOString(), action)));
 
-);
+battle_dux.addSubEffect(battle_dux.actions.play_turn, ({ dispatch }) => () => {
+    [
+        'movement_phase',
+        'firecon_orders_phase',
+        'weapon_orders_phase',
+        'weapon_firing_phase',
+        'clear_orders',
+    ].forEach(phase => dispatch(battle_dux.actions[phase]()));
+});
 
 export default battle_dux.asDux;

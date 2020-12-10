@@ -11,20 +11,6 @@ type State = {
     bogeys: DuxState<typeof bogeys>;
 };
 
-export const phases = [
-    'movement_phase',
-    'firecon_orders_phase',
-    'weapon_orders_phase',
-    'weapon_firing_phase',
-    'clear_orders',
-];
-
-const movement_phase = action('movement_phase', empty());
-const firecon_orders_phase = action('firecon_orders_phase', empty());
-const weapon_orders_phase = action('weapon_orders_phase', empty());
-const weapon_firing_phase = action('weapon_firing_phase', empty());
-const clear_orders = action('clear_orders', empty());
-
 const dux = new Updux({
     actions: {
         try_play_turn,
@@ -37,12 +23,6 @@ const dux = new Updux({
     },
 });
 
-dux.addEffect(
-    play_turn,
-    subactions(({ dispatch }) => () => {
-        phases.map(p => dux.actions[p]()).forEach(dispatch);
-    }),
-);
 
 
 export default dux.asDux;
