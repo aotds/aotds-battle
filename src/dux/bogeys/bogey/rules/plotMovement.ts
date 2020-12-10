@@ -8,31 +8,38 @@ import bogey from '..';
 import { NavigationState } from '../navigation';
 import { DuxState } from 'updux';
 
-export const round = (n: number) => _.round(n,2);
+export const round = (n: number) => _.round(n, 2);
 
 type BogeyState = DuxState<typeof bogey>;
 
 const upush = (new_item: any) => (state = []) => [...state, new_item];
 
 export function move_thrust(navigation: NavigationState, thrust: number): NavigationState {
-    if(!thrust)  return navigation;
+    if (!thrust) return navigation;
 
     const angle = (navigation.heading * Math.PI) / 6;
     const delta = [Math.sin(angle), Math.cos(angle)].map(x => thrust * x).map(round);
 
-    let coords = _.zip(navigation.coords, delta).map(_.sum).map(round);
+    let coords = _.zip(navigation.coords, delta)
+        .map(_.sum)
+        .map(round);
 
-    return u({
-        trajectory: upush({ type: 'MOVE', delta, coords }),
-        coords
-    }, navigation) as NavigationState;
+    return u(
+        {
+            trajectory: upush({ type: 'MOVE', delta, coords }),
+            coords,
+        },
+        navigation,
+    ) as NavigationState;
 }
 
 export function move_bank(movement: NavigationState, velocity: number): NavigationState {
     const angle = ((movement.heading + 3) * Math.PI) / 6;
     const delta = [Math.sin(angle), Math.cos(angle)].map(x => velocity * x).map(round);
 
-    const coords = _.zip(movement.coords, delta).map(_.sum).map(round);
+    const coords = _.zip(movement.coords, delta)
+        .map(_.sum)
+        .map(round);
 
     return u({
         trajectory: u.withDefault([], upush({ type: 'BANK', delta, coords })),
@@ -72,17 +79,15 @@ function two_steps(n: number): [number, number] {
     return split;
 }
 
-
 // returns the course of the ship
-export function plotMovement(ship: BogeyState ): NavigationState {
-
+export function plotMovement(ship: BogeyState): NavigationState {
     let navigation = fp.omit(['course'], ship.navigation);
 
     const orders = ship?.orders?.navigation ?? {};
 
-    navigation = u({ trajectory: [{ type: 'POSITION', coords: navigation.coords }] },navigation) as NavigationState;
+    navigation = u({ trajectory: [{ type: 'POSITION', coords: navigation.coords }] }, navigation) as NavigationState;
 
-    let { thrust=0, turn=0 , bank=0 } = orders;
+    let { thrust = 0, turn = 0, bank = 0 } = orders;
 
     const engine_rating = ship?.drive?.current ?? 0;
 
@@ -110,7 +115,6 @@ export function plotMovement(ship: BogeyState ): NavigationState {
         engine_power -= Math.abs(bank);
 
         navigation = move_bank(navigation, bank);
-
     }
 
     if (turn) {
@@ -140,11 +144,14 @@ export function plotMovement(ship: BogeyState ): NavigationState {
         turn: side_maneuver(turn),
     };
 
-    return u({
-        thrust_used: engine_rating - engine_power,
-        maneuvers,
-        coords: u.map(round)
-    } as unknown as NavigationState, navigation) as NavigationState;
+    return u(
+        ({
+            thrust_used: engine_rating - engine_power,
+            maneuvers,
+            coords: u.map(round),
+        } as unknown) as NavigationState,
+        navigation,
+    ) as NavigationState;
 }
 
 export default plotMovement;
