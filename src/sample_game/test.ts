@@ -1,6 +1,6 @@
 import _ from 'lodash';
-import { applyMiddleware,compose } from 'redux';
-import devToolsEnhancer, {composeWithDevTools} from 'remote-redux-devtools';
+import { applyMiddleware, compose } from 'redux';
+import devToolsEnhancer, { composeWithDevTools } from 'remote-redux-devtools';
 
 import battle_dux from '../dux';
 
@@ -22,36 +22,37 @@ const battle = battle_dux.createStore(undefined, mws => {
 
 let rigged_dice = [];
 dice.rollDice.mockImplementation((...args: any[]) => {
-    if( !rigged_dice.length ) {
+    if (!rigged_dice.length) {
         throw new Error(`no dice left for ${JSON.stringify(args)}`);
     }
 
-    const index = fp.findIndex( (d:any) => {
-        if(d.length === 1) return true;
-        return fp.matches(d[0],{
-        dice: args[0], ...args[1]
-    })})(rigged_dice);
+    const index = fp.findIndex((d: any) => {
+        if (d.length === 1) return true;
+        return fp.matches(d[0], {
+            dice: args[0],
+            ...args[1],
+        });
+    })(rigged_dice);
 
-    if( index === -1 ) {
+    if (index === -1) {
         throw new Error(`no dice found for ${JSON.stringify(args)}`);
     }
 
-    const [ result ] = rigged_dice.splice(index,1);
+    const [result] = rigged_dice.splice(index, 1);
     return _.last(result);
 });
-
 
 const playRound = battle => round => {
     const turn = require(`./turn-${round}`);
 
-//    rigged_dice = turn.dice ?? [];
+    //    rigged_dice = turn.dice ?? [];
 
     (turn.actions ?? []).forEach(battle.dispatch);
 
     //const state = groomState(battle.getState());
     const state = battle.getState();
 
-    turn.tests();
+    turn.tests(state);
 
     // tap.test(`turn ${round}`, { skip: process.env.TURN && process.env.TURN !== round } as any, async t => {
     //     turn.tests(state)(t);
@@ -65,7 +66,4 @@ const playRound = battle => round => {
     return;
 };
 
-
-test.each([0])(
-    "round %#", playRound(battle)
-);
+test.each([0, 1])('round %#', playRound(battle));

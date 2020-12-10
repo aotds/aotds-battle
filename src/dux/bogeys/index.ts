@@ -4,12 +4,16 @@ import Updux from '../../BattleUpdux';
 import { init_game } from '../game/actions';
 import * as actions from './actions';
 import * as selectors from './selectors';
+import bogey from './bogey';
 
 const bogeys_dux = new Updux({
     initial: [],
+    subduxes: {
+        '*': bogey,
+    },
     actions: {
         ...actions,
-        init_game
+        init_game,
     },
     selectors,
 });
