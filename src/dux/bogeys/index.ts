@@ -18,6 +18,8 @@ const bogeys_dux = new Updux({
     selectors,
 });
 
+bogeys_dux.addMutation(actions.add_bogey, (ship => (state: unknown[]) => [...state, ship]) as any);
+
 bogeys_dux.addSubEffect(init_game, ({ dispatch }) => ({ payload: { bogeys = [] } }) => {
     bogeys.forEach(bogey => dispatch(actions.add_bogey(bogey)));
 });
@@ -26,6 +28,8 @@ bogeys_dux.addEffect(actions.try_play_turn, ({ getState, dispatch, selectors }) 
     if (selectors.readyForNextTurn(getState())) dispatch(actions.play_turn());
 });
 
-bogeys_dux.addMutation(actions.add_bogey, (ship => (state: unknown[]) => [...state, ship]) as any);
+bogeys_dux.addSubEffect(actions.movement_phase, ({ dispatch, getState }) => () => {
+    getState().forEach(({ id }) => dispatch(bogeys_dux.actions.bogey_movement(id)));
+});
 
 export default bogeys_dux.asDux;
