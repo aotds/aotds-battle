@@ -2,6 +2,8 @@ import _ from 'lodash';
 import { applyMiddleware, compose } from 'redux';
 import devToolsEnhancer, { composeWithDevTools } from 'remote-redux-devtools';
 
+import './groomState';
+
 import battle_dux from '../dux';
 
 jest.mock('../dice');
@@ -53,6 +55,8 @@ const playRound = battle => round => {
     const state = battle.getState();
 
     turn.tests(state);
+
+   expect(state).toMatchSnapshot();
 
     // tap.test(`turn ${round}`, { skip: process.env.TURN && process.env.TURN !== round } as any, async t => {
     //     turn.tests(state)(t);
