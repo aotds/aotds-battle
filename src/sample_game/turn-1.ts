@@ -1,9 +1,9 @@
 import fp from 'lodash/fp';
 
+import { init_game } from '../dux/game/actions';
 import battle_dux from '../dux';
-import initial_state from './initial_state';
 
-const debug = require('debug')('aotds');
+import initial_state from './initial_state';
 
 export const actions = [
     battle_dux.actions.init_game(initial_state),
@@ -30,11 +30,17 @@ export const tests = state => {
 
     expect(state).toHaveProperty('game.turn', 1);
 
-    expect(state.log).toEqual(
-        expect.arrayContaining([
-            expect.objectContaining({
-                type: 'movement_phase',
-            }),
-        ]),
-    );
+    const { enkidu, siduri } = fp.keyBy('id', state.bogeys);
+
+    expect(enkidu.navigation).toMatchObject({
+        heading: 1,
+        velocity: 1,
+        coords: [1.5, 0.87],
+    });
+
+    expect(siduri.navigation).toMatchObject({
+        heading: 6,
+        velocity: 1,
+        coords: [10, 9],
+    });
 };

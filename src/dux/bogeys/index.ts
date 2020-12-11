@@ -1,4 +1,5 @@
 import fp from 'lodash/fp';
+import u from 'updeep';
 
 import Updux from '../../BattleUpdux';
 import { init_game } from '../game/actions';
