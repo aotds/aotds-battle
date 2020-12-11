@@ -1,4 +1,5 @@
 import fp from 'lodash/fp';
+import u from 'updeep';
 
 import Updux from '../../BattleUpdux';
 import { init_game } from '../game/actions';
@@ -17,9 +18,6 @@ const bogeys_dux = new Updux({
         init_game,
     },
     selectors,
-    subduxes: {
-        '*': bogey,
-    },
 });
 
 bogeys_dux.addMutation(actions.add_bogey, (ship => (state: unknown[]) => [...state, ship]) as any);

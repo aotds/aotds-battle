@@ -6,10 +6,3 @@ export const try_play_turn = action('try_play_turn', empty());
 export const play_turn = action('play_turn', empty());
 export const movement_phase = action('movement_phase', empty());
 export const bogey_movement = action('bogey_movement', payload<string>());
-export const bogey_movement_res = action(
-    'bogey_movement_res',
-    payload<{
-        bogey_id: string;
-        movement: unknow;
-    }>(),
-);
