@@ -42,4 +42,6 @@ export const tests = state => {
 
     expect(enkidu.weaponry.firecons).toHaveLength(1);
     expect(siduri.weaponry.firecons).toHaveLength(0);
+
+
 };
