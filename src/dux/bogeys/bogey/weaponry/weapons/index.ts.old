@@ -5,24 +5,6 @@ import fp from 'lodash/fp';
 import { action } from 'ts-action';
 import { internal_damage} from '../../rules/checkInternalDamage';
 
-export type Arc = "F" | "FP" | "FS" | "A" | "AS" | "AP";
-
-type BeamWeapon = {
-    weapon_type: "beam",
-    weapon_class: number,
-};
-
-export type Weapon = BeamWeapon;
-
-export type WeaponMount = { arcs: Arc[] }
-
-export type WeaponMounted = Weapon & WeaponMount;
-
-export type WeaponState = {
-    id: number;
-    firecon_id?: number|null
-} & WeaponMounted;
-
 type WeaponOrders = {
     weapon_id: number,
     firecon_id?: number|null
@@ -57,9 +39,4 @@ weaponsDux.addMutation(weaponsDux.actions.internal_damage, ({ system, system_id 
 
 export default weaponsDux.asDux;
 
-type WeaponShorthand = BeamWeapon;
 
-export function inflateWeapons(shorthand: WeaponShorthand[] = []): WeaponState[] {
-    let id = 1;
-    return shorthand.map( s => ({...s, id: id++}) ) as any;
-}

@@ -5,12 +5,10 @@ import Updux from '../../../BattleUpdux';
 import orders from './orders';
 import navigation from './navigation';
 import weaponry, {inflate as inflate_weaponry } from './weaponry';
-import * as actions from './actions';
 
 const bogey_dux = new Updux({
     initial: {},
     actions: {
-        ...actions,
     },
     subduxes: {
         orders,
