@@ -1,10 +1,15 @@
+type FireconOrders = {
+    firecon_id: number;
+    target_id: string | null;
+};
+
 export type Orders = {
     navigation?: {
         thrust?: number;
         turn?: number;
         bank?: number;
     };
-    firecons?: Array<unknown>;
+    firecons?: Array<FireconOrders>;
     weapons?: Array<{
         weapon_id: number;
         firecon_id: number;
