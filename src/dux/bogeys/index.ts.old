@@ -4,7 +4,6 @@ import u from 'updeep';
 import play_phases from '../playPhases';
 import subactions from '../subactions';
 import { plotMovement } from './bogey/rules/plotMovement';
-import { fireWeapon, isFireWeaponSuccess } from './bogey/weaponry/weapons/rules/fireWeapon';
 import { action, payload } from 'ts-action';
 import playPhasesDux from '../playPhases';
 import genAddSubEffect from '../genAddSubEffect';
@@ -72,37 +71,7 @@ dux.addEffect(
     }),
 );
 
-addSubEffect(bogey.actions.bogey_fire, ({ getState, dispatch }) => action => {
-    const b = dux.selectors.getBogey(getState())(action.payload);
-    if (!b) return;
 
-    // no target, no point in firing
-    const firecons = fp.filter('target_id', b.weaponry.firecons);
-
-    firecons
-        .map(fp.get('id'))
-        .map(firecon_id => bogey.actions.firecon_fire({ firecon_id: firecon_id as number, bogey_id: action.payload }))
-        .forEach(dispatch as any);
-});
-
-addSubEffect(bogey.actions.firecon_fire, ({ getState, dispatch }) => ({ payload: { bogey_id, firecon_id } }) => {
-    const b = getBogey(getState())(bogey_id);
-    if (!b) return;
-
-    const firecon = bogey.selectors.getFirecon(b)(firecon_id);
-    const target_id = firecon.target_id;
-    const weapons = fp.filter({ firecon_id }, b.weaponry.weapons);
-
-    fp.map('id', weapons)
-        .map(weapon_id =>
-            bogey.actions.weapon_fire({
-                bogey_id,
-                target_id,
-                weapon_id,
-            }),
-        )
-        .forEach(action => dispatch(action));
-});
 
 addSubEffect(
     bogey.actions.weapon_fire,

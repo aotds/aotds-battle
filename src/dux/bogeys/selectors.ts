@@ -17,3 +17,5 @@ export function readyForNextTurn(state) {
 
     return true;
 }
+
+export const getBogey = state => id => fp.find({ id }, state);
