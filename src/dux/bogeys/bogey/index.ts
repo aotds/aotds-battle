@@ -19,6 +19,9 @@ const bogey_dux = new Updux({
         navigation,
         weaponry,
     },
+    selectors: {
+        getWeapon: bogey => id => _.find(_.get(bogey, 'weaponry.weapons', []), { id }),
+    },
 });
 
 type BogeyState = DuxState<typeof bogey_dux>;

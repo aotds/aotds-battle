@@ -10,7 +10,7 @@ type Aborted = {
     aborted: AbortReasons;
 };
 
-type FireWeaponOutcome = {
+export type FireWeaponOutcome = {
     bearing: number;
     distance: number;
     damage_dice: number[];

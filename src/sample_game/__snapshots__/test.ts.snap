@@ -375,6 +375,14 @@ exports[`round 1 1`] = `
       "type": "weapon_firing_phase"
     },
     {
+      "payload": "enkidu",
+      "type": "bogey_fire"
+    },
+    {
+      "payload": "siduri",
+      "type": "bogey_fire"
+    },
+    {
       "type": "clear_orders"
     }
   ],
