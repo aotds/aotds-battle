@@ -10,7 +10,7 @@ import * as actions from './actions';
 import { DuxState } from 'updux';
 
 const bogey_dux = new Updux({
-    initial: {} as object,
+    initial: {} as Record<string, never>,
     actions: {
         ...actions,
     },
@@ -21,10 +21,13 @@ const bogey_dux = new Updux({
     },
     selectors: {
         getWeapon: bogey => id => _.find(_.get(bogey, 'weaponry.weapons', []), { id }),
+        getShieldLevel: bogey => {
+            return Math.max(...bogey.weaponry.shields.filter(shield => !shield.damaged).map(({ level }) => level)) ?? 0;
+        },
     },
 });
 
-type BogeyState = DuxState<typeof bogey_dux>;
+export type BogeyState = DuxState<typeof bogey_dux>;
 
 bogey_dux.addMutation(
     bogey_dux.actions.bogey_movement_res,
