@@ -1,0 +1,35 @@
+version: 3
+
+vars:
+    CHANGED:
+        sh: git diff-ls main | grep '\.ts$'
+
+tasks:
+    changed:
+        cmds:
+            - echo {{.CHANGED | catLines}}
+    'eslint:incr':
+        cmds:
+            - eslint {{.CHANGED | catLines}}
+    'prettier:incr':
+        cmds:
+            - prettier -c {{.CHANGED | catLines}}
+    'prettier:incr:fix':
+        cmds:
+            - prettier --write {{.CHANGED | catLines}}
+    "is-clean":
+        cmds:
+            - git is-clean
+    test:
+        cmds:
+            - jest src
+    integrate:
+        deps:
+            - is-clean
+            - test
+            - 'prettier:incr'
+            - 'eslint:incr'
+        cmds:
+            - echo good to go
+
+
