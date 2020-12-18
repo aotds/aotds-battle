@@ -170,3 +170,47 @@ test('weapon_fire', () => {
         }),
     );
 });
+
+test('weapon_fire_outcome', () => {
+    const {
+        api: { dispatch },
+    } = mock_mw(dux.middleware, {
+        action: dux.actions.weapon_fire_outcome({
+            bogey_id: 'enkidu',
+            damage_dice: [6],
+            penetrating_damage_dice: [6],
+        }),
+        api: {
+            getState: () =>
+                inflate([
+                    {
+                        id: 'enkidu',
+                        navigation: {
+                            coords: [0, 0],
+                            heading: 3,
+                        },
+                        weaponry: {
+                            shields: [1, 2],
+                        },
+                    },
+                ]),
+        },
+    });
+
+    expect(dispatch).toHaveBeenCalled();
+
+    expect(dispatch.mock.calls[0][0]).toMatchObject(
+        dux.actions.bogey_damage({
+            bogey_id: 'enkidu',
+            damage: 2,
+        }),
+    );
+
+    expect(dispatch.mock.calls[1][0]).toMatchObject(
+        dux.actions.bogey_damage({
+            bogey_id: 'enkidu',
+            damage: 2,
+            penetrating: true,
+        }),
+    );
+});

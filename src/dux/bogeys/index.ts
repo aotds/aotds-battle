@@ -8,6 +8,7 @@ import * as selectors from './selectors';
 import bogey, { inflate as inflate_bogey } from './bogey';
 import plotMovement from './bogey/rules/plotMovement';
 import { fire_weapon } from './rules/fireWeapon';
+import { calculateDamage } from './rules/calculateDamage';
 
 const bogeys_dux = new Updux({
     initial: [],
@@ -105,6 +106,32 @@ bogeys_dux.addSubEffect(
                 outcome,
             }),
         );
+    },
+);
+
+bogeys_dux.addSubEffect(
+    bogeys_dux.actions.weapon_fire_outcome,
+    ({ getState, dispatch, selectors }) => ({ payload }) => {
+        if (payload.aborted) return;
+
+        const { bogey_id } = payload;
+
+        const bogey = selectors.getBogey(getState())(bogey_id);
+        if (!bogey) return;
+
+        [
+            {
+                damage: calculateDamage(bogey, payload.damage_dice),
+            },
+            {
+                damage: calculateDamage(bogey, payload.penetrating_damage_dice),
+                penetrating: true,
+            },
+        ]
+            .filter(({ damage }) => damage > 0)
+            .map(damage => ({ ...damage, bogey_id }))
+            .map(bogeys_dux.actions.bogey_damage)
+            .forEach(dispatch);
     },
 );
 
