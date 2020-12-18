@@ -33,3 +33,12 @@ export const weapon_fire_outcome = action(
         outcome: FireWeaponOutcome;
     }>(),
 );
+
+export const bogey_damage = action(
+    'bogey_damage',
+    payload<{
+        bogey_id: string;
+        damage: number;
+        penetrating?: boolean;
+    }>(),
+);

@@ -1,8 +1,5 @@
 import dux, { inflate } from '.';
-import bogey_dux from './bogey';
 import { mock_mw } from '../../utils/mock-mw';
-
-const debug = require('debug')('aotds');
 
 test('generates bogey_movement', () => {
     const res = mock_mw(dux.middleware, {
@@ -167,6 +164,50 @@ test('weapon_fire', () => {
                 distance: 10,
                 bearing: 0,
             },
+        }),
+    );
+});
+
+test('weapon_fire_outcome', () => {
+    const {
+        api: { dispatch },
+    } = mock_mw(dux.middleware, {
+        action: dux.actions.weapon_fire_outcome({
+            bogey_id: 'enkidu',
+            damage_dice: [6],
+            penetrating_damage_dice: [6],
+        }),
+        api: {
+            getState: () =>
+                inflate([
+                    {
+                        id: 'enkidu',
+                        navigation: {
+                            coords: [0, 0],
+                            heading: 3,
+                        },
+                        weaponry: {
+                            shields: [1, 2],
+                        },
+                    },
+                ]),
+        },
+    });
+
+    expect(dispatch).toHaveBeenCalled();
+
+    expect(dispatch.mock.calls[0][0]).toMatchObject(
+        dux.actions.bogey_damage({
+            bogey_id: 'enkidu',
+            damage: 2,
+        }),
+    );
+
+    expect(dispatch.mock.calls[1][0]).toMatchObject(
+        dux.actions.bogey_damage({
+            bogey_id: 'enkidu',
+            damage: 2,
+            penetrating: true,
         }),
     );
 });

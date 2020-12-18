@@ -1,5 +1,4 @@
 import fp from 'lodash/fp';
-import u from 'updeep';
 
 import Updux from '../../BattleUpdux';
 import { init_game } from '../game/actions';
@@ -8,6 +7,7 @@ import * as selectors from './selectors';
 import bogey, { inflate as inflate_bogey } from './bogey';
 import plotMovement from './bogey/rules/plotMovement';
 import { fire_weapon } from './rules/fireWeapon';
+import { calculateDamage } from './rules/calculateDamage';
 
 const bogeys_dux = new Updux({
     initial: [],
@@ -27,7 +27,7 @@ bogeys_dux.addSubEffect(init_game, ({ dispatch }) => ({ payload: { bogeys = [] }
     bogeys.forEach(bogey => dispatch(actions.add_bogey(bogey)));
 });
 
-bogeys_dux.addEffect(actions.try_play_turn, ({ getState, dispatch, selectors }) => next => action => {
+bogeys_dux.addEffect(actions.try_play_turn, ({ getState, dispatch, selectors }) => () => () => {
     if (selectors.readyForNextTurn(getState())) dispatch(actions.play_turn());
 });
 
@@ -36,8 +36,8 @@ bogeys_dux.addSubEffect(actions.movement_phase, ({ dispatch, getState }) => () =
 });
 
 bogeys_dux.addSubEffect(actions.bogey_movement, ({ dispatch, getState }) => ({ payload: id }) => {
-    let bogey = fp.find({ id }, getState());
-    let movement = plotMovement(bogey);
+    const bogey = fp.find({ id }, getState());
+    const movement = plotMovement(bogey);
     dispatch(
         bogeys_dux.actions.bogey_movement_res({
             bogey_id: id,
@@ -108,6 +108,32 @@ bogeys_dux.addSubEffect(
     },
 );
 
-export const inflate = (shorthand = []) => shorthand.map(inflate_bogey);
+bogeys_dux.addSubEffect(
+    bogeys_dux.actions.weapon_fire_outcome,
+    ({ getState, dispatch, selectors }) => ({ payload }) => {
+        if (payload.aborted) return;
+
+        const { bogey_id } = payload;
+
+        const bogey = selectors.getBogey(getState())(bogey_id);
+        if (!bogey) return;
+
+        [
+            {
+                damage: calculateDamage(bogey, payload.damage_dice),
+            },
+            {
+                damage: calculateDamage(bogey, payload.penetrating_damage_dice),
+                penetrating: true,
+            },
+        ]
+            .filter(({ damage }) => damage > 0)
+            .map(damage => ({ ...damage, bogey_id }))
+            .map(bogeys_dux.actions.bogey_damage)
+            .forEach(dispatch);
+    },
+);
+
+export const inflate = (shorthand = []): BogeyState[] => shorthand.map(inflate_bogey);
 
 export default bogeys_dux.asDux;

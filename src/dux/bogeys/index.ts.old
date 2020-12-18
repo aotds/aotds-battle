@@ -129,26 +129,6 @@ dux.addEffect(
     }),
 );
 
-addSubEffect(dux.actions.weapon_fire_outcome, ({ getState, dispatch }) => ({ payload }) => {
-    if (!isFireWeaponSuccess(payload)) return;
-
-    const bogey = getBogey(getState())(payload.bogey_id);
-    if (!bogey) return;
-
-    [
-        {
-            damage: calculateDamage(bogey, payload.damage_dice),
-        },
-        {
-            damage: calculateDamage(bogey, payload.penetrating_damage_dice),
-            is_penetrating: true,
-        },
-    ]
-        .filter(({ damage }) => damage > 0)
-        .map(damage => ({ ...damage, bogey_id: bogey.id }))
-        .map(dux.actions.bogey_damage)
-        .forEach(dispatch as any);
-});
 
 
 // internal damage check
