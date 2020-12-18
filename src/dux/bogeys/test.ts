@@ -1,8 +1,5 @@
 import dux, { inflate } from '.';
-import bogey_dux from './bogey';
 import { mock_mw } from '../../utils/mock-mw';
-
-const debug = require('debug')('aotds');
 
 test('generates bogey_movement', () => {
     const res = mock_mw(dux.middleware, {
