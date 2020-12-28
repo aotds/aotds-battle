@@ -5,6 +5,7 @@ import _ from 'lodash';
 import Updux from '../../../BattleUpdux';
 import orders from './orders';
 import navigation from './navigation';
+import structure, { inflate as inflate_structure } from './structure';
 import weaponry, { inflate as inflate_weaponry } from './weaponry';
 import * as actions from './actions';
 import { DuxState } from 'updux';
@@ -15,6 +16,7 @@ const bogey_dux = new Updux({
         ...actions,
     },
     subduxes: {
+        structure,
         orders,
         navigation,
         weaponry,
@@ -65,4 +67,5 @@ export default bogey_dux.asDux;
 
 export const inflate: any = u({
     weaponry: inflate_weaponry,
+    structure: inflate_structure,
 });

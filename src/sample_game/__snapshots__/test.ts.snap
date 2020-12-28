@@ -500,8 +500,15 @@ exports[`round 1 1`] = `
         ]
       },
       "structure": {
-        "hull": 4,
-        "armor": 4
+        "hull": {
+          "current": 4,
+          "rating": 4,
+          "last_internal_check": 4
+        },
+        "armor": {
+          "current": 4,
+          "rating": 4
+        }
       },
       "player_id": "yanick",
       "orders": {
@@ -573,11 +580,11 @@ exports[`round 1 1`] = `
         "weapons": []
       },
       "structure": {
-        "hull": 4,
-        "shields": [
-          1,
-          2
-        ],
+        "hull": {
+          "current": 4,
+          "rating": 4,
+          "last_internal_check": 4
+        },
         "armor": {
           "current": 4,
           "rating": 4
