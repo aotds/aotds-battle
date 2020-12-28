@@ -3,17 +3,6 @@ import { action, payload } from 'ts-action';
 import fp from 'lodash/fp';
 import u from 'updeep';
 
-type HullState = {
-    current: number;
-    rating: number;
-    last_internal_check: number;
-};
-
-type ArmorState = {
-    rating: number;
-    current: number;
-};
-
 export type StructureState = {
     hull: HullState;
     armor: ArmorState;
@@ -38,16 +27,6 @@ const update_internal_check = action(
 );
 
 
-const dux = new Updux({
-    initial: {
-        destroyed: false,
-        hull: inflateHull(0),
-        armor: inflateArmor(),
-    } as StructureState,
-    actions: { bogey_damage, update_internal_check },
-    subduxes: {},
-    coduxes: [],
-});
 
 dux.addMutation(dux.actions.update_internal_check, ({ last_internal_check }) =>
     (u.updateIn as any)('hull', { last_internal_check }),
