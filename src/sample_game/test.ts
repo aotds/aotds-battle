@@ -1,3 +1,4 @@
+import fp from 'lodash/fp';
 import _ from 'lodash';
 import { applyMiddleware, compose } from 'redux';
 import devToolsEnhancer, { composeWithDevTools } from 'remote-redux-devtools';
@@ -29,8 +30,8 @@ dice.rollDice.mockImplementation((...args: any[]) => {
     }
 
     const index = fp.findIndex((d: any) => {
-        if (d.length === 1) return true;
-        return fp.matches(d[0], {
+        if( Array.isArray(d) ) return true;
+        return fp.matches(d.match, {
             dice: args[0],
             ...args[1],
         });
@@ -41,13 +42,14 @@ dice.rollDice.mockImplementation((...args: any[]) => {
     }
 
     const [result] = rigged_dice.splice(index, 1);
-    return _.last(result);
+
+    return Array.isArray(result) ? result : result.dice;
 });
 
 const playRound = battle => round => {
     const turn = require(`./turn-${round}`);
 
-    //    rigged_dice = turn.dice ?? [];
+    rigged_dice = turn.dice ?? [];
 
     (turn.actions ?? []).forEach(battle.dispatch);
 
@@ -70,4 +72,4 @@ const playRound = battle => round => {
     return;
 };
 
-test.each([0, 1])('round %#', playRound(battle));
+test.each([0, 1, 2])('round %#', playRound(battle));

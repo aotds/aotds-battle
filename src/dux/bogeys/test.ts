@@ -241,7 +241,8 @@ test('bogey_damage', () => {
         }),
     );
 
-    expect(dux.selectors.getBogey(store.getState())('enkidu')).toHaveProperty('structure.armor.current', 8);
+    expect(dux.selectors.getBogey(store.getState())('enkidu'))
+        .toHaveProperty('structure.armor.current', 8);
 
     expect(dux.selectors.getBogey(store.getState())('enkidu')).toHaveProperty('structure.hull.current', 9);
 

@@ -22,7 +22,6 @@ export const tests = state => {
     expect(state).toHaveProperty('game.name', 'gemini');
 
     expect(state.log).not.toHaveLength(0);
-    console.log(state);
 
     expect(state).toHaveProperty('game.turn', 1);
 

@@ -25,6 +25,5 @@ test('firecon_orders_phase', () => {
 test('weapon_orders_phase', () => {
     const result = dux.reducer(sample_bogey, dux.actions.weapon_orders_phase);
 
-    console.log(result);
     expect(fp.find({ id: 2 }, result.weaponry.weapons)).toHaveProperty('firecon_id', 2);
 });
