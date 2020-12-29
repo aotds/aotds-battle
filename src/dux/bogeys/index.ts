@@ -120,10 +120,10 @@ bogeys_dux.addSubEffect(
 
         [
             {
-                damage: calculateDamage(bogey, payload.damage_dice),
+                damage: calculateDamage(bogey, payload.outcome.damage_dice),
             },
             {
-                damage: calculateDamage(bogey, payload.penetrating_damage_dice),
+                damage: calculateDamage(bogey, payload.outcome.penetrating_damage_dice),
                 penetrating: true,
             },
         ]
