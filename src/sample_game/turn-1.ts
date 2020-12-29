@@ -7,18 +7,23 @@ import initial_state from './initial_state';
 
 export const actions = [
     battle_dux.actions.init_game(initial_state),
-    battle_dux.actions.set_orders( { bogey_id: 'enkidu', orders: {
-        navigation: { thrust: 1, turn: 1, bank: 1 },
-    }}),
+    battle_dux.actions.set_orders({
+        bogey_id: 'enkidu',
+        orders: {
+            navigation: { thrust: 1, turn: 1, bank: 1 },
+        },
+    }),
     battle_dux.actions.try_play_turn(),
-    battle_dux.actions.set_orders({bogey_id:'siduri', orders: {
-        navigation: { thrust: 1 },
-    }}),
+    battle_dux.actions.set_orders({
+        bogey_id: 'siduri',
+        orders: {
+            navigation: { thrust: 1 },
+        },
+    }),
     battle_dux.actions.try_play_turn(),
 ];
 
 export const tests = state => {
-
     expect(state).toHaveProperty('game.name', 'gemini');
 
     expect(state.log).not.toHaveLength(0);
@@ -41,6 +46,4 @@ export const tests = state => {
 
     expect(enkidu.weaponry.firecons).toHaveLength(1);
     expect(siduri.weaponry.firecons).toHaveLength(0);
-
-
 };

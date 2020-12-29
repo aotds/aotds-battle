@@ -30,7 +30,7 @@ dice.rollDice.mockImplementation((...args: any[]) => {
     }
 
     const index = fp.findIndex((d: any) => {
-        if( Array.isArray(d) ) return true;
+        if (Array.isArray(d)) return true;
         return fp.matches(d.match, {
             dice: args[0],
             ...args[1],
@@ -58,7 +58,7 @@ const playRound = battle => round => {
 
     turn.tests(state);
 
-   expect(state).toMatchSnapshot();
+    expect(state).toMatchSnapshot();
 
     // tap.test(`turn ${round}`, { skip: process.env.TURN && process.env.TURN !== round } as any, async t => {
     //     turn.tests(state)(t);
