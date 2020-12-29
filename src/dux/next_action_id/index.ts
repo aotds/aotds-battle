@@ -17,7 +17,7 @@ dux.addEffect('*', ({ dispatch, actions: { inc_action_id }, getState }) => next 
     if (isType(action, inc_action_id)) return next(action);
 
     const action_id = getState();
-    dispatch(inc_action_id());
+    dispatch(u.updateIn('meta.no_log', true,inc_action_id()));
 
     return next(u.updateIn('meta.action_id', action_id, action));
 });

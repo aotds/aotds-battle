@@ -13,9 +13,7 @@ expect.addSnapshotSerializer( {
 
 function groomState(state) {
     return u({
-        game: {
-            next_action_id: u.omitted,
-        },
+        next_action_id: u.omitted,
         log: u.map(
             u.omit('meta')
         )
