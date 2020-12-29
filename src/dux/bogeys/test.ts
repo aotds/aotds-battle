@@ -174,8 +174,10 @@ test('weapon_fire_outcome', () => {
     } = mock_mw(dux.middleware, {
         action: dux.actions.weapon_fire_outcome({
             bogey_id: 'enkidu',
-            damage_dice: [6],
-            penetrating_damage_dice: [6],
+            outcome: {
+                damage_dice: [6],
+                penetrating_damage_dice: [6],
+            },
         }),
         api: {
             getState: () =>
@@ -210,4 +212,38 @@ test('weapon_fire_outcome', () => {
             penetrating: true,
         }),
     );
+});
+
+test('bogey_damage', () => {
+    const store = dux.createStore(
+        inflate([
+            {
+                id: 'enkidu',
+                structure: {
+                    hull: 10,
+                    armor: 10,
+                },
+            },
+            {
+                id: 'siduri',
+                structure: {
+                    hull: 10,
+                    armor: 10,
+                },
+            },
+        ]),
+    );
+
+    store.dispatch(
+        dux.actions.bogey_damage({
+            bogey_id: 'enkidu',
+            damage: 3,
+        }),
+    );
+
+    expect(dux.selectors.getBogey(store.getState())('enkidu')).toHaveProperty('structure.armor.current', 8);
+
+    expect(dux.selectors.getBogey(store.getState())('enkidu')).toHaveProperty('structure.hull.current', 9);
+
+    expect(dux.selectors.getBogey(store.getState())('siduri')).toHaveProperty('structure.armor.current', 10);
 });

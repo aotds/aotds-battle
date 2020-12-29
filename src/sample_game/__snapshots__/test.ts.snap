@@ -502,8 +502,7 @@ exports[`round 1 1`] = `
       "structure": {
         "hull": {
           "current": 4,
-          "rating": 4,
-          "last_internal_check": 4
+          "rating": 4
         },
         "armor": {
           "current": 4,
@@ -582,8 +581,7 @@ exports[`round 1 1`] = `
       "structure": {
         "hull": {
           "current": 4,
-          "rating": 4,
-          "last_internal_check": 4
+          "rating": 4
         },
         "armor": {
           "current": 4,
