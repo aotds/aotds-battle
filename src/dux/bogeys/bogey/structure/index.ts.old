@@ -32,30 +32,6 @@ dux.addMutation(dux.actions.update_internal_check, ({ last_internal_check }) =>
     (u.updateIn as any)('hull', { last_internal_check }),
 );
 
-dux.addMutation(
-    dux.actions.bogey_damage,
-    ({ damage, is_penetrating }) =>
-        ((structure: StructureState) => {
-            if (!damage) return structure;
-
-            let armor = structure.armor.current;
-
-            const dec_current = (damage: number) => (v: number) => v - damage;
-
-            if (!is_penetrating) {
-                const armor_damage = Math.min(fp.ceil(damage / 2), armor);
-                damage -= armor_damage;
-
-                structure = u.updateIn('armor.current', dec_current(armor_damage), structure) as any;
-            }
-
-            structure = u.updateIn('hull.current', dec_current(damage), structure) as any;
-
-            if (structure.hull.current <= 0) structure = u({ destroyed: true }, structure) as any;
-
-            return structure;
-        }) as any,
-);
 
 export default dux.asDux;
 

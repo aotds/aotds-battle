@@ -1,4 +1,5 @@
 import fp from 'lodash/fp';
+import u from 'updeep';
 
 import Updux from '../../BattleUpdux';
 import { init_game } from '../game/actions';
@@ -22,6 +23,12 @@ const bogeys_dux = new Updux({
 });
 
 bogeys_dux.addMutation(actions.add_bogey, (ship => (state: unknown[]) => [...state, inflate_bogey(ship)]) as any);
+
+bogeys_dux.addMutation(
+    bogeys_dux.actions.bogey_damage,
+    ({ bogey_id: id }, action) => u.map(u.if(fp.matches({ id }), bogey.upreducer(action))),
+    true,
+);
 
 bogeys_dux.addSubEffect(init_game, ({ dispatch }) => ({ payload: { bogeys = [] } }) => {
     bogeys.forEach(bogey => dispatch(actions.add_bogey(bogey)));
