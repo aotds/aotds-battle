@@ -510,14 +510,7 @@ exports[`round 1 1`] = `
         }
       },
       "player_id": "yanick",
-      "orders": {
-        "done": true,
-        "navigation": {
-          "thrust": 1,
-          "turn": 1,
-          "bank": 1
-        }
-      }
+      "orders": {}
     },
     {
       "name": "Siduri",
@@ -588,12 +581,7 @@ exports[`round 1 1`] = `
           "rating": 4
         }
       },
-      "orders": {
-        "done": true,
-        "navigation": {
-          "thrust": 1
-        }
-      }
+      "orders": {}
     }
   ]
 }
@@ -1070,10 +1058,10 @@ exports[`round 2 1`] = `
         "movement": {
           "coords": [
             10,
-            7
+            8
           ],
           "heading": 6,
-          "velocity": 2,
+          "velocity": 1,
           "trajectory": [
             {
               "type": "POSITION",
@@ -1086,15 +1074,15 @@ exports[`round 2 1`] = `
               "type": "MOVE",
               "delta": [
                 0,
-                -2
+                -1
               ],
               "coords": [
                 10,
-                7
+                8
               ]
             }
           ],
-          "thrust_used": 1,
+          "thrust_used": 0,
           "maneuvers": {
             "thrust": [
               -1,
@@ -1145,8 +1133,8 @@ exports[`round 2 1`] = `
       "payload": {
         "bogey_id": "siduri",
         "outcome": {
-          "distance": 9.574319819182978,
-          "bearing": 0.889169341291759,
+          "distance": 10.16,
+          "bearing": 0.73,
           "damage_dice": [
             6,
             5
@@ -1177,8 +1165,8 @@ exports[`round 2 1`] = `
       "payload": {
         "bogey_id": "siduri",
         "outcome": {
-          "distance": 9.574319819182978,
-          "bearing": 0.889169341291759,
+          "distance": 10.16,
+          "bearing": 0.73,
           "aborted": "no firing arc",
           "damage_dice": [],
           "penetrating_damage_dice": []
@@ -1198,8 +1186,8 @@ exports[`round 2 1`] = `
       "payload": {
         "bogey_id": "siduri",
         "outcome": {
-          "distance": 9.574319819182978,
-          "bearing": 0.889169341291759,
+          "distance": 10.16,
+          "bearing": 0.73,
           "aborted": "no firing arc",
           "damage_dice": [],
           "penetrating_damage_dice": []
@@ -1322,29 +1310,7 @@ exports[`round 2 1`] = `
         }
       },
       "player_id": "yanick",
-      "orders": {
-        "done": true,
-        "firecons": [
-          {
-            "firecon_id": 1,
-            "target_id": "siduri"
-          }
-        ],
-        "weapons": [
-          {
-            "weapon_id": 1,
-            "firecon_id": 1
-          },
-          {
-            "weapon_id": 2,
-            "firecon_id": 1
-          },
-          {
-            "weapon_id": 3,
-            "firecon_id": 1
-          }
-        ]
-      }
+      "orders": {}
     },
     {
       "name": "Siduri",
@@ -1356,10 +1322,10 @@ exports[`round 2 1`] = `
       "navigation": {
         "coords": [
           10,
-          7
+          8
         ],
         "heading": 6,
-        "velocity": 2,
+        "velocity": 1,
         "trajectory": [
           {
             "type": "POSITION",
@@ -1372,15 +1338,15 @@ exports[`round 2 1`] = `
             "type": "MOVE",
             "delta": [
               0,
-              -2
+              -1
             ],
             "coords": [
               10,
-              7
+              8
             ]
           }
         ],
-        "thrust_used": 1,
+        "thrust_used": 0,
         "maneuvers": {
           "thrust": [
             -1,
@@ -1415,12 +1381,7 @@ exports[`round 2 1`] = `
           "rating": 4
         }
       },
-      "orders": {
-        "done": true,
-        "navigation": {
-          "thrust": 1
-        }
-      }
+      "orders": {}
     }
   ]
 }

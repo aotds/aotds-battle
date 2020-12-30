@@ -1,4 +1,4 @@
-import { action, payload } from 'ts-action';
+import { action, payload, empty } from 'ts-action';
 import { Orders } from './types';
 
 export const set_orders = action(
@@ -9,3 +9,5 @@ export const set_orders = action(
         done?: boolean | string;
     }>(),
 );
+
+export const clear_orders = action('clear_orders', empty());
