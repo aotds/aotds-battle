@@ -11,4 +11,6 @@ orders_dux.addMutation(actions.set_orders, ({ orders, done = true }) => () => {
     return { done, ...orders };
 });
 
+orders_dux.addMutation(actions.clear_orders, () => () => ({}));
+
 export default orders_dux.asDux;
