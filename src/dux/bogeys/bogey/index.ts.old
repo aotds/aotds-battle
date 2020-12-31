@@ -25,11 +25,6 @@ const weapon_fire = action(
 
 // ---
 
-type DriveState = {
-    rating: number;
-    current: number;
-    damage_level?: 0 | 1 | 2;
-};
 
 export type BogeyState = {
     id: string;
@@ -70,18 +65,4 @@ dux.addMutation(dux.actions.internal_damage, ({ system }) => (state: any) => {
 
 export default dux.asDux;
 
-type DriveStateShorthand = number | DriveState;
-
-function inflateDrive(shorthand: DriveStateShorthand = 0): DriveState {
-    if (typeof shorthand === 'number')
-        return {
-            current: shorthand,
-            rating: shorthand,
-            damage_level: 0,
-        };
-
-    return fp.defaults({
-        damage_level: 0,
-    })(shorthand);
-}
 

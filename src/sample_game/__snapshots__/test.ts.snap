@@ -396,7 +396,8 @@ exports[`round 1 1`] = `
       "id": "enkidu",
       "drive": {
         "rating": 6,
-        "current": 6
+        "current": 6,
+        "damage_level": 0
       },
       "navigation": {
         "coords": [
@@ -517,7 +518,8 @@ exports[`round 1 1`] = `
       "id": "siduri",
       "drive": {
         "rating": 6,
-        "current": 6
+        "current": 6,
+        "damage_level": 0
       },
       "navigation": {
         "coords": [
@@ -1213,7 +1215,8 @@ exports[`round 2 1`] = `
       "id": "enkidu",
       "drive": {
         "rating": 6,
-        "current": 6
+        "current": 6,
+        "damage_level": 0
       },
       "navigation": {
         "coords": [
@@ -1317,7 +1320,8 @@ exports[`round 2 1`] = `
       "id": "siduri",
       "drive": {
         "rating": 6,
-        "current": 6
+        "current": 6,
+        "damage_level": 0
       },
       "navigation": {
         "coords": [

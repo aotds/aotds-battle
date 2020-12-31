@@ -27,3 +27,17 @@ test('weapon_orders_phase', () => {
 
     expect(fp.find({ id: 2 }, result.weaponry.weapons)).toHaveProperty('firecon_id', 2);
 });
+
+test('inflate bogey', () => {
+    const ship = inflate({
+        drive: 8,
+    });
+
+    expect(ship).toMatchObject({
+        drive: {
+            rating: 8,
+            current: 8,
+            damage_level: 0,
+        },
+    });
+});

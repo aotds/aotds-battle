@@ -4,6 +4,7 @@ import _ from 'lodash';
 
 import Updux from '../../../BattleUpdux';
 import orders from './orders';
+import * as drive from './drive';
 import navigation from './navigation';
 import structure, { inflate as inflate_structure } from './structure';
 import weaponry, { inflate as inflate_weaponry } from './weaponry';
@@ -20,6 +21,7 @@ const bogey_dux = new Updux({
         orders,
         navigation,
         weaponry,
+        drive,
     },
     selectors: {
         getWeapon: bogey => id => _.find(_.get(bogey, 'weaponry.weapons', []), { id }),
@@ -68,4 +70,5 @@ export default bogey_dux.asDux;
 export const inflate: any = u({
     weaponry: inflate_weaponry,
     structure: inflate_structure,
+    drive: drive.inflate,
 });
