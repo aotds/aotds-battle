@@ -1,5 +1,5 @@
 import Updux from '../BattleUpdux';
-import u from 'updeep';
+import u from '@yanick/updeep';
 
 import log from './log';
 import game from './game';

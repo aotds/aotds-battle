@@ -1,5 +1,5 @@
 import Updux from 'updux';
-import u from 'updeep';
+import u from '@yanick/updeep';
 
 import firecons, { inflate as inflate_firecons } from './firecons';
 

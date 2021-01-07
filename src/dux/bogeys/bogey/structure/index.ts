@@ -1,5 +1,5 @@
 import Updux from 'updux';
-import u from 'updeep';
+import u from '@yanick/updeep';
 import fp from 'lodash/fp';
 
 import inflate from './inflate';

@@ -6,8 +6,7 @@
     "main": "build/index.js",
     "scripts": {
         "test:coverage": "tap --coverage src/**/*test.ts --coverage-report html",
-        "test": "tap",
-        "test:prog": "tap --coverage -stests -n",
+        "test": "jest src",
         "build": "babel src/ -d lib"
     },
     "keywords": [],
@@ -17,6 +16,7 @@
         "@microsoft/api-documenter": "^7.8.9",
         "@microsoft/api-extractor": "^7.8.9",
         "@types/lodash": "^4.14.162",
+        "@yanick/updeep": "^2.0.0",
         "debug": "^4.1.1",
         "docsify-cli": "^4.4.0",
         "docsify-tools": "^1.0.20",
@@ -36,7 +36,6 @@
         "remote-redux-devtools": "^0.5.16",
         "remotedev-server": "^0.3.1",
         "sinon": "^9.0.1",
-        "tap": "^14.10.6",
         "ts-action": "^11.0.0",
         "ts-json-schema-generator": "^0.67.1",
         "updeep": "^1.2.0",
@@ -56,7 +55,6 @@
         "@typescript-eslint/eslint-plugin": "^4.5.0",
         "@typescript-eslint/parser": "^4.5.0",
         "babel-node": "0.0.1-security",
-        "babel-tap": "^5.0.0",
         "jest": "^26.6.3",
         "ts-node": "^9.0.0",
         "typescript": "^4.0.3"
@@ -82,11 +80,9 @@
             ]
         ]
     },
-    "tap": {
-        "test-regex": "^dist/.*/.*test.js$",
-        "coverage": false
-    },
     "jest": {
-        "roots": [ "src" ]
+        "roots": [
+            "src"
+        ]
     }
 }
