@@ -470,8 +470,14 @@ exports[`round 1 1`] = `
           }
         ],
         "shields": [
-          1,
-          2
+          {
+            "id": 1,
+            "level": 1
+          },
+          {
+            "id": 2,
+            "level": 2
+          }
         ],
         "weapons": [
           {
@@ -567,8 +573,14 @@ exports[`round 1 1`] = `
       "player_id": "yenzie",
       "weaponry": {
         "shields": [
-          1,
-          2
+          {
+            "id": 1,
+            "level": 1
+          },
+          {
+            "id": 2,
+            "level": 2
+          }
         ],
         "firecons": [],
         "weapons": []
@@ -1269,8 +1281,14 @@ exports[`round 2 1`] = `
           }
         ],
         "shields": [
-          1,
-          2
+          {
+            "id": 1,
+            "level": 1
+          },
+          {
+            "id": 2,
+            "level": 2
+          }
         ],
         "weapons": [
           {
@@ -1369,8 +1387,14 @@ exports[`round 2 1`] = `
       "player_id": "yenzie",
       "weaponry": {
         "shields": [
-          1,
-          2
+          {
+            "id": 1,
+            "level": 1
+          },
+          {
+            "id": 2,
+            "level": 2
+          }
         ],
         "firecons": [],
         "weapons": []

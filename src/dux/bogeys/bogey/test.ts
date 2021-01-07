@@ -1,5 +1,4 @@
 import fp from 'lodash/fp';
-import _ from 'lodash';
 
 import dux, { inflate } from '.';
 
@@ -31,6 +30,9 @@ test('weapon_orders_phase', () => {
 test('inflate bogey', () => {
     const ship = inflate({
         drive: 8,
+        weaponry: {
+            shields: [1, 2, 2],
+        },
     });
 
     expect(ship).toMatchObject({
@@ -38,6 +40,13 @@ test('inflate bogey', () => {
             rating: 8,
             current: 8,
             damage_level: 0,
+        },
+        weaponry: {
+            shields: [
+                { id: 1, level: 1 },
+                { id: 2, level: 2 },
+                { id: 3, level: 2 },
+            ],
         },
     });
 });
