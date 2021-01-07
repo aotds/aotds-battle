@@ -1,5 +1,5 @@
 import { relativeCoords } from './relativeCoords';
-import u from 'updeep';
+import u from '@yanick/updeep';
 
 let attacker = { coords: [0, 0], heading: 1 };
 let target: any = { coords: [0, 10], heading: 5 };

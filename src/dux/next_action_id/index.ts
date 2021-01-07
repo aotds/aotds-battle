@@ -1,5 +1,5 @@
 import Updux from 'updux';
-import u from 'updeep';
+import u from '@yanick/updeep';
 import { action, empty, isType } from 'ts-action';
 import fp from 'lodash/fp';
 

@@ -1,4 +1,4 @@
-import u from 'updeep';
+import u from '@yanick/updeep';
 
 expect.addSnapshotSerializer({
     serialize(val, config, indentation, depth, refs, printer) {

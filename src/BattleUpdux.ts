@@ -1,6 +1,6 @@
 import Updux, {UpduxConfig} from 'updux';
 import fp from 'lodash/fp';
-import u from 'updeep';
+import u from '@yanick/updeep';
 
 const subactions = mw => api => next => action => {
     const parent_actions = [...fp.getOr([], 'meta.parent_actions', action), fp.get('meta.action_id', action)];

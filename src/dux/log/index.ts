@@ -1,6 +1,6 @@
 import Updux from 'updux';
 import fp from 'lodash/fp';
-import u from 'updeep';
+import u from '@yanick/updeep';
 
 function addSubaction(log: any[] = [], action: any, parents: string[] = []) {
     const [id, ...rest] = parents;
