@@ -19,21 +19,19 @@ function addSubaction(log: any[] = [], action: any, parents: string[] = []) {
 }
 
 type LogEntry = {
-    type: string,
+    type: string;
     meta: {
-        parent_actions: number[],
+        parent_actions: number[];
         action_id: number;
-    }
+    };
 };
 
 type HierarchicalLogEntry = LogEntry & {
-    subactions: HierarchicalLogEntry[]
-}
-
+    subactions: HierarchicalLogEntry[];
+};
 
 export function hierarchical_log(log: LogEntry[]) {
-
-    const hier : HierarchicalLogEntry[] = [];
+    const hier: HierarchicalLogEntry[] = [];
 
     for (const entry of log) {
         const parents = entry!.meta.parent_actions || [];
