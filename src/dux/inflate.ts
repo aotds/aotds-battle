@@ -1,8 +1,7 @@
-import u from 'updeep';
-import bogeys from './bogeys/inflate';
+import u from '@yanick/updeep';
+import { inflate as bogeys} from './bogeys';
 
 export default function inflate_battle(battle) {
-    console.log(battle);
     return u({
         bogeys
     })(battle);
