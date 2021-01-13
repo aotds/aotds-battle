@@ -6,6 +6,8 @@ import game from './game';
 import bogeys from './bogeys';
 import next_action_id from './next_action_id';
 
+export { default as inflate } from './inflate';
+
 import * as actions from './actions';
 
 const battle_dux = new Updux({

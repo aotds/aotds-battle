@@ -1,6 +1,6 @@
 import Updux from 'updux';
 import _ from 'lodash';
-import u from 'updeep';
+import u from '@yanick/updeep';
 
 type ShieldState = {
     id: number;
