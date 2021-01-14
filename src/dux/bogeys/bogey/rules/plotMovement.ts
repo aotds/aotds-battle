@@ -149,6 +149,11 @@ export function plotMovement(ship: BogeyState): NavigationState {
             thrust_used: engine_rating - engine_power,
             maneuvers,
             coords: u.map(round),
+            orders: {
+                thrust,
+                turn,
+                bank,
+            },
         } as unknown) as NavigationState,
         navigation,
     ) as NavigationState;
