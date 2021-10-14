@@ -44,6 +44,8 @@ export default new Updux({
             // can't be caught by the middleware
             if (/@@/.test(action.type)) return log;
 
+            if( action?.meta?.noLog ) return log;
+
             return [ ...log, action ];
         }
     }
