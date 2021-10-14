@@ -1,4 +1,5 @@
 {
+    "type": "module",
     "name": "@aotds/aotds-battle",
     "private": true,
     "version": "1.0.0",
@@ -36,9 +37,11 @@
         "remote-redux-devtools": "^0.5.16",
         "remotedev-server": "^0.3.1",
         "sinon": "^9.0.1",
+        "tap": "^15.0.10",
         "ts-action": "^11.0.0",
         "ts-json-schema-generator": "^0.67.1",
-        "updux": "^2.1.0"
+        "updeep": "^1.2.1",
+        "updux": "link:../../updux-js"
     },
     "devDependencies": {
         "@babel/cli": "^7.0.0",
