@@ -1,35 +1,45 @@
-import u from '@yanick/updeep';
+import u from 'updeep';
 import _ from 'lodash';
 import fp from 'lodash/fp';
+import { Updux } from 'updux';
+
+import { dux as orders } from './orders';
+/*
 import { DuxState } from 'updux';
 import Updux from '../../../BattleUpdux';
 import * as actions from './actions';
 import * as drive from './drive';
 import navigation from './navigation';
-import orders from './orders';
 import structure, { inflate as inflate_structure } from './structure';
 import weaponry, { inflate as inflate_weaponry } from './weaponry';
+*/
 
-const bogey_dux = new Updux({
-    initial: {} as Record<string, never>,
+export const dux = new Updux({
+    initial: {},
     actions: {
-        ...actions,
+        // ...actions,
     },
     subduxes: {
-        structure,
+        // structure,
         orders,
-        navigation,
-        weaponry,
-        drive,
+        // navigation,
+        // weaponry,
+        // drive,
     },
     selectors: {
-        getWeapon: bogey => id => _.find(_.get(bogey, 'weaponry.weapons', []), { id }),
-        getShieldLevel: bogey => {
-            return Math.max(...bogey.weaponry.shields.filter(shield => !shield.damaged).map(({ level }) => level)) ?? 0;
-        },
+        // getWeapon: bogey => id => _.find(_.get(bogey, 'weaponry.weapons', []), { id }),
+        // getShieldLevel: bogey => {
+        //     return Math.max(...bogey.weaponry.shields.filter(shield => !shield.damaged).map(({ level }) => level)) ?? 0;
+        // },
     },
 });
 
+dux.setMutation(
+    'setOrders',
+    ( {bogeyId: id}, action) => u.if(fp.matches({ id }), u({ orders: orders.upreducer(action) })) as any,
+);
+
+/*
 export type BogeyState = DuxState<typeof bogey_dux>;
 
 bogey_dux.addMutation(
@@ -38,11 +48,6 @@ bogey_dux.addMutation(
     true,
 );
 
-bogey_dux.addMutation(
-    bogey_dux.actions.set_orders,
-    ({ bogey_id: id }, action) => u.if(fp.matches({ id }), u({ orders: orders.upreducer(action) })) as any,
-    true,
-);
 
 bogey_dux.addMutation(bogey_dux.actions.firecon_orders_phase, (() => (bogey: BogeyState) => {
     const orders = bogey?.orders?.firecons ?? [];
@@ -71,3 +76,4 @@ export const inflate: any = u({
     structure: inflate_structure,
     drive: drive.inflate,
 });
+*/

@@ -1,16 +1,16 @@
-import Updux from 'updux';
-import { OrdersState } from './types';
-import * as actions from './actions';
+import { Updux } from 'updux';
+import { OrdersState, Orders } from './types';
 
-const orders_dux = new Updux({
+export const dux = new Updux({
     initial: {} as OrdersState,
-    actions,
+    actions: {
+        clearOrders: null,
+        setOrders: (bogeyId, orders) => ({ bogeyId, orders })
+    },
 });
 
-orders_dux.addMutation(actions.set_orders, ({ orders, done = true }) => () => {
-    return { done, ...orders };
+dux.setMutation('setOrders', ({ orders}) => () => {
+    return orders;
 });
 
-orders_dux.addMutation(actions.clear_orders, () => () => ({}));
-
-export default orders_dux.asDux;
+dux.setMutation('clear_orders', () => () => ({}));
