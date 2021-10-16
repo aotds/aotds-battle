@@ -1,6 +1,6 @@
 import { Updux } from 'updux';
 import u from 'updeep';
-import fp from 'lodash/fp.js';
+import { add } from 'lodash/fp';
 
 export default new Updux({
     initial: 1,
@@ -8,7 +8,7 @@ export default new Updux({
         incActionId: null
     },
     mutations: {
-        incActionId: () => fp.add(1)
+        incActionId: () => add(1)
     },
     effects: {
         '*': ({ dispatch, getState, actions }) => next => action => {

@@ -1,11 +1,15 @@
 import { Updux } from 'updux';
-import fp from 'lodash/fp.js';
 import u from 'updeep';
 
-export function orderedLog(log) {
-    let ordered = [...log];
+type LogEntry = {
+    meta: {
+        actionId: number;
+        parentActionId?: number;
+    }
+}
 
-    console.log(ordered);
+export function orderedLog(log: LogEntry[]) {
+    let ordered = [...log];
 
     ordered.reverse();
 
@@ -14,7 +18,7 @@ export function orderedLog(log) {
     ordered = ordered.map(
         entry => {
             if( subactions[entry.meta.actionId] ) {
-                entry = u({ subactions: subactions[entry.meta.actionId] }, entry);
+                entry = u({ subactions: subactions[entry.meta.actionId] }, entry) as LogEntry;
                 delete subactions[entry.meta.actionId];
             }
 
@@ -25,22 +29,22 @@ export function orderedLog(log) {
 
             subactions[ entry.meta.parentActionId ].unshift(entry);
 
-            return null
+            return []
         }
-    ).filter( x=>x );
+    ).flat();
 
     ordered.reverse();
 
     return ordered;
 }
 
-export default new Updux({
+export const dux = new Updux({
     initial: [],
     selectors: {
         orderedLog
     },
     mutations: {
-        '+': (_payload, action) => log => {
+        '+': (_payload, action) => (log: any) => {
             // can't be caught by the middleware
             if (/@@/.test(action.type)) return log;
 
