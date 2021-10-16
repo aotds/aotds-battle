@@ -1,6 +1,6 @@
-import Updux from 'updux';
+import { Updux } from 'updux';
 import _ from 'lodash';
-import u from '@yanick/updeep';
+import u from 'updeep';
 
 type ShieldState = {
     id: number;
@@ -8,11 +8,9 @@ type ShieldState = {
     damaged?: boolean;
 };
 
-const dux = new Updux({
+export const dux = new Updux({
     initial: [] as ShieldState[],
 });
-
-export default dux.asDux;
 
 type ShieldShorthand = ShieldState | number;
 
