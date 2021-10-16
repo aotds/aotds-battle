@@ -1,6 +1,4 @@
-import dux from '.';
-
-const structure_reducer = dux.reducer;
+import { dux } from '.';
 
 const tests = [
     { action: { damage: 1, penetrating: false }, hull: 10, armor: 1 },
@@ -11,9 +9,9 @@ const tests = [
 
 test.each(tests)('%j', ({ action, hull, armor }) => {
     expect(
-        structure_reducer(
-            { hull: { current: 10 }, armor: { current: 2 } } as any,
-            dux.actions.bogey_damage(action as any),
+        dux.reducer(
+            { hull: { current: 10 }, armor: { current: 2 } },
+            dux.actions.bogey_damage(action),
         ),
     ).toMatchObject({
         hull: { current: hull },

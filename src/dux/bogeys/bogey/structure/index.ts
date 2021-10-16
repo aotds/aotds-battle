@@ -1,18 +1,19 @@
-import Updux from 'updux';
-import u from '@yanick/updeep';
+import { Updux } from 'updux';
+import u from 'updeep';
 import fp from 'lodash/fp';
 
 import inflate from './inflate';
 
 import * as actions from './actions';
-import { StructureState } from './types';
 
-const dux = new Updux<StructureState>({
+export { inflate };
+
+export const dux = new Updux({
     initial: inflate(),
     actions,
 });
 
-dux.addMutation(actions.bogey_damage, ({ damage, penetrating }) => (structure: StructureState) => {
+dux.setMutation('bogey_damage', ({ damage, penetrating }) => (structure) => {
     if (!damage) return structure;
 
     let armor = structure.armor.current;
@@ -31,5 +32,3 @@ dux.addMutation(actions.bogey_damage, ({ damage, penetrating }) => (structure: S
     return structure;
 });
 
-export default dux.asDux;
-export { inflate };
