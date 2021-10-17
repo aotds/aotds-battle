@@ -1,5 +1,4 @@
 {
-    "type": "module",
     "name": "@aotds/aotds-battle",
     "private": true,
     "version": "1.0.0",

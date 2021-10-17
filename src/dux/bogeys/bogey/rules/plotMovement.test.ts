@@ -1,18 +1,15 @@
-import tap from 'tap';
 import fp from 'lodash/fp';
 import _ from 'lodash';
 import u from 'updeep';
 
-import { plotMovement, move_thrust, move_rotate } from './plotMovement';
+import { plotMovement, moveThrust, moveRotate } from './plotMovement';
 import { NavigationState, Coords } from '../navigation';
 
 function roundDeep(obj) {
     return fp.mapValues(v => (typeof v === 'object' ? roundDeep(v) : typeof v === 'number' ? _.round(v, 2) : v))(obj);
 }
 
-const { test } = tap;
-
-test('move_thrust', async t => {
+test('move_thrust', () => {
     const ship: NavigationState = { coords: [0, 0], heading: 1, velocity: 0 };
 
     const cases: [number, Coords][] = [
