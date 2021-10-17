@@ -1,4 +1,7 @@
-export declare function omitBy<C extends object, P extends (...args: any[]) => boolean>(predicate: P, collection: C): object;
+export declare function omitBy<C extends object, P extends (...args: any[]) => boolean>(
+    predicate: P,
+    collection: C,
+): object;
 interface CurriedOmitBy {
     <C extends object, P extends (...args: any[]) => boolean>(predicate: P, collection: C): object;
     <C extends object, P extends (...args: any[]) => boolean>(predicate: P): (collection: C) => object;

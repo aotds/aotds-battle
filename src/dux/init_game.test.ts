@@ -8,12 +8,12 @@ test('init_game', () => {
             game: {
                 name: 'Gemini',
             },
-            bogeys: [{ id: "1" }, { id: "2" }],
+            bogeys: [{ id: '1' }, { id: '2' }],
         }),
     );
 
-    expect(store.getState()).toMatchObject(
-    { game: {
+    expect(store.getState()).toMatchObject({
+        game: {
             name: 'Gemini',
             turn: 0,
         },

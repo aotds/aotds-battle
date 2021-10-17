@@ -9,10 +9,7 @@ const tests = [
 
 test.each(tests)('%j', ({ action, hull, armor }) => {
     expect(
-        dux.reducer(
-            { hull: { current: 10 }, armor: { current: 2 } },
-            dux.actions.bogey_damage(action),
-        ),
+        dux.reducer({ hull: { current: 10 }, armor: { current: 2 } }, dux.actions.bogey_damage(action)),
     ).toMatchObject({
         hull: { current: hull },
         armor: { current: armor },

@@ -1,10 +1,10 @@
 import _ from 'lodash';
 
-const rollDie = (n:number) => _.random(1,n);
+const rollDie = (n: number) => _.random(1, n);
 
 export function rollDice(
     nbr_dice: number,
-    options: { reroll?: number[]; nbr_faces?: number; note?: unknown} = {},
+    options: { reroll?: number[]; nbr_faces?: number; note?: unknown } = {},
 ): number[] {
     if (nbr_dice === 0) return [];
 
@@ -13,9 +13,9 @@ export function rollDice(
 
     const roll: number[] = Array.from({ length: nbr_dice }, () => rollDie(nbr_faces));
 
-    const rerolls = roll.filter( d => (reroll_on as any).includes(d) );
+    const rerolls = roll.filter(d => (reroll_on as any).includes(d));
 
-    if(rerolls.length === 0 ) return roll;
+    if (rerolls.length === 0) return roll;
 
     return ([roll, rollDice(rerolls.length, options)] as any).flat();
 }

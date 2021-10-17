@@ -21,7 +21,7 @@ export function inflate(shorthand = 0) {
         return {
             current: shorthand,
             rating: shorthand,
-            damage_level: 0,
+            damageLevel: 0,
         };
 
     return fp.defaults({ damage_level: 0 }, shorthand);

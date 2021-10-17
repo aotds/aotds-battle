@@ -1,10 +1,9 @@
 import { Updux } from 'updux';
 import u from 'updeep';
 
-import { dux as firecons, inflate as inflate_firecons } from './firecons';
-
-import { inflate as inflate_weapons } from './weapons';
-import { inflate_shields } from './shields';
+import { dux as firecons, inflate as inflateFirecons } from './firecons';
+import { inflate as inflateWeapons } from './weapons';
+import { inflate as inflateShields } from './shields';
 
 export const dux = new Updux({
     subduxes: {
@@ -13,7 +12,7 @@ export const dux = new Updux({
 });
 
 export const inflate = u({
-    firecons: inflate_firecons,
-    weapons: inflate_weapons,
-    shields: inflate_shields,
+    firecons: inflateFirecons,
+    weapons: inflateWeapons,
+    shields: inflateShields,
 });

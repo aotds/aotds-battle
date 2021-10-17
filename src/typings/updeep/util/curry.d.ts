@@ -1,4 +1,4 @@
-export declare const _ = "@@updeep/placeholder";
+export declare const _ = '@@updeep/placeholder';
 interface SprawlingCurry<R, A extends any[]> {
     (...args: A): R;
     (): SprawlingCurry<R, A>;

@@ -1,9 +1,9 @@
+export type FireconsState = Record<number, FireconState>;
 
 export type FireconState = {
     id: number;
-    target_id: string|null;
+    targetId?: string;
     damaged?: boolean;
-}
+};
 
-export type FireconsShorthand = FireconState[] | number;
-
+export type FireconsShorthand = FireconsState | number;

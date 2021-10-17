@@ -1,5 +1,7 @@
 import { MergedUpdate, UpdateReturnType } from './types';
-export declare const omitted: (...args: any[]) => {
+export declare const omitted: (
+    ...args: any[]
+) => {
     __omitted: boolean;
 };
 /**

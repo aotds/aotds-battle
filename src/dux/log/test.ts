@@ -25,8 +25,7 @@ store.dispatch({
 });
 
 test('log is okay', () => {
-    expect(store.getState.orderedLog()).toMatchObject(
-    [
+    expect(store.getState.orderedLog()).toMatchObject([
         { type: 'alpha', subactions: [{ type: 'beta' }] },
         { type: 'gamma' },
     ]);

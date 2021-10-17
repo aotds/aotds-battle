@@ -1,6 +1,7 @@
-import { WeaponShorthand, WeaponState } from './types';
+import { WeaponShorthand, WeaponsState, WeaponState } from './types';
 
-export default function inflate_weapons(shorthand: WeaponShorthand[] = []): WeaponState[] {
-    let id = 1;
-    return shorthand.map(s => ({ ...s, id: id++ })) as any;
+export function inflate(shorthand: Record<string, WeaponState> | WeaponShorthand[] = []): WeaponsState {
+    if (!Array.isArray(shorthand)) return shorthand;
+
+    return Object.fromEntries(shorthand.map((s, i) => [i + 1, { id: i + 1, ...s }]));
 }

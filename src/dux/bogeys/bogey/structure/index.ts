@@ -13,7 +13,7 @@ export const dux = new Updux({
     actions,
 });
 
-dux.setMutation('bogey_damage', ({ damage, penetrating }) => (structure) => {
+dux.setMutation('bogey_damage', ({ damage, penetrating }) => structure => {
     if (!damage) return structure;
 
     let armor = structure.armor.current;
@@ -31,4 +31,3 @@ dux.setMutation('bogey_damage', ({ damage, penetrating }) => (structure) => {
 
     return structure;
 });
-

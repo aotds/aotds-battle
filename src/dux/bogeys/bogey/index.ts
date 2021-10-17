@@ -4,6 +4,10 @@ import fp from 'lodash/fp';
 import { Updux } from 'updux';
 
 import { dux as orders } from './orders';
+
+import { inflate as inflateDrive } from './drive';
+import { dux as weaponry, inflate as inflateWeaponry } from './weaponry';
+import { inflate as inflateStructure } from './structure';
 /*
 import { DuxState } from 'updux';
 import Updux from '../../../BattleUpdux';
@@ -18,12 +22,14 @@ export const dux = new Updux({
     initial: {},
     actions: {
         // ...actions,
+        fireconOrdersPhase: null,
+        weaponOrdersPhase: null,
     },
     subduxes: {
         // structure,
         orders,
         // navigation,
-        // weaponry,
+        weaponry,
         // drive,
     },
     selectors: {
@@ -36,8 +42,20 @@ export const dux = new Updux({
 
 dux.setMutation(
     'setOrders',
-    ( {bogeyId: id}, action) => u.if(fp.matches({ id }), u({ orders: orders.upreducer(action) })) as any,
+    ({ bogeyId: id }, action) => u.if(fp.matches({ id }), u({ orders: orders.upreducer(action) })) as any,
 );
+
+dux.setMutation('fireconOrdersPhase', () => bogey => {
+    const orders = bogey?.orders?.firecons ?? [];
+
+    return u.updateIn('weaponry.firecons', orders, bogey);
+});
+
+dux.setMutation('weaponOrdersPhase', () => bogey => {
+    const orders = bogey?.orders?.weapons ?? [];
+
+    return u.updateIn('weaponry.weapons', orders, bogey);
+});
 
 /*
 export type BogeyState = DuxState<typeof bogey_dux>;
@@ -49,31 +67,12 @@ bogey_dux.addMutation(
 );
 
 
-bogey_dux.addMutation(bogey_dux.actions.firecon_orders_phase, (() => (bogey: BogeyState) => {
-    const orders = bogey?.orders?.firecons ?? [];
 
-    orders.forEach(({ firecon_id: id, target_id }) => {
-        bogey = u.updateIn('weaponry.firecons', u.map(u.if(fp.matches({ id }), u({ target_id }))), bogey);
-    });
 
-    return bogey;
-}) as any);
-
-bogey_dux.addMutation(bogey_dux.actions.weapon_orders_phase, (() => (bogey: BogeyState) => {
-    const orders = bogey?.orders?.weapons ?? [];
-
-    orders.forEach(({ weapon_id: id, firecon_id }) => {
-        bogey = u.updateIn('weaponry.weapons', u.map(u.if(fp.matches({ id }), u({ firecon_id }))), bogey);
-    });
-
-    return bogey as BogeyState;
-}) as any);
-
-export default bogey_dux.asDux;
-
-export const inflate: any = u({
-    weaponry: inflate_weaponry,
-    structure: inflate_structure,
-    drive: drive.inflate,
-});
 */
+
+export const inflate = u({
+    weaponry: inflateWeaponry,
+    structure: inflateStructure,
+    drive: inflateDrive,
+});

@@ -1,8 +1,8 @@
 export type Arc = 'F' | 'FP' | 'FS' | 'A' | 'AS' | 'AP';
 
 type BeamWeapon = {
-    weapon_type: 'beam';
-    weapon_class: number;
+    weaponType: 'beam';
+    weaponClass: number;
 };
 
 export type Weapon = BeamWeapon;
@@ -15,5 +15,7 @@ export type WeaponMounted = Weapon & WeaponMount;
 
 export type WeaponState = {
     id: number;
-    firecon_id?: number | null;
+    fireconId?: number;
 } & WeaponMounted;
+
+export type WeaponsState = Record<string | number, WeaponState>;

@@ -1,9 +1,9 @@
 import _ from 'lodash';
 
-import { FireconsState, FireconsShorthand } from './types';
+import { FireconState, FireconsShorthand, FireconsState } from './types';
 
-export default function inflate_firecons(shorthand: FireconsShorthand = 0): FireconsState {
-    if (Array.isArray(shorthand)) return shorthand;
+export function inflate(shorthand: FireconsShorthand = 0): FireconsState {
+    if (typeof shorthand !== 'number') return shorthand;
 
-    return _.range(1, shorthand + 1).map(id => ({ id }));
+    return Object.fromEntries(_.range(1, shorthand + 1).map(id => [id, { id }]));
 }

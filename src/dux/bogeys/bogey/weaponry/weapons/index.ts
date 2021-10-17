@@ -1,3 +1,1 @@
-import inflate from './inflate';
-
-export { inflate };
+export { inflate } from './inflate';

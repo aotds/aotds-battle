@@ -5,16 +5,14 @@ test('action ids', () => {
 
     expect(store.dispatch({ type: 'noop' })).toMatchObject({
         meta: {
-            actionId: 1
-        }
-    }
-    );
+            actionId: 1,
+        },
+    });
     expect(store.dispatch({ type: 'noop' })).toMatchObject({
         meta: {
-            actionId: 2
-        }
-    }
-    );
+            actionId: 2,
+        },
+    });
 
-    expect( store.getState()).toEqual(3);
+    expect(store.getState()).toEqual(3);
 });

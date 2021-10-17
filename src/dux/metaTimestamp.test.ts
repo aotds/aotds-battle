@@ -6,6 +6,5 @@ test('add a timestamp', () => {
 
     expect(result.next.mock.calls[0][0]).toHaveProperty('meta.timestamp');
 
-    expect(result.next.mock.calls[0][0].meta.timestamp).toMatch(
-        /20\d{2}-\d{2}-\d{2}/);
+    expect(result.next.mock.calls[0][0].meta.timestamp).toMatch(/20\d{2}-\d{2}-\d{2}/);
 });
