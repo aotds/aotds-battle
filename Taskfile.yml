@@ -5,6 +5,12 @@ vars:
         sh: git diff-ls main | grep '\.ts$'
 
 tasks:
+    tsc: tsc
+    test: jest
+
+    check:
+        deps: [ tsc, test ]
+
     changed:
         cmds:
             - echo {{.CHANGED | catLines}}
@@ -20,9 +26,7 @@ tasks:
     "is-clean":
         cmds:
             - git is-clean
-    test:
-        cmds:
-            - jest src
+
     "test:snapshots":
         cmds:
             - jest src -u
