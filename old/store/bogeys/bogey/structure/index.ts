@@ -1,4 +1,3 @@
-
 /*
 import { Structure } from "./types";
 import Reaction from "../../../../reducer/reaction";

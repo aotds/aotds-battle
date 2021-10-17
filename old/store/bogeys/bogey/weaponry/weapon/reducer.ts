@@ -6,22 +6,33 @@ import { bogey_weapon_orders } from '../../../../../actions/bogey';
 import { Arc } from '../../../../constants';
 
 export type WeaponState = {
-    id: number;
-    firecon_id?: number;
-    damaged?: boolean;
-    arcs: Arc[];
-    weapon_class: number;
-    weapon_type: string;
+	id: number;
+	firecon_id?: number;
+	damaged?: boolean;
+	arcs: Arc[];
+	weapon_class: number;
+	weapon_type: string;
 };
 
 const redactor = new Redactor({} as WeaponState);
 export const weapon_reducer = redactor.asReducer;
 export const weapon_upreducer = redactor.asUpReducer;
 
-redactor.addRedaction(bogey_weapon_orders, ({ payload: { orders: { firecon_id } } }) => u({ firecon_id }));
+redactor.addRedaction(
+	bogey_weapon_orders,
+	({
+		payload: {
+			orders: { firecon_id },
+		},
+	}) => u({ firecon_id }),
+);
 
 redactor.addRedaction(internal_damage, ({ payload: { hit, system } }) =>
-    u.if((w: WeaponState) => hit && system.type === 'weapon' && system.id === w.id, {
-        damaged: true,
-    }),
+	u.if(
+		(w: WeaponState) =>
+			hit && system.type === 'weapon' && system.id === w.id,
+		{
+			damaged: true,
+		},
+	),
 );

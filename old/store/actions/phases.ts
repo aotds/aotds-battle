@@ -1,5 +1,5 @@
-import { action } from "../../actions";
-import { Player } from "../game/types";
+import { action } from '../../actions';
+import { Player } from '../game/types';
 
 export const clear_orders = action('CLEAR_ORDERS');
 export const movement_phase = action('MOVEMENT_PHASE');
@@ -8,23 +8,26 @@ export const weapons_order_phase = action('WEAPONS_ORDER_PHASE');
 export const weapons_firing_phase = action('WEAPONS_FIRING_PHASE');
 
 export type InitGamePayload = {
-  game: {name: string; players: Player[]};
-  bogeys?: unknown[];
+	game: { name: string; players: Player[] };
+	bogeys?: unknown[];
 };
 
 export const init_game = action(
-  'init_game',
-  (payload: InitGamePayload) => payload,
+	'init_game',
+	(payload: InitGamePayload) => payload,
 );
 
 /**
  */
-export const try_play_turn = action('TRY_PLAY_TURN',
-    (force: boolean = false) => ({force}) );
+export const try_play_turn = action(
+	'TRY_PLAY_TURN',
+	(force: boolean = false) => ({ force }),
+);
 
-export const fire_weapon = action('FIRE_WEAPON',
-                                  (bogey_id,target_id,weapon_id) => ({bogey_id,target_id,weapon_id}) );
-
+export const fire_weapon = action(
+	'FIRE_WEAPON',
+	(bogey_id, target_id, weapon_id) => ({ bogey_id, target_id, weapon_id }),
+);
 
 /**
     play_turn

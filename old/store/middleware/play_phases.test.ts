@@ -10,13 +10,13 @@ jest.mock('../selectors');
 const selectors = require('../selectors');
 
 test('play_phases', () => {
-    let { dispatch } = test_mw(play_steps);
+	let { dispatch } = test_mw(play_steps);
 
-    expect((dispatch as any).mock.calls.map(fp.get([0, 'type']))).toEqual([
-        'MOVEMENT_PHASE',
-        'FIRECONS_ORDER_PHASE',
-        'WEAPONS_ORDER_PHASE',
-        'WEAPONS_FIRING_PHASE',
-        'CLEAR_ORDERS',
-    ]);
+	expect((dispatch as any).mock.calls.map(fp.get([0, 'type']))).toEqual([
+		'MOVEMENT_PHASE',
+		'FIRECONS_ORDER_PHASE',
+		'WEAPONS_ORDER_PHASE',
+		'WEAPONS_FIRING_PHASE',
+		'CLEAR_ORDERS',
+	]);
 });

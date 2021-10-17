@@ -1,2 +1,1 @@
-declare module "updeep";
-
+declare module 'updeep';

@@ -3,7 +3,11 @@ import fp from 'lodash/fp';
 import { compose, createStore, applyMiddleware, Store, Reducer } from 'redux';
 import { Action } from '../reducer/types';
 import reducer from '../store/reducer';
-import { try_play_turn, init_game, InitGamePayload } from '../store/actions/phases';
+import {
+	try_play_turn,
+	init_game,
+	InitGamePayload,
+} from '../store/actions/phases';
 import { log_skipper } from '../store/log/middleware';
 import { timestamp } from '../store/middleware/timestamp';
 import { action_id_mw_gen } from '../store/middleware/action_id';
@@ -23,73 +27,79 @@ import mw_weapons from '../middleware/weapons';
 import { middleware as battle_middleware } from '../store';
 
 type BattleOpts = {
-    name: string;
-    devtools?: {};
-    state?: {};
-    persist?: {
-        storage: any,
-        persistReducer: Function,
-    };
+	name: string;
+	devtools?: {};
+	state?: {};
+	persist?: {
+		storage: any;
+		persistReducer: Function;
+	};
 };
 
 export class Battle {
-    store: Store<BattleState>;
+	store: Store<BattleState>;
 
-    persistor?: any;
-    ready?: Promise<Battle>;
+	persistor?: any;
+	ready?: Promise<Battle>;
 
-    constructor(opts: BattleOpts) {
+	constructor(opts: BattleOpts) {
+		let enhancers = applyMiddleware(
+			log_skipper(['TRY_PLAY_TURN']),
+			timestamp,
+			action_id_mw_gen(),
+			mw_play_phases,
+			mw_bogey_firecon_orders,
+			mw_bogey_weapon_orders,
+			mw_movement_phase,
+			mw_weapons,
+			battle_middleware,
+		);
 
-        let enhancers = applyMiddleware(
-            log_skipper(['TRY_PLAY_TURN']),
-            timestamp,
-            action_id_mw_gen(),
-            mw_play_phases,
-            mw_bogey_firecon_orders,
-            mw_bogey_weapon_orders,
-            mw_movement_phase,
-            mw_weapons,
-            battle_middleware
-        );
+		if (opts.devtools) {
+			enhancers = require('remote-redux-devtools').composeWithDevTools(
+				fp.defaults(
+					{ port: 8000, hostname: 'localhost' },
+					opts.devtools,
+				),
+			)(enhancers);
+		}
 
-        if (opts.devtools) {
-            enhancers = require('remote-redux-devtools').composeWithDevTools(
-                fp.defaults({ port: 8000, hostname: 'localhost' }, opts.devtools),
-            )(enhancers);
-        }
+		let myReducer = reducer;
 
-        let myReducer = reducer;
+		if (opts.persist) {
+			let pr =
+				opts.persist.persistReducer ||
+				require('redux-persist-pouchdb').persistReducer;
 
-        if (opts.persist) {
-            let pr = opts.persist.persistReducer || require('redux-persist-pouchdb').persistReducer;
+			myReducer = pr(
+				{ storage: opts.persist.storage, key: opts.name },
+				myReducer,
+			);
+		}
 
+		this.store = createStore(myReducer, opts.state, enhancers);
 
-            myReducer = pr({storage : opts.persist.storage, key: opts.name },myReducer);
-        }
+		if (opts.persist) {
+			this.ready = new Promise((accept, reject) => {
+				const { persistStore } = require('redux-persist');
+				this.persistor = persistStore(this.store, null, () => {
+					accept(this);
+				});
+			});
+		}
+	}
 
-        this.store = createStore(myReducer, opts.state, enhancers);
+	dispatch(action: Action) {
+		return this.store.dispatch(action);
+	}
 
-        if (opts.persist) {
-            this.ready = new Promise((accept, reject) => {
-                const { persistStore } = require('redux-persist');
-                this.persistor = persistStore(this.store, null, () => {
-                    accept(this);
-                });
-            });
-        }
-    }
+	get state(): BattleState {
+		return this.getState();
+	}
 
-    dispatch(action: Action) {
-        return this.store.dispatch(action);
-    }
-
-    get state(): BattleState {
-        return this.getState();
-    }
-
-    getState() {
-        return this.store.getState();
-    }
+	getState() {
+		return this.store.getState();
+	}
 }
 
 export default Battle;

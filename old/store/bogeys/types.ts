@@ -1,5 +1,5 @@
-import { BogeyState } from "./bogey/types";
+import { BogeyState } from './bogey/types';
 
 export type BogeysState = {
-    [ bogey_id: string ]: BogeyState
-}
+	[bogey_id: string]: BogeyState;
+};

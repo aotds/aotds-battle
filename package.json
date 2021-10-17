@@ -1,90 +1,90 @@
 {
-    "name": "@aotds/aotds-battle",
-    "private": true,
-    "version": "1.0.0",
-    "description": "",
-    "main": "build/index.js",
-    "scripts": {
-        "test:coverage": "tap --coverage src/**/*test.ts --coverage-report html",
-        "test": "jest src",
-        "build": "babel src/ -d lib"
-    },
-    "keywords": [],
-    "author": "Yanick Champoux <yanick@babyl.ca> (http://techblog.babyl.ca)",
-    "license": "ISC",
-    "dependencies": {
-        "@microsoft/api-documenter": "^7.8.9",
-        "@microsoft/api-extractor": "^7.8.9",
-        "@types/lodash": "^4.14.162",
-        "@yanick/updeep": "^2.0.0",
-        "debug": "^4.1.1",
-        "docsify-cli": "^4.4.0",
-        "docsify-tools": "^1.0.20",
-        "eslint": "^6.8.0",
-        "eslint-config-prettier": "^6.10.0",
-        "eslint-plugin-import": "^2.20.1",
-        "eslint-plugin-prettier": "^3.1.2",
-        "immer": "^6.0.1",
-        "jest-html-reporter": "^3.3.0",
-        "jest-stare": "^2.2.0",
-        "json-schema-shorthand": "^2.0.0",
-        "json-schema-to-typescript": "^9.1.1",
-        "lodash": "^4.17.15",
-        "prettier": "^1.19.1",
-        "redux": "^4.0.5",
-        "redux-persist-pouchdb": "^0.2.1",
-        "remote-redux-devtools": "^0.5.16",
-        "remotedev-server": "^0.3.1",
-        "sinon": "^9.0.1",
-        "tap": "^15.0.10",
-        "ts-action": "^11.0.0",
-        "ts-json-schema-generator": "^0.67.1",
-        "updeep": "^1.2.1",
-        "updux": "link:../../updux-js"
-    },
-    "devDependencies": {
-        "@babel/cli": "^7.0.0",
-        "@babel/core": "^7.0.0",
-        "@babel/eslint-parser": "^7.12.1",
-        "@babel/node": "^7.10.5",
-        "@babel/plugin-proposal-optional-chaining": "*",
-        "@babel/plugin-proposal-pipeline-operator": "^7.12.1",
-        "@babel/plugin-transform-runtime": "*",
-        "@babel/preset-env": "*",
-        "@babel/preset-typescript": "^7.10.4",
-        "@types/jest": "^26.0.16",
-        "@types/node": "^14.6.2",
-        "@typescript-eslint/eslint-plugin": "^4.5.0",
-        "@typescript-eslint/parser": "^4.5.0",
-        "babel-node": "0.0.1-security",
-        "jest": "^26.6.3",
-        "ts-node": "^9.0.0",
-        "typescript": "^4.0.3"
-    },
-    "babel": {
-        "presets": [
-            "@babel/preset-env",
-            "@babel/preset-typescript"
-        ],
-        "plugins": [
-            "@babel/plugin-proposal-optional-chaining",
-            [
-                "@babel/plugin-transform-runtime",
-                {
-                    "regenerator": true
-                }
-            ],
-            [
-                "@babel/proposal-pipeline-operator",
-                {
-                    "proposal": "minimal"
-                }
-            ]
-        ]
-    },
-    "jest": {
-        "roots": [
-            "src"
-        ]
-    }
+	"name": "@aotds/aotds-battle",
+	"private": true,
+	"version": "1.0.0",
+	"description": "",
+	"main": "build/index.js",
+	"scripts": {
+		"test:coverage": "tap --coverage src/**/*test.ts --coverage-report html",
+		"test": "jest src",
+		"build": "babel src/ -d lib"
+	},
+	"keywords": [],
+	"author": "Yanick Champoux <yanick@babyl.ca> (http://techblog.babyl.ca)",
+	"license": "ISC",
+	"dependencies": {
+		"@microsoft/api-documenter": "^7.8.9",
+		"@microsoft/api-extractor": "^7.8.9",
+		"@types/lodash": "^4.14.162",
+		"@yanick/updeep": "^2.0.0",
+		"debug": "^4.1.1",
+		"docsify-cli": "^4.4.0",
+		"docsify-tools": "^1.0.20",
+		"eslint": "^6.8.0",
+		"eslint-config-prettier": "^6.10.0",
+		"eslint-plugin-import": "^2.20.1",
+		"eslint-plugin-prettier": "^3.1.2",
+		"immer": "^6.0.1",
+		"jest-html-reporter": "^3.3.0",
+		"jest-stare": "^2.2.0",
+		"json-schema-shorthand": "^2.0.0",
+		"json-schema-to-typescript": "^9.1.1",
+		"lodash": "^4.17.15",
+		"redux": "^4.0.5",
+		"redux-persist-pouchdb": "^0.2.1",
+		"remote-redux-devtools": "^0.5.16",
+		"remotedev-server": "^0.3.1",
+		"sinon": "^9.0.1",
+		"tap": "^15.0.10",
+		"ts-action": "^11.0.0",
+		"ts-json-schema-generator": "^0.67.1",
+		"updeep": "^1.2.1",
+		"updux": "link:../../updux-js"
+	},
+	"devDependencies": {
+		"@babel/cli": "^7.0.0",
+		"@babel/core": "^7.0.0",
+		"@babel/eslint-parser": "^7.12.1",
+		"@babel/node": "^7.10.5",
+		"@babel/plugin-proposal-optional-chaining": "*",
+		"@babel/plugin-proposal-pipeline-operator": "^7.12.1",
+		"@babel/plugin-transform-runtime": "*",
+		"@babel/preset-env": "*",
+		"@babel/preset-typescript": "^7.10.4",
+		"@types/jest": "^26.0.16",
+		"@types/node": "^14.6.2",
+		"@typescript-eslint/eslint-plugin": "^4.5.0",
+		"@typescript-eslint/parser": "^4.5.0",
+		"babel-node": "0.0.1-security",
+		"jest": "^26.6.3",
+		"prettier": "2",
+		"ts-node": "^9.0.0",
+		"typescript": "^4.0.3"
+	},
+	"babel": {
+		"presets": [
+			"@babel/preset-env",
+			"@babel/preset-typescript"
+		],
+		"plugins": [
+			"@babel/plugin-proposal-optional-chaining",
+			[
+				"@babel/plugin-transform-runtime",
+				{
+					"regenerator": true
+				}
+			],
+			[
+				"@babel/proposal-pipeline-operator",
+				{
+					"proposal": "minimal"
+				}
+			]
+		]
+	},
+	"jest": {
+		"roots": [
+			"src"
+		]
+	}
 }

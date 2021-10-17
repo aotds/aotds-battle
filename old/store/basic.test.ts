@@ -1,9 +1,9 @@
 import dux from '.';
 
-test( 'basic play_turn', () => {
-    const store = dux.createStore();
+test('basic play_turn', () => {
+	const store = dux.createStore();
 
-    store.dispatch.play_turn();
+	store.dispatch.play_turn();
 
-    console.log( store.getState() );
+	console.log(store.getState());
 });

@@ -3,7 +3,7 @@ tasks:
         cmds:
             - tsc
     checks:
-        deps: [ lint, test ]
+        deps: [lint, test]
     lint:
         cmds:
             - eslint "src/**"

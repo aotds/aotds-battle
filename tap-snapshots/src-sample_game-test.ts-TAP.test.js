@@ -4,7 +4,7 @@
  * Re-generate by setting TAP_SNAPSHOT=1 and running tests.
  * Make sure to inspect the output below.  Do not ignore changes!
  */
-'use strict'
+'use strict';
 exports[`src/sample_game/test.ts TAP turn 0 > state 1`] = `
 Object {
   "bogeys": Array [],
@@ -14,7 +14,7 @@ Object {
   },
   "log": Array [],
 }
-`
+`;
 
 exports[`src/sample_game/test.ts TAP turn 1 > state 1`] = `
 Object {
@@ -587,7 +587,7 @@ Object {
     },
   ],
 }
-`
+`;
 
 exports[`src/sample_game/test.ts TAP turn 2 > state 1`] = `
 Object {
@@ -1558,4 +1558,4 @@ Object {
     },
   ],
 }
-`
+`;

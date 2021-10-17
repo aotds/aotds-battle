@@ -9,7 +9,7 @@ tasks:
     test: jest
 
     check:
-        deps: [ tsc, test ]
+        deps: [tsc, test]
 
     changed:
         cmds:
@@ -23,11 +23,11 @@ tasks:
     'prettier:incr:fix':
         cmds:
             - prettier --write {{.CHANGED | catLines}}
-    "is-clean":
+    'is-clean':
         cmds:
             - git is-clean
 
-    "test:snapshots":
+    'test:snapshots':
         cmds:
             - jest src -u
     integrate:
@@ -38,5 +38,3 @@ tasks:
             - 'eslint:incr'
         cmds:
             - echo good to go
-
-

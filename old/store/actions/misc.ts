@@ -1,3 +1,3 @@
-import { action } from "../../actions";
+import { action } from '../../actions';
 
 export const noop = action('NOOP');

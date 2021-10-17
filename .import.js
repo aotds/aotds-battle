@@ -1,6 +1,6 @@
 module.exports = {
-    aliases: {
-          _: 'lodash',
-          'oc': 'ts-optchain',
-    },
-}
+	aliases: {
+		_: 'lodash',
+		oc: 'ts-optchain',
+	},
+};

@@ -1,9 +1,9 @@
 export type Player = {
-    id: string,
+	id: string;
 };
 
 export type GameState = {
-    name: string,
-    players: Player[],
-    turn: number,
+	name: string;
+	players: Player[];
+	turn: number;
 };

@@ -6,29 +6,28 @@ import { test_mw } from './test_fixtures';
 
 const debug = require('debug')('aotds:saga');
 
-test( 'no issued orders, no turn', () => {
+test('no issued orders, no turn', () => {
+	selectors.get_bogeys = jest
+		.fn()
+		.mockReturnValueOnce(
+			['yenzie', 'yanick', ''].map((player_id) => ({ player_id })),
+		);
 
-    selectors.get_bogeys = jest.fn().mockReturnValueOnce(
-        [ 'yenzie', 'yanick', '' ].map( player_id => ({ player_id }) )
-    );
+	const res = test_mw(assess_turn);
 
-    const res = test_mw( assess_turn );
-
-    expect( res.dispatch ).not.toHaveBeenCalled();
+	expect(res.dispatch).not.toHaveBeenCalled();
 });
 
-test( 'issued orders, turn triggered!', () => {
+test('issued orders, turn triggered!', () => {
+	selectors.get_bogeys = jest
+		.fn()
+		.mockReturnValueOnce([
+			{ player_id: 'yanick', orders: { issued: true } },
+			{ player_id: 'yenzie', orders: { issued: true } },
+			{ id: 'asteroid' },
+		]);
 
-    selectors.get_bogeys = jest.fn().mockReturnValueOnce(
-        [
-            { player_id: 'yanick', orders: { issued: true } },
-            { player_id: 'yenzie', orders: { issued: true } },
-            { id: 'asteroid' },
-        ]
-    );
+	const res = test_mw(assess_turn);
 
-    const res = test_mw( assess_turn );
-
-    expect( res.dispatch ).toHaveBeenCalled();
+	expect(res.dispatch).toHaveBeenCalled();
 });
-
