@@ -1,17 +1,17 @@
 import { Updux } from 'updux';
-import fp from 'lodash/fp.js';
 import u from 'updeep';
 
-// type DriveState = {
-//     rating: number;
-//     current: number;
-//     damage_level?: 0 | 1 | 2;
-// };
+export type DriveState = {
+	rating: number;
+	current: number;
+	damageLevel: 0 | 1 | 2;
+};
 
 export const dux = new Updux({
 	initial: {
 		rating: 0,
 		current: 0,
+		damageLevel: 0,
 	},
 	actions: {
 		internalDamageDrive: null,
@@ -29,9 +29,9 @@ export const dux = new Updux({
 	},
 });
 
-//type DriveShorthand = number | DriveState;
+type DriveShorthand = number | DriveState;
 
-export function inflate(shorthand = 0) {
+export function inflate(shorthand: DriveShorthand = 0) {
 	if (typeof shorthand === 'number')
 		return {
 			current: shorthand,
@@ -39,5 +39,5 @@ export function inflate(shorthand = 0) {
 			damageLevel: 0,
 		};
 
-	return fp.defaults({ damage_level: 0 }, shorthand);
+	return shorthand;
 }
