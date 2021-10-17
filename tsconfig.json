@@ -1,5 +1,5 @@
 {
-  "exclude": [ "v1", "node_modules", "dist", "build", "old" ],
+  "exclude": [ "v1", "node_modules", "dist", "build", "old", "jest.config.ts" ],
   "compilerOptions": {
     "incremental": false,
     /* Basic Options */
