@@ -8,8 +8,11 @@ tasks:
     tsc: tsc
     test: jest
 
+    'prettier:fix': prettier --write .
+    prettier: prettier --check .
+
     check:
-        deps: [tsc, test]
+        deps: [tsc, test, prettier]
 
     changed:
         cmds:

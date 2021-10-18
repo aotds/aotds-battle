@@ -2,7 +2,7 @@
 
 exports[`round 0 1`] = `
 Object {
-  "bogeys": Array [],
+  "bogeys": Object {},
   "game": Object {
     "name": "",
     "round": 0,
