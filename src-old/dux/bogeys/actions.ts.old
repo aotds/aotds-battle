@@ -1,0 +1,6 @@
+import {Bogeys_Shorthand} from './inflate';
+
+type ShipShorthand = any;
+
+type AddBogeyPayload = ShipShorthand;
+

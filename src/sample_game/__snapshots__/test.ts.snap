@@ -1,3 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`round 0 1`] = `Object {}`;
+exports[`round 0 1`] = `
+Object {
+  "bogeys": Array [],
+  "game": Object {
+    "name": "",
+    "round": 0,
+  },
+}
+`;
