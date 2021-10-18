@@ -1,9 +1,12 @@
 import { Updux } from 'updux';
+import u from 'updeep';
 
 import { dux as game } from '../game';
+import { dux as bogey } from './bogey';
 
 export const dux = new Updux({
-	initial: [],
+	initial: {},
+	subduxes: { '*': bogey },
 	actions: {
 		initGame: game.actions.initGame,
 	},
@@ -18,5 +21,12 @@ export const dux = new Updux({
 	},
 	selectors: {
 		bogeysList: Object.values,
+		bogey: (bogeys) => (bogeyId: string) => bogeys[bogeyId],
+	},
+	upreducerWrapper: (upreducer) => (action) => {
+		const bogeyId = action.payload?.bogeyId;
+		if (!bogeyId) return upreducer(action);
+
+		return u.updateIn(bogeyId, bogey.upreducer(action));
 	},
 });
