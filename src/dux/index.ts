@@ -1,3 +1,12 @@
 import { Updux } from 'updux';
 
-export const dux = new Updux({});
+import { dux as game } from './game';
+import { dux as bogeys } from './bogeys';
+
+export const dux = new Updux({
+	actions: {},
+	subduxes: {
+		game,
+		bogeys,
+	},
+});
