@@ -1,0 +1,27 @@
+import Updux from 'updux';
+import { action } from 'ts-action';
+import u from 'updeep';
+import playPhases from '../../../playPhases';
+import { FireconOrders } from '../weaponry/firecons';
+
+const {
+    actions: { clear_orders },
+} = playPhases;
+
+const set_orders = action('set_orders', (bogey_id: string, orders: Orders) => ({
+    payload: {
+        bogey_id,
+        orders,
+        done: true,
+    },
+}));
+
+
+
+dux.addMutation(clear_orders, () => () => ({}));
+
+dux.addEffect(set_orders, () => next => action => {
+    next(u.updateIn('payload.done', new Date().toISOString(), action));
+});
+
+export default dux.asDux;
