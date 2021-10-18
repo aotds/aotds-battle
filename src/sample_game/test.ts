@@ -18,7 +18,7 @@ const battle = dux.createStore(undefined, (middleware) => {
 	return applyMiddleware(middleware);
 });
 
-const playRound = (round) => {
+const playTurn = (round) => {
 	const turn = require(`./turn-${round}`);
 
 	// rigged_dice = turn.dice ?? [];
@@ -32,7 +32,7 @@ const playRound = (round) => {
 	expect(state).toMatchSnapshot();
 };
 
-test.each(range(1))('round %#', playRound);
+test.each(range(1))('turn %#', playTurn);
 
 /*
 import './groomState';

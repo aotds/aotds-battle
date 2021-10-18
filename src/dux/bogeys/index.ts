@@ -22,6 +22,7 @@ export const dux = new Updux({
 	selectors: {
 		bogeysList: Object.values,
 		bogey: (bogeys) => (bogeyId: string) => bogeys[bogeyId],
+		allBogeysHaveOrders: (bogeys) => bogeys.every((bogey) => bogey.orders),
 	},
 	upreducerWrapper: (upreducer) => (action) => {
 		const bogeyId = action.payload?.bogeyId;
