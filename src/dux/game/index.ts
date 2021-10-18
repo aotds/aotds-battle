@@ -4,7 +4,7 @@ import u from 'updeep';
 export const dux = new Updux({
 	initial: {
 		name: '',
-		round: 0,
+		turn: 0,
 	},
 	actions: {
 		initGame: null,

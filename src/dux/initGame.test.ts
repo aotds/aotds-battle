@@ -13,7 +13,7 @@ test('init_game', () => {
 	expect(store.getState()).toMatchObject({
 		game: {
 			name: 'Gemini',
-			round: 0,
+			turn: 0,
 		},
 	});
 
