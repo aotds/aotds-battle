@@ -8,7 +8,7 @@ tasks:
     tsc: tsc
     test: jest
 
-    prettier-fix: prettier --write .
+    'prettier:fix': prettier --write .
     prettier: prettier --check .
 
     check:
