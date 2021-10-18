@@ -7,9 +7,9 @@ export const dux = new Updux({
 		round: 0,
 	},
 	actions: {
-		initGame: (name, bogeys) => ({ name, bogeys }),
+		initGame: null,
 	},
 	mutations: {
-		initGame: ({ name }) => u({ name }),
+		initGame: ({ game }) => u(game),
 	},
 });

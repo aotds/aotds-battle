@@ -4,7 +4,10 @@ const store = dux.createStore();
 
 test('init_game', () => {
 	store.dispatch(
-		store.actions.initGame('Gemini', [{ name: '1' }, { name: '2' }]),
+		store.actions.initGame({
+			game: { name: 'Gemini' },
+			bogeys: [{ name: '1' }, { name: '2' }],
+		}),
 	);
 
 	expect(store.getState()).toMatchObject({
