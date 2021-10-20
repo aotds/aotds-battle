@@ -2,14 +2,14 @@ import { Updux } from 'updux';
 
 import { dux as game } from './game';
 import { dux as bogeys } from './bogeys';
+import { dux as log } from './log';
 
 export const dux = new Updux({
-	actions: {
-		playTurn: (force = true) => force,
-	},
+	actions: {},
 	subduxes: {
 		game,
 		bogeys,
+		log,
 	},
 });
 

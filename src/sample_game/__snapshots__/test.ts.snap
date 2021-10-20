@@ -7,5 +7,6 @@ Object {
     "name": "",
     "turn": 0,
   },
+  "log": Array [],
 }
 `;

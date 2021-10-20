@@ -11,8 +11,25 @@ tasks:
     'prettier:fix': prettier --write .
     prettier: prettier --check .
 
+    eslint: eslint src
+    'eslint:fix': eslint --fix src
+
     check:
-        deps: [tsc, test, prettier]
+        deps: [prettier, eslint, 'check:lite']
+
+    'check:lite':
+        deps: [tsc, test]
+
+    'check:fix':
+        cmds:
+            - git status | grep 'nothing to commit, working tree clean'
+            - task: prettier:fix
+            - cmd: git commit -m prettier .
+              ignore_error: true
+            - task: eslint:fix
+            - cmd: git commit -m eslint .
+              ignore_error: true
+            - task: check:lite
 
     changed:
         cmds:
