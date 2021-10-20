@@ -3,6 +3,7 @@ import { Updux } from 'updux';
 import { dux as game } from './game';
 import { dux as bogeys } from './bogeys';
 import { dux as log } from './log';
+import { subactionFor } from './actionId';
 
 export const dux = new Updux({
 	actions: {},
@@ -14,10 +15,23 @@ export const dux = new Updux({
 });
 
 export const playTurnEffect = dux.addEffect(
-	'playTurn',
+	'tryPlayTurn',
 	(api) => (next) => (action) => {
+		next(action);
 		if (action.payload || api.getState.allBogeysHaveOrders()) {
-			next(action);
+			api.dispatch.playTurn();
 		}
 	},
 );
+
+const subEffect = subactionFor(dux);
+
+subEffect('playTurn', (api) => () => () => {
+	[
+		'movementPhase',
+		'fireconOrdersPhase',
+		'weaponOrdersPhase',
+		'weaponFiringPhase',
+		'clearOrders',
+	].forEach((step) => api.dispatch[step]());
+});

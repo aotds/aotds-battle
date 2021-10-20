@@ -31,6 +31,14 @@ tasks:
               ignore_error: true
             - task: check:lite
 
+    integrate:
+        deps: [check:fix]
+        cmds:
+            - git checkout {{.B}}
+            - git weld {{.B}}
+        preconditions:
+            - test -n "{{.B}}"
+
     changed:
         cmds:
             - echo {{.CHANGED | catLines}}
@@ -50,11 +58,3 @@ tasks:
     'test:snapshots':
         cmds:
             - jest src -u
-    integrate:
-        deps:
-            - is-clean
-            - test
-            - 'prettier:incr'
-            - 'eslint:incr'
-        cmds:
-            - echo good to go
