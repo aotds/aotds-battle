@@ -1,32 +1,34 @@
 import { mockMiddleware } from '../utils/mockMiddleware';
 import { dux, playTurnEffect } from '.';
 
-test('playTurn', () => {
-	let res = mockMiddleware(playTurnEffect, {
-		action: dux.actions.playTurn(true),
-	});
+test('tryPlayTurn', () => {
+	const playTurn = jest.fn();
 
-	expect(res.next).toHaveBeenCalled();
-
-	res = mockMiddleware(playTurnEffect, {
-		action: dux.actions.playTurn(false),
+	const res = mockMiddleware(playTurnEffect, {
+		action: dux.actions.tryPlayTurn(),
 		api: {
 			getState: {
 				allBogeysHaveOrders: () => false,
 			},
-		},
-	});
-
-	expect(res.next).not.toHaveBeenCalled();
-
-	res = mockMiddleware(playTurnEffect, {
-		action: dux.actions.playTurn(false),
-		api: {
-			getState: {
-				allBogeysHaveOrders: () => true,
+			dispatch: {
+				playTurn,
 			},
 		},
 	});
 
-	expect(res.next).toHaveBeenCalled();
+	expect(playTurn).not.toHaveBeenCalled();
+
+	mockMiddleware(playTurnEffect, {
+		action: dux.actions.tryPlayTurn(),
+		api: {
+			getState: {
+				allBogeysHaveOrders: () => true,
+			},
+			dispatch: {
+				playTurn,
+			},
+		},
+	});
+
+	expect(playTurn).toHaveBeenCalled();
 });

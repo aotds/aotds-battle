@@ -3,6 +3,8 @@ import u from 'updeep';
 
 import { dux as game } from '../game';
 import { dux as bogey } from './bogey';
+import { subactionFor } from '../actionId';
+import { plotMovement } from './bogey/rules/plotMovement';
 
 export const dux = new Updux({
 	initial: {},
@@ -21,6 +23,7 @@ export const dux = new Updux({
 	},
 	selectors: {
 		bogeysList: Object.values,
+		bogeys: Object.values,
 		bogey: (bogeys) => (bogeyId: string) => bogeys[bogeyId],
 		allBogeysHaveOrders: (bogeys) =>
 			Object.values(bogeys).every((bogey: any) => bogey.orders),
@@ -34,4 +37,13 @@ export const dux = new Updux({
 			u.if((x) => !!x, bogey.upreducer(action)),
 		);
 	},
+});
+
+const subEffect = subactionFor(dux);
+
+subEffect('movementPhase', ({ getState, dispatch }) => () => () => {
+	getState.bogeys().forEach((bogey) => {
+		const movement = plotMovement(bogey);
+		dispatch.bogeyMovementResolution(bogey.id, movement);
+	});
 });
