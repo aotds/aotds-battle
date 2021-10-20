@@ -35,7 +35,7 @@ tasks:
         deps: [check:fix]
         cmds:
             - git checkout {{.B}}
-            - git weld {{.B}}
+            - git weld - --no-edit
         preconditions:
             - test -n "{{.B}}"
 
