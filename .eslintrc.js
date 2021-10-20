@@ -7,20 +7,22 @@ const _ = require('lodash');
 const ts_nope = [
 	'no-explicit-any',
 	'explicit-function-return-type',
-	'no-object-literal-type-assertion',
-	'camelcase',
-	'member-delimiter-style',
-	'prefer-interface',
-	'indent',
+	'no-empty-function',
+	'explicit-module-boundary-types',
+	// 'no-object-literal-type-assertion',
+	// 'camelcase',
+	// 'member-delimiter-style',
+	// 'prefer-interface',
+	// 'indent',
 ].map((r) => '@typescript-eslint/' + r);
 
 module.exports = {
-	//parser: '@babel/eslint-parser', // Specifies the ESLint parser
-	parser: '@typescript-eslint/parser', // Specifies the ESLint parser
+	parser: '@typescript-eslint/parser',
 	extends: [
+		'eslint:recommended',
 		'plugin:@typescript-eslint/recommended', // Uses the recommended rules from the @typescript-eslint/eslint-plugin
 	],
-	plugins: ['import'],
+	plugins: ['@typescript-eslint'],
 	parserOptions: {
 		ecmaVersion: 2018, // Allows for the parsing of modern ECMAScript features
 		sourceType: 'module', // Allows for the use of imports

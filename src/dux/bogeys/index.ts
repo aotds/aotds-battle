@@ -22,12 +22,16 @@ export const dux = new Updux({
 	selectors: {
 		bogeysList: Object.values,
 		bogey: (bogeys) => (bogeyId: string) => bogeys[bogeyId],
-		allBogeysHaveOrders: (bogeys) => bogeys.every((bogey) => bogey.orders),
+		allBogeysHaveOrders: (bogeys) =>
+			Object.values(bogeys).every((bogey: any) => bogey.orders),
 	},
-	upreducerWrapper: (upreducer) => (action) => {
-		const bogeyId = action.payload?.bogeyId;
+	upreducerWrapper: (upreducer) => (action: any) => {
+		const bogeyId = action?.payload?.bogeyId;
 		if (!bogeyId) return upreducer(action);
 
-		return u.updateIn(bogeyId, bogey.upreducer(action));
+		return u.updateIn(
+			bogeyId,
+			u.if((x) => !!x, bogey.upreducer(action)),
+		);
 	},
 });

@@ -9,7 +9,7 @@ type MWFixtures = {
 	action: any;
 };
 
-function mwFixtures(fixtures: {}): MWFixtures {
+function mwFixtures(fixtures: Record<string, unknown>): MWFixtures {
 	return defaultsDeep(fixtures, {
 		api: {
 			dispatch: jest.fn(() => {}),

@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+
 import { range } from 'lodash';
 import { applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'remote-redux-devtools';
