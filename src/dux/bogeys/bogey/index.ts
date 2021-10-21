@@ -11,11 +11,11 @@ export const dux = new Updux({
 	actions: {
 		setOrders: (bogeyId, orders) => ({ bogeyId, orders }),
 	},
-    subduxes: { drive: drive.dux },
+	subduxes: { drive: drive.dux },
 });
 
 dux.setMutation('setOrders', ({ orders }) => u({ orders: u.constant(orders) }));
 
 export function inflate(shorthand) {
-    return u({drive: drive.inflate},shorthand)
+	return u({ drive: drive.inflate }, shorthand);
 }
