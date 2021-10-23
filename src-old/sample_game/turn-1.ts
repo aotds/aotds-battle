@@ -1,27 +1,28 @@
 import fp from 'lodash/fp';
 
-import { init_game } from '../dux/game/actions';
-import battle_dux from '../dux';
+import { dux } from '../dux';
 
-import initial_state from './initial_state';
+import initial from './initial';
 
 export const actions = [
-    battle_dux.actions.init_game(initial_state),
-    battle_dux.actions.set_orders({
-        bogey_id: 'enkidu',
+    dux.actions.initGame(initial),
+    dux.actions.setOrders({
+        bogeyId: 'enkidu',
         orders: {
             navigation: { thrust: 1, turn: 1, bank: 1 },
         },
     }),
-    battle_dux.actions.try_play_turn(),
-    battle_dux.actions.set_orders({
-        bogey_id: 'siduri',
+    dux.actions.tryPlayTurn(),
+    dux.actions.setOrders({
+        bogeyId: 'siduri',
         orders: {
             navigation: { thrust: 1 },
         },
     }),
-    battle_dux.actions.try_play_turn(),
+    dux.actions.tryPlayTurn(),
 ];
+
+/*
 
 export const tests = state => {
     expect(state).toHaveProperty('game.name', 'gemini');
@@ -47,3 +48,4 @@ export const tests = state => {
     expect(enkidu.weaponry.firecons).toHaveLength(1);
     expect(siduri.weaponry.firecons).toHaveLength(0);
 };
+*/

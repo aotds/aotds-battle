@@ -2,6 +2,9 @@
 
 exports[`turn 0 1`] = `
 Object {
+  "actionId": Object {
+    "nextActionId": 1,
+  },
   "bogeys": Object {},
   "game": Object {
     "name": "",

@@ -10,7 +10,7 @@ const composeEnhancers = composeWithDevTools({
 	realtime: true,
 	port: 8000,
 	maxAge: 3000,
-	// actionsBlacklist: ['inc_action_id'],
+	actionsBlacklist: ['incActionId'],
 });
 
 const battle = dux.createStore(undefined, (middleware) => {
@@ -20,7 +20,7 @@ const battle = dux.createStore(undefined, (middleware) => {
 	return applyMiddleware(middleware);
 });
 
-const playTurn = (round) => {
+const playTurn = async (round) => {
 	const turn = require(`./turn-${round}`);
 
 	// rigged_dice = turn.dice ?? [];
@@ -29,12 +29,12 @@ const playTurn = (round) => {
 
 	const state = battle.getState();
 
-	turn.tests(state);
+	await turn.tests(state);
 
 	expect(state).toMatchSnapshot();
 };
 
-test.each(range(1))('turn %#', playTurn);
+test.each(range(2))('turn %#', playTurn);
 
 /*
 import './groomState';

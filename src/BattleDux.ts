@@ -50,8 +50,8 @@ export class BattleDux<
 	}
 
 	inflate(shorthand: any) {
-		if (this.inflator) return this.inflator(shorthand);
+		if (this && this.inflator) return this.inflator(shorthand);
 
-		return this.subInflate(shorthand);
+		return this && this.subInflate(shorthand);
 	}
 }
