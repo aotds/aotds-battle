@@ -1,7 +1,7 @@
-import { inflate, dux } from '.';
+import dux from '.';
 
 test('inflate', () => {
-	expect(inflate(4)).toMatchObject({
+	expect(dux.inflate(4)).toMatchObject({
 		rating: 4,
 		current: 4,
 		damageLevel: 0,
@@ -9,7 +9,7 @@ test('inflate', () => {
 });
 
 test('internalDamageDrive', () => {
-	const store = dux.createStore(inflate(5));
+	const store = dux.createStore(dux.inflate(5));
 
 	expect(store.getState()).toEqual({
 		rating: 5,

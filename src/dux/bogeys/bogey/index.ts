@@ -1,8 +1,9 @@
-import { Updux } from 'updux';
 import u from 'updeep';
-import * as drive from './drive';
+import drive from './drive';
+import weaponry from './weaponry';
+import { BattleDux } from '../../../BattleDux';
 
-export const dux = new Updux({
+export const dux = new BattleDux({
 	initial: {
 		name: '',
 		id: '',
@@ -11,11 +12,9 @@ export const dux = new Updux({
 	actions: {
 		setOrders: (bogeyId, orders) => ({ bogeyId, orders }),
 	},
-	subduxes: { drive: drive.dux },
+	subduxes: { drive, weaponry },
 });
 
 dux.setMutation('setOrders', ({ orders }) => u({ orders: u.constant(orders) }));
 
-export function inflate(shorthand) {
-	return u({ drive: drive.inflate }, shorthand);
-}
+export default dux;

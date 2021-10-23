@@ -1,5 +1,5 @@
-import { Updux } from 'updux';
 import u from 'updeep';
+import { BattleDux } from '../../../../BattleDux';
 
 export type DriveState = {
 	rating: number;
@@ -7,7 +7,7 @@ export type DriveState = {
 	damageLevel: 0 | 1 | 2;
 };
 
-export const dux = new Updux({
+export const dux = new BattleDux({
 	initial: {
 		rating: 0,
 		current: 0,
@@ -29,9 +29,11 @@ export const dux = new Updux({
 	},
 });
 
+export default dux;
+
 type DriveShorthand = number | DriveState;
 
-export function inflate(shorthand: DriveShorthand = 0) {
+dux.setInflator((shorthand: DriveShorthand = 0) => {
 	if (typeof shorthand === 'number')
 		return {
 			current: shorthand,
@@ -40,4 +42,4 @@ export function inflate(shorthand: DriveShorthand = 0) {
 		};
 
 	return shorthand;
-}
+});
