@@ -11,7 +11,10 @@ export const round = (n: number) => _.round(n, 2);
 
 //type BogeyState = DuxState<typeof bogey>;
 
-const upush = (new_item: any) => (state = []) => [...state, new_item];
+const upush =
+	(new_item: any) =>
+	(state = []) =>
+		[...state, new_item];
 
 export function moveThrust(navigation: any, thrust: number): any {
 	if (!thrust) return navigation;

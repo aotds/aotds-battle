@@ -1,18 +1,26 @@
 version: 3
 
 vars:
+    FIX: false
+    DIFF: false
+    BASE: main
+    SNAPSHOT: false
     CHANGED:
-        sh: git diff-ls main | grep '\.ts$'
+        sh: git diff-ls {{.BASE}}...
+    PRETTIER_TARGET: '{{if eq .DIFF "false"}}.{{else}}{{.CHANGED | catLines}}{{end}}'
+    ESLINT_TARGET: '{{if eq .DIFF "false"}}src{{else}}{{.CHANGED | catLines}}{{end}}'
 
 tasks:
     tsc: tsc
-    test: jest
+    test: jest {{if ne .SNAPSHOT "false"}}-u{{end}}
 
-    'prettier:fix': prettier --write .
-    prettier: prettier --check .
+    prettier:
+        vars:
+            PRETTIER_ARG: '{{if eq .FIX "false"}}--check{{else}}--write{{end}}'
+        cmds:
+            - prettier {{.PRETTIER_ARG}} {{.PRETTIER_TARGET}}
 
-    eslint: eslint src
-    'eslint:fix': eslint --fix src
+    eslint: eslint {{if ne .FIX "false"}}--fix{{end}} {{ .ESLINT_TARGET }}
 
     check:
         deps: [prettier, eslint, 'check:lite']
@@ -23,10 +31,12 @@ tasks:
     'check:fix':
         cmds:
             - git status | grep 'nothing to commit, working tree clean'
-            - task: prettier:fix
+            - task: prettier
+              vars: { FIX: true }
             - cmd: git commit -m prettier .
               ignore_error: true
-            - task: eslint:fix
+            - task: eslint
+              vars: { FIX: true }
             - cmd: git commit -m eslint .
               ignore_error: true
             - task: check:lite
@@ -42,15 +52,7 @@ tasks:
     changed:
         cmds:
             - echo {{.CHANGED | catLines}}
-    'eslint:incr':
-        cmds:
-            - eslint {{.CHANGED | catLines}}
-    'prettier:incr':
-        cmds:
-            - prettier -c {{.CHANGED | catLines}}
-    'prettier:incr:fix':
-        cmds:
-            - prettier --write {{.CHANGED | catLines}}
+
     'is-clean':
         cmds:
             - git is-clean

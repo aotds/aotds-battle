@@ -1,7 +1,10 @@
 import u from 'updeep';
+import { defaults } from 'lodash';
+
+import { BattleDux } from '../../../BattleDux';
 import drive from './drive';
 import weaponry from './weaponry';
-import { BattleDux } from '../../../BattleDux';
+import navigation from './navigation';
 
 export const dux = new BattleDux({
 	initial: {
@@ -12,9 +15,13 @@ export const dux = new BattleDux({
 	actions: {
 		setOrders: (bogeyId, orders) => ({ bogeyId, orders }),
 	},
-	subduxes: { drive, weaponry },
+	subduxes: { drive, weaponry, navigation },
 });
+
+export default dux;
 
 dux.setMutation('setOrders', ({ orders }) => u({ orders: u.constant(orders) }));
 
-export default dux;
+dux.setInflator((shorthand) =>
+	dux.subInflate(defaults(shorthand, { id: shorthand.name })),
+);

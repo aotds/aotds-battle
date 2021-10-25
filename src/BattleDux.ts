@@ -7,7 +7,7 @@ export class BattleDux<
 	TState extends any = any,
 	TActions extends Record<string, any> = any,
 	TSelectors = any,
-	TSubduxes extends Record<string, any> = any
+	TSubduxes extends Record<string, any> = any,
 > extends Updux<TState, TActions, TSelectors, TSubduxes> {
 	inflator: ((...args: any) => any) | undefined = undefined;
 

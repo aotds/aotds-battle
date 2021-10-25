@@ -20,4 +20,6 @@ test('init_game', () => {
 	expect(store.getState.bogeysList()).toHaveLength(2);
 
 	expect(store.getState()).toHaveProperty('bogeys.1.id', '1');
+
+	expect(store.getState()).toHaveProperty('bogeys.1.navigation.velocity', 0);
 });
