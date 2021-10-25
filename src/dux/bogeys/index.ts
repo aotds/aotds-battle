@@ -2,7 +2,7 @@ import { Updux } from 'updux';
 import u from 'updeep';
 
 import { dux as game } from '../game';
-import { dux as bogey } from './bogey';
+import bogey from './bogey';
 import { subactionFor } from '../actionId';
 import { plotMovement } from './bogey/rules/plotMovement';
 
@@ -13,13 +13,12 @@ export const dux = new Updux({
 		initGame: game.actions.initGame,
 	},
 	mutations: {
-		initGame: ({ bogeys }) => () =>
-			Object.fromEntries(
-				bogeys.map((bogey) => [
-					bogey.name,
-					{ ...bogey, id: bogey.name },
-				]),
-			),
+		initGame:
+			({ bogeys }) =>
+			() =>
+				Object.fromEntries(
+					bogeys.map((b) => [b.name, bogey.inflate(b)]),
+				),
 	},
 	selectors: {
 		bogeysList: Object.values,
