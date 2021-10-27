@@ -21,6 +21,6 @@ export default dux;
 
 dux.setMutation('setOrders', ({ orders }) => u({ orders: u.constant(orders) }));
 
-dux.setInflator((shorthand) => dux.subInflate(defaults(shorthand, { id: shorthand.name }))
-
+dux.setInflator((shorthand) =>
+	dux.subInflate(defaults(shorthand, { id: shorthand.name })),
 );

@@ -8,7 +8,6 @@ import { subactionFor, middlewareWrapper, dux as actionId } from './actionId';
 export const dux = new Updux({
 	actions: {
 		movementPhase: () => {},
-		fireconOrdersPhase: () => {},
 		weaponFiringPhase: () => {},
 		weaponOrdersPhase: () => {},
 		clearOrders: () => {},

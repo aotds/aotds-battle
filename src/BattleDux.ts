@@ -7,7 +7,7 @@ export class BattleDux<
 	TState extends any = any,
 	TActions extends Record<string, any> = any,
 	TSelectors = any,
-	TSubduxes extends Record<string, any> = any,
+	TSubduxes extends Record<string, any> = any
 > extends Updux<TState, TActions, TSelectors, TSubduxes> {
 	inflator: ((...args: any) => any) | undefined = undefined;
 
@@ -15,10 +15,10 @@ export class BattleDux<
 		super(config);
 	}
 
-	subactionFor(action, mw) {
+	addSubEffect(action, mw) {
 		return this.addEffect(action, (api) => (next) => (action) => {
 			if (action.meta?.noLog) return next(action);
-			if (!action.meta?.actionId) return next(action);
+			//		if (!action.meta?.actionId) return next(action);
 
 			const parentActionId = action.meta?.actionId;
 
@@ -30,7 +30,7 @@ export class BattleDux<
 
 			next(action);
 
-			mw(localApi)(next)(api);
+			mw(localApi)(action);
 		});
 	}
 

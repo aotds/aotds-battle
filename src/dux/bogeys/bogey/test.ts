@@ -1,4 +1,5 @@
 import dux from '.';
+import weaponry from './weaponry';
 
 test('inflate', () => {
 	const bogey = dux.inflate({

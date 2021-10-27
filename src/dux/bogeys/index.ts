@@ -1,24 +1,21 @@
-import { Updux } from 'updux';
 import u from 'updeep';
 
 import { dux as game } from '../game';
 import bogey from './bogey';
 import { subactionFor } from '../actionId';
 import { plotMovement } from './bogey/rules/plotMovement';
+import { BattleDux } from '../../BattleDux';
 
-export const dux = new Updux({
+export const dux = new BattleDux({
 	initial: {},
 	subduxes: { '*': bogey },
 	actions: {
 		initGame: game.actions.initGame,
+		fireconOrdersPhase: () => {},
 	},
 	mutations: {
-		initGame:
-			({ bogeys }) =>
-			() =>
-				Object.fromEntries(
-					bogeys.map((b) => [b.name, bogey.inflate(b)]),
-				),
+		initGame: ({ bogeys }) => () =>
+			Object.fromEntries(bogeys.map((b) => [b.name, bogey.inflate(b)])),
 	},
 	selectors: {
 		bogeysList: Object.values,
@@ -38,11 +35,26 @@ export const dux = new Updux({
 	},
 });
 
+export default dux;
+
 const subEffect = subactionFor(dux);
 
-subEffect('movementPhase', ({ getState, dispatch }) => () => () => {
+dux.addSubEffect('movementPhase', ({ getState, dispatch }) => () => {
 	getState.bogeys().forEach((bogey) => {
 		const movement = plotMovement(bogey);
 		dispatch.bogeyMovementResolution(bogey.id, movement);
 	});
 });
+
+export const _fireconOrdersPhaseEffect = dux.addSubEffect(
+	'fireconOrdersPhase',
+	({ getState, dispatch }) => () => {
+		const bogeys = getState.bogeys();
+
+		bogeys.forEach(({ id, orders }) => {
+			if (orders?.firecons) {
+				dispatch.bogeyFireconsOrders(id, orders?.firecons);
+			}
+		});
+	},
+);
