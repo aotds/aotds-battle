@@ -7,7 +7,7 @@ export const dux = new BattleDux({});
 
 export default dux;
 
-dux.setInflator((shorthand) => {
+dux.setInflator((shorthand=0) => {
 	if (typeof shorthand === 'object') return shorthand;
 
 	return Object.fromEntries(

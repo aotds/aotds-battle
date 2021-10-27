@@ -3,15 +3,23 @@ import { Updux } from 'updux';
 import { dux as game } from './game';
 import { dux as bogeys } from './bogeys';
 import { dux as log } from './log';
-import { subactionFor } from './actionId';
+import { subactionFor, middlewareWrapper, dux as actionId } from './actionId';
 
 export const dux = new Updux({
-	actions: {},
+	actions: {
+		movementPhase: () => {},
+		fireconOrdersPhase: () => {},
+		weaponFiringPhase: () => {},
+		weaponOrdersPhase: () => {},
+		clearOrders: () => {},
+	},
 	subduxes: {
+		actionId,
 		game,
 		bogeys,
 		log,
 	},
+	middlewareWrapper,
 });
 
 export const playTurnEffect = dux.addEffect(
