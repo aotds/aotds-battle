@@ -4,3 +4,4 @@ build/
 old
 .eslintignore
 .prettierignore
+src/sample_game/__snapshots__
