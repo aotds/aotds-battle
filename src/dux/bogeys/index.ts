@@ -12,6 +12,7 @@ export const dux = new BattleDux({
 	actions: {
 		initGame: game.actions.initGame,
 		fireconOrdersPhase: () => {},
+		weaponOrdersPhase: () => {},
 	},
 	mutations: {
 		initGame: ({ bogeys }) => () =>
@@ -58,3 +59,13 @@ export const _fireconOrdersPhaseEffect = dux.addSubEffect(
 		});
 	},
 );
+
+dux.addSubEffect('weaponOrdersPhase', ({ getState, dispatch }) => () => {
+	const bogeys = getState.bogeys();
+
+	bogeys.forEach(({ id, orders }) => {
+		if (orders?.weapons) {
+			dispatch.bogeyWeaponsOrders(id, orders?.weapons);
+		}
+	});
+});

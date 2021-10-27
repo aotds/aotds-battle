@@ -6,7 +6,7 @@ vars:
     BASE: main
     SNAPSHOT: false
     CHANGED:
-        sh: git diff-ls {{.BASE}}...
+        sh: git diff-ls {{.BASE}}
     PRETTIER_TARGET: '{{if eq .DIFF "false"}}.{{else}}{{.CHANGED | catLines}}{{end}}'
     ESLINT_TARGET: '{{if eq .DIFF "false"}}src{{else}}{{.CHANGED | catLines}}{{end}}'
 
