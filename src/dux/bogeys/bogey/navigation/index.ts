@@ -14,12 +14,7 @@ export const dux = new BattleDux({
 
 export default dux;
 
-dux.setMutation(
-	'bogeyMovementResolution',
-	({ movement }) =>
-		() =>
-			movement,
-);
+dux.setMutation('bogeyMovementResolution', ({ movement }) => () => movement);
 
 dux.setInflator((shorthand) => {
 	return defaults(dux.initial, shorthand ?? {});
