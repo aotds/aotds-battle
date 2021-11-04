@@ -1,7 +1,24 @@
 import u from 'updeep';
-import { Updux, UpduxConfig } from 'updux';
+import { produce } from 'immer';
+import {
+	AggregateDuxActions,
+	AggregateDuxState,
+	Updux,
+	UpduxConfig,
+} from 'updux';
 
 import { identity, map, pickBy, filter, mapValues } from 'lodash/fp';
+
+type ImmerMutation<
+	TState,
+	TAction extends {
+		payload: any;
+	}
+> = (
+	state: TState,
+	payload: TAction['payload'],
+	action: TAction,
+) => void | TState;
 
 export class BattleDux<
 	TState extends any = any,
@@ -53,5 +70,20 @@ export class BattleDux<
 		if (this && this.inflator) return this.inflator(shorthand);
 
 		return this && this.subInflate(shorthand);
+	}
+
+	setImmerMutation<
+		TAction extends keyof AggregateDuxActions<TActions, TSubduxes>
+	>(
+		actionType: TAction,
+		mutation: ImmerMutation<
+			AggregateDuxState<TState, TSubduxes>,
+			ReturnType<AggregateDuxActions<TActions, TSubduxes>[TAction]>
+		>,
+	) {
+		const producer = produce(mutation);
+		return this.setMutation(actionType, (payload, action) => (state) =>
+			producer(state as any, payload, action) as any,
+		) as any;
 	}
 }

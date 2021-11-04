@@ -53,7 +53,8 @@
 		"moduleResolution": "node" /* Specify module resolution strategy: 'node' (Node.js) or 'classic' (TypeScript pre-1.6). */,
 		"baseUrl": "./",
 		"paths": {
-			"updeep": ["src/typings/updeep/index.d.ts"]
+			"updeep": ["src/typings/updeep/index.d.ts"],
+			"~/*": ["./src/*"]
 		},
 		// "rootDirs": [],                        /* List of root folders whose combined content represents the structure of the project at runtime. */
 		"typeRoots": [

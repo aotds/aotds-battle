@@ -10,11 +10,15 @@ export const dux = new BattleDux({
 	actions: {
 		bogeyMovementResolution: (bogeyId, movement) => ({ bogeyId, movement }),
 	},
+	subduxes: {},
 });
 
 export default dux;
 
-dux.setMutation('bogeyMovementResolution', ({ movement }) => () => movement);
+dux.setImmerMutation(
+	'bogeyMovementResolution',
+	(_draft, { movement }) => movement,
+);
 
 dux.setInflator((shorthand) => {
 	return defaults(dux.initial, shorthand ?? {});

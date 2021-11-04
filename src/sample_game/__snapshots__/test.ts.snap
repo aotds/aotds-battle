@@ -33,6 +33,11 @@ Object {
           1.5,
           0.87,
         ],
+        "effectiveOrders": Object {
+          "bank": 1,
+          "thrust": 1,
+          "turn": 1,
+        },
         "heading": 1,
         "maneuvers": Object {
           "bank": Array [
@@ -48,12 +53,7 @@ Object {
             3,
           ],
         },
-        "orders": Object {
-          "bank": 1,
-          "thrust": 1,
-          "turn": 1,
-        },
-        "thrust_used": 3,
+        "thrustUsed": 3,
         "trajectory": Array [
           Object {
             "coords": Array [
@@ -167,6 +167,11 @@ Object {
           10,
           9,
         ],
+        "effectiveOrders": Object {
+          "bank": 0,
+          "thrust": 1,
+          "turn": 0,
+        },
         "heading": 6,
         "maneuvers": Object {
           "bank": Array [
@@ -182,12 +187,7 @@ Object {
             3,
           ],
         },
-        "orders": Object {
-          "bank": 0,
-          "thrust": 1,
-          "turn": 0,
-        },
-        "thrust_used": 1,
+        "thrustUsed": 1,
         "trajectory": Array [
           Object {
             "coords": Array [
@@ -212,7 +212,9 @@ Object {
       },
       "orders": Object {
         "navigation": Object {
+          "bank": 0,
           "thrust": 1,
+          "turn": 0,
         },
       },
       "playerId": "yenzie",
@@ -366,7 +368,9 @@ Object {
         "bogeyId": "siduri",
         "orders": Object {
           "navigation": Object {
+            "bank": 0,
             "thrust": 1,
+            "turn": 0,
           },
         },
       },
@@ -399,6 +403,11 @@ Object {
             1.5,
             0.87,
           ],
+          "effectiveOrders": Object {
+            "bank": 1,
+            "thrust": 1,
+            "turn": 1,
+          },
           "heading": 1,
           "maneuvers": Object {
             "bank": Array [
@@ -414,12 +423,7 @@ Object {
               3,
             ],
           },
-          "orders": Object {
-            "bank": 1,
-            "thrust": 1,
-            "turn": 1,
-          },
-          "thrust_used": 3,
+          "thrustUsed": 3,
           "trajectory": Array [
             Object {
               "coords": Array [
@@ -478,6 +482,11 @@ Object {
             10,
             9,
           ],
+          "effectiveOrders": Object {
+            "bank": 0,
+            "thrust": 1,
+            "turn": 0,
+          },
           "heading": 6,
           "maneuvers": Object {
             "bank": Array [
@@ -493,12 +502,7 @@ Object {
               3,
             ],
           },
-          "orders": Object {
-            "bank": 0,
-            "thrust": 1,
-            "turn": 0,
-          },
-          "thrust_used": 1,
+          "thrustUsed": 1,
           "trajectory": Array [
             Object {
               "coords": Array [
