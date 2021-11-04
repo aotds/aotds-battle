@@ -9,7 +9,7 @@ export const actions = [
 	}),
 	dux.actions.tryPlayTurn(),
 	dux.actions.setOrders('siduri', {
-		navigation: { thrust: 1 },
+		navigation: { thrust: 1, bank: 0, turn: 0 },
 	}),
 	dux.actions.tryPlayTurn(),
 ];

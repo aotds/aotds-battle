@@ -3,5 +3,16 @@ module.exports = {
 		['@babel/preset-env', { targets: { node: 'current' } }],
 		'@babel/preset-typescript',
 	],
-	plugins: ['transform-class-properties'],
+	plugins: [
+		'transform-class-properties',
+		[
+			'module-resolver',
+			{
+				root: ['./src'],
+				alias: {
+					'~': './src',
+				},
+			},
+		],
+	],
 };

@@ -1,8 +1,21 @@
+import { Arc } from '../../../rules/fireWeapon/inArcs';
 import u from 'updeep';
 import { BattleDux } from '../../../../../BattleDux';
-import { Updux } from 'updux';
+
+type Weapon = {
+	id: number;
+	weaponClass: 1 | 2 | 3;
+	weaponType: 'beam';
+};
+
+type Mounted = {
+	arcs: Arc[];
+};
+
+export type WeaponMounted = Weapon & Mounted;
 
 export const dux = new BattleDux({
+	initial: {} as Record<string, WeaponMounted>,
 	actions: {
 		bogeyWeaponsOrders: (bogeyId: string, orders) => ({ bogeyId, orders }),
 	},
