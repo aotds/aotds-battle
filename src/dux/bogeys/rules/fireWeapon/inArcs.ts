@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 export type Arc = 'F' | 'FS' | 'AS' | 'A' | 'AP' | 'FP';
 export type Range = [number, number];
 
@@ -16,7 +14,12 @@ export const arc_ranges: Record<Arc, Range[]> = {
 };
 
 export function inArcs(arcs: Arc[], angle: number) {
-	return _.flatten(_.values(_.pick(arc_ranges, arcs))).some(
-		(arc) => angle >= arc[0] && angle <= arc[1],
-	);
+	for (const arc of arcs) {
+		const ranges = arc_ranges[arc];
+		for (const [min, max] of ranges) {
+			if (angle >= min && angle <= max) return true;
+		}
+	}
+
+	return false;
 }
