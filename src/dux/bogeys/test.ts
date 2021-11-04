@@ -1,5 +1,9 @@
 import { mockMiddleware } from '../../utils/mockMiddleware';
-import dux, { _fireconOrdersPhaseEffect } from '.';
+import dux, {
+	_fireconOrdersPhaseEffect,
+	_fireFireconEffect,
+	_weaponfiringPhaseEffect,
+} from '.';
 
 test('setOrders', () => {
 	const store = dux.createStore();
@@ -46,5 +50,60 @@ test('fireconOrdersPhase', () => {
 				},
 			}),
 		),
+	);
+});
+
+test('weaponFiringPhase', () => {
+	const getState = () => [
+		{
+			id: 'one',
+			weaponry: { firecons: { 1: { id: 1, targetId: 'bob' } } },
+		},
+		{ id: 'two' },
+	];
+
+	const {
+		api: { dispatch },
+	} = mockMiddleware(_weaponfiringPhaseEffect, {
+		action: dux.actions.fireconOrdersPhase(),
+		api: {
+			getState,
+		},
+	});
+
+	expect(dispatch).toBeCalledTimes(1);
+
+	expect(dispatch).toBeCalledWith(
+		expect.objectContaining(dux.actions.fireFirecon('one', 1)),
+	);
+});
+test('fireFirecon', () => {
+	const getState = () => ({
+		one: {
+			id: 'one',
+			weaponry: {
+				firecons: { 1: { id: 1, targetId: 'bob' } },
+				weapons: {
+					1: { id: 1, fireconId: 1 },
+					2: { id: 2 },
+				},
+			},
+		},
+		two: { id: 'two' },
+	});
+
+	const {
+		api: { dispatch },
+	} = mockMiddleware(_fireFireconEffect, {
+		action: dux.actions.fireFirecon('one', 1),
+		api: {
+			getState,
+		},
+	});
+
+	expect(dispatch).toBeCalledTimes(1);
+
+	expect(dispatch).toBeCalledWith(
+		expect.objectContaining(dux.actions.fireWeapon('one', 1, 'bob')),
 	);
 });

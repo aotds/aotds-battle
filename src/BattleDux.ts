@@ -1,13 +1,12 @@
-import u from 'updeep';
 import { produce } from 'immer';
+import { identity, mapValues } from 'lodash/fp';
+import u from 'updeep';
 import {
 	AggregateDuxActions,
 	AggregateDuxState,
 	Updux,
 	UpduxConfig,
 } from 'updux';
-
-import { identity, map, pickBy, filter, mapValues } from 'lodash/fp';
 
 type ImmerMutation<
 	TState,

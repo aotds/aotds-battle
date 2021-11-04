@@ -23,7 +23,7 @@ tasks:
     eslint: eslint {{if ne .FIX "false"}}--fix{{end}} {{ .ESLINT_TARGET }}
 
     check:
-        deps: [prettier, eslint, 'check:lite']
+        deps: [prettier, eslint, tsc, test]
 
     'check:lite':
         deps: [tsc, test]
@@ -42,7 +42,7 @@ tasks:
             - task: check:lite
 
     integrate:
-        deps: [check:fix]
+        deps: [check]
         cmds:
             - git checkout {{.B}}
             - git weld - --no-edit
