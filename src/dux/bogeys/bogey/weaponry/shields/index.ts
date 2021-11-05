@@ -1,17 +1,39 @@
 import { BattleDux } from '../../../../../BattleDux';
 import { Updux } from 'updux';
 
-export const dux = new BattleDux({});
+type ShieldState = {
+	id: number;
+	level: 1 | 2;
+	damaged: boolean;
+};
+
+type ShieldsState = Record<string, ShieldState>;
+
+export const dux = new BattleDux({
+	initial: {} as ShieldsState,
+	selectors: {
+		effectiveShieldLevel: (shields: ShieldsState) => {
+			return Math.max(
+				0,
+				...Object.values(shields)
+					.filter(({ damaged }) => !damaged)
+					.map(({ level }) => level),
+			);
+		},
+	},
+});
 
 export default dux;
 
-dux.setInflator((shorthand) => {
+dux.setInflator((shorthand = {}) => {
 	if (!Array.isArray(shorthand)) return shorthand;
 
 	return Object.fromEntries(
 		shorthand.map((level, id) => [
 			id + 1,
-			{ id: id + 1, level, damaged: false },
+			typeof level === 'number'
+				? { id: id + 1, level, damaged: false }
+				: level,
 		]),
 	);
 });

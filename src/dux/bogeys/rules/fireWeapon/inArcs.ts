@@ -13,7 +13,7 @@ export const arc_ranges: Record<Arc, Range[]> = {
 	FP: [[-3, -1]],
 };
 
-export function inArcs(arcs: Arc[], angle: number) {
+export function inArcs(arcs: Arc[] = [], angle: number) {
 	for (const arc of arcs) {
 		const ranges = arc_ranges[arc];
 		for (const [min, max] of ranges) {
