@@ -15,8 +15,8 @@ type Aborted = {
 export type FireWeaponOutcome = {
 	bearing: number;
 	distance: number;
-	damage_dice: number[];
-	penetrating_damage_dice: number[];
+	damageDice: number[];
+	penetratingDamageDice: number[];
 } & Partial<Aborted>;
 
 type NavigationState = Record<string, unknown>;
@@ -27,8 +27,8 @@ const abortGen = (distance: number, bearing: number) => (
 	distance,
 	bearing,
 	aborted,
-	damage_dice: [],
-	penetrating_damage_dice: [],
+	damageDice: [],
+	penetratingDamageDice: [],
 });
 
 type Attacker = {
@@ -48,11 +48,11 @@ export function fireWeapon(
 
 	const abort = abortGen(distance, bearing);
 
-	const hit = (damage_dice: number[], penetrating_damage_dice: number[]) => ({
+	const hit = (damageDice: number[], penetratingDamageDice: number[]) => ({
 		distance,
 		bearing,
-		damage_dice,
-		penetrating_damage_dice,
+		damageDice,
+		penetratingDamageDice,
 	});
 
 	if (inArcs(['A'], bearing) && attacker.drive.thrustUsed) {
@@ -68,22 +68,20 @@ export function fireWeapon(
 
 	if (nbr_dice <= 0) return abort('out of range');
 
-	let damage_dice = rollDice(nbr_dice, { note: 'fire_weapon' });
+	let damageDice = rollDice(nbr_dice, { note: 'fire_weapon' });
 
-	const nbr_penetrating_dice = damage_dice.filter((d) => d === 6).length;
+	const nbr_penetrating_dice = damageDice.filter((d) => d === 6).length;
 
-	let penetrating_damage_dice = rollDice(nbr_penetrating_dice, {
+	let penetratingDamageDice = rollDice(nbr_penetrating_dice, {
 		reroll: [6],
 		note: 'fire_weapon penetrating damage',
 	});
 
 	// if the target gets it in Aft, all damages are penetrating
 	if (inArcs(['A'], relativeCoords(target, attacker).bearing)) {
-		penetrating_damage_dice = damage_dice.concat(
-			...penetrating_damage_dice,
-		);
-		damage_dice = [];
+		penetratingDamageDice = damageDice.concat(...penetratingDamageDice);
+		damageDice = [];
 	}
 
-	return hit(damage_dice, penetrating_damage_dice);
+	return hit(damageDice, penetratingDamageDice);
 }

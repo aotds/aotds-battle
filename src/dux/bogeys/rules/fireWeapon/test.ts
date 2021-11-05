@@ -19,7 +19,7 @@ test('basic', () => {
 	});
 
 	expect(result).toMatchObject({
-		damage_dice: [6],
-		penetrating_damage_dice: [6, 1],
+		damageDice: [6],
+		penetratingDamageDice: [6, 1],
 	});
 });

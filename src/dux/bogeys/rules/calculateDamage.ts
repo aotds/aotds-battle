@@ -10,11 +10,9 @@ const beamDamage = (shield = 0) => (dice: number) => {
 	return table[dice] ?? 0;
 };
 
-export function calculateDamage(
-	shield_level: number,
-	dice: number[] = [],
-): number {
+export function calculateDamage(shield_level = 0, dice: number[] = []): number {
 	// all is beams right now
+
 	const die_to_damage = beamDamage(shield_level);
 
 	return _.sum(dice.map(die_to_damage));

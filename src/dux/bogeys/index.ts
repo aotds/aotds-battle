@@ -2,15 +2,16 @@ import u from 'updeep';
 import { matches, get } from 'lodash/fp';
 
 import { dux as game } from '../game';
-import bogey from './bogey';
+import bogeyDux from './bogey';
 import { subactionFor } from '../actionId';
 import { plotMovement } from './bogey/rules/plotMovement';
 import { BattleDux } from '../../BattleDux';
-import { fireWeapon } from './rules/fireWeapon';
+import { fireWeapon, FireWeaponOutcome } from './rules/fireWeapon';
+import { calculateDamage } from './rules/calculateDamage';
 
 export const dux = new BattleDux({
 	initial: {},
-	subduxes: { '*': bogey },
+	subduxes: { '*': bogeyDux },
 	actions: {
 		initGame: game.actions.initGame,
 		fireconOrdersPhase: () => {},
@@ -24,10 +25,25 @@ export const dux = new BattleDux({
 			weaponId,
 			targetId,
 		}),
+		fireWeaponOutcome: (bogeyId: string, outcome: FireWeaponOutcome) => ({
+			bogeyId,
+			outcome,
+		}),
+		bogeyDamage: (
+			bogeyId: string,
+			damage: number,
+			penetrating = false,
+		) => ({
+			bogeyId,
+			damage,
+			penetrating,
+		}),
 	},
 	mutations: {
 		initGame: ({ bogeys }) => () =>
-			Object.fromEntries(bogeys.map((b) => [b.name, bogey.inflate(b)])),
+			Object.fromEntries(
+				bogeys.map((b) => [b.name, bogeyDux.inflate(b)]),
+			),
 	},
 	selectors: {
 		bogeysList: Object.values,
@@ -42,7 +58,7 @@ export const dux = new BattleDux({
 
 		return u.updateIn(
 			bogeyId,
-			u.if((x) => !!x, bogey.upreducer(action)),
+			u.if((x) => !!x, bogeyDux.upreducer(action)),
 		);
 	},
 });
@@ -109,7 +125,7 @@ export const _fireFireconEffect = dux.addSubEffect(
 	},
 );
 
-dux.addSubEffect(
+export const _fireWeaponEffect = dux.addSubEffect(
 	'fireWeapon',
 	({ getState, dispatch, selectors, actions }) => ({
 		payload: { bogeyId, targetId, weaponId },
@@ -133,33 +149,44 @@ dux.addSubEffect(
 	},
 );
 
-/* TODO
+dux.setInflator((shorthand) => {
+	if (!Array.isArray(shorthand)) return shorthand;
 
+	return Object.fromEntries(
+		shorthand
+			.map((b) => bogeyDux.inflate(b))
+			.map((bogey) => [bogey.id, bogey]),
+	);
+});
 
+export const _fireWeaponOutcome = dux.addSubEffect(
+	'fireWeaponOutcome',
+	({ getState, dispatch }) => ({ payload }) => {
+		if (payload.aborted) return;
 
-bogeys_dux.addSubEffect(
-    bogeys_dux.actions.weapon_fire_outcome,
-    ({ getState, dispatch, selectors }) => ({ payload }) => {
-        if (payload.aborted) return;
+		const { bogeyId } = payload;
 
-        const { bogey_id } = payload;
+		const bogey = getState.bogey(bogeyId);
+		if (!bogey) return;
 
-        const bogey = selectors.getBogey(getState())(bogey_id);
-        if (!bogey) return;
-
-        [
-            {
-                damage: calculateDamage(bogey, payload.outcome.damage_dice),
-            },
-            {
-                damage: calculateDamage(bogey, payload.outcome.penetrating_damage_dice),
-                penetrating: true,
-            },
-        ]
-            .filter(({ damage }) => damage > 0)
-            .map(damage => ({ ...damage, bogey_id }))
-            .map(bogeys_dux.actions.bogey_damage)
-            .forEach(dispatch);
-    },
+		[
+			{
+				damage: calculateDamage(
+					bogeyDux.selectors.effectiveShieldLevel(bogey),
+					payload.outcome.damageDice,
+				),
+			},
+			{
+				damage: calculateDamage(
+					bogeyDux.selectors.effectiveShieldLevel(bogey),
+					payload.outcome.penetratingDamageDice,
+				),
+				penetrating: true,
+			},
+		]
+			.filter(({ damage }) => damage > 0)
+			.map(({ damage, penetrating }) =>
+				dispatch.bogeyDamage(bogeyId, damage, penetrating),
+			);
+	},
 );
-*/
