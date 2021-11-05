@@ -29,15 +29,6 @@ export const dux = new BattleDux({
 			bogeyId,
 			outcome,
 		}),
-		bogeyDamage: (
-			bogeyId: string,
-			damage: number,
-			penetrating = false,
-		) => ({
-			bogeyId,
-			damage,
-			penetrating,
-		}),
 	},
 	mutations: {
 		initGame: ({ bogeys }) => () =>

@@ -5,6 +5,7 @@ import { BattleDux } from '../../../BattleDux';
 import drive from './drive';
 import weaponry from './weaponry';
 import navigation from './navigation';
+import structure from './structure';
 
 type Orders = {
 	navigation?: {
@@ -22,7 +23,7 @@ export const dux = new BattleDux({
 	actions: {
 		setOrders: (bogeyId: string, orders: Orders) => ({ bogeyId, orders }),
 	},
-	subduxes: { drive, weaponry, navigation },
+	subduxes: { drive, weaponry, navigation, structure },
 });
 
 dux.initial.drive;

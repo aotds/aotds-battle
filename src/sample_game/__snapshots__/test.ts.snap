@@ -106,8 +106,14 @@ Object {
       },
       "playerId": "yanick",
       "structure": Object {
-        "armor": 4,
-        "hull": 4,
+        "armor": Object {
+          "current": 4,
+          "rating": 4,
+        },
+        "hull": Object {
+          "current": 4,
+          "rating": 4,
+        },
       },
       "weaponry": Object {
         "firecons": Object {
@@ -219,8 +225,14 @@ Object {
       },
       "playerId": "yenzie",
       "structure": Object {
-        "armor": 4,
-        "hull": 4,
+        "armor": Object {
+          "current": 4,
+          "rating": 4,
+        },
+        "hull": Object {
+          "current": 4,
+          "rating": 4,
+        },
         "shields": Array [
           1,
           2,
