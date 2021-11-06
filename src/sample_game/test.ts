@@ -6,6 +6,11 @@ import { composeWithDevTools } from 'remote-redux-devtools';
 
 import { dux } from '../dux';
 
+expect.addSnapshotSerializer({
+	test: () => true,
+	print: (val) => JSON.stringify(val, null, 2),
+});
+
 const composeEnhancers = composeWithDevTools({
 	realtime: true,
 	port: 8000,
@@ -29,9 +34,9 @@ const playTurn = async (round) => {
 
 	const state = battle.getState();
 
-	await turn.tests(state);
-
 	expect(state).toMatchSnapshot();
+
+	await turn.tests(state);
 };
 
 test.each(range(2))('turn %#', playTurn);
