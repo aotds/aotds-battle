@@ -1,10 +1,37 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
+import fp from 'lodash/fp';
 import { range } from 'lodash';
 import { applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'remote-redux-devtools';
 
 import { dux } from '../dux';
+import * as dice from '../dice';
+
+jest.mock('../dice');
+
+let rigged_dice = [] as any;
+(dice.rollDice as any).mockImplementation((...args: any[]) => {
+	if (!rigged_dice.length) {
+		throw new Error(`no dice left for ${JSON.stringify(args)}`);
+	}
+
+	const index = fp.findIndex((d: any) => {
+		if (Array.isArray(d)) return true;
+		return fp.matches(d.match, {
+			dice: args[0],
+			...args[1],
+		});
+	})(rigged_dice);
+
+	if (index === -1) {
+		throw new Error(`no dice found for ${JSON.stringify(args)}`);
+	}
+
+	const [result] = rigged_dice.splice(index, 1);
+
+	return Array.isArray(result) ? result : result.dice;
+});
 
 expect.addSnapshotSerializer({
 	test: () => true,
@@ -28,7 +55,7 @@ const battle = dux.createStore(undefined, (middleware) => {
 const playTurn = async (round) => {
 	const turn = require(`./turn-${round}`);
 
-	// rigged_dice = turn.dice ?? [];
+	rigged_dice = turn.dice ?? [];
 
 	(turn.actions ?? []).forEach(battle.dispatch);
 
@@ -39,38 +66,4 @@ const playTurn = async (round) => {
 	await turn.tests(state);
 };
 
-test.each(range(2))('turn %#', playTurn);
-
-/*
-import './groomState';
-
-import battle_dux from '../dux';
-
-jest.mock('../dice');
-import * as dice from '../dice';
-
-let rigged_dice = [];
-dice.rollDice.mockImplementation((...args: any[]) => {
-    if (!rigged_dice.length) {
-        throw new Error(`no dice left for ${JSON.stringify(args)}`);
-    }
-
-    const index = fp.findIndex((d: any) => {
-        if (Array.isArray(d)) return true;
-        return fp.matches(d.match, {
-            dice: args[0],
-            ...args[1],
-        });
-    })(rigged_dice);
-
-    if (index === -1) {
-        throw new Error(`no dice found for ${JSON.stringify(args)}`);
-    }
-
-    const [result] = rigged_dice.splice(index, 1);
-
-    return Array.isArray(result) ? result : result.dice;
-});
-
-
-*/
+test.each(range(3))('turn %#', playTurn);

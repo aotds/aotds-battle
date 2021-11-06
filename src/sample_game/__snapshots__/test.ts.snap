@@ -569,3 +569,887 @@ exports[`turn 1 1`] = `
   ]
 }
 `;
+
+exports[`turn 2 1`] = `
+{
+  "actionId": {
+    "nextActionId": 31
+  },
+  "game": {
+    "name": "gemini",
+    "turn": 2,
+    "players": [
+      "yanick",
+      "yenzie"
+    ]
+  },
+  "bogeys": {
+    "enkidu": {
+      "id": "enkidu",
+      "name": "enkidu",
+      "drive": {
+        "current": 6,
+        "rating": 6,
+        "damageLevel": 0
+      },
+      "navigation": {
+        "thrustUsed": 0,
+        "trajectory": [
+          {
+            "type": "POSITION",
+            "coords": [
+              1.5,
+              0.87
+            ]
+          },
+          {
+            "type": "MOVE",
+            "delta": [
+              0.5,
+              0.87
+            ],
+            "coords": [
+              2,
+              1.74
+            ]
+          }
+        ],
+        "maneuvers": {
+          "thrust": [
+            -1,
+            6
+          ],
+          "bank": [
+            -3,
+            3
+          ],
+          "turn": [
+            -3,
+            3
+          ]
+        },
+        "heading": 1,
+        "coords": [
+          2,
+          1.74
+        ],
+        "velocity": 1,
+        "effectiveOrders": {
+          "thrust": 0,
+          "bank": 0,
+          "turn": 0
+        }
+      },
+      "weaponry": {
+        "firecons": {
+          "1": {
+            "id": 1,
+            "targetId": "siduri"
+          }
+        },
+        "shields": {
+          "1": {
+            "id": 1,
+            "level": 1,
+            "damaged": false
+          },
+          "2": {
+            "id": 2,
+            "level": 2,
+            "damaged": false
+          }
+        },
+        "weapons": {
+          "1": {
+            "weaponType": "beam",
+            "weaponClass": 2,
+            "arcs": [
+              "F"
+            ],
+            "id": 1,
+            "fireconId": 1
+          },
+          "2": {
+            "arcs": [
+              "FS"
+            ],
+            "weaponType": "beam",
+            "weaponClass": 1,
+            "id": 2,
+            "fireconId": 1
+          },
+          "3": {
+            "arcs": [
+              "FP"
+            ],
+            "weaponType": "beam",
+            "weaponClass": 1,
+            "id": 3,
+            "fireconId": 1
+          }
+        }
+      },
+      "structure": {
+        "hull": {
+          "rating": 4,
+          "current": 4
+        },
+        "armor": {
+          "rating": 4,
+          "current": 4
+        }
+      },
+      "playerId": "yanick",
+      "orders": {
+        "firecons": {
+          "1": {
+            "targetId": "siduri"
+          }
+        },
+        "weapons": {
+          "1": {
+            "fireconId": 1
+          },
+          "2": {
+            "fireconId": 1
+          },
+          "3": {
+            "fireconId": 1
+          }
+        }
+      }
+    },
+    "siduri": {
+      "id": "siduri",
+      "name": "siduri",
+      "drive": {
+        "rating": 6,
+        "current": 6
+      },
+      "navigation": {
+        "thrustUsed": 1,
+        "trajectory": [
+          {
+            "type": "POSITION",
+            "coords": [
+              10,
+              9
+            ]
+          },
+          {
+            "type": "MOVE",
+            "delta": [
+              0,
+              -2
+            ],
+            "coords": [
+              10,
+              7
+            ]
+          }
+        ],
+        "maneuvers": {
+          "thrust": [
+            -1,
+            6
+          ],
+          "bank": [
+            -3,
+            3
+          ],
+          "turn": [
+            -3,
+            3
+          ]
+        },
+        "heading": 6,
+        "coords": [
+          10,
+          7
+        ],
+        "velocity": 2,
+        "effectiveOrders": {
+          "thrust": 1,
+          "bank": 0,
+          "turn": 0
+        }
+      },
+      "playerId": "yenzie",
+      "weaponry": {
+        "shields": {
+          "1": {
+            "id": 1,
+            "level": 1,
+            "damaged": false
+          },
+          "2": {
+            "id": 2,
+            "level": 2,
+            "damaged": false
+          }
+        },
+        "firecons": {},
+        "weapons": {}
+      },
+      "structure": {
+        "hull": {
+          "rating": 4,
+          "current": 3
+        },
+        "shields": [
+          1,
+          2
+        ],
+        "armor": {
+          "rating": 4,
+          "current": 3
+        }
+      },
+      "orders": {
+        "navigation": {
+          "thrust": 1,
+          "bank": 0,
+          "turn": 0
+        }
+      }
+    }
+  },
+  "log": [
+    {
+      "type": "initGame",
+      "payload": {
+        "game": {
+          "name": "gemini",
+          "players": [
+            "yanick",
+            "yenzie"
+          ]
+        },
+        "bogeys": [
+          {
+            "name": "enkidu",
+            "drive": 6,
+            "navigation": {
+              "coords": [
+                0,
+                0
+              ]
+            },
+            "weaponry": {
+              "firecons": 1,
+              "shields": [
+                1,
+                2
+              ],
+              "weapons": [
+                {
+                  "weaponType": "beam",
+                  "weaponClass": 2,
+                  "arcs": [
+                    "F"
+                  ]
+                },
+                {
+                  "arcs": [
+                    "FS"
+                  ],
+                  "weaponType": "beam",
+                  "weaponClass": 1
+                },
+                {
+                  "arcs": [
+                    "FP"
+                  ],
+                  "weaponType": "beam",
+                  "weaponClass": 1
+                }
+              ]
+            },
+            "structure": {
+              "hull": 4,
+              "armor": 4
+            },
+            "playerId": "yanick"
+          },
+          {
+            "name": "siduri",
+            "drive": {
+              "rating": 6,
+              "current": 6
+            },
+            "navigation": {
+              "coords": [
+                10,
+                10
+              ],
+              "heading": 6
+            },
+            "playerId": "yenzie",
+            "weaponry": {
+              "shields": [
+                1,
+                2
+              ]
+            },
+            "structure": {
+              "hull": 4,
+              "shields": [
+                1,
+                2
+              ],
+              "armor": 4
+            }
+          }
+        ]
+      },
+      "meta": {
+        "actionId": 1
+      }
+    },
+    {
+      "type": "setOrders",
+      "payload": {
+        "bogeyId": "enkidu",
+        "orders": {
+          "navigation": {
+            "thrust": 1,
+            "turn": 1,
+            "bank": 1
+          }
+        }
+      },
+      "meta": {
+        "actionId": 2
+      }
+    },
+    {
+      "type": "setOrders",
+      "payload": {
+        "bogeyId": "siduri",
+        "orders": {
+          "navigation": {
+            "thrust": 1,
+            "bank": 0,
+            "turn": 0
+          }
+        }
+      },
+      "meta": {
+        "actionId": 3
+      }
+    },
+    {
+      "type": "playTurn",
+      "meta": {
+        "actionId": 4
+      }
+    },
+    {
+      "type": "movementPhase",
+      "meta": {
+        "parentActionId": 4,
+        "actionId": 5
+      }
+    },
+    {
+      "type": "bogeyMovementResolution",
+      "payload": {
+        "bogeyId": "enkidu",
+        "movement": {
+          "thrustUsed": 3,
+          "trajectory": [
+            {
+              "type": "POSITION",
+              "coords": [
+                0,
+                0
+              ]
+            },
+            {
+              "type": "BANK",
+              "delta": [
+                1,
+                0
+              ],
+              "coords": [
+                1,
+                0
+              ]
+            },
+            {
+              "type": "ROTATE",
+              "delta": 0,
+              "heading": 0
+            },
+            {
+              "type": "ROTATE",
+              "delta": 1,
+              "heading": 1
+            },
+            {
+              "type": "MOVE",
+              "delta": [
+                0.5,
+                0.87
+              ],
+              "coords": [
+                1.5,
+                0.87
+              ]
+            }
+          ],
+          "maneuvers": {
+            "thrust": [
+              0,
+              4
+            ],
+            "bank": [
+              -3,
+              3
+            ],
+            "turn": [
+              -3,
+              3
+            ]
+          },
+          "heading": 1,
+          "coords": [
+            1.5,
+            0.87
+          ],
+          "velocity": 1,
+          "effectiveOrders": {
+            "thrust": 1,
+            "bank": 1,
+            "turn": 1
+          }
+        }
+      },
+      "meta": {
+        "parentActionId": 5,
+        "actionId": 6
+      }
+    },
+    {
+      "type": "bogeyMovementResolution",
+      "payload": {
+        "bogeyId": "siduri",
+        "movement": {
+          "thrustUsed": 1,
+          "trajectory": [
+            {
+              "type": "POSITION",
+              "coords": [
+                10,
+                10
+              ]
+            },
+            {
+              "type": "MOVE",
+              "delta": [
+                0,
+                -1
+              ],
+              "coords": [
+                10,
+                9
+              ]
+            }
+          ],
+          "maneuvers": {
+            "thrust": [
+              0,
+              6
+            ],
+            "bank": [
+              -3,
+              3
+            ],
+            "turn": [
+              -3,
+              3
+            ]
+          },
+          "heading": 6,
+          "coords": [
+            10,
+            9
+          ],
+          "velocity": 1,
+          "effectiveOrders": {
+            "thrust": 1,
+            "bank": 0,
+            "turn": 0
+          }
+        }
+      },
+      "meta": {
+        "parentActionId": 5,
+        "actionId": 7
+      }
+    },
+    {
+      "type": "fireconOrdersPhase",
+      "meta": {
+        "parentActionId": 4,
+        "actionId": 8
+      }
+    },
+    {
+      "type": "weaponOrdersPhase",
+      "meta": {
+        "parentActionId": 4,
+        "actionId": 9
+      }
+    },
+    {
+      "type": "weaponFiringPhase",
+      "meta": {
+        "parentActionId": 4,
+        "actionId": 10
+      }
+    },
+    {
+      "type": "clearOrders",
+      "meta": {
+        "parentActionId": 4,
+        "actionId": 11
+      }
+    },
+    {
+      "type": "setOrders",
+      "payload": {
+        "bogeyId": "enkidu",
+        "orders": {
+          "firecons": {
+            "1": {
+              "targetId": "siduri"
+            }
+          },
+          "weapons": {
+            "1": {
+              "fireconId": 1
+            },
+            "2": {
+              "fireconId": 1
+            },
+            "3": {
+              "fireconId": 1
+            }
+          }
+        }
+      },
+      "meta": {
+        "actionId": 12
+      }
+    },
+    {
+      "type": "playTurn",
+      "meta": {
+        "actionId": 13
+      }
+    },
+    {
+      "type": "movementPhase",
+      "meta": {
+        "parentActionId": 13,
+        "actionId": 14
+      }
+    },
+    {
+      "type": "bogeyMovementResolution",
+      "payload": {
+        "bogeyId": "enkidu",
+        "movement": {
+          "thrustUsed": 0,
+          "trajectory": [
+            {
+              "type": "POSITION",
+              "coords": [
+                1.5,
+                0.87
+              ]
+            },
+            {
+              "type": "MOVE",
+              "delta": [
+                0.5,
+                0.87
+              ],
+              "coords": [
+                2,
+                1.74
+              ]
+            }
+          ],
+          "maneuvers": {
+            "thrust": [
+              -1,
+              6
+            ],
+            "bank": [
+              -3,
+              3
+            ],
+            "turn": [
+              -3,
+              3
+            ]
+          },
+          "heading": 1,
+          "coords": [
+            2,
+            1.74
+          ],
+          "velocity": 1,
+          "effectiveOrders": {
+            "thrust": 0,
+            "bank": 0,
+            "turn": 0
+          }
+        }
+      },
+      "meta": {
+        "parentActionId": 14,
+        "actionId": 15
+      }
+    },
+    {
+      "type": "bogeyMovementResolution",
+      "payload": {
+        "bogeyId": "siduri",
+        "movement": {
+          "thrustUsed": 1,
+          "trajectory": [
+            {
+              "type": "POSITION",
+              "coords": [
+                10,
+                9
+              ]
+            },
+            {
+              "type": "MOVE",
+              "delta": [
+                0,
+                -2
+              ],
+              "coords": [
+                10,
+                7
+              ]
+            }
+          ],
+          "maneuvers": {
+            "thrust": [
+              -1,
+              6
+            ],
+            "bank": [
+              -3,
+              3
+            ],
+            "turn": [
+              -3,
+              3
+            ]
+          },
+          "heading": 6,
+          "coords": [
+            10,
+            7
+          ],
+          "velocity": 2,
+          "effectiveOrders": {
+            "thrust": 1,
+            "bank": 0,
+            "turn": 0
+          }
+        }
+      },
+      "meta": {
+        "parentActionId": 14,
+        "actionId": 16
+      }
+    },
+    {
+      "type": "fireconOrdersPhase",
+      "meta": {
+        "parentActionId": 13,
+        "actionId": 17
+      }
+    },
+    {
+      "type": "bogeyFireconsOrders",
+      "payload": {
+        "bogeyId": "enkidu",
+        "orders": {
+          "1": {
+            "targetId": "siduri"
+          }
+        }
+      },
+      "meta": {
+        "parentActionId": 17,
+        "actionId": 18
+      }
+    },
+    {
+      "type": "weaponOrdersPhase",
+      "meta": {
+        "parentActionId": 13,
+        "actionId": 19
+      }
+    },
+    {
+      "type": "bogeyWeaponsOrders",
+      "payload": {
+        "bogeyId": "enkidu",
+        "orders": {
+          "1": {
+            "fireconId": 1
+          },
+          "2": {
+            "fireconId": 1
+          },
+          "3": {
+            "fireconId": 1
+          }
+        }
+      },
+      "meta": {
+        "parentActionId": 19,
+        "actionId": 20
+      }
+    },
+    {
+      "type": "weaponFiringPhase",
+      "meta": {
+        "parentActionId": 13,
+        "actionId": 21
+      }
+    },
+    {
+      "type": "fireFirecon",
+      "payload": {
+        "bogeyId": "enkidu",
+        "fireconId": 1
+      },
+      "meta": {
+        "parentActionId": 21,
+        "actionId": 22
+      }
+    },
+    {
+      "type": "fireWeapon",
+      "payload": {
+        "bogeyId": "enkidu",
+        "weaponId": 1,
+        "targetId": "siduri"
+      },
+      "meta": {
+        "parentActionId": 22,
+        "actionId": 23
+      }
+    },
+    {
+      "type": "fireWeaponOutcome",
+      "payload": {
+        "bogeyId": "siduri",
+        "outcome": {
+          "distance": 9.57,
+          "bearing": 0.89,
+          "damageDice": [
+            6,
+            5
+          ],
+          "penetratingDamageDice": [
+            3
+          ]
+        }
+      },
+      "meta": {
+        "parentActionId": 23,
+        "actionId": 24
+      }
+    },
+    {
+      "type": "bogeyDamage",
+      "payload": {
+        "bogeyId": "siduri",
+        "damage": 2,
+        "penetrating": false
+      },
+      "meta": {
+        "parentActionId": 24,
+        "actionId": 25
+      }
+    },
+    {
+      "type": "fireWeapon",
+      "payload": {
+        "bogeyId": "enkidu",
+        "weaponId": 2,
+        "targetId": "siduri"
+      },
+      "meta": {
+        "parentActionId": 22,
+        "actionId": 26
+      }
+    },
+    {
+      "type": "fireWeaponOutcome",
+      "payload": {
+        "bogeyId": "siduri",
+        "outcome": {
+          "distance": 9.57,
+          "bearing": 0.89,
+          "aborted": "no firing arc",
+          "damageDice": [],
+          "penetratingDamageDice": []
+        }
+      },
+      "meta": {
+        "parentActionId": 26,
+        "actionId": 27
+      }
+    },
+    {
+      "type": "fireWeapon",
+      "payload": {
+        "bogeyId": "enkidu",
+        "weaponId": 3,
+        "targetId": "siduri"
+      },
+      "meta": {
+        "parentActionId": 22,
+        "actionId": 28
+      }
+    },
+    {
+      "type": "fireWeaponOutcome",
+      "payload": {
+        "bogeyId": "siduri",
+        "outcome": {
+          "distance": 9.57,
+          "bearing": 0.89,
+          "aborted": "no firing arc",
+          "damageDice": [],
+          "penetratingDamageDice": []
+        }
+      },
+      "meta": {
+        "parentActionId": 28,
+        "actionId": 29
+      }
+    },
+    {
+      "type": "clearOrders",
+      "meta": {
+        "parentActionId": 13,
+        "actionId": 30
+      }
+    }
+  ]
+}
+`;

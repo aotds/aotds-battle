@@ -13,6 +13,8 @@ type Orders = {
 		bank: number;
 		turn: number;
 	};
+	firecons?: Record<string, { targetId?: string | null }>;
+	weapons?: Record<string, { fireconId?: number | null }>;
 };
 
 export const dux = new BattleDux({

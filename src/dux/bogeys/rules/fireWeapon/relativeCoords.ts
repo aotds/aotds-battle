@@ -11,7 +11,7 @@ export function relativeCoords(ship, target) {
 		2,
 	);
 
-	const bearing = angle - ship.heading;
+	const bearing = _.round(angle - ship.heading, 2);
 
 	const distance = _.round(
 		Math.sqrt(
