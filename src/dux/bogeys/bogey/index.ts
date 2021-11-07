@@ -36,6 +36,10 @@ dux.setImmerMutation('setOrders', (draft, { orders }, action) => {
 	draft.orders = orders;
 });
 
+dux.setImmerMutation('clearOrders', (draft) => {
+	draft.orders = {};
+});
+
 dux.setInflator((shorthand) =>
 	dux.subInflate(defaults(shorthand, { id: shorthand.name })),
 );

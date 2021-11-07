@@ -34,3 +34,19 @@ test('inflate', () => {
 		id: 2,
 	});
 });
+
+test('clearOrders', () => {
+	const state = dux.inflate({
+		orders: {
+			potato: true,
+		},
+		weaponry: {
+			firecons: [{ targetId: 'enkidu' }],
+		},
+	});
+
+	const reduced = dux.reducer(state, dux.actions.clearOrders());
+
+	expect(reduced).not.toHaveProperty('weaponry.firecons.1.targetId');
+	expect(reduced).not.toHaveProperty('orders.potato');
+});

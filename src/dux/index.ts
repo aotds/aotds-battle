@@ -9,7 +9,6 @@ export const dux = new Updux({
 	actions: {
 		movementPhase: () => {},
 		weaponFiringPhase: () => {},
-		clearOrders: () => {},
 	},
 	subduxes: {
 		actionId,

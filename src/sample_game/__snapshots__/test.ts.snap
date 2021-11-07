@@ -161,13 +161,7 @@ exports[`turn 1 1`] = `
         }
       },
       "playerId": "yanick",
-      "orders": {
-        "navigation": {
-          "thrust": 1,
-          "turn": 1,
-          "bank": 1
-        }
-      }
+      "orders": {}
     },
     "siduri": {
       "id": "siduri",
@@ -255,13 +249,7 @@ exports[`turn 1 1`] = `
           "current": 4
         }
       },
-      "orders": {
-        "navigation": {
-          "thrust": 1,
-          "bank": 0,
-          "turn": 0
-        }
-      }
+      "orders": {}
     }
   },
   "log": [
@@ -643,8 +631,7 @@ exports[`turn 2 1`] = `
       "weaponry": {
         "firecons": {
           "1": {
-            "id": 1,
-            "targetId": "siduri"
+            "id": 1
           }
         },
         "shields": {
@@ -700,24 +687,7 @@ exports[`turn 2 1`] = `
         }
       },
       "playerId": "yanick",
-      "orders": {
-        "firecons": {
-          "1": {
-            "targetId": "siduri"
-          }
-        },
-        "weapons": {
-          "1": {
-            "fireconId": 1
-          },
-          "2": {
-            "fireconId": 1
-          },
-          "3": {
-            "fireconId": 1
-          }
-        }
-      }
+      "orders": {}
     },
     "siduri": {
       "id": "siduri",
@@ -727,7 +697,7 @@ exports[`turn 2 1`] = `
         "current": 6
       },
       "navigation": {
-        "thrustUsed": 1,
+        "thrustUsed": 0,
         "trajectory": [
           {
             "type": "POSITION",
@@ -740,11 +710,11 @@ exports[`turn 2 1`] = `
             "type": "MOVE",
             "delta": [
               0,
-              -2
+              -1
             ],
             "coords": [
               10,
-              7
+              8
             ]
           }
         ],
@@ -765,11 +735,11 @@ exports[`turn 2 1`] = `
         "heading": 6,
         "coords": [
           10,
-          7
+          8
         ],
-        "velocity": 2,
+        "velocity": 1,
         "effectiveOrders": {
-          "thrust": 1,
+          "thrust": 0,
           "bank": 0,
           "turn": 0
         }
@@ -805,13 +775,7 @@ exports[`turn 2 1`] = `
           "current": 3
         }
       },
-      "orders": {
-        "navigation": {
-          "thrust": 1,
-          "bank": 0,
-          "turn": 0
-        }
-      }
+      "orders": {}
     }
   },
   "log": [
@@ -1219,7 +1183,7 @@ exports[`turn 2 1`] = `
       "payload": {
         "bogeyId": "siduri",
         "movement": {
-          "thrustUsed": 1,
+          "thrustUsed": 0,
           "trajectory": [
             {
               "type": "POSITION",
@@ -1232,11 +1196,11 @@ exports[`turn 2 1`] = `
               "type": "MOVE",
               "delta": [
                 0,
-                -2
+                -1
               ],
               "coords": [
                 10,
-                7
+                8
               ]
             }
           ],
@@ -1257,11 +1221,11 @@ exports[`turn 2 1`] = `
           "heading": 6,
           "coords": [
             10,
-            7
+            8
           ],
-          "velocity": 2,
+          "velocity": 1,
           "effectiveOrders": {
-            "thrust": 1,
+            "thrust": 0,
             "bank": 0,
             "turn": 0
           }
@@ -1357,8 +1321,8 @@ exports[`turn 2 1`] = `
       "payload": {
         "bogeyId": "siduri",
         "outcome": {
-          "distance": 9.57,
-          "bearing": 0.89,
+          "distance": 10.16,
+          "bearing": 0.73,
           "damageDice": [
             6,
             5
@@ -1402,8 +1366,8 @@ exports[`turn 2 1`] = `
       "payload": {
         "bogeyId": "siduri",
         "outcome": {
-          "distance": 9.57,
-          "bearing": 0.89,
+          "distance": 10.16,
+          "bearing": 0.73,
           "aborted": "no firing arc",
           "damageDice": [],
           "penetratingDamageDice": []
@@ -1431,8 +1395,8 @@ exports[`turn 2 1`] = `
       "payload": {
         "bogeyId": "siduri",
         "outcome": {
-          "distance": 9.57,
-          "bearing": 0.89,
+          "distance": 10.16,
+          "bearing": 0.73,
           "aborted": "no firing arc",
           "damageDice": [],
           "penetratingDamageDice": []
