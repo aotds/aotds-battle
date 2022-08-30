@@ -1,9 +1,11 @@
+import { test, expect } from 'vitest';
+
 import u from 'updeep';
 
 import { relativeCoords } from './relativeCoords.js';
 
 const attacker = { coords: [0, 0], heading: 1 };
-const target: any = { coords: [0, 10], heading: 5 };
+const target = { coords: [0, 10], heading: 5 };
 
 test.each([
 	{ coords: [0, 10], e: { angle: 0, bearing: -1 } },

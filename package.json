@@ -1,5 +1,5 @@
 {
-    "type": "module",
+	"type": "module",
 	"name": "@aotds/aotds-battle",
 	"private": true,
 	"version": "1.0.0",
@@ -32,6 +32,7 @@
 		"lodash": "^4.17.15",
 		"redux": "^4.0.5",
 		"redux-persist-pouchdb": "^0.2.1",
+		"remeda": "^1.1.0",
 		"remote-redux-devtools": "^0.5.16",
 		"remotedev-server": "^0.3.1",
 		"sinon": "^9.0.1",
@@ -39,7 +40,7 @@
 		"ts-action": "^11.0.0",
 		"ts-json-schema-generator": "^0.67.1",
 		"updeep": "^1.2.1",
-		"updux": "link:../../updux-js"
+		"updux": "link:/home/yanick/work/javascript/updux"
 	},
 	"devDependencies": {
 		"@babel/cli": "^7.0.0",
@@ -63,7 +64,8 @@
 		"prettier": "2",
 		"ts-node": "^9.0.0",
 		"tsc-alias": "^1.4.0",
-		"typescript": "^4.1.2"
+		"typescript": "^4.1.2",
+		"vitest": "^0.9.3"
 	},
 	"babel": {
 		"presets": [
