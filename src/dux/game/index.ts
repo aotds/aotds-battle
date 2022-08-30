@@ -1,6 +1,5 @@
 import { Updux, action } from 'updux';
 import u from 'updeep';
-import { add } from 'lodash/fp';
 
 type InitGamePayload = {
 	game: {
@@ -25,6 +24,6 @@ export const dux = new Updux({
 	},
 	mutations: {
 		initGame: ({ game }) => u(game),
-		playTurn: () => u.updateIn('turn', add(1)),
+		playTurn: () => u.updateIn('turn',x => x+1),
 	},
 });

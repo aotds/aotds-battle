@@ -1,6 +1,6 @@
-import { Arc } from '../../../rules/fireWeapon/inArcs';
+import { Arc } from '../../../rules/fireWeapon/inArcs.js';
 import u from 'updeep';
-import { BattleDux } from '../../../../../BattleDux';
+import { BattleDux } from '../../../../../BattleDux.js';
 
 type Weapon = {
 	id: number;

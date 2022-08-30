@@ -1,4 +1,4 @@
-import fp from 'lodash/fp';
+import fp from 'lodash/fp.js';
 
 import { dux } from '../dux';
 

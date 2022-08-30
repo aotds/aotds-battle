@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
-import fp from 'lodash/fp';
+import fp from 'lodash/fp.js';
 import { range } from 'lodash';
 import { applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'remote-redux-devtools';

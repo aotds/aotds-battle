@@ -1,8 +1,8 @@
 import u from 'updeep';
-import { BattleDux } from '../../../../../BattleDux';
+import { BattleDux } from '../../../../../BattleDux.js';
 import { Updux } from 'updux';
 
-import { range } from 'lodash';
+import  range  from 'lodash/range.js';
 
 export const dux = new BattleDux({
 	actions: {
@@ -17,7 +17,7 @@ export default dux;
 dux.setMutation('bogeyFireconsOrders', ({ orders }) => u(orders));
 
 dux.setImmerMutation('clearOrders', (draft) => {
-	Object.values(draft).forEach((firecon) => delete firecon.targetId);
+	Object.values(draft).forEach((firecon:any) => delete firecon.targetId);
 });
 
 dux.setInflator((shorthand = 0) => {

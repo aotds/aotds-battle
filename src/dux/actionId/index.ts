@@ -1,6 +1,5 @@
 import { action, Updux } from 'updux';
 import u from 'updeep';
-import { add } from 'lodash/fp';
 
 const addActionId = (api) => (next) => (action) => {
 	if (action.meta?.noLog) return next(action);
@@ -54,7 +53,7 @@ export const dux = new Updux({
 		),
 	},
 	mutations: {
-		incActionId: () => u.updateIn('nextActionId', add(1)),
+		incActionId: () => u.updateIn('nextActionId', x=>x+1),
 		setActionId: (id) => u.updateIn('nextActionId', id),
 	},
 });

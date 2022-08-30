@@ -1,4 +1,4 @@
-import { random } from 'lodash';
+import  random  from 'lodash/random.js';
 
 const rollDie = (n: number) => random(1, n);
 

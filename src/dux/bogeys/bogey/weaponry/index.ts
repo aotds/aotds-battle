@@ -1,9 +1,9 @@
-import { BattleDux } from '../../../../BattleDux';
 import { Updux } from 'updux';
 
-import firecons from './firecons';
-import shields from './shields';
-import weapons from './weapons';
+import { BattleDux } from '../../../../BattleDux.js';
+import firecons from './firecons/index.js';
+import shields from './shields/index.js';
+import weapons from './weapons/index.js';
 
 export const dux = new BattleDux({
 	initial: {},

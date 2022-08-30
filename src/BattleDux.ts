@@ -1,5 +1,6 @@
 import { produce } from 'immer';
-import { identity, mapValues } from 'lodash/fp';
+import  identity from 'lodash/identity.js';
+import mapValues  from 'lodash/fp/mapValues.js';
 import u from 'updeep';
 import {
 	AggregateDuxActions,

@@ -1,8 +1,8 @@
-import { BattleDux } from '~/BattleDux';
-import { ceil } from 'lodash/fp';
+import { BattleDux } from '~/BattleDux.js';
+import  ceil  from 'lodash/fp/ceil.js';
 
-import hull from './hull';
-import armor from './armor';
+import hull from './hull/index.js';
+import armor from './armor/index.js';
 
 export const dux = new BattleDux({
 	initial: {},

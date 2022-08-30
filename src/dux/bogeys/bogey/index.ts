@@ -1,11 +1,11 @@
 import u from 'updeep';
-import { defaults } from 'lodash/fp';
+import  defaults  from 'lodash/fp/defaults.js';
 
-import { BattleDux } from '../../../BattleDux';
-import drive from './drive';
-import weaponry from './weaponry';
-import navigation from './navigation';
-import structure from './structure';
+import { BattleDux } from '../../../BattleDux.js';
+import drive from './drive/index.js';
+import weaponry from './weaponry/index.js';
+import navigation from './navigation/index.js';
+import structure from './structure/index.js';
 
 type Orders = {
 	navigation?: {

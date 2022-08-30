@@ -1,6 +1,6 @@
 import u from 'updeep';
 
-import { plotMovement, moveThrust, moveRotate } from './plotMovement';
+import { plotMovement, moveThrust, moveRotate } from './plotMovement.js';
 
 type Coords = [number, number];
 

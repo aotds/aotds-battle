@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import fp from 'lodash/fp';
+import fp from 'lodash/fp.js';
 
 export function relativeCoords(ship, target) {
 	const relative = _.zip

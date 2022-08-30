@@ -1,4 +1,4 @@
-import { BattleDux } from '~/BattleDux';
+import { BattleDux } from '~/BattleDux.js';
 
 type HullState = {
 	rating: number;

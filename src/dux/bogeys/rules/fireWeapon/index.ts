@@ -1,7 +1,7 @@
-import { relativeCoords } from './relativeCoords';
-import { inArcs } from './inArcs';
-import { WeaponMounted } from '../../bogey/weaponry/weapons';
-import { rollDice } from '~/dice';
+import { relativeCoords } from './relativeCoords.js';
+import { inArcs } from './inArcs.js';
+import { WeaponMounted } from '../../bogey/weaponry/weapons/index.js';
+import { rollDice } from '~/dice/index.js';
 
 type AbortReasons =
 	| 'no firing arc'

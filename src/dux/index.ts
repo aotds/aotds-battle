@@ -1,11 +1,12 @@
 import { Updux } from 'updux';
 
-import { dux as game } from './game';
-import { dux as bogeys } from './bogeys';
-import { dux as log } from './log';
-import { subactionFor, middlewareWrapper, dux as actionId } from './actionId';
+import { dux as game } from './game/index.js';
+import { dux as bogeys } from './bogeys/index.js';
+import { dux as log } from './log/index.js';
+import { subactionFor, middlewareWrapper, dux as actionId } from './actionId/index.js';
+import { BattleDux } from '~/BattleDux.js';
 
-export const dux = new Updux({
+export const dux = new BattleDux({
 	actions: {
 		movementPhase: () => {},
 		weaponFiringPhase: () => {},

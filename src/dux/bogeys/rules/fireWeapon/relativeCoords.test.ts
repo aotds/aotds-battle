@@ -1,6 +1,6 @@
 import u from 'updeep';
 
-import { relativeCoords } from './relativeCoords';
+import { relativeCoords } from './relativeCoords.js';
 
 const attacker = { coords: [0, 0], heading: 1 };
 const target: any = { coords: [0, 10], heading: 5 };

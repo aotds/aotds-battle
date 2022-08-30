@@ -1,5 +1,5 @@
 import dux from '.';
-import weaponry from './weaponry';
+import weaponry from './weaponry/index.js';
 
 test('inflate', () => {
 	const bogey = dux.inflate({

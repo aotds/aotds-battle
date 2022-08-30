@@ -1,5 +1,5 @@
 import u from 'updeep';
-import { BattleDux } from '../../../../BattleDux';
+import { BattleDux } from '../../../../BattleDux.js';
 
 export type DriveState = {
 	rating: number;

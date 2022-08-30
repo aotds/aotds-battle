@@ -1,4 +1,4 @@
-import { BattleDux } from '../../../../../BattleDux';
+import { BattleDux } from '../../../../../BattleDux.js';
 import { Updux } from 'updux';
 
 type ShieldState = {

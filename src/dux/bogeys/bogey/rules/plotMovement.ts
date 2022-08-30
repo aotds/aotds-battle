@@ -1,5 +1,5 @@
 import u from 'updeep';
-import fp from 'lodash/fp';
+import fp from 'lodash/fp.js';
 import _ from 'lodash';
 import { produce } from 'immer';
 
@@ -45,9 +45,11 @@ type MovementInput = {
 		velocity: number;
 		trajectory?: Trajectory;
 	};
-	drive: {
-		current: number;
-	};
+    structure: {
+        drive: {
+            current: number;
+        }
+    };
 };
 
 const upush = (new_item: any) => (state = []) => [...state, new_item];
@@ -130,7 +132,7 @@ export function plotMovement(ship: MovementInput): MovementOutcome {
 
 	navigation.trajectory = [{ type: 'POSITION', coords: navigation.coords! }];
 
-	const engine_rating = ship?.drive?.current ?? 0;
+	const engine_rating = ship?.structure?.drive?.current ?? 0;
 
 	let engine_power = engine_rating;
 

@@ -1,6 +1,7 @@
 import { Updux } from 'updux';
-import { dux, middlewareWrapper, subactionFor } from '.';
-import { dux as log } from '../log';
+
+import { dux, middlewareWrapper, subactionFor } from './index.js';
+import { dux as log } from '../log/index.js';
 
 test('incActionId', () => {
 	expect(dux.actions.incActionId()).toMatchObject({

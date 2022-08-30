@@ -1,5 +1,5 @@
-import { defaults } from 'lodash/fp';
-import { BattleDux } from '../../../../BattleDux';
+import defaults from 'lodash/fp/defaults.js';
+import { BattleDux } from '../../../../BattleDux.js';
 
 export const dux = new BattleDux({
 	initial: {
