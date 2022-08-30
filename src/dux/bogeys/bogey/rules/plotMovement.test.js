@@ -1,27 +1,26 @@
+import { test, expect } from 'vitest';
 import u from 'updeep';
 
 import { plotMovement, moveThrust, moveRotate } from './plotMovement.js';
 
-type Coords = [number, number];
-
 test('move_thrust', () => {
-	const ship: any = { coords: [0, 0], heading: 1, velocity: 0 };
+	const ship = { coords: [0, 0], heading: 1, velocity: 0 };
 
-	const cases: [number, Coords][] = [
+	const cases= [
 		[0, [0, 0]],
 		[1, [0.5, 0.87]],
 		[10, [5, 8.66]],
 	];
 
-	cases.forEach(([thrust, result]: [number, Coords]) => {
+	cases.forEach(([thrust, coords]) => {
 		expect(moveThrust(ship, thrust)).toMatchObject({
-			coords: result,
+			coords
 		});
 	});
 });
 
 test('move_rotate', () => {
-	const ship = { coords: [0, 0], heading: 0, velocity: 0 } as any;
+	const ship = { coords: [0, 0], heading: 0, velocity: 0 };
 
 	[
 		[0, 0],
@@ -34,13 +33,13 @@ test('move_rotate', () => {
 });
 
 test('simple movements', () => {
-	const angle: { [angle: string]: Coords } = {
+	const angle= {
 		0: [0, 10],
 		1: [5, 8.66],
 		2: [8.66, 5],
 		3: [10, 0],
 		6: [0, -10],
-		9: [-10, 0],
+		9: [-10, -0],
 		11: [-5, 8.66],
 	};
 
@@ -48,7 +47,7 @@ test('simple movements', () => {
 
 	for (const a in angle) {
 		ship.navigation.heading = +a;
-		const movement = plotMovement(ship as any);
+		const movement = plotMovement(ship);
 		expect(movement).toMatchObject({
 			coords: angle[a],
 			heading: +a,
@@ -72,7 +71,7 @@ test('change of speed', () => {
 			velocity: 10,
 		},
 		drive: { rating: 6, current: 6 },
-	} as any;
+	};
 
 	// accelerate within engine capacity
 	moveOk(ship, { thrust: 6 }, { velocity: 16, coords: [0, 16] });
@@ -168,8 +167,8 @@ test('banking', () => {
 	);
 });
 
-const with_orders = (orders: any) =>
-	(u.updateIn as any)('orders.navigation', orders);
+const with_orders = (orders) =>
+	u.updateIn('orders.navigation', orders);
 
 test('complex maneuvers', () => {
 	const ship = {
@@ -185,7 +184,7 @@ test('complex maneuvers', () => {
 		{ type: 'POSITION', coords: [0, 0] },
 		{ type: 'BANK', coords: [-1, 0], delta: [-1, -0] },
 		{ type: 'ROTATE', delta: 1, heading: 1 },
-		{ type: 'MOVE', coords: [0, 1.73], delta: [1, 1.73] },
+		{ type: 'MOVE', coords: [-0, 1.73], delta: [1, 1.73] },
 		{ type: 'ROTATE', delta: 1, heading: 2 },
 		{ type: 'MOVE', coords: [1.73, 2.73], delta: [1.73, 1] },
 	]);
@@ -217,12 +216,12 @@ test('maneuvers', () => {
 });
 
 test('course is stable', () => {
-	let ship: any = {
+	let ship= {
 		navigation: { coords: [0, 0], velocity: 2, heading: 0 },
 		drive: { current: 6 },
 	};
 
-	let course: any = plotMovement(
+	let course = plotMovement(
 		with_orders({ bank: -1, thrust: -1, turn: 2 })(ship),
 	);
 

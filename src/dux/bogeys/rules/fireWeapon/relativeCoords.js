@@ -1,6 +1,6 @@
 import R from 'remeda';
 
-const round2 = numb => Math.round(numb*100)/100;
+export const round2 = numb => Math.round(numb*100)/100;
 
 export function relativeCoords(ship, target) {
     const relative = R.zip(

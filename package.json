@@ -14,6 +14,7 @@
 	"author": "Yanick Champoux <yanick@babyl.ca> (http://techblog.babyl.ca)",
 	"license": "ISC",
 	"dependencies": {
+		"@a-robu/victor": "^2.2.2",
 		"@microsoft/api-documenter": "^7.8.9",
 		"@microsoft/api-extractor": "^7.8.9",
 		"@types/lodash": "^4.14.162",
@@ -40,7 +41,8 @@
 		"ts-action": "^11.0.0",
 		"ts-json-schema-generator": "^0.67.1",
 		"updeep": "^1.2.1",
-		"updux": "link:/home/yanick/work/javascript/updux"
+		"updux": "link:/home/yanick/work/javascript/updux",
+		"victor": "^1.1.0"
 	},
 	"devDependencies": {
 		"@babel/cli": "^7.0.0",
