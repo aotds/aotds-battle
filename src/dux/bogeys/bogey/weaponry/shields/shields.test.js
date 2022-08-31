@@ -1,4 +1,6 @@
-import dux from '.';
+import { test, expect, describe } from 'vitest';
+
+import dux from './index.js';
 
 describe('effectiveLevel', () => {
 	test.each([
