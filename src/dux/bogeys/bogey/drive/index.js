@@ -1,11 +1,11 @@
 import u from 'updeep';
 import { BattleDux } from '../../../../BattleDux.js';
 
-export type DriveState = {
-	rating: number;
-	current: number;
-	damageLevel: 0 | 1 | 2;
-};
+// export type DriveState = {
+// 	rating: number;
+// 	current: number;
+// 	damageLevel: 0 | 1 | 2;
+// };
 
 export const dux = new BattleDux({
 	initial: {
@@ -31,9 +31,9 @@ export const dux = new BattleDux({
 
 export default dux;
 
-type DriveShorthand = number | DriveState;
+//type DriveShorthand = number | DriveState;
 
-dux.setInflator((shorthand: DriveShorthand = 0) => {
+dux.setInflator((shorthand = 0) => {
 	if (typeof shorthand === 'number')
 		return {
 			current: shorthand,
