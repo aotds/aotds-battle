@@ -1,4 +1,3 @@
-import defaults from 'lodash/fp/defaults.js';
 import { BattleDux } from '../../../../BattleDux.js';
 
 export const dux = new BattleDux({
@@ -10,16 +9,10 @@ export const dux = new BattleDux({
 	actions: {
 		bogeyMovementResolution: (bogeyId, movement) => ({ bogeyId, movement }),
 	},
-	subduxes: {},
 });
 
 export default dux;
 
-dux.setImmerMutation(
-	'bogeyMovementResolution',
-	(_draft, { movement }) => movement,
-);
+dux.setMutation('bogeyMovementResolution', ({ movement }) => () => movement);
 
-dux.setInflator((shorthand) => {
-	return defaults(dux.initial, shorthand ?? {});
-});
+dux.setInflator((shorthand) => shorthand ?? dux.initial);
