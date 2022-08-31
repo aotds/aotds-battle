@@ -1,7 +1,7 @@
-export type Arc = 'F' | 'FS' | 'AS' | 'A' | 'AP' | 'FP';
-export type Range = [number, number];
+// export type Arc = 'F' | 'FS' | 'AS' | 'A' | 'AP' | 'FP';
+// export type Range = [number, number];
 
-export const arc_ranges: Record<Arc, Range[]> = {
+export const arc_ranges = {
 	F: [[-1, 1]],
 	FS: [[1, 3]],
 	AS: [[3, 5]],
@@ -13,7 +13,7 @@ export const arc_ranges: Record<Arc, Range[]> = {
 	FP: [[-3, -1]],
 };
 
-export function inArcs(arcs: Arc[] = [], angle: number) {
+export function inArcs(arcs = [], angle) {
 	for (const arc of arcs) {
 		const ranges = arc_ranges[arc];
 		for (const [min, max] of ranges) {
