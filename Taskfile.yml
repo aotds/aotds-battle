@@ -12,7 +12,7 @@ vars:
 
 tasks:
     tsc: tsc
-    test: jest {{if ne .SNAPSHOT "false"}}-u{{end}}
+    test: vitest 'src/**/*.test.js'
 
     prettier:
         vars:
@@ -23,7 +23,7 @@ tasks:
     eslint: eslint {{if ne .FIX "false"}}--fix{{end}} {{ .ESLINT_TARGET }}
 
     check:
-        deps: [prettier, eslint, tsc, test]
+        deps: [prettier, eslint, test]
 
     'check:lite':
         deps: [tsc, test]
