@@ -1,4 +1,5 @@
 import u from 'updeep';
+import R from 'remeda';
 import { Updux } from 'updux';
 
 export class BattleDux extends Updux {
@@ -6,7 +7,7 @@ export class BattleDux extends Updux {
 
 	constructor(config) {
 		super(config);
-        this.inflator = config.inflator;
+		this.inflator = config.inflator;
 	}
 
 	addSubEffect(action, mw) {
@@ -34,10 +35,8 @@ export class BattleDux extends Updux {
 
 	subInflate(shorthand) {
 		return u(
-			mapValues(
-				(subdux) =>
-					subdux.inflate ? subdux.inflate.bind(subdux) : identity,
-				this.subduxes,
+			R.mapValues(this.subduxes, (subdux) =>
+				subdux.inflate ? subdux.inflate.bind(subdux) : (x) => x,
 			),
 			shorthand,
 		);
