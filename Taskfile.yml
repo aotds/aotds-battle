@@ -14,13 +14,21 @@ tasks:
     tsc: tsc
     test: vitest 'src/**/*.test.js'
 
-    prettier:
+    lint:prettier:
         vars:
             PRETTIER_ARG: '{{if eq .FIX "false"}}--check{{else}}--write{{end}}'
         cmds:
-            - prettier {{.PRETTIER_ARG}} {{.PRETTIER_TARGET}}
+            - prettier {{.PRETTIER_ARG}} {{.FILES | default '.'}}
 
     eslint: eslint {{if ne .FIX "false"}}--fix{{end}} {{ .ESLINT_TARGET }}
+
+    check:fix:delta:
+        vars:
+            FILES:
+                sh: git diff-ls --diff-filter=d {{ .TARGET_BRANCH | default "main" }}
+        cmds:
+            - task: 'lint:prettier'
+              vars: { FIX: 'true', FILES: '{{.FILES}}' }
 
     check:
         deps: [prettier, eslint, test]
