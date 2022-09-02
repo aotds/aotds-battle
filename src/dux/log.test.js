@@ -1,4 +1,6 @@
-import { dux } from '.';
+import { test, expect } from 'vitest';
+
+import { dux } from './log.js';
 
 const store = dux.createStore();
 
@@ -25,7 +27,9 @@ store.dispatch({
 });
 
 test('log is okay', () => {
-	expect(store.getState.orderedLog()).toMatchObject([
+    expect(store.getState()).toHaveLength(3);
+
+	expect(store.getState.groupedLog()).toMatchObject([
 		{ type: 'alpha', subactions: [{ type: 'beta' }] },
 		{ type: 'gamma' },
 	]);
