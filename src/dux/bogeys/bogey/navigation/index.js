@@ -1,6 +1,6 @@
-import { BattleDux } from '../../../../BattleDux.js';
+import { BDux } from '../../../../BDux.js';
 
-export const dux = new BattleDux({
+export const dux = new BDux({
 	initial: {
 		coords: [0, 0],
 		heading: 0,

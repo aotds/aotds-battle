@@ -1,7 +1,7 @@
 import u from 'updeep';
-import  defaults  from 'lodash/fp/defaults.js';
+import defaults from 'lodash/fp/defaults.js';
 
-import { BattleDux } from '../../../BattleDux.js';
+import { BDux } from '../../../BDux.js';
 import drive from './drive/index.js';
 import weaponry from './weaponry/index.js';
 import navigation from './navigation/index.js';
@@ -17,7 +17,7 @@ type Orders = {
 	weapons?: Record<string, { fireconId?: number | null }>;
 };
 
-export const dux = new BattleDux({
+export const dux = new BDux({
 	initial: {
 		name: '',
 		orders: {} as Orders,

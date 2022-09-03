@@ -1,6 +1,6 @@
 import { Arc } from '../../../rules/fireWeapon/inArcs.js';
 import u from 'updeep';
-import { BattleDux } from '../../../../../BattleDux.js';
+import { BDux } from '../../../../../BDux.js';
 
 type Weapon = {
 	id: number;
@@ -14,7 +14,7 @@ type Mounted = {
 
 export type WeaponMounted = Weapon & Mounted;
 
-export const dux = new BattleDux({
+export const dux = new BDux({
 	initial: {} as Record<string, WeaponMounted>,
 	actions: {
 		bogeyWeaponsOrders: (bogeyId: string, orders) => ({ bogeyId, orders }),

@@ -1,16 +1,16 @@
 import u from 'updeep';
-import  matches from 'lodash/fp/matches.js';
-import  get  from 'lodash/fp/get.js';
+import matches from 'lodash/fp/matches.js';
+import get from 'lodash/fp/get.js';
 
 import { dux as game } from '../game/index.js';
 import bogeyDux from './bogey/index.js';
 import { subactionFor } from '../actionId/index.js';
 import { plotMovement } from './bogey/rules/plotMovement.js';
-import { BattleDux } from '../../BattleDux.js';
+import { BDux } from '../../BDux.js';
 import { fireWeapon, FireWeaponOutcome } from './rules/fireWeapon/index.js';
 import { calculateDamage } from './rules/calculateDamage.js';
 
-export const dux = new BattleDux({
+export const dux = new BDux({
 	initial: {},
 	subduxes: { '*': bogeyDux },
 	actions: {
