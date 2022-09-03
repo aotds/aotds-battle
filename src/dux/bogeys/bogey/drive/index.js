@@ -1,5 +1,5 @@
 import u from 'updeep';
-import { BattleDux } from '../../../../BattleDux.js';
+import { BDux } from '../../../../BDux.js';
 
 // export type DriveState = {
 // 	rating: number;
@@ -7,7 +7,7 @@ import { BattleDux } from '../../../../BattleDux.js';
 // 	damageLevel: 0 | 1 | 2;
 // };
 
-export const dux = new BattleDux({
+export const dux = new BDux({
 	initial: {
 		rating: 0,
 		current: 0,

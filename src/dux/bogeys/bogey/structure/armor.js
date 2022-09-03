@@ -1,4 +1,4 @@
-import { BattleDux } from '../../../../BattleDux';
+import { BDux } from '../../../../BDux';
 
 const schema = {
 	type: 'object',
@@ -8,7 +8,7 @@ const schema = {
 	},
 };
 
-export const dux = new BattleDux({
+export const dux = new BDux({
 	initial: { rating: 0, current: 0 },
 	schema,
 });

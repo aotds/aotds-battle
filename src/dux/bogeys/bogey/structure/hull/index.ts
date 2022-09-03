@@ -1,4 +1,4 @@
-import { BattleDux } from '~/BattleDux.js';
+import { BDux } from '~/BDux.js';
 
 type HullState = {
 	rating: number;
@@ -7,7 +7,7 @@ type HullState = {
 
 type HullStateShorthand = HullState | number;
 
-export const dux = new BattleDux({
+export const dux = new BDux({
 	initial: { rating: 0, current: 0 },
 });
 

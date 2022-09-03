@@ -9,7 +9,7 @@ import {
 	middlewareWrapper,
 } from './actionId.js';
 import { dux as log } from './log.js';
-import { BattleDux } from '../BattleDux.js';
+import { BDux } from '../BDux.js';
 
 test('incActionId', () => {
 	expect(nextActionId.actions.incActionId()).toMatchObject({
@@ -63,7 +63,7 @@ test('action ids', () => {
 });
 
 test('with the log dux', () => {
-	const myDux = new BattleDux({
+	const myDux = new BDux({
 		subduxes: {
 			log,
 			nextActionId,

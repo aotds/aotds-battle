@@ -2,7 +2,7 @@ import u from 'updeep';
 import R from 'remeda';
 import { Updux } from 'updux';
 
-export class BattleDux extends Updux {
+export class BDux extends Updux {
 	inflator = undefined;
 
 	constructor(config) {

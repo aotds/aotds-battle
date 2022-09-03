@@ -1,10 +1,10 @@
-import { BattleDux } from '~/BattleDux.js';
-import  ceil  from 'lodash/fp/ceil.js';
+import { BDux } from '~/BDux.js';
+import ceil from 'lodash/fp/ceil.js';
 
 import hull from './hull/index.js';
 import armor from './armor/index.js';
 
-export const dux = new BattleDux({
+export const dux = new BDux({
 	initial: {},
 	subduxes: { hull, armor },
 	actions: {

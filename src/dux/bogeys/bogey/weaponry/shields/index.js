@@ -1,4 +1,4 @@
-import { BattleDux } from '../../../../../BattleDux.js';
+import { BDux } from '../../../../../BDux.js';
 
 // type ShieldState = {
 // 	id: number;
@@ -20,7 +20,7 @@ const schema = {
 	},
 };
 
-export const shieldsDux = new BattleDux({
+export const shieldsDux = new BDux({
 	initial: [],
 	schema,
 	selectors: {
