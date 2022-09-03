@@ -10,10 +10,9 @@ export class BattleDux extends Updux {
 		this.inflator = config.inflator;
 	}
 
-	addSubEffect(action, mw) {
+	addSubactions(action, mw) {
 		return this.addEffect(action, (api) => (next) => (action) => {
-			if (action.meta?.noLog) return next(action);
-			//		if (!action.meta?.actionId) return next(action);
+			next(action);
 
 			const parentActionId = action.meta?.actionId;
 
@@ -22,8 +21,6 @@ export class BattleDux extends Updux {
 				dispatch: (action) =>
 					api.dispatch(u({ meta: { parentActionId } }, action)),
 			});
-
-			next(action);
 
 			mw(localApi)(action);
 		});
