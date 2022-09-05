@@ -3,6 +3,7 @@
 exports[`turn 0 > snapshot 1`] = `
 {
   "actionId": 1,
+  "bogeys": [],
   "game": {
     "name": "",
     "turn": 0,
