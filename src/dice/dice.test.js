@@ -18,5 +18,5 @@ test('dice', () => {
 
 test('nbr_faces', () => {
 	random.mockReturnValueOnce(98 / 99);
-	expect(rollDice(1, { nbr_faces: 99 })).toEqual([99]);
+	expect(rollDice(1, { nbrFaces: 99 })).toEqual([99]);
 });

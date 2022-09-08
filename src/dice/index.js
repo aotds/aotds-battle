@@ -5,15 +5,15 @@ export const rollDie = (n) => {
 	return parseInt(1 + random() * n);
 };
 
-export function rollDice(nbr_dice, options) {
-	if (nbr_dice === 0) return [];
+export function rollDice(nbrDice, options) {
+	if (nbrDice === 0) return [];
 
-	const reroll_on = options.reroll ?? [];
-	const nbr_faces = options.nbr_faces ?? 6;
+	const rerollOn = options.reroll ?? [];
+	const nbrFaces = options.nbrFaces ?? 6;
 
-	const roll = Array.from({ length: nbr_dice }, () => rollDie(nbr_faces));
+	const roll = Array.from({ length: nbrDice }, () => rollDie(nbrFaces));
 
-	const rerolls = roll.filter((d) => reroll_on.includes(d));
+	const rerolls = roll.filter((d) => rerollOn.includes(d));
 
 	if (rerolls.length === 0) return roll;
 

@@ -6,64 +6,39 @@ vars:
     BASE: main
     SNAPSHOT: false
     CHANGED:
-        sh: git diff-ls {{.BASE}}
+        sh: git diff-ls --diff-filter=d {{.BASE | default "main" }}
     PRETTIER_TARGET: '{{if eq .DIFF "false"}}.{{else}}{{.CHANGED | catLines}}{{end}}'
     ESLINT_TARGET: '{{if eq .DIFF "false"}}src{{else}}{{.CHANGED | catLines}}{{end}}'
 
 tasks:
-    tsc: tsc
-    test: vitest 'src/**/*.test.js'
+    test: npx vitest run
 
-    lint:prettier:
+    prettier:
         vars:
             PRETTIER_ARG: '{{if eq .FIX "false"}}--check{{else}}--write{{end}}'
+            FILES: &files '{{ if eq .DELTA "" }}.{{else}}{{.CHANGED}}{{end}}'
         cmds:
-            - prettier {{.PRETTIER_ARG}} {{.FILES | default '.'}}
+            - prettier {{.PRETTIER_ARG}} {{.FILES | catLines}}
 
-    eslint: eslint {{if ne .FIX "false"}}--fix{{end}} {{ .ESLINT_TARGET }}
-
-    check:fix:delta:
+    eslint:
         vars:
-            FILES:
-                sh: git diff-ls --diff-filter=d {{ .TARGET_BRANCH | default "main" }}
+            FILES: *files
         cmds:
-            - task: 'lint:prettier'
-              vars: { FIX: 'true', FILES: '{{.FILES}}' }
+            - npx eslint {{if ne .FIX ""}}--fix{{end}} {{ .FILES | catLines }}
 
-    check:
-        deps: [prettier, eslint, test]
-
-    'check:lite':
-        deps: [tsc, test]
-
-    'check:fix':
+    checks:
         cmds:
-            - git status | grep 'nothing to commit, working tree clean'
             - task: prettier
-              vars: { FIX: true }
-            - cmd: git commit -m prettier .
-              ignore_error: true
             - task: eslint
-              vars: { FIX: true }
-            - cmd: git commit -m eslint .
-              ignore_error: true
-            - task: check:lite
+            - task: test
 
     integrate:
-        deps: [check]
+        deps: ['is-clean', checks]
         cmds:
-            - git checkout {{.B}}
+            - git checkout {{.BASE | default "main"}}
             - git weld - --no-edit
-        preconditions:
-            - test -n "{{.B}}"
 
-    changed:
-        cmds:
-            - echo {{.CHANGED | catLines}}
-
-    'is-clean':
-        cmds:
-            - git is-clean
+    'is-clean': git is-clean
 
     'test:snapshots':
         cmds:
