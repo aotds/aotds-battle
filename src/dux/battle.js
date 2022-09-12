@@ -4,6 +4,7 @@ import { dux as actionId, addActionIdEffect } from './actionId.js';
 import { dux as log } from './log.js';
 import { gameDux as game } from './game.js';
 import bogeys from './bogeys';
+import { checkNextTurn } from '../rules/checkNextTurn';
 
 export const battleDux = new BDux({
 	subduxes: {
@@ -15,3 +16,6 @@ export const battleDux = new BDux({
 });
 
 battleDux.addEffect('*', addActionIdEffect);
+
+// TODO * is too generic?
+battleDux.addEffect('*', checkNextTurn);
