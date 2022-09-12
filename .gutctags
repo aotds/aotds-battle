@@ -1,0 +1,5 @@
+--exclude=.nyc_output
+--exclude=package*.json
+--exclude=build/*
+--exclude=src-old/*
+--recurse=yes
